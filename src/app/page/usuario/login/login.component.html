@@ -8,14 +8,6 @@
       <!-- <img src="logo.png" alt="" style="margin-top: -96px;" > -->
     </div>  
    
-    <label for="email1">Cliente</label>
-    <mat-form-field appearance="outline" class="textcliente">
-      <mat-select placeholder="Seleccione Cliente" formControlName="nIdCliente">
-        <mat-option *ngFor="let c of cliente" [value]="c.nIdCliente">
-          {{c.cRuc}} {{c.cDescripcion}}
-      </mat-option>
-      </mat-select>
-    </mat-form-field>
     <div class="inputGroup inputGroup2">
       <label for="password">Contraseña</label>
       <input type="password" formControlName="clave" class="password" required minlength="8" maxlength="16"/>

@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Cliente } from 'src/app/_model/cliente';
 
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { NotifierService } from '../../component/notifier/notifier.service';
@@ -28,8 +27,6 @@ export class LoginComponent implements OnInit {
 
 
   form: FormGroup = new FormGroup({});
-  cliente: Cliente[] = [];
-  nIdCliente?: number;
   usuario?: string;
   clave?: string;
   mensaje?: string;
@@ -41,28 +38,15 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = new FormGroup({
-      'nIdCliente': new FormControl(),
       'usuario': new FormControl(''),
       'clave': new FormControl('')
     });
-
-
-    this.listarCliente();
-  }
-
-  listarCliente(){
-    this.spinner.showLoading();
-      this.usuarioService.listarCliente().subscribe(data=>{
-        this.cliente= data.items;
-        this.spinner.hideLoading();
-      });
   }
 
   login(){
 
     let model = new Usuario();
 
-    model.nIdCliente= this.form.value['nIdCliente'];
     model.usuario = this.form.value['usuario'];
     model.cClave= this.form.value['clave'];
 
