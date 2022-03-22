@@ -1,0 +1,67 @@
+  .example-container {
+    display: flex;
+    /* display: contents; */
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .mat-toolbar.mat-primary{
+    background:#ee4b06 no-repeat 0 0;
+    z-index:200;
+  } 
+
+.companyName{
+    font-size: 150%;
+}
+
+div {
+    overflow: inherit;
+}
+
+.menu{
+    text-decoration: none;
+    font-size: 120%;
+    white-space: normal;
+    text-align:left;
+    line-height:40px;
+    padding:2px 30px;
+    color:#1b70c7;
+    font-family:initial;
+}
+
+button{
+    font-size: 110%;
+    min-width: min-content;
+}
+
+.example-icon {
+    padding: 0 14px;
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .mat-drawer{
+    top:43px;
+  }
+
+  .mat-toolbar-row, .mat-toolbar-single-row{
+    height:50px;
+  }
+
+  .close{
+    background-color:#c50202;
+    color:white;
+  }
+
+  .example-button {
+    margin-top: 16px;
+  }
+  
+  .example-tooltip-red {
+    background: #b71c1c;
+  }

@@ -1,0 +1,19 @@
+<!-- <h2 style="text-align:center;margin-top:120px; font-size: 37px; font-family: math;">BIENVENIDO </h2>
+<h2 style="text-align:center;font-size: 37px; font-family: math;">{{ usuario }}</h2> -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<section class="home" id="home">
+
+    <div class="content">
+        <h1 class="m-section__title">Bienvenido <span style="color: #ee4b06;">{{usuario}}</span></h1>
+        <h1 class="m-section__title">A Sistemas Analiticos</h1>
+        <p class="m-section__parrafo">Somos una empresa referencial con 27 años de experiencia brindando soluciones de diagnóstica en el sector salud. Contamos con un equipo especializado de 33 Tecnólogos Médicos entrenados a nivel mundial en las diversas casas matriz.</p>
+        <!-- <a mat-button routerLink="/page/vistacliente" class="btnInicio">Realizar Encuesta</a> -->
+        <a (click)="abrirListaEncuestaCliente()" class="btnInicio">Realizar Encuesta</a>
+    </div>
+
+    <div class="image">
+        <img src="{{imgeinicio}}" alt="">
+    </div>
+</section>
+
