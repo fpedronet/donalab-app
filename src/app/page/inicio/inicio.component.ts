@@ -28,7 +28,8 @@ export class InicioComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.usuario = this.usuarioService.sessionUsuario()?.usuario;
+    // this.usuario = this.usuarioService.sessionUsuario()?.usuario;
+    this.usuario="Admin";
   }
 
 }

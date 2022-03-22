@@ -7,7 +7,8 @@ import { InicioComponent } from './inicio/inicio.component';
 import { Not403Component } from './not403/not403.component';
 
 const routes: Routes = [
-  {path:'inicio', component: InicioComponent, canActivate: [GuardService]},
+  // {path:'inicio', component: InicioComponent, canActivate: [GuardService]},
+  {path:'inicio', component: InicioComponent},
 
   {path: 'not-403', component: Not403Component},
 

@@ -28,13 +28,13 @@ export class MenuService {
       this.listamenu.push(this.menus);
    }
 
-   let token = localStorage.getItem(environment.TOKEN_NAME);
-   let helper = new JwtHelperService();
-   let decodedToken = helper.decodeToken(token!);
+  //  let token = localStorage.getItem(environment.TOKEN_NAME);
+  //  let helper = new JwtHelperService();
+  //  let decodedToken = helper.decodeToken(token!);
 
-   let admin = (decodedToken.nEsAdministrador=="0")? false:true;
+  //  let admin = (decodedToken.nEsAdministrador=="0")? false:true;
 
-   this.listamenu = (admin==true)? this.listamenu: this.listamenu.filter(y=>y.admin==admin);
+  //  this.listamenu = (admin==true)? this.listamenu: this.listamenu.filter(y=>y.admin==admin);
 
    return this.listamenu;
   }

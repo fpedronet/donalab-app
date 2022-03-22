@@ -44,37 +44,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-
-    let model = new Usuario();
-
-    model.usuario = this.form.value['usuario'];
-    model.cClave= this.form.value['clave'];
-
-    if(model.nIdCliente==null || model.cClave=="" || model.usuario==""){
-      if(model.nIdCliente==null || model.cClave==""){
-        this.notifierService.showNotification(2,'Mensaje','Ingresa el cliente y la contraseña');
-      }
-      else{
-        this.notifierService.showNotification(2,'Mensaje','Ingresa un nombre o acrónimo para identificarse en la encuesta');
-      }
-      this.spinner.hideLoading();
-
-    }else{
-
-      this.spinner.showLoading();
-      this.usuarioService.login(model).subscribe(data=>{
-  
-        if(data.typeResponse==environment.EXITO){
-          localStorage.setItem(environment.TOKEN_NAME, data.access_token!);
-          localStorage.setItem('first-time-login', 'true');
-  
-          this.router.navigate(['/page/inicio']);
-        }
-              
-        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-        this.spinner.hideLoading();
-      }); 
-    }
+    this.router.navigate(['/page/inicio']);
   }
 
   hide(){

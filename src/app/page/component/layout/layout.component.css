@@ -9,7 +9,8 @@
     right: 0;
   }
   .mat-toolbar.mat-primary{
-    background:#ee4b06 no-repeat 0 0;
+    /* background:#ee4b06 no-repeat 0 0; */
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
     z-index:200;
   } 
 
@@ -50,7 +51,7 @@ button{
   }
 
   .mat-toolbar-row, .mat-toolbar-single-row{
-    height:50px;
+    height:54px;
   }
 
   .close{
