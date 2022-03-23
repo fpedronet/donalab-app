@@ -11,13 +11,13 @@ import { LpostulanteComponent } from './postulante/lpostulante/lpostulante.compo
 
 const routes: Routes = [
   // {path:'inicio', component: InicioComponent, canActivate: [GuardService]},
-  {path:'inicio', component: InicioComponent},
+  {path:'inicio', component: InicioComponent, canActivate: [GuardService]},
 
   {path: 'not-403', component: Not403Component},
 
-  {path:'postulante', component: LpostulanteComponent},
-  {path:'postulante/create', component: CpostulanteComponent},
-  {path:'postulante/edit/:id', component: CpostulanteComponent},
+  {path:'postulante', component: LpostulanteComponent, canActivate: [GuardService]},
+  {path:'postulante/create', component: CpostulanteComponent, canActivate: [GuardService]},
+  {path:'postulante/edit/:id', component: CpostulanteComponent, canActivate: [GuardService]},
 
 ];
 

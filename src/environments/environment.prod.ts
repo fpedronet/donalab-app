@@ -17,11 +17,4 @@ export const environment = {
   ERROR: 0,
   EXITO: 1,
   ALERT: 2,
-
-  
-  listaTipo: [{nIdTipo: 1, cDescripcion: 'Casillas'},
-              {nIdTipo: 2, cDescripcion: 'Escala lineal'},              
-              {nIdTipo: 3, cDescripcion: 'Respuesta corta'},
-              {nIdTipo: 4, cDescripcion: 'Sí/No'},
-              {nIdTipo: 5, cDescripcion: 'Varias opciones'}]
 };

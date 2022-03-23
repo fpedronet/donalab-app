@@ -31,15 +31,6 @@ export class UsuarioService {
     return this.http.post<TokenUsuario>(urls, usuario);
   }
 
-  login2(usuario: Usuario) {
-    let urls = `${this.url}/PostLogin`;
-    const body = `grant_type=password&nIdCliente=${encodeURIComponent(usuario.nIdCliente!)}&cClave=${encodeURIComponent(usuario.cClave!)}&Usuario=${encodeURIComponent(usuario.usuario!)}`;
-
-    return this.http.post<any>(urls, body, {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8').set('Authorization', 'Basic ' + btoa(environment.TOKEN_AUTH_USERNAME + ':' + environment.TOKEN_AUTH_PASSWORD))
-    });
-  }
-
   isLogin() {
     let token = localStorage.getItem(environment.TOKEN_NAME);
     return token != null;
