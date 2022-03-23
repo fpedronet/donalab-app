@@ -33,7 +33,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     LoginComponent
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

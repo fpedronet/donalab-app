@@ -1,3 +1,4 @@
+import { SubMenu } from './../_model/menu';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import lista from 'src/assets/json/listaopcione.json';
@@ -13,6 +14,8 @@ export class MenuService {
   constructor(private http: HttpClient) { }
 
   menus: Menu = {};
+  subMenu: SubMenu = {};
+
   listamenu: Menu[] = [];
 
   getListarMenu(){  
@@ -20,12 +23,28 @@ export class MenuService {
 
     for(var k in lista) {
       this.menus ={};
+      this.menus.subMenu =[];
 
       this.menus.url =lista[k].url;
       this.menus.nombre =lista[k].nombre;
       this.menus.icon =lista[k].icon;
-      this.menus.admin=lista[k].admin;
+      this.menus.vista=lista[k].vista;
+      
+      let subLista = lista[k].subMenu;
+
+      for(var s in subLista){
+        this.subMenu ={};
+
+        this.subMenu.url =subLista[s].url;
+        this.subMenu.nombre =subLista[s].nombre;
+        this.subMenu.icon =subLista[s].icon;
+        this.subMenu.vista=subLista[s].vista;
+        
+        this.menus.subMenu.push(this.subMenu);
+      }
+
       this.listamenu.push(this.menus);
+     
    }
 
   //  let token = localStorage.getItem(environment.TOKEN_NAME);

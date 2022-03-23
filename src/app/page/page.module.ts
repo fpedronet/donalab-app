@@ -10,6 +10,8 @@ import { PageRoutingModule } from './page-routing.module';
 import { InterceptorService } from '../_interceptors/interceptor.service';
 import { Not404Component } from './not404/not404.component';
 import { Not403Component } from './not403/not403.component';
+import { LpostulanteComponent } from './postulante/lpostulante/lpostulante.component';
+import { CpostulanteComponent } from './postulante/cpostulante/cpostulante.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { Not403Component } from './not403/not403.component';
     InicioComponent,
     Not404Component,
     Not403Component,
+    LpostulanteComponent,
+    CpostulanteComponent,
   ],
   imports: [
     MaterialModule,

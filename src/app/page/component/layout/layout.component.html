@@ -1,42 +1,59 @@
 <app-spinner></app-spinner>
 
 <div class="example-container" style="height: 100vh;"> 
-    <mat-toolbar color="primary">
-      <div fxShow="true" fxHide.gt-sm="true">
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
+  <mat-toolbar color="primary">
+
+    <div fxShow="true" fxHide.gt-sm="true">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <a mat-button class="companyName" routerLink="/">      
+      <img style="width: 51px;" src="../../../../assets/logoMenu.png"/>
+      <span style="font-size: 20px;"> Donalab</span>
+    </a>
+
+    <span class="example-spacer"></span>
+
+    <div fxShow="true" fxHide.lt-md="true" class="menu">
+      <nav>
+        <ul>
+            <li *ngFor="let m of menus">
+              <a *ngIf="m.vista" routerLink="{{m.url}}">{{m.nombre}}</a>
+              <a *ngIf="!m.vista">{{m.nombre}}</a>
+              <ul>
+                <li *ngFor="let s of m.subMenu">
+                  <a routerLink="{{s.url}}">{{s.nombre}}</a>
+                </li>
+              </ul>
+            </li>
+        </ul>
+      </nav>
+    </div>
+
+    <a class="close" mat-mini-fab color="red" (click)="closeLogin()">
+      <mat-icon>highlight_off</mat-icon>    
+    </a>    
+     
+  </mat-toolbar>
+
+  <mat-sidenav-container fxFlexFill class="example-container">
+
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
+      <div fxLayout="column" *ngFor="let m of menus">
+
+          <a *ngIf="m.url!='/page/vistacliente'" class="menu" mat-button routerLink="{{m.url}}">
+              <mat-icon>{{m.icon}}</mat-icon>   
+              {{m.nombre}}
+          </a>
       </div>
-  
-      <a mat-button class="companyName" routerLink="/">      
-        <img style="width: 51px;" src="../../../../assets/logoMenu.png"/>
-        <span style="font-size: 20px;"> Donalab</span>
-      </a>
-      <span class="example-spacer"></span>
-      <div fxShow="true" fxHide.lt-md="true" *ngFor="let m of menus">
-        <a *ngIf="m.url!='/page/vistacliente'" mat-button routerLink="{{m.url}}">{{m.nombre}}</a>
-      </div>
-      <a class="close" mat-mini-fab color="red" (click)="closeLogin()">
-        <mat-icon>highlight_off</mat-icon>    
-      </a>     
-    </mat-toolbar>
+    </mat-sidenav>
 
-    <mat-sidenav-container fxFlexFill class="example-container">
-  
-      <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
-        <div fxLayout="column" *ngFor="let m of menus">
+    <mat-sidenav-content fxFlexFill>
+      <router-outlet></router-outlet>
+   </mat-sidenav-content>
 
-            <a *ngIf="m.url!='/page/vistacliente'" class="menu" mat-button routerLink="{{m.url}}">
-                <mat-icon>{{m.icon}}</mat-icon>   
-                {{m.nombre}}
-            </a>
-        </div>
-      </mat-sidenav>
+  </mat-sidenav-container>
 
-      <mat-sidenav-content fxFlexFill>
-        <router-outlet></router-outlet>
-     </mat-sidenav-content>
-
-    </mat-sidenav-container>
 </div>
-
