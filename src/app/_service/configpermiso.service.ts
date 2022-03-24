@@ -7,12 +7,12 @@ import { MenuResponse } from '../_model/menu';
 @Injectable({
   providedIn: 'root'
 })
-export class MenuService {
+export class ConfigPermisoService {
 
   constructor(private http: HttpClient) { }
 
     
-  private url: string = `${environment.UrlApi}/menu`;
+  private url: string = `${environment.UrlApi}/configpermiso`;
   
   listar(id: number) {
     let urls = `${this.url}/GetAllOpcionMenu?id=${id}`;

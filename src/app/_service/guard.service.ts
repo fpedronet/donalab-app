@@ -3,10 +3,10 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 
-import { MenuService } from './menu.service'
 import { UsuarioService } from './usuario.service';
 
 import { MenuResponse } from '../_model/menu';
+import { ConfigPermisoService } from './configpermiso.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class GuardService implements CanActivate {
 
     private usuarioService: UsuarioService,
     private router: Router,
-    private menuService : MenuService,
+    private configPermisoService : ConfigPermisoService,
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -41,7 +41,7 @@ export class GuardService implements CanActivate {
       //url -> /pages/consulta
 
       if(url=="/login"){
-         this.router.navigate(['/page/inicio']);
+         this.router.navigate(['/page/home']);
          return false;
       }
 

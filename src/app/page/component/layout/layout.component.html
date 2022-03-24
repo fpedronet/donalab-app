@@ -20,10 +20,11 @@
       <nav>
         <ul>
             <li *ngFor="let m of menus.listaMenu">
-              <a routerLink="{{m.modulo}}">{{m.modulo}}</a>
+              <a *ngIf="m.url=='/page/home'" routerLink="{{m.url}}">{{m.modulo}}</a>
+              <a *ngIf="m.url!='/page/home'">{{m.modulo}}</a>
               <ul>
                 <li *ngFor="let s of m.listaSubMenu">
-                  <a routerLink="{{s.pantalla}}">{{s.pantalla}}</a>
+                  <a routerLink="{{s.url}}">{{s.pantalla}}</a>
                 </li>
               </ul>
             </li>
@@ -42,8 +43,7 @@
     <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
       <div fxLayout="column" *ngFor="let m of menus.listaMenu">
 
-          <a class="menu" mat-button routerLink="{{m.modulo}}">
-              <!-- <mat-icon>{{m.icon}}</mat-icon>    -->
+          <a class="menu" mat-button routerLink="{{m.url}}">
               {{m.modulo}}
           </a>
       </div>

@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
         if(data.typeResponse==environment.EXITO){
           localStorage.setItem(environment.TOKEN_NAME, data.access_token!);
   
-          this.router.navigate(['/page/inicio']);
+          this.router.navigate(['/page/home']);
         }
               
         this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.mensaje!);
