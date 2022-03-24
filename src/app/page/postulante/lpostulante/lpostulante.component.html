@@ -1,1 +1,73 @@
-<p style="padding-top: 150px;">Listar Postulante</p>
+<mat-toolbar color="primary" class="example-toolbar submenu">
+    <span class="example-spacer"></span>
+    <div class="example-button-row">
+      <button mat-raised-button color="primary" routerLink="/page/grupo/create">
+        <mat-icon>add</mat-icon>
+        <span>Nuevo</span>
+      </button>       
+    </div>
+  </mat-toolbar>
+
+<div class="container">  
+  <mat-card class="cardborde">   
+    <mat-toolbar class="cardtitle">
+      <mat-icon>home</mat-icon>
+      LISTA POSTULANTES
+    </mat-toolbar>
+    <form>
+      <mat-form-field appearance="outline">
+        <mat-label>Búsqueda</mat-label>
+        <!--input matInput (keyup)="applyFilter($event)" placeholder="Búsqueda" #input-->
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      
+      <div class="example-loading-shade" *ngIf="loading || existRegistro">
+        <mat-spinner *ngIf="loading"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="existRegistro">
+          No se encontraron registros.
+        </div>
+      </div>
+
+      <div class="example-container mat-elevation-z0">
+        <mat-table [dataSource]="dataSource" matSort>
+      
+          <ng-container matColumnDef="nIdGrupo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Código </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Código"> {{element.nIdGrupo}} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="cDescripcion">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Descripción"> {{element.cDescripcion}} </mat-cell>
+          </ng-container>
+              
+          <ng-container matColumnDef="nAccion">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let element" style="text-align: right;">
+                  <a class="pointer ver" matTooltip="Ver" [routerLink]="['ver', element.nIdGrupo, true]">
+                    <mat-icon>visibility</mat-icon>
+                 </a>
+                 <a class="pointer edit" matTooltip="Editar" [routerLink]="['edit', element.nIdGrupo]">
+                   <mat-icon>edit</mat-icon>
+                </a>
+                <!-- <a class="pointer delete" matTooltip="Eliminar" (click)="eliminar(element.nIdGrupo)">
+                 <mat-icon>delete</mat-icon>
+               </a> -->
+              </mat-cell>
+            </ng-container>
+          
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+         
+        </mat-table>
+        <mat-paginator 
+          [length]="countRegistro" 
+          [pageSizeOptions]="[5, 10, 20]" 
+          showFirstLastButtons 
+          aria-label="Select page of users">
+        </mat-paginator>
+      </div>
+
+    </form>    
+  </mat-card>
+</div>
