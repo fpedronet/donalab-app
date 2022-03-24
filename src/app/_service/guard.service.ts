@@ -41,7 +41,7 @@ export class GuardService implements CanActivate {
       //url -> /pages/consulta
 
       if(url=="/login"){
-         this.router.navigate(['/page/inicio']);
+         this.router.navigate(['/page/home']);
          return false;
       }
 

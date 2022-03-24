@@ -10,6 +10,7 @@ export class MenuDto {
     codPantalla?:string;
     pantalla?:string;
     Permiso?:string;
+    url?:string;
     listaSubMenu?:SubMenuDto[]
 }
 
@@ -20,6 +21,7 @@ export class SubMenuDto {
     codPantalla?:string;
     pantalla?:string;
     Permiso?:string;
+    url?:string;
 }
 
 export class OpcionMenuDto {
@@ -29,4 +31,5 @@ export class OpcionMenuDto {
     codPantalla?:string;
     pantalla?:string;
     Permiso?:string;
+    url?:string;
 }

@@ -9,10 +9,10 @@ import { NotifierService } from '../component/notifier/notifier.service';
 
 @Component({
   selector: 'app-inicio',
-  templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.css']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class InicioComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,

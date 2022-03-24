@@ -1,23 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GuardService } from '../_service/guard.service';
+import { CaspiranteComponent } from './donante/aspirante/caspirante/caspirante.component';
+import { LaspiranteComponent } from './donante/aspirante/laspirante/laspirante.component';
 
-import { InicioComponent } from './inicio/inicio.component';
+import { HomeComponent } from './home/home.component';
 
 import { Not403Component } from './not403/not403.component';
 
-import { CpostulanteComponent } from './postulante/cpostulante/cpostulante.component';
-import { LpostulanteComponent } from './postulante/lpostulante/lpostulante.component';
-
 const routes: Routes = [
-  // {path:'inicio', component: InicioComponent, canActivate: [GuardService]},
-  {path:'inicio', component: InicioComponent, canActivate: [GuardService]},
+  {path:'home', component: HomeComponent, canActivate: [GuardService]},
 
   {path: 'not-403', component: Not403Component},
 
-  {path:'postulante', component: LpostulanteComponent, canActivate: [GuardService]},
-  {path:'postulante/create', component: CpostulanteComponent, canActivate: [GuardService]},
-  {path:'postulante/edit/:id', component: CpostulanteComponent, canActivate: [GuardService]},
+  {path:'donante/aspirante', component: LaspiranteComponent, canActivate: [GuardService]},
+  {path:'donante/aspirante/create', component: CaspiranteComponent, canActivate: [GuardService]},
+  {path:'donante/aspirante/edit/:id', component: CaspiranteComponent, canActivate: [GuardService]},
 
 ];
 
