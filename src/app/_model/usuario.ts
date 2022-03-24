@@ -1,14 +1,15 @@
 export class Usuario{
-    nIdCliente?: number;
-    cClave? : string;
+    nIdEmpresa?: number;
     usuario? : string;
+    contrasenia? : string;
 }
 export class TokenUsuario{
-    cDescripcion?: number;
-    cRuc? : string;
-    usuario? : string;
-    nEsAdministrador? : number;
+    swt?: number;
+    mensaje? : string;
+    ideUsuario? : number;
+    idePersona? : number;
+    documento? : string;
+    nombres? : string;
     access_token? : string;
     typeResponse? : number;
-    message? : string;
 }

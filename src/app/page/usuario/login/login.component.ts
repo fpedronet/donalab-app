@@ -31,8 +31,6 @@ export class LoginComponent implements OnInit {
   clave?: string;
   mensaje?: string;
   error?: string;
-  opcionSeleccionado?: number  = 0;
-  hidep?: boolean = true;
   logologin?: string =environment.UrlImage + "logo.png";
 
   ngOnInit(): void {
@@ -43,12 +41,37 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  
   login(){
-    this.router.navigate(['/page/inicio']);
-  }
+    let model = new Usuario();
 
-  hide(){
-    hidep:false;
+    model.usuario = this.form.value['usuario'];
+    model.contrasenia= this.form.value['clave'];
+
+    if(model.usuario==null || model.contrasenia==""){
+      if(model.usuario==null || model.usuario==""){
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingresa el usuario');
+      }
+      else if(model.contrasenia==null || model.contrasenia==""){
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingresa la contraseña');
+      }
+      this.spinner.hideLoading();
+
+    }else{
+
+      this.spinner.showLoading();
+      this.usuarioService.login(model).subscribe(data=>{
+        
+        if(data.typeResponse==environment.EXITO){
+          localStorage.setItem(environment.TOKEN_NAME, data.access_token!);
+  
+          this.router.navigate(['/page/inicio']);
+        }
+              
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.mensaje!);
+        this.spinner.hideLoading();
+      }); 
+    }
   }
 
 }

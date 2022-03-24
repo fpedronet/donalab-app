@@ -1,10 +1,8 @@
-import { SubMenu } from './../_model/menu';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import lista from 'src/assets/json/listaopcione.json';
-import { Menu } from '../_model/menu';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+
+import { MenuResponse } from '../_model/menu';
 
 @Injectable({
   providedIn: 'root'
@@ -13,48 +11,12 @@ export class MenuService {
 
   constructor(private http: HttpClient) { }
 
-  menus: Menu = {};
-  subMenu: SubMenu = {};
-
-  listamenu: Menu[] = [];
-
-  getListarMenu(){  
-    this.listamenu= [];
-
-    for(var k in lista) {
-      this.menus ={};
-      this.menus.subMenu =[];
-
-      this.menus.url =lista[k].url;
-      this.menus.nombre =lista[k].nombre;
-      this.menus.icon =lista[k].icon;
-      this.menus.vista=lista[k].vista;
-      
-      let subLista = lista[k].subMenu;
-
-      for(var s in subLista){
-        this.subMenu ={};
-
-        this.subMenu.url =subLista[s].url;
-        this.subMenu.nombre =subLista[s].nombre;
-        this.subMenu.icon =subLista[s].icon;
-        this.subMenu.vista=subLista[s].vista;
-        
-        this.menus.subMenu.push(this.subMenu);
-      }
-
-      this.listamenu.push(this.menus);
-     
-   }
-
-  //  let token = localStorage.getItem(environment.TOKEN_NAME);
-  //  let helper = new JwtHelperService();
-  //  let decodedToken = helper.decodeToken(token!);
-
-  //  let admin = (decodedToken.nEsAdministrador=="0")? false:true;
-
-  //  this.listamenu = (admin==true)? this.listamenu: this.listamenu.filter(y=>y.admin==admin);
-
-   return this.listamenu;
+    
+  private url: string = `${environment.UrlApi}/menu`;
+  
+  listar(id: number) {
+    let urls = `${this.url}/GetAllOpcionMenu?id=${id}`;
+    return this.http.get<MenuResponse>(urls);
   }
+
 }

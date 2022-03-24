@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Menu } from 'src/app/_model/menu';
+import { SpinnerService } from '../spinner/spinner.service';
 import { MenuService } from 'src/app/_service/menu.service';
+
+import { MenuResponse } from 'src/app/_model/menu';
 
 @Component({
   selector: 'app-layout',
@@ -12,17 +14,22 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private spinner : SpinnerService,
     private menuService : MenuService,
   ) { }
 
-  menus: Menu[] = [];
+  menus: MenuResponse = {};
 
   ngOnInit(): void {
     this.listar();   
   }
 
   listar(){
-    this.menus = this.menuService.getListarMenu();
+    this.spinner.showLoading();
+    this.menuService.listar(1).subscribe(data=>{
+      this.menus.listaMenu = data.listaMenu;
+      this.spinner.hideLoading();
+    });      
   }
 
   closeLogin(){
