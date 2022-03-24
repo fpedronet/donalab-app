@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from '../spinner/spinner.service';
-import { MenuService } from 'src/app/_service/menu.service';
+import { ConfigPermisoService } from './../../../_service/configpermiso.service';
 
 import { MenuResponse } from 'src/app/_model/menu';
 
@@ -15,7 +15,7 @@ export class LayoutComponent implements OnInit {
   constructor(
     private router: Router,
     private spinner : SpinnerService,
-    private menuService : MenuService,
+    private ConfigPermisoService : ConfigPermisoService,
   ) { }
 
   menus: MenuResponse = {};
@@ -26,7 +26,7 @@ export class LayoutComponent implements OnInit {
 
   listar(){
     this.spinner.showLoading();
-    this.menuService.listar(1).subscribe(data=>{
+    this.ConfigPermisoService.listar(1).subscribe(data=>{
       this.menus.listaMenu = data.listaMenu;
       this.spinner.hideLoading();
     });      
