@@ -2,6 +2,7 @@ import { Component, DebugElement, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { ComboboxService } from 'src/app/_service/combobox.service';
 import { EncrDecrService } from 'src/app/_service/encr-decr.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { environment } from 'src/environments/environment';
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
     private notifierService : NotifierService,
     private EncrDecr: EncrDecrService,
     private router: Router,
-    private usuarioService : UsuarioService, 
+    private usuarioService: UsuarioService
   ) { }
 
   idEncuesta?: string;
