@@ -19,12 +19,11 @@
     <div fxShow="true" fxHide.lt-md="true" class="menu">
       <nav>
         <ul>
-            <li *ngFor="let m of menus">
-              <a *ngIf="m.vista" routerLink="{{m.url}}">{{m.nombre}}</a>
-              <a *ngIf="!m.vista">{{m.nombre}}</a>
+            <li *ngFor="let m of menus.listaMenu">
+              <a routerLink="{{m.modulo}}">{{m.modulo}}</a>
               <ul>
-                <li *ngFor="let s of m.subMenu">
-                  <a routerLink="{{s.url}}">{{s.nombre}}</a>
+                <li *ngFor="let s of m.listaSubMenu">
+                  <a routerLink="{{s.pantalla}}">{{s.pantalla}}</a>
                 </li>
               </ul>
             </li>
@@ -41,11 +40,11 @@
   <mat-sidenav-container fxFlexFill class="example-container">
 
     <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
-      <div fxLayout="column" *ngFor="let m of menus">
+      <div fxLayout="column" *ngFor="let m of menus.listaMenu">
 
-          <a *ngIf="m.url!='/page/vistacliente'" class="menu" mat-button routerLink="{{m.url}}">
-              <mat-icon>{{m.icon}}</mat-icon>   
-              {{m.nombre}}
+          <a class="menu" mat-button routerLink="{{m.modulo}}">
+              <!-- <mat-icon>{{m.icon}}</mat-icon>    -->
+              {{m.modulo}}
           </a>
       </div>
     </mat-sidenav>

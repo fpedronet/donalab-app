@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
-import { Menu } from '../_model/menu';
-import { MenuService } from './menu.service';
 
+import { MenuService } from './menu.service'
 import { UsuarioService } from './usuario.service';
+
+import { MenuResponse } from '../_model/menu';
 
 @Injectable({
   providedIn: 'root'
@@ -44,22 +45,26 @@ export class GuardService implements CanActivate {
          return false;
       }
 
-      let lista = this.menuService.getListarMenu();
       let cont = 0;
 
-      for (let m of lista) {
-          if (url.startsWith(m.url!)) {
-            cont++;
-            break;
-          }
-      }
+      // this.menuService.listar(1).subscribe(data=>{
 
-      if (cont > 0) {
-          return true;
-      } else {
-         this.router.navigate(['/page/not-403']);
-          return false;
-      }
+      //     let lista = data.listaOpcionesMenu;
+
+      //     for (let m of lista!) {
+      //         if (url.startsWith(m.modulo!)) {
+      //           cont++;
+      //           break;
+      //         }
+      //     }
+      // });     
+      
+      // if (cont > 0) {
+        return true;
+      // } else {
+      //   this.router.navigate(['/page/not-403']);
+      //     return false;
+      // }
 
     } else {
       this.usuarioService.closeLogin();
