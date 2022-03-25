@@ -17,7 +17,7 @@ export class LaspiranteComponent implements OnInit {
     private configPermisoService : ConfigPermisoService,
   ) { }
 
-  permiso!: Permiso;
+  permiso: Permiso = {};
 
   ngOnInit(): void {
     this.obtenerpermiso();
