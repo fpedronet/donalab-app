@@ -30,6 +30,7 @@ export class LayoutComponent implements OnInit {
     this.spinner.showLoading();
     this.ConfigPermisoService.listar().subscribe(data=>{
       this.menus.listaMenu = data.listaMenu;
+      this.menus.listaBanco = data.listaBanco;
       this.spinner.hideLoading();
     });  
   }
