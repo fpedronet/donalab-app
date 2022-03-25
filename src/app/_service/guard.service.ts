@@ -5,8 +5,8 @@ import { environment } from 'src/environments/environment';
 
 import { UsuarioService } from './usuario.service';
 
-import { MenuResponse } from '../_model/menu';
 import { ConfigPermisoService } from './configpermiso.service';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +14,13 @@ import { ConfigPermisoService } from './configpermiso.service';
 export class GuardService implements CanActivate {
 
   constructor(
-
     private usuarioService: UsuarioService,
     private router: Router,
     private configPermisoService : ConfigPermisoService,
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
     //1) VERIFICAR SI ESTA LOGUEADO
     let token = localStorage.getItem(environment.TOKEN_NAME);
     let url = state.url;
@@ -37,35 +37,31 @@ export class GuardService implements CanActivate {
     //2) VERIFICAR SI EL TOKEN NO HA EXPIRADO
     let helper = new JwtHelperService();
     if (!helper.isTokenExpired(token!)) {
-      //3) VERIFICAR SI TIENES EL ROL NECESARIO PARA ACCEDER A ESA PAGINA  
-      //url -> /pages/consulta
 
+      //3) vERIFICA SI CIERRAS SECCION 
       if(url=="/login"){
          this.router.navigate(['/page/home']);
          return false;
       }
 
-      let cont = 0;
+      //3) OBTENIENDO EL ID DEL USUARIO PARA TRAER LAS OPCIONES DE MENU Y LOS PERMISO
+      return this.configPermisoService.listar().pipe(map(x => {
+        let cont = 0;
+        for (let m of x.listaOpcionesMenu!) {
+          if (url.startsWith(m.url!)) {
+            cont++;
+            break;
+          }
+        }
 
-      // this.menuService.listar(1).subscribe(data=>{
+        if (cont > 0) {
+          return true;
+        } else {
+          this.router.navigate(['/pages/not-403']);
+          return false;
+        }
 
-      //     let lista = data.listaOpcionesMenu;
-
-      //     for (let m of lista!) {
-      //         if (url.startsWith(m.modulo!)) {
-      //           cont++;
-      //           break;
-      //         }
-      //     }
-      // });     
-      
-      // if (cont > 0) {
-        return true;
-      // } else {
-      //   this.router.navigate(['/page/not-403']);
-      //     return false;
-      // }
-
+      }))     
     } else {
       this.usuarioService.closeLogin();
       return false;

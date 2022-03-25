@@ -1,8 +1,10 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
-import { MenuResponse } from '../_model/menu';
+import { MenuResponse, OpcionMenuDto } from '../_model/menu';
+import { Permiso } from './../_model/permiso';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +13,19 @@ export class ConfigPermisoService {
 
   constructor(private http: HttpClient) { }
 
+  listaOpcionesMenu?:OpcionMenuDto[];
     
   private url: string = `${environment.UrlApi}/configpermiso`;
   
-  listar(id: number) {
-    let urls = `${this.url}/GetAllOpcionMenu?id=${id}`;
+  listar() {
+    let urls = `${this.url}/GetAllOpcionMenu`;
     return this.http.get<MenuResponse>(urls);
   }
 
   obtenerpermiso(codpantalla: string) {
+    
     let urls = `${this.url}/GetFirstPermiso?codpantalla=${codpantalla}`;
-    return this.http.get<MenuResponse>(urls);
+    return this.http.get<Permiso>(urls);
   }
 
 }
