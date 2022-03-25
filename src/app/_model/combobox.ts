@@ -1,6 +1,6 @@
 export class Combobox {
-    CodTabla?: string;
-    Codigo?: number;
-    Descripcion?: string;
-    Orden?: number;
+    codTabla?: string;
+    codigo?: string;
+    cescripcion?: string;
+    orden?: number;
 }
