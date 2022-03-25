@@ -1,6 +1,9 @@
+import { Combobox } from "./combobox";
+
 export class MenuResponse {
     listaMenu?:MenuDto[];
     listaOpcionesMenu?:OpcionMenuDto[];
+    listaBanco?:Combobox[];
 }
 
 export class MenuDto {

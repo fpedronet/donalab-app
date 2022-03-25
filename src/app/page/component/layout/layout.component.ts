@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from '../spinner/spinner.service';
+import { environment } from 'src/environments/environment';
+
 import { ConfigPermisoService } from './../../../_service/configpermiso.service';
+import { UsuarioService } from 'src/app/_service/usuario.service';
 
 import { MenuResponse } from 'src/app/_model/menu';
-import { UsuarioService } from 'src/app/_service/usuario.service';
 
 @Component({
   selector: 'app-layout',
@@ -21,6 +23,7 @@ export class LayoutComponent implements OnInit {
   ) { }
 
   menus: MenuResponse = {};
+  codigo?:string;
 
   ngOnInit(): void {
     this.listar();   
@@ -30,8 +33,17 @@ export class LayoutComponent implements OnInit {
     this.spinner.showLoading();
     this.ConfigPermisoService.listar().subscribe(data=>{
       this.menus.listaMenu = data.listaMenu;
+      this.menus.listaBanco = data.listaBanco;
+      this.codigo = data.listaBanco![0].codigo;
+
+      localStorage.setItem(environment.CODIGO_BANCO, this.codigo!);
+
       this.spinner.hideLoading();
     });  
+  }
+
+  selectbanco(idbanco: number){
+    localStorage.setItem(environment.CODIGO_BANCO, idbanco.toString()!);
   }
 
   closeLogin(){

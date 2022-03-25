@@ -11,7 +11,18 @@
 
     <a mat-button class="companyName" routerLink="/">      
       <img style="width: 51px;" src="../../../../assets/logoMenu.png"/>
-      <span style="font-size: 20px;"> Donalab</span>
+      <span style="font-size: 13px;padding-left:12px;"> 
+        <mat-form-field style="width:260px;">
+          <mat-select 
+          [(ngModel)]="codigo"
+          (selectionChange)="selectbanco($event.value)"
+          >
+            <mat-option *ngFor="let el of menus.listaBanco" [value]="el.codigo">
+            {{el.descripcion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </span>
     </a>
 
     <span class="example-spacer"></span>

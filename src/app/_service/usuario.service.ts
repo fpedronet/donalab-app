@@ -35,10 +35,12 @@ export class UsuarioService {
   sessionUsuario(){
     let helper = new JwtHelperService();
     let token = localStorage.getItem(environment.TOKEN_NAME);
+    let banco = localStorage.getItem(environment.CODIGO_BANCO);
 
     if (!helper.isTokenExpired(token!)){
-
-      let decodedToken = helper.decodeToken(token!);     
+      let decodedToken = helper.decodeToken(token!); 
+      
+      decodedToken.codigobanco =banco;
       return decodedToken;
     }else{
       return null;
