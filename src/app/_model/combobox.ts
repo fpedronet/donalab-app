@@ -1,4 +1,6 @@
 export class Combobox {
-    listaP?: string[] = [];
-    listaE?: string[] = [];
+    CodTabla?: string;
+    Codigo?: number;
+    Descripcion?: string;
+    Orden?: number;
 }
