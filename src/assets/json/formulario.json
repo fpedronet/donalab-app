@@ -1,0 +1,11 @@
+{
+    "aspirante":{
+        "codigo":"0101"
+    },
+    "cheque":{
+        "codigo":"0102"
+    },
+    "entrevista":{
+        "codigo":"0103"
+    }
+}

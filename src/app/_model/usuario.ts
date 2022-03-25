@@ -1,8 +1,15 @@
 export class Usuario{
-    nIdEmpresa?: number;
+    idHospital?: string;
     usuario? : string;
     contrasenia? : string;
+    key? : string;
 }
+
+export class CadenaConexionDto{
+    idHospital?: string;
+    nombre? : string;
+}
+
 export class TokenUsuario{
     swt?: number;
     mensaje? : string;

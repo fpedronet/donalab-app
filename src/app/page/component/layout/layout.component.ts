@@ -4,6 +4,7 @@ import { SpinnerService } from '../spinner/spinner.service';
 import { ConfigPermisoService } from './../../../_service/configpermiso.service';
 
 import { MenuResponse } from 'src/app/_model/menu';
+import { UsuarioService } from 'src/app/_service/usuario.service';
 
 @Component({
   selector: 'app-layout',
@@ -16,6 +17,7 @@ export class LayoutComponent implements OnInit {
     private router: Router,
     private spinner : SpinnerService,
     private ConfigPermisoService : ConfigPermisoService,
+    private usuarioService: UsuarioService,
   ) { }
 
   menus: MenuResponse = {};
@@ -26,10 +28,10 @@ export class LayoutComponent implements OnInit {
 
   listar(){
     this.spinner.showLoading();
-    this.ConfigPermisoService.listar(1).subscribe(data=>{
+    this.ConfigPermisoService.listar().subscribe(data=>{
       this.menus.listaMenu = data.listaMenu;
       this.spinner.hideLoading();
-    });      
+    });  
   }
 
   closeLogin(){

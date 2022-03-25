@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { dataCollection } from './../_model/dataCollection';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
-import { dataCollection } from '../_model/dataCollection';
 
 import { TokenUsuario, Usuario } from '../_model/usuario';
 
@@ -19,21 +19,17 @@ export class UsuarioService {
     private router: Router
     ) { }
 
-  listarCliente(){
-    let urls = `${this.url}/GetAllClienteActivo`;
-
-    return this.http.get<dataCollection>(urls)
-  }
-
   login(usuario: Usuario){
     let urls = `${this.url}/PostLogin`;
 
     return this.http.post<TokenUsuario>(urls, usuario);
   }
 
-  isLogin() {
-    let token = localStorage.getItem(environment.TOKEN_NAME);
-    return token != null;
+  listaHospital(usuario: Usuario){
+    usuario.key="!SDFT$$$$&F(/GF7&F7f))?=0'===IY(&&%$%$!H(U/GFD%VBN(MI YT% %RCGRCVBBUJNU(NN";
+    let urls = `${this.url}/PostObtenerCandenaConexion`;
+
+    return this.http.post<dataCollection>(urls, usuario);
   }
 
   sessionUsuario(){
@@ -42,7 +38,7 @@ export class UsuarioService {
 
     if (!helper.isTokenExpired(token!)){
 
-      let decodedToken = helper.decodeToken(token!);      
+      let decodedToken = helper.decodeToken(token!);     
       return decodedToken;
     }else{
       return null;

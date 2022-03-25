@@ -18,6 +18,20 @@
       <input type="password" formControlName="clave" class="password" required minlength="8" maxlength="16"/>
     </div>
 
+    <div *ngIf="verHospital">
+      <label for="email1">Hospital</label>
+      <mat-form-field appearance="outline" class="textcliente">
+        <mat-select 
+        [(ngModel)]="idHospital"
+        placeholder="Seleccione Cliente" 
+        formControlName="idHospital">
+          <mat-option *ngFor="let el of hospital" [value]="el.idHospital">
+           {{el.nombre}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
     <div class="inputGroup inputGroup3">
       <button id="login" type="button" (click)="login()" >Iniciar Sesión
         <i class="fa fa-sign-in" aria-hidden="true"></i>
