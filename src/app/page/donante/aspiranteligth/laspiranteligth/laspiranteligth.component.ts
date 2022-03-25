@@ -41,14 +41,14 @@ export class LaspiranteligthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listarCombo();
+    // this.listarCombo();
   }
 
   ngAfterViewInit(request: PredonanteRequest){
-    this.predonanteService = new PredonanteService(this.http);
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    // this.predonanteService = new PredonanteService(this.http);
+    // this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
-    this.spinner.showLoading();
+    // this.spinner.showLoading();
 
     /*merge(this.sort.sortChange, this.paginator.page)
       .pipe(
@@ -79,15 +79,15 @@ export class LaspiranteligthComponent implements OnInit {
         }),
       ).subscribe(data => (this.dataSource = data));*/
 
-      this.predonanteService!.listarLight(request).subscribe(data=>{
-        if(data === undefined){
-          this.notifier.showNotification(0,'Mensaje','Error en el servidor');
-        }
-        else{
-          this.dataSource = data.items;
-        }      
-        this.spinner.hideLoading();
-      });
+      // this.predonanteService!.listarLight(request).subscribe(data=>{
+      //   if(data === undefined){
+      //     this.notifier.showNotification(0,'Mensaje','Error en el servidor');
+      //   }
+      //   else{
+      //     this.dataSource = data.items;
+      //   }      
+      //   this.spinner.hideLoading();
+      // });
   }
 
   listarCombo(){

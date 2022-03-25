@@ -19,4 +19,9 @@ export class ConfigPermisoService {
     return this.http.get<MenuResponse>(urls);
   }
 
+  obtenerpermiso(codpantalla: string) {
+    let urls = `${this.url}/GetFirstPermiso?codpantalla=${codpantalla}`;
+    return this.http.get<MenuResponse>(urls);
+  }
+
 }
