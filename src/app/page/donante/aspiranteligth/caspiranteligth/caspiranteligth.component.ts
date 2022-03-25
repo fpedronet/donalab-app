@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
+import { Combobox } from 'src/app/_model/combobox';
 import { ComboboxService } from 'src/app/_service/combobox.service';
 import { PredonanteService } from 'src/app/_service/predonante.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
@@ -27,21 +28,33 @@ export class CaspiranteligthComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   id: number = 0;
   ver: boolean = true;
-  
   loading = true;
   existRegistro = false;
   countRegistro = 0;
 
-  listaId?: string;
-  isChecked! : boolean;
+  curUser: number = 0;
 
-  ngOnInit(): void { 
+  tablasMaestras = ['TDoc', 'PAIS', 'PROV', 'DEPA', 'DST'];
+  tbTipoDocu: Combobox[] = [];
+  tbPais: Combobox[] = [];
+  tbProv: Combobox[] = [];
+  tbDpto: Combobox[] = [];
+  tbDist: Combobox[] = [];
+
+  ngOnInit(): void {
+    let user = this.usuarioService.sessionUsuario();
+    if(user!=null){
+      this.curUser = user.ideUsuario;
+    }
+    this.listarCombo();
+
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '###', disabled: true}),
       'TipDocu': new FormControl({ value: '', disabled: false}),
       'NumDocu': new FormControl({ value: '', disabled: false}),
       'ApPaterno': new FormControl({ value: '', disabled: false}),
       'ApMaterno': new FormControl({ value: '', disabled: false}),
+      'Nombres': new FormControl({ value: '', disabled: false}),
       'Sexo': new FormControl({ value: '', disabled: false}),
       'FecNacimiento': new FormControl({ value: null, disabled: false}),
       'CodPais': new FormControl({ value: '', disabled: false}),
@@ -58,6 +71,22 @@ export class CaspiranteligthComponent implements OnInit {
       this.ver = (data["ver"]=='true')? true : false
       this.obtener();
     });*/
+  }
+
+  listarCombo(){
+    this.comboboxService.cargarDatos(this.tablasMaestras,this.curUser).subscribe(data=>{
+      if(data === undefined){
+        this.notifier.showNotification(0,'Mensaje','Error en el servidor');
+      }
+      else{
+        var tbCombobox: Combobox[] = data.items;
+
+        this.tbTipoDocu = tbCombobox.filter(e => e.codTabla === 'TDoc');
+        this.tbPais = tbCombobox.filter(e => e.codTabla === 'PAIS');
+        this.tbProv = tbCombobox.filter(e => e.codTabla === 'DEPA');
+        this.tbDist = tbCombobox.filter(e => e.codTabla === 'DST');
+      }
+    });
   }
 
 }
