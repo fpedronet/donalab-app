@@ -31,4 +31,8 @@ export class LaspiranteComponent implements OnInit {
     });   
   }
 
+  obtenerbanco(){
+    
+  }
+
 }

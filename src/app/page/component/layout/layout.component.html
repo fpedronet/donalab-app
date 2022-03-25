@@ -11,11 +11,12 @@
 
     <a mat-button class="companyName" routerLink="/">      
       <img style="width: 51px;" src="../../../../assets/logoMenu.png"/>
-      <span style="font-size: 20px;"> 
-        <mat-form-field>
+      <span style="font-size: 13px;padding-left:12px;"> 
+        <mat-form-field style="width:260px;">
           <mat-select 
-          placeholder="Seleccione Banco" 
-          formControlName="nIdCliente">
+          [(ngModel)]="codigo"
+          (selectionChange)="selectbanco($event.value)"
+          >
             <mat-option *ngFor="let el of menus.listaBanco" [value]="el.codigo">
             {{el.descripcion}}
             </mat-option>
