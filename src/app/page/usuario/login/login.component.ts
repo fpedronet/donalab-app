@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
   logologin?: string =environment.UrlImage + "logo.png";
   hospital?: CadenaConexionDto[] = [];
   idHospital?: any;
+  verHospital: boolean = false;
 
   ngOnInit(): void {
 
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit {
       this.usuarioService.listaHospital(model).subscribe(data=>{
         this.hospital = data.items;
         this.idHospital = this.hospital[0].idHospital;
+        this.verHospital = (data.items.length>1)? true: false;
         this.spinner.hideLoading();
       }); 
   }
@@ -63,7 +65,7 @@ export class LoginComponent implements OnInit {
 
     model.usuario = this.form.value['usuario'];
     model.contrasenia= this.form.value['clave'];
-    model.idHospital= this.form.value['idHospital'];
+    model.idHospital= (this.verHospital == false)? this.idHospital:   this.form.value['idHospital'];
 
     if(model.usuario==null || model.contrasenia=="" || model.idHospital==""){
       if(model.usuario==null || model.usuario==""){
