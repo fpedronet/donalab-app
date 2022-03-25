@@ -37,14 +37,20 @@ export class CaspiranteligthComponent implements OnInit {
 
   ngOnInit(): void { 
     this.form = new FormGroup({
-      'nIdEncuesta': new FormControl({ value: 0 }),
-      'nCodigo': new FormControl({ value: '###', disabled: true }),
-      'nIdSistemas': new FormControl({ value: '', disabled: false}),
-      'nIdCliente': new FormControl({ value: '', disabled: false}),
-      'cTitulo': new FormControl({ value: '', disabled: false}),
-      'cDescripcion': new FormControl({ value: '', disabled: false}),
-      'dFechaIni': new FormControl({ value: null, disabled: false}),
-      'dFechaFin': new FormControl({ value: null, disabled: false})
+      'Codigo': new FormControl({ value: '###', disabled: true}),
+      'TipDocu': new FormControl({ value: '', disabled: false}),
+      'NumDocu': new FormControl({ value: '', disabled: false}),
+      'ApPaterno': new FormControl({ value: '', disabled: false}),
+      'ApMaterno': new FormControl({ value: '', disabled: false}),
+      'Sexo': new FormControl({ value: '', disabled: false}),
+      'FecNacimiento': new FormControl({ value: null, disabled: false}),
+      'CodPais': new FormControl({ value: '', disabled: false}),
+      'CodDepartamento': new FormControl({ value: '', disabled: false}),
+      'CodProvincia': new FormControl({ value: '', disabled: false}),
+      'CodDistrito': new FormControl({ value: '', disabled: false}),
+      'Celular': new FormControl({ value: '', disabled: false}),
+      'Telefono': new FormControl({ value: '', disabled: false}),
+      'Correo': new FormControl({ value: '', disabled: false})
     });
 
     /*this.route.params.subscribe((data: Params)=>{
