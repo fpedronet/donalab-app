@@ -3,9 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { catchError, map, merge, startWith, switchMap } from 'rxjs';
-import { Combobox } from 'src/app/_model/combobox';
 import { Persona } from 'src/app/_model/persona';
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
+import { Combobox } from 'src/app/_model/combobox';
 import { ComboboxService } from 'src/app/_service/combobox.service';
 import { PredonanteService } from 'src/app/_service/predonante.service';
 import { NotifierService } from '../../../component/notifier/notifier.service';
@@ -18,13 +18,16 @@ import { SpinnerService } from '../../../component/spinner/spinner.service';
 })
 export class LaspiranteligthComponent implements OnInit {
 
-  combo?: Combobox;
-
   dataSource: Predonante[] = [];
   displayedColumns: string[] = ['Codigo', 'Nombres', 'Estado', 'Accion'];
   loading = false;
   existRegistro = false;
   countRegistro = 0;
+
+  tablasMaestras = ['ORI', 'EstPD'];
+  tbCombobox: Combobox[] = [];
+  tbOrigen: Combobox[] = [];
+  tbEstPd: Combobox[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -90,16 +93,17 @@ export class LaspiranteligthComponent implements OnInit {
   listarCombo(){
     this.spinner.showLoading();
     
-    this.comboboxService.cargarDatos().subscribe(data=>{
+    this.comboboxService.cargarDatos(this.tablasMaestras,1,1).subscribe(data=>{
       if(data === undefined){
         this.notifier.showNotification(0,'Mensaje','Error en el servidor');
       }
       else{
-        this.combo = data;
-      }      
-      this.spinner.hideLoading();
+        this.tbCombobox = data.items;
 
-      //Precargar DNI
+        this.tbOrigen = this.tbCombobox.filter(e => e.CodTabla === 'ORI');
+        this.tbEstPd = this.tbCombobox.filter(e => e.CodTabla === 'EstPD');
+      }
+      this.spinner.hideLoading();
     });
   }
 
