@@ -17,8 +17,30 @@
           CREAR POSTULANTE
         </mat-toolbar>
       <form id="ngForm" #frmGrupo="ngForm" >
+        <mat-stepper labelPosition="bottom" #stepper>
+            
+          <mat-step>
+              <ng-template matStepLabel>Encuesta</ng-template>
 
-                    
+              <div [hidden]="true">
+                  <mat-form-field appearance="outline">
+                       <input matInput placeholder="Id" formControlName="nIdEncuesta">
+                  </mat-form-field>
+              </div> 
+              <mat-form-field appearance="outline">
+                  <mat-label>Código</mat-label>
+                  <input matInput placeholder="Codigo" formControlName="nCodigo">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Título</mat-label>
+                  <input matInput placeholder="Título" minlength="1" maxlength="50" required formControlName="cTitulo" autocomplete="off">
+              </mat-form-field>  
+              <mat-form-field appearance="outline">
+                  <mat-label>Descripción</mat-label>
+                  <input matInput placeholder="Descripción" minlength="1" maxlength="500" required formControlName="cDescripcion" autocomplete="off">
+              </mat-form-field>                
+          </mat-step>          
+        </mat-stepper>                    
       </form>
   </mat-card>    
 </div>

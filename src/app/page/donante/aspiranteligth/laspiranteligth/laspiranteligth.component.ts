@@ -21,7 +21,7 @@ export class LaspiranteligthComponent implements OnInit {
 
   dataSource: Predonante[] = [];
   displayedColumns: string[] = ['codigo', 'nombres', 'estado', 'accion'];
-  loading = false;
+  loading = true;
   existRegistro = false;
   countRegistro = 0;
 
@@ -101,6 +101,8 @@ export class LaspiranteligthComponent implements OnInit {
   }
 
   buscar(request: PredonanteRequest){
+    this.loading = true;
+    this.spinner.showLoading();
     this.predonanteService!.listarLight(request).subscribe(data=>{
       //debugger;
       if(data === undefined){
@@ -109,28 +111,31 @@ export class LaspiranteligthComponent implements OnInit {
       else{
         this.dataSource = data.items;
 
-        let colores: string[][] = [];
-        let codCol: string[] = [];
-        this.dataSource.forEach(e => {
-          let codigo = e.codEstado!.toString();
-          if (!codCol.includes(codigo)) {
-            codCol.push(codigo);
-            colores.push([codigo,e.colorhexa!]);            
-          }
-        });
-
-        colores.forEach(e => {
-          this.crearClasesCss(e[0], e[1]);
-        });
+        //Extrae los valores únicos de los estados y crea clases de colores
+        this.crearColores(this.dataSource);
       }      
       this.spinner.hideLoading();
+      this.loading = false;
+    });
+  }
+
+  crearColores(datos: Predonante[]){
+    let colores: string[][] = [];
+    let codCol: string[] = [];
+    datos.forEach(e => {
+      let codigo = e.codEstado!.toString();
+      if (!codCol.includes(codigo)) {
+        codCol.push(codigo);
+        colores.push([codigo,e.colorhexa!]);            
+      }
+    });
+
+    colores.forEach(e => {
+      this.crearClasesCss(e[0], e[1]);
     });
   }
 
   listarCombo(){
-    this.spinner.showLoading();
-    
-    
     this.comboboxService.cargarDatos(this.tablasMaestras,this.curUser).subscribe(data=>{
       //debugger;
       if(data === undefined){
@@ -142,7 +147,6 @@ export class LaspiranteligthComponent implements OnInit {
         this.tbOrigen = this.tbCombobox.filter(e => e.codTabla === 'ORI');
         this.tbEstPd = this.tbCombobox.filter(e => e.codTabla === 'EstPD');
       }
-      this.spinner.hideLoading();
     });
   }
 
