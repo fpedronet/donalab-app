@@ -20,26 +20,75 @@
         <mat-stepper labelPosition="bottom" #stepper>
             
           <mat-step>
-              <ng-template matStepLabel>Datos principales</ng-template>
-              <mat-form-field appearance="outline">
-                <mat-label>Código</mat-label>
-                <input matInput placeholder="Código" formControlName="Codigo">
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Código</mat-label>
-                <input matInput placeholder="Código" formControlName="Codigo">
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Documento</mat-label>
-                <input matInput placeholder="Documento" formControlName="NumDocu">
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Código</mat-label>
-                <input matInput placeholder="Código" formControlName="Codigo">
-              </mat-form-field>
-                             
-          </mat-step>          
-        </mat-stepper>                    
+            <ng-template matStepLabel>Datos principales</ng-template>
+            <mat-form-field appearance="outline">
+              <mat-label>Código</mat-label>
+              <input matInput placeholder="Código" formControlName="Codigo">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Tipo de documento" formControlName="TipDocu">
+                <mat-option *ngFor="let el of tbTipoDocu" [value]="el.codigo">
+                    {{el.descripcion}}
+                </mat-option>              
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Documento</mat-label>
+              <input matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="500" required>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido Paterno</mat-label>
+              <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido Materno</mat-label>
+              <input matInput placeholder="Apellido Materno" formControlName="ApMaterno">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nombres</mat-label>
+              <input matInput placeholder="Nombres" formControlName="Nombres">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Género" formControlName="Sexo">
+                <mat-option *ngFor="let el of []" [value]="el">
+                    {{el}}
+                </mat-option>              
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput [matDatepicker]="FecNacimiento" placeholder="dd/mm/yyyy" formControlName="FecNacimiento" required>
+              <mat-datepicker-toggle matSuffix [for]="FecNacimiento"></mat-datepicker-toggle>
+              <mat-datepicker #FecNacimiento></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="País" formControlName="CodPais">
+                <mat-option *ngFor="let el of []" [value]="el">
+                    {{el}}
+                </mat-option>              
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Distrito" formControlName="CodDistrito">
+                <mat-option *ngFor="let el of []" [value]="el">
+                    {{el}}
+                </mat-option>              
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Celular</mat-label>
+              <input matInput placeholder="Celular" formControlName="Celular">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Teléfono</mat-label>
+              <input matInput placeholder="Teléfono" formControlName="Telefono">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Correo</mat-label>
+              <input matInput placeholder="Correo" formControlName="Correo">
+            </mat-form-field>
+          </mat-step>
+        </mat-stepper>
       </form>
   </mat-card>    
 </div>
