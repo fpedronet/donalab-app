@@ -28,20 +28,31 @@
       </div>
 
       <div class="example-container mat-elevation-z0">
-        <!-- <mat-table [dataSource]="dataSource" matSort>
+        <mat-table [dataSource]="dataSource" matSort>
       
-          <ng-container matColumnDef="Codigo">
+        
+          
+          <ng-container matColumnDef="codigo">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Código </mat-header-cell>
-            <mat-cell *matCellDef="let element" data-label="Código"> {{element.Codigo}} </mat-cell>
+            <mat-cell *matCellDef="let element" data-label="Código"> {{element.codigo}} </mat-cell>
           </ng-container>
         
-          <ng-container matColumnDef="Nombres">
+          <ng-container matColumnDef="nombres">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </mat-header-cell>
-            <mat-cell *matCellDef="let element" data-label="Nombres"> {{element.Nombres}} </mat-cell>
+            <mat-cell *matCellDef="let element" data-label="Nombres"> {{element.nombres}} </mat-cell>
           </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Estado">
+                <mat-icon class="{{claseColor}}-{{element.codEstado}}">
+                    brightness_1
+                </mat-icon>
+            </mat-cell>
+          </ng-container>          
               
-          <ng-container matColumnDef="Accion">
-              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <ng-container matColumnDef="accion">
+              <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
               <mat-cell *matCellDef="let element" style="text-align: right;">
                   <a class="pointer ver" matTooltip="Ver" [routerLink]="['ver', element.nIdGrupo, true]">
                     <mat-icon>visibility</mat-icon>
@@ -61,7 +72,7 @@
           [pageSizeOptions]="[5, 10, 20]" 
           showFirstLastButtons 
           aria-label="Select page of users">
-        </mat-paginator> -->
+        </mat-paginator>
       </div>
 
     </form>    

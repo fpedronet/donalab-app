@@ -14,6 +14,11 @@ export class PredonanteService {
   private url: string = `${environment.UrlApi}/predonante`;
 
   listarLight(req: PredonanteRequest) {
+    //req.FechaDesde = (req.dFechaDesde==undefined)?'':req.dFechaDesde.toDateString();
+    //req.FechaHasta = (req.dFechaHasta==undefined)?'':req.dFechaHasta.toDateString();
+
+    //debugger;
+
     let urls = `${this.url}/GetAllPredonanteLight`;
 
     return this.http.post<dataCollection>(urls,req);

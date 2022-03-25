@@ -14,9 +14,11 @@ export class ComboboxService {
 
   constructor(private http: HttpClient) { }
 
-  public cargarDatos(CodigosTabla: string[], IdeBanco: number, IdeUsuario: number){
+  public cargarDatos(CodigosTabla: string[], IdeUsuario: number, IdeBanco: number = 0){
     var CodTabla = CodigosTabla.join('|');
-    let urls = `${this.url}/GetAllTablaMaestra?CodTabla=${CodTabla}&IdeBanco=${IdeBanco}&IdeUsuario=${IdeUsuario}`;
+
+    let href = `${this.url}/GetAllTablaMaestra`;
+    let urls = `${href}?CodTabla=${CodTabla}&IdeUsuario=${IdeUsuario}&IdeBanco=${IdeBanco}`;
     return this.http.get<dataCollection>(urls);
   }
 }
