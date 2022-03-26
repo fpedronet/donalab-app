@@ -30,9 +30,4 @@ export class LaspiranteComponent implements OnInit {
        this.spinner.hideLoading();
     });   
   }
-
-  obtenerbanco(){
-    
-  }
-
 }

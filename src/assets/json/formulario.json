@@ -2,6 +2,9 @@
     "aspirante":{
         "codigo":"0101"
     },
+    "aspirantesligth":{
+        "codigo":"0111"
+    },
     "cheque":{
         "codigo":"0102"
     },

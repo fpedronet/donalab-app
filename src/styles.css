@@ -21,6 +21,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding:5px;
 }
 
+.maticon{
+  font-size: 26px;
+}
+
 /* sub menu de los botones */
 .mat-toolbar.mat-primary.submenu{
   position: fixed;

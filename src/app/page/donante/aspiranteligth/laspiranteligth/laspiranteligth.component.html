@@ -1,9 +1,8 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
     <div class="example-button-row">
-      <button mat-mini-fab color="primary" routerLink="/page/donante/aspirantelight/create"> 
-        <mat-icon>add</mat-icon>
-      </button>
-           
+        <button mat-stroked-button color="warn" routerLink="/page/donante/aspirantelight/create">
+          <mat-icon class="maticon">feed</mat-icon>
+        </button>          
     </div>
   </mat-toolbar>
 
@@ -54,10 +53,10 @@
           <ng-container matColumnDef="accion">
               <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
               <mat-cell *matCellDef="let element" style="text-align: right;">
-                  <a class="pointer ver" matTooltip="Ver" [routerLink]="['ver', element.nIdGrupo, true]">
+                  <a *ngIf="permiso.ver" class="pointer ver" matTooltip="Ver" [routerLink]="['ver', element.nIdGrupo, true]">
                     <mat-icon>visibility</mat-icon>
                  </a>
-                 <a class="pointer edit" matTooltip="Editar" [routerLink]="['edit', element.nIdGrupo]">
+                 <a *ngIf="permiso.actualizar" class="pointer edit" matTooltip="Editar" [routerLink]="['edit', element.nIdGrupo]">
                    <mat-icon>edit</mat-icon>
                 </a>
               </mat-cell>

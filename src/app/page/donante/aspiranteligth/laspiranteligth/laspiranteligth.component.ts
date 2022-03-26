@@ -11,6 +11,9 @@ import { PredonanteService } from 'src/app/_service/predonante.service';
 import { NotifierService } from '../../../component/notifier/notifier.service';
 import { SpinnerService } from '../../../component/spinner/spinner.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
+import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
+import forms from 'src/assets/json/formulario.json';
+import { Permiso } from 'src/app/_model/permiso';
 
 @Component({
   selector: 'app-laspirantelight',
@@ -33,7 +36,8 @@ export class LaspiranteligthComponent implements OnInit {
   tbEstPd: Combobox[] = [];
 
   claseColor: string = 'icon-estado'
-
+  permiso: Permiso = {};
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -43,7 +47,8 @@ export class LaspiranteligthComponent implements OnInit {
     private notifier: NotifierService,
     private comboboxService: ComboboxService,
     private usuarioService: UsuarioService,
-    private predonanteService: PredonanteService
+    private predonanteService: PredonanteService,
+    private configPermisoService : ConfigPermisoService,
   ) { }
 
   ngOnInit(): void {
@@ -52,6 +57,7 @@ export class LaspiranteligthComponent implements OnInit {
       this.curUser = user.ideUsuario;
     }
     this.listarCombo();
+    this.obtenerpermiso();
   }
 
   ngAfterViewInit(){
@@ -148,6 +154,15 @@ export class LaspiranteligthComponent implements OnInit {
         this.tbEstPd = this.tbCombobox.filter(e => e.codTabla === 'EstPD');
       }
     });
+  }
+
+  obtenerpermiso(){
+    this.spinner.showLoading();
+    this.configPermisoService.obtenerpermiso(forms.aspirantesligth.codigo).subscribe(data=>{
+      this.permiso = data;
+      console.log(data);
+       this.spinner.hideLoading();
+    });   
   }
 
   crearClasesCss(id: string = '0', color: string = ''){
