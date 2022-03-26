@@ -39,12 +39,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-toolbar.cardtitle{
-  /* background: linear-gradient( 180deg,#1367ff,#045ed8); */
+  /* background: linear-gradient(90deg, #9b1417 0%, #681575 100%); */
   background: #681575d9;
   color: white;
-  height:36px;
+  /* height:36px; */
+  height:6px;
   font-size:17px;
 }
+
+.title-label{
+  text-align: center;
+  color: #85153e;
+  padding-top: 8px;  
+}
+
 /* formulario */
 .container{
   margin-right: 2em;
@@ -118,6 +126,14 @@ form{
 .toast-top-center {  
   padding-top: 200px; 
 }  
+
+.mat-h2, .mat-title, .mat-typography h2{
+  font-weight: 700;
+}
+
+.mat-divider{
+  border-top-color:#68157561;
+}
 
 @media (max-width:1200px){
   .example-button-row{
@@ -218,14 +234,20 @@ form{
   .example-button-row{
     margin-left: 13%;
   }
+  .mat-header-row{
+    min-height:22px;
+  }
 }
 
 @media (max-width:450px){
   .container {
-    margin-right: 0.8em;
-    margin-left: 0.8em;
+    margin-right: 0.4em;
+    margin-left: 0.4em;
   }
   .example-button-row{
     margin-left: 5%;
+  }
+  .mat-header-row{
+    min-height:22px;
   }
 }
