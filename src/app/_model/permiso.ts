@@ -1,8 +1,7 @@
 export class Permiso {
     ver?:boolean;
-    ingresar?:boolean;
     agregar?:boolean;
-    actualizar?:boolean;
+    guardar?:boolean;
     autoexclusión?:boolean;
     reporteResultado?:boolean;
     registrarInclusoRechazado?:boolean;
