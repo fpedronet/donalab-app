@@ -1,6 +1,5 @@
 export class Permiso {
     ver?:boolean;
-    agregar?:boolean;
     guardar?:boolean;
     autoexclusión?:boolean;
     reporteResultado?:boolean;
