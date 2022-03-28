@@ -13,15 +13,81 @@
     bottom: 0;
     left: 0;
     right: 0;
+    overflow: hidden !important;
   }
+
+
+/*MENU HORIZONTAL*/
+
+
+
+
+/*MENU VERTICAL*/
+.menu-header-bg{
+  height: 180px;
+  width: 320px;
+  background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  box-shadow: 0px 1px 10px rgb(192 19 67 / 82%);
+  transform: rotate(-15deg);
+  border-radius: 10px 10px 10px 50px;
+  margin-left: -18px;
+  margin-top: -50px;
+  margin-bottom: 54px;
+}
+
+.header-content{
+  position: absolute;
+  top: 30px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.header-content img{
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  margin-right: 14px;
+}
+
+.header-content h2{
+  font-weight: 400;
+  color: #fff;
+  margin-top: -7px;
+  margin-bottom: -2px;
+  font-size: 16px;
+}
+
+.header-content p{
+  font-size: 12px;
+  color: #e4e4e4;
+  font-weight: 100px;
+  letter-spacing: 0.4px;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+
+.submenu{
+  padding:0 32px 0px;
+}
+
+.mat-expansion-panel{
+  box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 20%), 0px 0px 0px 0px rgb(0 0 0 / 14%), 0px 0px 0px 0px rgb(0 0 0 / 12%)
+}
+
+
+
+
+
+
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
     z-index:200;
   } 
 
-  .companyName{
-      font-size: 150%;
-  }
 
   div {
       overflow: inherit;
@@ -35,25 +101,24 @@
       line-height:36px;
       padding:2px 60px;
       color:#1b70c7;
-      /* font-family:initial; */
   }
 
-  nav{
+  .nav1{
     height: 100%;
   }
 
-  nav > ul{
+  .nav1 > ul{
     height: 100%;
     display: flex;
   }
 
-  nav ul li{
+  .nav1 ul li{
     height: 100%;
     list-style: none;
     position: relative;
   }
 
-  nav > ul > li > a{
+  .nav1 > ul > li > a{
     width: 100%;
     height: 100%;
     display: flex;
@@ -65,15 +130,15 @@
     transition: all 300ms ease;
   }
 
-  nav > ul > li > a:hover{
+  .nav1 > ul > li > a:hover{
     transform: scale(1.1);
     background: #9b1417;
     box-shadow: 0px 0px 10px 0px rgb(0, 0, 0, 0.5);
   }
 
   
-  /*Sub Menu*/
-  nav ul li ul{
+  /*SUB MENU*/
+  .nav1 ul li ul{
     width: 200px;
     display: flex;
     flex-direction: column;
@@ -89,13 +154,13 @@
     transition: all 300ms ease;
   }
 
-  nav ul li:hover ul{
+  .nav1 ul li:hover ul{
     visibility: visible;
     opacity: 1;
     top: 70px;
   }
 
-  nav ul li ul::before{
+  .nav1 ul li ul::before{
     content: '';
     width: 0;
     height: 0;
@@ -107,7 +172,7 @@
     left: 20px;
   }
 
-  nav ul li ul li a{
+  .nav1 ul li ul li a{
     display: block;
     color: #681575;
     padding: 0px;
@@ -118,7 +183,7 @@
     transition: all 300ms ease;
   }
 
-  nav ul li ul li a:hover{
+  .nav1 ul li ul li a:hover{
       background: #9b1417;
       color: #fff;
       transform: scale(1.1);
@@ -127,8 +192,6 @@
       box-shadow: 0px 0px 10px 0px rgb(0, 0, 0, 0.5);
   }
 
-
-  
   
 
 button{
@@ -146,6 +209,10 @@ button{
 
   .mat-drawer{
     top:43px;
+  }
+
+  .mat-drawer-inner-container ng-tns-c117-2{
+    --overflow:hidden;
   }
 
   .mat-toolbar-row, .mat-toolbar-single-row{

@@ -218,6 +218,9 @@ form{
   .example-button-row{
     margin-left: 30%;
   }
+  #closemenu{
+    display: none;
+  }
 }
 
 @media (max-width:768px){
@@ -228,6 +231,9 @@ form{
   .example-button-row{
     margin-left: 20%;
   }
+  #closemenu{
+    display: none;
+  }
 }
 
 @media (max-width:599px){
@@ -236,6 +242,9 @@ form{
   }
   .mat-header-row{
     min-height:22px;
+  }
+  #closemenu{
+    display: none;
   }
 }
 
@@ -249,5 +258,8 @@ form{
   }
   .mat-header-row{
     min-height:22px;
+  }
+  #closemenu{
+    display: none;
   }
 }
