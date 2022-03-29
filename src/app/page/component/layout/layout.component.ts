@@ -24,7 +24,9 @@ export class LayoutComponent implements OnInit {
 
   menus: MenuResponse = {};
   codigo?:string;
-
+  panelOpenState = false;
+  count=true;
+  banco?: string = "";
   ngOnInit(): void {
     this.listar();   
   }
@@ -35,6 +37,8 @@ export class LayoutComponent implements OnInit {
       this.menus.listaMenu = data.listaMenu;
       this.menus.listaBanco = data.listaBanco;
       this.codigo = data.listaBanco![0].codigo;
+      this.count = (data.listaBanco?.length!>1)? true: false;
+      this.banco = data.listaBanco![0].descripcion;
 
       localStorage.setItem(environment.CODIGO_BANCO, this.codigo!);
 

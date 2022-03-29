@@ -33,7 +33,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
 import {MatTabsModule} from '@angular/material/tabs';
 import {NgApexchartsModule} from 'ng-apexcharts';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
@@ -73,6 +73,7 @@ import {NgApexchartsModule} from 'ng-apexcharts';
     MatListModule,
     MatTabsModule,
     NgApexchartsModule,
+    MatExpansionModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
