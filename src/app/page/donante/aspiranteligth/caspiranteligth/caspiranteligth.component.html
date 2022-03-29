@@ -4,7 +4,7 @@
         <button mat-stroked-button color="accent" routerLink="/page/donante/aspirantelight">
           <mat-icon class="maticon">westsharp</mat-icon>
         </button>
-        <button mat-stroked-button color="primary" routerLink="/page/donante/aspirantelight">
+        <button mat-stroked-button color="primary" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
           <mat-icon class="maticon">save</mat-icon>
         </button>
 
@@ -17,7 +17,7 @@
       <mat-toolbar class="cardtitle"></mat-toolbar>
       <h2 class="title-label"> CREAR POSTULANTES</h2>
       <mat-divider></mat-divider>
-      <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm">
+      <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
         <mat-stepper labelPosition="bottom" #stepper>
             
           <mat-step>
@@ -47,10 +47,10 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Nombres</mat-label>
-              <input matInput placeholder="Nombres" formControlName="Nombres" minlength="1" maxlength="200" required>
+              <input matInput placeholder="Nombres" formControlName="Nombres" minlength="1" maxlength="100" required>
             </mat-form-field>
             <mat-form-field>
-              <mat-select placeholder="Género" formControlName="Sexo">
+              <mat-select placeholder="Género" formControlName="Sexo" required>
                 <mat-option *ngFor="let el of ['M','F']" [value]="el">
                   {{el}}
                 </mat-option>              
