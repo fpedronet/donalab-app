@@ -31,9 +31,9 @@ export class LaspiranteligthComponent implements OnInit {
   curUser: number = 0;
 
   tablasMaestras = ['ORI', 'EstPD'];
-  tbCombobox: Combobox[] = [];
   tbOrigen: Combobox[] = [];
   tbEstPd: Combobox[] = [];
+  tbPais: Combobox[] = [];
 
   claseColor: string = 'icon-estado'
   permiso: Permiso = {};
@@ -148,10 +148,10 @@ export class LaspiranteligthComponent implements OnInit {
         this.notifier.showNotification(0,'Mensaje','Error en el servidor');
       }
       else{
-        this.tbCombobox = data.items;
+        var tbCombobox: Combobox[] = data.items;
 
-        this.tbOrigen = this.tbCombobox.filter(e => e.codTabla === 'ORI');
-        this.tbEstPd = this.tbCombobox.filter(e => e.codTabla === 'EstPD');
+        this.tbOrigen = tbCombobox.filter(e => e.codTabla === 'ORI');
+        this.tbEstPd = tbCombobox.filter(e => e.codTabla === 'EstPD');
       }
     });
   }
