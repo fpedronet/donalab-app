@@ -17,7 +17,7 @@
       <mat-toolbar class="cardtitle"></mat-toolbar>
       <h2 class="title-label"> CREAR POSTULANTES</h2>
       <mat-divider></mat-divider>
-      <form id="ngForm" #frmGrupo="ngForm" >
+      <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm">
         <mat-stepper labelPosition="bottom" #stepper>
             
           <mat-step>
