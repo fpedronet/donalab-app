@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith} from 'rxjs/operators';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { Combobox } from 'src/app/_model/combobox';
+import { Distrito } from 'src/app/_model/distrito';
 import { ComboboxService } from 'src/app/_service/combobox.service';
 import { PredonanteService } from 'src/app/_service/predonante.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
@@ -34,19 +37,27 @@ export class CaspiranteligthComponent implements OnInit {
 
   curUser: number = 0;
 
-  tablasMaestras = ['TDoc', 'PAIS', 'PROV', 'DEPA', 'DST'];
+  tablasMaestras = ['TDoc', 'PAIS', 'DEPA', 'PROV', 'DST'];
   tbTipoDocu: Combobox[] = [];
   tbPais: Combobox[] = [];
-  tbProv: Combobox[] = [];
-  tbDpto: Combobox[] = [];
-  tbDist: Combobox[] = [];
+
+  distritos: Distrito[] = [];
+  filterDistritos: Observable<Distrito[]> | undefined;
+  controlDistritos = new FormControl();
+
+  selectedPais: Combobox = new Combobox();
+  
+  maxDate: Date = new Date();
+  minDate: Date = new Date();
 
   ngOnInit(): void {
     let user = this.usuarioService.sessionUsuario();
     if(user!=null){
       this.curUser = user.ideUsuario;
     }
-    this.listarCombo();
+
+    this.minDate.setMonth(this.maxDate.getMonth() - 12*80);
+    this.listarCombo();    
 
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '###', disabled: true}),
@@ -81,12 +92,54 @@ export class CaspiranteligthComponent implements OnInit {
       else{
         var tbCombobox: Combobox[] = data.items;
 
-        this.tbTipoDocu = tbCombobox.filter(e => e.codTabla === 'TDoc');
-        this.tbPais = tbCombobox.filter(e => e.codTabla === 'PAIS');
-        this.tbProv = tbCombobox.filter(e => e.codTabla === 'DEPA');
-        this.tbDist = tbCombobox.filter(e => e.codTabla === 'DST');
+        this.tbTipoDocu = tbCombobox.filter(e => e.codTabla?.trim() === 'TDoc');
+        this.tbPais = tbCombobox.filter(e => e.codTabla?.trim() === 'PAIS');
+        var tbDpto: Combobox[] = tbCombobox.filter(e => e.codTabla?.trim() === 'DEPA');
+        var tbProv: Combobox[] = tbCombobox.filter(e => e.codTabla?.trim() === 'PROV');
+        var tbDist: Combobox[] = tbCombobox.filter(e => e.codTabla?.trim() === 'DST');
+
+        this.listarDistritos(tbDpto, tbProv, tbDist);
       }
     });
+  }
+
+  listarDistritos(tbDpto: Combobox[], tbProv: Combobox[], tbDist: Combobox[]){
+    tbDist.sort((a, b) => (a.codigo === undefined || b.codigo === undefined) ? 1 : (a.codigo < b.codigo ? -1 : (a.codigo > b.codigo ? 1 : 0)));
+    tbDist.forEach(d => {
+      var distrito: Distrito = new Distrito();
+      distrito.dist = d;
+      distrito.prov = tbProv.find(e => d.codigo?.startsWith(e.codigo!));
+      distrito.dpto = tbDpto.find(e => d.codigo?.startsWith(e.codigo!));
+      this.distritos.push(distrito);
+    });
+
+    this.filterDistritos = this.controlDistritos.valueChanges.pipe(
+      startWith(''),
+      map(value => (typeof value === 'string'?value:value.dist.descripcion)),
+      map(name  => (name?this.buscarDistritos(name):[]))
+    )
+    //debugger;
+  }
+
+  changePais(value: Combobox){
+    this.selectedPais = value;
+  }
+
+  buscarDistritos(name: string): Distrito[]{    
+    var results: Distrito[] = [];
+    if(name.length >= 3){
+      const filtro = name.toLowerCase();
+      results = this.distritos.filter(e => e.dist?.descripcion?.toLowerCase().includes(filtro));
+    }    
+    return results;
+  }
+
+  mostrarDistrito(d: Distrito): string{
+    //debugger;
+    var result = '';
+    if(d !== undefined && d !== null)
+      result = d.dist?.descripcion! + ', ' + d.prov?.descripcion! + ', ' + d.dpto?.descripcion!;
+    return result;
   }
 
 }

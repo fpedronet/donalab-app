@@ -1,8 +1,8 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
     <div class="example-button-row">
-        <button *ngIf="permiso.guardar" mat-stroked-button color="warn" routerLink="/page/donante/aspirantelight/create">
-          <mat-icon class="maticon">feed</mat-icon>
-        </button>          
+      <button *ngIf="permiso.guardar" mat-stroked-button color="warn" routerLink="/page/donante/aspirantelight/create">
+        <mat-icon class="maticon">feed</mat-icon>
+      </button>
     </div>
   </mat-toolbar>
 
@@ -27,8 +27,6 @@
 
       <div class="example-container mat-elevation-z0">
         <mat-table [dataSource]="dataSource" matSort>
-      
-        
           
           <ng-container matColumnDef="codigo">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Código </mat-header-cell>

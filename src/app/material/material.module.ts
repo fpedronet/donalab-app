@@ -20,6 +20,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {SpinnerModule } from '../page/component/spinner/spinner.module';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -60,6 +61,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatDialogModule,
     MatProgressSpinnerModule,
     SpinnerModule,
+    MatAutocompleteModule,
     MatSelectModule,
     FormsModule,
     MatDatepickerModule,
