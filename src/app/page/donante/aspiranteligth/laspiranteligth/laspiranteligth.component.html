@@ -1,5 +1,8 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
     <div class="example-button-row">
+      <button mat-stroked-button color="warn" (click)="ngAfterViewInit()">
+        <mat-icon class="maticon">update</mat-icon>
+      </button>
       <button *ngIf="permiso.guardar" mat-stroked-button color="warn" routerLink="/page/donante/aspirantelight/create">
         <mat-icon class="maticon">feed</mat-icon>
       </button>
@@ -15,11 +18,6 @@
     <h2 class="title-label"> LISTA POSTULANTES</h2>
     <mat-divider></mat-divider>
     <form>     
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Búsqueda</mat-label>
-        <input matInput placeholder="Búsqueda" #input>
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field> -->
       
       <div class="example-loading-shade" *ngIf="loading || existRegistro">
         <mat-spinner *ngIf="loading"></mat-spinner>

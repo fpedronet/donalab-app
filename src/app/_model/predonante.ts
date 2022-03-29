@@ -70,6 +70,7 @@ export class Predonante {
     plaquetas?: number;
 
     listaBanco?: Combobox[];
+    listaCampania?: Combobox[];
     listaOrigen?: Combobox[];
     listaEstado?: Combobox[];
 }

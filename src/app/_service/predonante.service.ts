@@ -25,8 +25,8 @@ export class PredonanteService {
     return this.http.post<Response>(urls, model);
   }
 
-  obtenerFiltro() {
-    let urls = `${this.url}/GetBusquedaPredonanteLight`;
+  obtenerFiltro(codigobanco: number) {
+    let urls = `${this.url}/GetBusquedaPredonanteLight?idbanco=`+codigobanco;
 
     return this.http.get<Predonante>(urls);
   }

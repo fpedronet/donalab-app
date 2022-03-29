@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { Combobox } from 'src/app/_model/combobox';
 import { PredonanteService } from 'src/app/_service/predonante.service';
+import { UsuarioService } from 'src/app/_service/usuario.service';
 
 @Component({
   selector: 'app-mfaspirantelingth',
@@ -10,22 +11,33 @@ import { PredonanteService } from 'src/app/_service/predonante.service';
   styleUrls: ['./mfaspirantelingth.component.css']
 })
 export class MfaspirantelingthComponent implements OnInit {
-
+  
   constructor(
+    private dialogRef: MatDialogRef<MfaspirantelingthComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private spinner : SpinnerService,
     private predonanteService : PredonanteService,
-    private dialogRef: MatDialogRef<MfaspirantelingthComponent>,
-  ) { }
+    private usuarioService: UsuarioService,
+  ) { 
+  }
 
   loading = true;
 
+  user: any;
+
+  nombre? : string;
+
   listaBanco?: Combobox[] = [];
-  codigo?:string;
-  idbanco?: number;
+  idbanco?: string;
+
+  listaCampania?: Combobox[] = [];
+  idcampania?: string;
 
   listaOrigen?: Combobox[] = [];
+  idorigen?: string;
 
   listaEstado?: Combobox[] = [];
+  idestado?: string;
 
   fechaInicio?: Date;
   fechaSelectInicio?: Date;
@@ -34,27 +46,74 @@ export class MfaspirantelingthComponent implements OnInit {
   fechaSelectFin?: Date;
 
   ngOnInit(): void {
+    this.user = this.usuarioService.sessionUsuario();
     this.obtener();
   }
 
-  obtener(){
+  obtener(){    
+    let codigobanco = this.user.codigobanco;
+
     this.spinner.showLoading();
-    this.predonanteService.obtenerFiltro().subscribe(data=>{
-      this.listaBanco = data.listaBanco;
-      this.listaOrigen = data.listaOrigen;
-      this.listaEstado = data.listaEstado;
+    this.predonanteService.obtenerFiltro(codigobanco).subscribe(resut=>{
+
+      this.listaBanco = resut.listaBanco;
+      this.listaCampania = resut.listaCampania;
+      this.listaOrigen = resut.listaOrigen;
+      this.listaEstado = resut.listaEstado;
+
+
+      this.nombre=this.data.nombre,
+      this.idbanco=this.data.idbanco,
+      this.idcampania=String(this.data.idcampania),
+      this.idorigen=String(this.data.idorigen),
+      this.idestado=String(this.data.idestado),
+      this.fechaSelectInicio=this.data.fechaInicio,
+      this.fechaSelectFin=this.data.fechaFin,
+      this.fechaInicio=this.data.fechaInicio,
+      this.fechaFin=this.data.fechaFin,
+
       this.spinner.hideLoading();
     });  
   }
 
-  selectbanco(idbanco: number){
-   
+  selectbanco(id: string){
+    this.idbanco = id;
+    let codigobanco = parseInt(id);
+
+    this.spinner.showLoading();
+    this.predonanteService.obtenerFiltro(codigobanco).subscribe(data=>{
+      this.listaCampania = data.listaCampania;
+      this.spinner.hideLoading();
+    });
+  }
+
+  selectcampania(id: string){
+    this.idcampania= id;
+   }
+
+  selectorigen(id: string){
+    this.idorigen= id;
+  }
+
+  selectestado(id: string){
+    this.idestado= id;
   }
   
   onDateChange(){
-    let finicio = this.fechaSelectInicio;
-    let ffin =  this.fechaSelectFin;
-    
+    this.fechaInicio = this.fechaSelectInicio;
+    this.fechaFin=  this.fechaSelectFin;    
+  }
+
+  buscar(){
+    this.dialogRef.close({ 
+      nombre:this.nombre,
+      idbanco:this.idbanco ,
+      idcampania:this.idcampania ,
+      idorigen:this.idorigen ,
+      idestado:this.idestado ,
+      fechaInicio:this.fechaInicio ,
+      fechaFin:this.fechaFin ,
+     });
   }
 
 }

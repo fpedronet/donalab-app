@@ -13,6 +13,7 @@ import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 import forms from 'src/assets/json/formulario.json';
 import { Permiso } from 'src/app/_model/permiso';
 import { MatDialog } from '@angular/material/dialog';
+
 import { MfaspirantelingthComponent } from '../mfaspirantelingth/mfaspirantelingth.component';
 
 @Component({
@@ -28,16 +29,12 @@ export class LaspiranteligthComponent implements OnInit {
   existRegistro = false;
   countRegistro = 0;
 
-  curUser: number = 0;
-
-  tablasMaestras = ['ORI', 'EstPD'];
-  tbOrigen: Combobox[] = [];
-  tbEstPd: Combobox[] = [];
-  tbPais: Combobox[] = [];
+  user: any;
+  predonante = new PredonanteRequest();
 
   claseColor: string = 'icon-estado'
   permiso: Permiso = {};
-  
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -46,64 +43,30 @@ export class LaspiranteligthComponent implements OnInit {
     private dialog: MatDialog,
     private spinner: SpinnerService,
     private notifier: NotifierService,
-    private comboboxService: ComboboxService,
     private usuarioService: UsuarioService,
     private predonanteService: PredonanteService,
     private configPermisoService : ConfigPermisoService,
   ) { }
 
   ngOnInit(): void {
-    let user = this.usuarioService.sessionUsuario();
-    if(user!=null){
-      this.curUser = user.ideUsuario;
-    }
-    this.listarCombo();
+    this.user = this.usuarioService.sessionUsuario();
     this.obtenerpermiso();
   }
 
   ngAfterViewInit(){
-    // this.predonanteService = new PredonanteService(this.http);
-    // this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-
-    // this.spinner.showLoading();
-
-    /*merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.loading = true;
-          return this.predonanteService!.listarLight(
-            data,
-            finicio,
-            ffin,
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-            this.sort.active,
-            this.sort.direction,
-          ).pipe(catchError(() => observableOf(null)));
-        }),
-        map(res => {
-
-           this.loading = false;
-           this.existRegistro = res === null;
-
-          if (res === null) {
-            return [];
-          }
-
-          this.countRegistro = res.pagination.total;
-          return res.items;
-        }),
-      ).subscribe(data => (this.dataSource = data));*/
       var req = new PredonanteRequest();
-      req.Idebanco = 1;
-      req.FechaDesde = new Date();
-      req.FechaDesde.setDate(req.FechaDesde.getDate() - 30);
+      const fechaInicio = new Date();
+
+      req.Idebanco = this.user.codigobanco;
+      req.FechaDesde = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
       req.FechaHasta = new Date();
       req.IdeEstado = 1;
-      req.Idecampania = 1;
-      req.IdeOrigen = 1;
+      req.Idecampania = 0;
+      req.IdeOrigen = 0;
       req.Nombres = '';
+
+      this.predonante= req;
+      
       this.buscar(req);
   }
 
@@ -142,21 +105,6 @@ export class LaspiranteligthComponent implements OnInit {
     });
   }
 
-  listarCombo(){
-    this.comboboxService.cargarDatos(this.tablasMaestras,this.curUser).subscribe(data=>{
-      //debugger;
-      if(data === undefined){
-        this.notifier.showNotification(0,'Mensaje','Error en el servidor');
-      }
-      else{
-        var tbCombobox: Combobox[] = data.items;
-
-        this.tbOrigen = tbCombobox.filter(e => e.codTabla === 'ORI');
-        this.tbEstPd = tbCombobox.filter(e => e.codTabla === 'EstPD');
-      }
-    });
-  }
-
   obtenerpermiso(){
     this.spinner.showLoading();
     this.configPermisoService.obtenerpermiso(forms.aspirantesligth.codigo).subscribe(data=>{
@@ -173,9 +121,33 @@ export class LaspiranteligthComponent implements OnInit {
   }
 
   abrirBusqueda(){
-    this.dialog.open(MfaspirantelingthComponent, {
-      width: '850px'
+    const dialogRef =this.dialog.open(MfaspirantelingthComponent, {
+      width: '800px',
+      data:{
+        idbanco: this.predonante.Idebanco,
+        fechaInicio : this.predonante.FechaDesde,
+        fechaFin : this.predonante.FechaHasta,
+        idestado : this.predonante.IdeEstado,
+        idcampania : this.predonante.Idecampania,
+        idorigen : this.predonante.IdeOrigen,
+        nombre : this.predonante.Nombres,
+      }
     });
+
+    dialogRef.afterClosed().subscribe(res => {
+      var req = new PredonanteRequest();
+      req.Idebanco = res.idbanco;
+      req.FechaDesde =res.fechaInicio;
+      req.FechaHasta = res.fechaFin;
+      req.IdeEstado = res.idestado;
+      req.Idecampania = res.idcampania;
+      req.IdeOrigen = res.idorigen;
+      req.Nombres = res.nombre;
+
+      this.predonante= req;
+
+      this.buscar(req);
+    })
   }
 
 }
