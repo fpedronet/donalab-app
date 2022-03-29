@@ -1,3 +1,4 @@
+import { Combobox } from "./combobox";
 import { Persona } from "./persona";
 
 export class Predonante {
@@ -67,6 +68,10 @@ export class Predonante {
     temperatura?: number;
     codDonanteLIS?: string;
     plaquetas?: number;
+
+    listaBanco?: Combobox[];
+    listaOrigen?: Combobox[]
+    listaEstado?: Combobox[]
 }
 
 export class PredonanteRequest {
