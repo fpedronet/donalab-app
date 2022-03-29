@@ -3,6 +3,9 @@
       <button *ngIf="permiso.guardar" mat-stroked-button color="warn" routerLink="/page/donante/aspirantelight/create">
         <mat-icon class="maticon">feed</mat-icon>
       </button>
+      <button mat-stroked-button color="warn" (click)="abrirBusqueda()">
+        <mat-icon class="maticon">search</mat-icon>
+      </button>
     </div>
   </mat-toolbar>
 
@@ -12,11 +15,11 @@
     <h2 class="title-label"> LISTA POSTULANTES</h2>
     <mat-divider></mat-divider>
     <form>     
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Búsqueda</mat-label>
         <input matInput placeholder="Búsqueda" #input>
         <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
+      </mat-form-field> -->
       
       <div class="example-loading-shade" *ngIf="loading || existRegistro">
         <mat-spinner *ngIf="loading"></mat-spinner>

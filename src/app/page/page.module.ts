@@ -14,6 +14,7 @@ import { LaspiranteComponent } from './donante/aspirante/laspirante/laspirante.c
 import { CaspiranteComponent } from './donante/aspirante/caspirante/caspirante.component';
 import { LaspiranteligthComponent } from './donante/aspiranteligth/laspiranteligth/laspiranteligth.component';
 import { CaspiranteligthComponent } from './donante/aspiranteligth/caspiranteligth/caspiranteligth.component';
+import { MfaspirantelingthComponent } from './donante/aspiranteligth/mfaspirantelingth/mfaspirantelingth.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CaspiranteligthComponent } from './donante/aspiranteligth/caspirantelig
     LaspiranteComponent,
     CaspiranteComponent,
     LaspiranteligthComponent,
-    CaspiranteligthComponent   
+    CaspiranteligthComponent,
+    MfaspirantelingthComponent   
   ],
   imports: [
     MaterialModule,

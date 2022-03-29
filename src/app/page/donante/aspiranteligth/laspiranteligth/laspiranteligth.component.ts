@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { catchError, map, merge, startWith, switchMap } from 'rxjs';
-import { Persona } from 'src/app/_model/persona';
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import { Combobox } from 'src/app/_model/combobox';
 import { ComboboxService } from 'src/app/_service/combobox.service';
@@ -14,6 +12,8 @@ import { UsuarioService } from 'src/app/_service/usuario.service';
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 import forms from 'src/assets/json/formulario.json';
 import { Permiso } from 'src/app/_model/permiso';
+import { MatDialog } from '@angular/material/dialog';
+import { MfaspirantelingthComponent } from '../mfaspirantelingth/mfaspirantelingth.component';
 
 @Component({
   selector: 'app-laspirantelight',
@@ -43,6 +43,7 @@ export class LaspiranteligthComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private dialog: MatDialog,
     private spinner: SpinnerService,
     private notifier: NotifierService,
     private comboboxService: ComboboxService,
@@ -169,6 +170,12 @@ export class LaspiranteligthComponent implements OnInit {
     var editCSS = document.createElement('style')
     editCSS.innerHTML = "." + this.claseColor + "-" + id + " {color: " + color + ";}";
     document.body.appendChild(editCSS);
+  }
+
+  abrirBusqueda(){
+    this.dialog.open(MfaspirantelingthComponent, {
+      width: '850px'
+    });
   }
 
 }
