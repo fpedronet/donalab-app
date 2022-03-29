@@ -70,8 +70,8 @@ export class Predonante {
     plaquetas?: number;
 
     listaBanco?: Combobox[];
-    listaOrigen?: Combobox[]
-    listaEstado?: Combobox[]
+    listaOrigen?: Combobox[];
+    listaEstado?: Combobox[];
 }
 
 export class PredonanteRequest {
