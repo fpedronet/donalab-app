@@ -74,7 +74,7 @@
             </mat-form-field>
             <mat-form-field *ngIf="selectedPais.codigo === '01'">
               <mat-label>Distrito</mat-label>
-              <input type="text" matInput formControlName="CodDistrito" [formControl]="controlDistritos" [matAutocomplete]="auto">
+              <input type="text" matInput [formControl]="controlDistritos" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarDistrito">
                 <mat-option *ngFor="let el of filterDistritos | async" [value]="el">
                   {{el.dist!.descripcion}}, {{el.prov!.descripcion}}, {{el.dpto!.descripcion}}

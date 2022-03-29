@@ -72,7 +72,7 @@ export class CaspiranteligthComponent implements OnInit {
       'Sexo': new FormControl({ value: '', disabled: false}),
       'FecNacimiento': new FormControl({ value: null, disabled: false}),
       'CodPais': new FormControl({ value: '', disabled: false}),
-      'CodDistrito': new FormControl({ value: '', disabled: false}),
+      'CodDistrito': new FormControl({ value: null, disabled: false}),
       'Celular': new FormControl({ value: '', disabled: false}),
       'Telefono': new FormControl({ value: '', disabled: false}),
       'Correo': new FormControl({ value: '', disabled: false})
@@ -128,9 +128,9 @@ export class CaspiranteligthComponent implements OnInit {
 
   buscarDistritos(name: string): Distrito[]{    
     var results: Distrito[] = [];
-    debugger;
+    //debugger;
     if(name.length >= 3){
-      const filtro = name.toLowerCase();
+      var filtro = name.toLowerCase();
       results = this.distritos.filter(e => e.dist?.descripcion?.toLowerCase().includes(filtro));
     }    
     return results;
@@ -139,7 +139,7 @@ export class CaspiranteligthComponent implements OnInit {
   mostrarDistrito(d: Distrito): string{
     //debugger;
     var result = '';
-    if(d !== undefined && d !== null)
+    if(d !== undefined && d !== null && d !== '')
       result = d.dist?.descripcion! + ', ' + d.prov?.descripcion! + ', ' + d.dpto?.descripcion!;
     return result;
   }
