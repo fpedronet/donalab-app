@@ -47,9 +47,22 @@ export class GuardService implements CanActivate {
       return this.configPermisoService.listar().pipe(map(x => {
         let cont = 0;
         for (let m of x.listaOpcionesMenu!) {
+
           if (url.startsWith(m.url!)) {
-            cont++;
-            break;
+
+            var split1 = url.split('/')[3];
+
+            if(split1=="aspirantelight"){
+              var split2 = m.url!.split('/')[3];
+              if(split1==split2){
+                cont++;
+                break;
+              }
+            }else{
+              cont++;
+              break;
+            }
+
           }
         }
 
