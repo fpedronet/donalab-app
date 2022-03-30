@@ -55,7 +55,7 @@ export class LaspiranteligthComponent implements OnInit {
     req.Idebanco = this.usuarioService.sessionUsuario().codigobanco;
     req.FechaDesde = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
     req.FechaHasta = new Date();
-    req.IdeEstado = 1;
+    req.IdeEstado = 2;
     req.Idecampania = 0;
     req.IdeOrigen = 0;
     req.Nombres = '';
