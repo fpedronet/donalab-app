@@ -79,7 +79,7 @@ export class CaspiranteligthComponent implements OnInit {
     this.listarCombo();    
 
     this.form = new FormGroup({
-      'Codigo': new FormControl({ value: '###', disabled: true}),
+      'Codigo': new FormControl({ value: '#######', disabled: true}),
       'IdePersona': new FormControl({ value: 0, disabled: false}),
       'TipDocu': new FormControl({ value: '1', disabled: false}),
       'NumDocu': new FormControl({ value: '', disabled: false}),
@@ -320,6 +320,9 @@ export class CaspiranteligthComponent implements OnInit {
       if(data.typeResponse==environment.EXITO){
         localStorage.setItem('IdeOrigen',model.ideOrigen===undefined?'':model.ideOrigen.toString());
         localStorage.setItem('IdeCampania',model.ideCampania===undefined?'':model.ideCampania.toString());
+        this.form.patchValue({
+          Codigo: data.codigo
+        })
         //this.router.navigate(['/page/grupo']);
         this.spinner.hideLoading();
       }else{
