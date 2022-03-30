@@ -23,12 +23,7 @@ export class MfaspirantelingthComponent implements OnInit {
 
   loading = true;
 
-  user: any;
-
   nombre? : string;
-
-  listaBanco?: Combobox[] = [];
-  idbanco?: string;
 
   listaCampania?: Combobox[] = [];
   idcampania?: string;
@@ -46,24 +41,21 @@ export class MfaspirantelingthComponent implements OnInit {
   fechaSelectFin?: Date;
 
   ngOnInit(): void {
-    this.user = this.usuarioService.sessionUsuario();
     this.obtener();
   }
 
   obtener(){    
-    let codigobanco = this.user.codigobanco;
+    let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
 
     this.spinner.showLoading();
     this.predonanteService.obtenerFiltro(codigobanco).subscribe(resut=>{
 
-      this.listaBanco = resut.listaBanco;
       this.listaCampania = resut.listaCampania;
       this.listaOrigen = resut.listaOrigen;
       this.listaEstado = resut.listaEstado;
 
 
       this.nombre=this.data.nombre,
-      this.idbanco=this.data.idbanco,
       this.idcampania=String(this.data.idcampania),
       this.idorigen=String(this.data.idorigen),
       this.idestado=String(this.data.idestado),
@@ -74,17 +66,6 @@ export class MfaspirantelingthComponent implements OnInit {
 
       this.spinner.hideLoading();
     });  
-  }
-
-  selectbanco(id: string){
-    this.idbanco = id;
-    let codigobanco = parseInt(id);
-
-    this.spinner.showLoading();
-    this.predonanteService.obtenerFiltro(codigobanco).subscribe(data=>{
-      this.listaCampania = data.listaCampania;
-      this.spinner.hideLoading();
-    });
   }
 
   selectcampania(id: string){
@@ -107,7 +88,6 @@ export class MfaspirantelingthComponent implements OnInit {
   buscar(){
     this.dialogRef.close({ 
       nombre:this.nombre,
-      idbanco:this.idbanco ,
       idcampania:this.idcampania ,
       idorigen:this.idorigen ,
       idestado:this.idestado ,

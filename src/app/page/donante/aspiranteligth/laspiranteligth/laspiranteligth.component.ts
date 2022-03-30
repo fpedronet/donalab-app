@@ -30,7 +30,6 @@ export class LaspiranteligthComponent implements OnInit {
   existRegistro = false;
   countRegistro = 0;
 
-  user: any;
   predonante = new PredonanteRequest();
 
   permiso: Permiso = {};
@@ -48,13 +47,12 @@ export class LaspiranteligthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.usuarioService.sessionUsuario();
     this.obtenerpermiso();
 
     let req = new PredonanteRequest();
     const fechaInicio = new Date();
 
-    req.Idebanco = this.user.codigobanco;
+    req.Idebanco = this.usuarioService.sessionUsuario().codigobanco;
     req.FechaDesde = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
     req.FechaHasta = new Date();
     req.IdeEstado = 1;
@@ -123,7 +121,6 @@ export class LaspiranteligthComponent implements OnInit {
       width: '850px',
       panelClass: 'full-screen-modal',
       data:{
-        idbanco: this.predonante.Idebanco,
         fechaInicio : this.predonante.FechaDesde,
         fechaFin : this.predonante.FechaHasta,
         idestado : this.predonante.IdeEstado,
@@ -137,7 +134,7 @@ export class LaspiranteligthComponent implements OnInit {
       if(res!=""){
         var req = new PredonanteRequest();
 
-        req.Idebanco = res.idbanco;
+        req.Idebanco = this.usuarioService.sessionUsuario().codigobanco;
         req.FechaDesde =res.fechaInicio;
         req.FechaHasta = res.fechaFin;
         req.IdeEstado = res.idestado;

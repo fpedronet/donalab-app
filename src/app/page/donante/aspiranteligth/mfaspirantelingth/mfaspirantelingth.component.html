@@ -9,18 +9,6 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-select 
-    placeholder="Banco"
-    [(ngModel)]="idbanco"
-    (selectionChange)="selectbanco($event.value)"
-    >
-    <mat-option *ngFor="let el of listaBanco" [value]="el.codigo">
-      {{el.descripcion}}
-    </mat-option>  
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
     <mat-label>Campaña</mat-label>
     <mat-select 
     [(ngModel)]="idcampania"
@@ -43,6 +31,7 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
+    <mat-label>Estado</mat-label>
     <mat-select 
     placeholder="Estado"
     [(ngModel)]="idestado"
