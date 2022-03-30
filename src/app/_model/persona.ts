@@ -43,4 +43,5 @@ export class Persona {
     hematrocito?: number;
     mostrarFirma?: string;
     fecRegistro?: Date;
+    onlyPoclab?:number;
 }

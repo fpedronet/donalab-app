@@ -118,8 +118,11 @@
               <mat-datepicker #Fecha></mat-datepicker>
             </mat-form-field>
             
-            <button mat-stroked-button color="primary">Sí Donó</button>
-            <button mat-flat-button color="primary">No Donó</button>
+            <button *ngIf="!btnEstadoSel[0]" text-transform: uppercase mat-stroked-button color="primary" (click)="changeEstado(0)">Sí Donó</button>
+            <button *ngIf="btnEstadoSel[0]" text-transform: uppercase mat-flat-button color="primary" (click)="changeEstado(0)">Sí Donó</button>
+
+            <button *ngIf="!btnEstadoSel[1]" text-transform: uppercase mat-stroked-button color="primary" (click)="changeEstado(1)">No Donó</button>
+            <button *ngIf="btnEstadoSel[1]" text-transform: uppercase mat-flat-button color="primary" (click)="changeEstado(1)">No Donó</button>
 
           </mat-step>
         </mat-stepper>
