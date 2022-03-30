@@ -35,7 +35,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Documento</mat-label>
-              <input matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="50" required>
+              <input matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="50" required (blur)="obtenerPersona()">
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Apellido Paterno</mat-label>
@@ -72,10 +72,10 @@
                 </mat-option>              
               </mat-select>
             </mat-form-field>
-            <mat-form-field *ngIf="muestraDistrito">
+            <mat-form-field *ngIf="muestraDistrito" [color]="distritoColor">
               <mat-label>Distrito</mat-label>
               <input #distrito type="text" matInput [formControl]="controlDistritos" [matAutocomplete]="auto">
-              <button *ngIf="distrito.value" matSuffix mat-icon-button aria-label="Clear" (click)="distrito.value=''">
+              <button *ngIf="distrito.value" matSuffix mat-icon-button aria-label="Limpiar" (click)="distrito.value=''">
                 <mat-icon>close</mat-icon>
               </button>
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarDistrito" (optionSelected)="changeDistrito($event)">
@@ -86,15 +86,15 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Celular</mat-label>
-              <input matInput placeholder="Celular" formControlName="Celular">
+              <input matInput placeholder="ej. +51 999999999" formControlName="Celular">
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Teléfono</mat-label>
-              <input matInput placeholder="Teléfono" formControlName="Telefono">
+              <input matInput placeholder="ej. 9999999" formControlName="Telefono">
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Correo</mat-label>
-              <input matInput placeholder="Correo" formControlName="Correo">
+              <input type="email" matInput placeholder="ej. ejemplo@correo.com" formControlName="Correo">
             </mat-form-field>
             <mat-divider></mat-divider>
             <mat-form-field>
@@ -118,8 +118,11 @@
               <mat-datepicker #Fecha></mat-datepicker>
             </mat-form-field>
             
-            <button mat-stroked-button color="primary">Sí Donó</button>
-            <button mat-flat-button color="primary">No Donó</button>
+            <button *ngIf="!btnEstadoSel[0]" text-transform: uppercase mat-stroked-button color="primary" (click)="changeEstado(0)">Sí Donó</button>
+            <button *ngIf="btnEstadoSel[0]" text-transform: uppercase mat-flat-button color="primary" (click)="changeEstado(0)">Sí Donó</button>
+
+            <button *ngIf="!btnEstadoSel[1]" text-transform: uppercase mat-stroked-button color="primary" (click)="changeEstado(1)">No Donó</button>
+            <button *ngIf="btnEstadoSel[1]" text-transform: uppercase mat-flat-button color="primary" (click)="changeEstado(1)">No Donó</button>
 
           </mat-step>
         </mat-stepper>

@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import { Response } from 'src/app/_model/response';
 import { dataCollection } from '../_model/dataCollection';
+import { Persona } from '../_model/persona';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,12 @@ export class PredonanteService {
     let urls = `${this.url}/GetFirstPredonante?id=${id}`;
 
     return this.http.get<Predonante>(urls);
+  }
+
+  obtenerPersona(idPersona: number, tipoDocu: string, numDocu: string){
+    let urls = `${this.url}/GetFirstPersona?idPersona=${idPersona}&tipoDocu=${tipoDocu}&numDocu=${numDocu}`;
+
+    return this.http.get<Persona>(urls);
   }
 
   guardar(model: Predonante){
