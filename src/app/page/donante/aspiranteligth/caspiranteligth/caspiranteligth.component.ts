@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith} from 'rxjs/operators';
@@ -56,11 +56,12 @@ export class CaspiranteligthComponent implements OnInit {
   carBuscaDistrito: number = 2;
   nroDistritosMuestra: number = 15;
   distritos: Distrito[] = [];
+  distritoColor: string = 'accent'
   filterDistritos: Observable<Distrito[]> | undefined;
   controlDistritos = new FormControl();
   codDistrito: string = '';
 
-  selectedPais: Combobox = new Combobox();
+  selectedPais: string = '';
   
   maxDate: Date = new Date();
   minDate: Date = new Date();
@@ -78,7 +79,7 @@ export class CaspiranteligthComponent implements OnInit {
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '###', disabled: true}),
       'IdePersona': new FormControl({ value: 0, disabled: false}),
-      'TipDocu': new FormControl({ value: '', disabled: false}),
+      'TipDocu': new FormControl({ value: '1', disabled: false}),
       'NumDocu': new FormControl({ value: '', disabled: false}),
       'ApPaterno': new FormControl({ value: '', disabled: false}),
       'ApMaterno': new FormControl({ value: '', disabled: false}),
@@ -147,17 +148,20 @@ export class CaspiranteligthComponent implements OnInit {
     //debugger;
   }
 
-  changePais(value: Combobox){
+  changePais(value: string){
     //debugger;
     this.selectedPais = value;
     this.muestraDistrito = true;
     if(this.selectedPais !== '01'){
       this.codDistrito = '';
+      this.distritoColor = 'accent';
       this.muestraDistrito = false;
     }
   }
 
-  buscarDistritos(name: string): Distrito[]{    
+  buscarDistritos(name: string): Distrito[]{
+    this.distritoColor = 'accent';
+    this.codDistrito = '';
     var results: Distrito[] = [];
     //debugger;
     if(name.length >= this.carBuscaDistrito){
@@ -178,7 +182,44 @@ export class CaspiranteligthComponent implements OnInit {
   changeDistrito(event: any){
     var distrito = event.option.value;
     if(distrito !== undefined){
+      this.distritoColor = 'primary';
       this.codDistrito = distrito.dist.codigo;
+    }
+    //debugger;
+  }
+
+  obtenerPersona(){
+    var tipoDocu = this.form.value['TipDocu'];
+    var numDocu = this.form.value['NumDocu'];
+    //debugger;
+
+    if(tipoDocu !== '' && numDocu !== ''){
+      this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
+        //debugger;
+        this.form.patchValue({
+          ApPaterno: data.apPaterno,
+          ApMaterno: data.apMaterno,
+          Nombres: data.primerNombre + ' ' + data.segundoNombre,
+          Sexo: data.sexo,
+          FecNacimiento: data.fecNacimiento,
+          CodPais: data.codPais,
+          Celular: data.celular,
+          Telefono: data.telefono,
+          Correo: data.correo1
+        });
+
+        //debugger;
+
+        this.changePais(data.codPais?data.codPais:'');
+
+        this.codDistrito = data.codDistrito?data.codDistrito:'';
+        if(this.codDistrito !== ''){
+          var distFind = this.distritos.find(e => e.dist?.codigo === this.codDistrito);
+          var dist: Distrito = distFind?distFind:new Distrito();
+          this.controlDistritos.setValue(dist);
+        }
+          
+      })
     }
   }
 
@@ -209,8 +250,11 @@ export class CaspiranteligthComponent implements OnInit {
     p.tipDocu = this.form.value['TipDocu'];
     p.numDocu = this.form.value['NumDocu'];
     p.apPaterno = this.form.value['ApPaterno'];
+    p.apPaterno = p.apPaterno?.toUpperCase();
     p.apMaterno = this.form.value['ApMaterno'];
+    p.apMaterno = p.apMaterno?.toUpperCase();
     var nombres: string = this.form.value['Nombres'];
+    nombres = nombres.toUpperCase();
     var posEspacio = nombres.indexOf(' ');
     if(posEspacio !== -1){
       p.primerNombre = nombres.substring(0, posEspacio);
