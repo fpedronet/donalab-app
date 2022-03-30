@@ -1,3 +1,4 @@
+import { pagination } from './pagination';
 import { Combobox } from "./combobox";
 import { Persona } from "./persona";
 
@@ -85,4 +86,6 @@ export class PredonanteRequest {
     Idecampania?: number;
     IdeOrigen?: number;
     Nombres?: string;
+    Page?: number;
+    Pages?:number;
 }
