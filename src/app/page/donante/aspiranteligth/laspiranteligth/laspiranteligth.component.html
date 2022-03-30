@@ -1,12 +1,12 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
     <div class="example-button-row">
-      <button mat-stroked-button color="warn" (click)="ngAfterViewInit()">
+      <button mat-stroked-button color="primary" (click)="actualizar()">
         <mat-icon class="maticon">update</mat-icon>
       </button>
-      <button *ngIf="permiso.guardar" mat-stroked-button color="warn" routerLink="/page/donante/aspirantelight/create">
+      <button *ngIf="permiso.guardar" mat-stroked-button color="primary" routerLink="/page/donante/aspirantelight/create">
         <mat-icon class="maticon">feed</mat-icon>
       </button>
-      <button mat-stroked-button color="warn" (click)="abrirBusqueda()">
+      <button mat-stroked-button color="primary" (click)="abrirBusqueda()">
         <mat-icon class="maticon">search</mat-icon>
       </button>
     </div>

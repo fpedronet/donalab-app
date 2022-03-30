@@ -51,26 +51,27 @@ export class LaspiranteligthComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.usuarioService.sessionUsuario();
     this.obtenerpermiso();
+
+    let req = new PredonanteRequest();
+    const fechaInicio = new Date();
+
+    req.Idebanco = this.user.codigobanco;
+    req.FechaDesde = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
+    req.FechaHasta = new Date();
+    req.IdeEstado = 1;
+    req.Idecampania = 0;
+    req.IdeOrigen = 0;
+    req.Nombres = '';
+
+    this.predonante= req;      
+    this.listar(req);
   }
 
-  ngAfterViewInit(){
-      var req = new PredonanteRequest();
-      const fechaInicio = new Date();
-
-      req.Idebanco = this.user.codigobanco;
-      req.FechaDesde = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
-      req.FechaHasta = new Date();
-      req.IdeEstado = 1;
-      req.Idecampania = 0;
-      req.IdeOrigen = 0;
-      req.Nombres = '';
-
-      this.predonante= req;
-      
-      this.buscar(req);
+  actualizar(){
+    this.listar(this.predonante);
   }
 
-  buscar(request: PredonanteRequest){
+  listar(request: PredonanteRequest){
     this.loading = true;
     this.spinner.showLoading();
     this.predonanteService!.listarLight(request).subscribe(data=>{
@@ -105,24 +106,23 @@ export class LaspiranteligthComponent implements OnInit {
     });
   }
 
-  obtenerpermiso(){
-    this.spinner.showLoading();
-    this.configPermisoService.obtenerpermiso(forms.aspirantesligth.codigo).subscribe(data=>{
-      this.permiso = data;
-      console.log(data);
-       this.spinner.hideLoading();
-    });   
-  }
-
   crearClasesCss(id: string = '0', color: string = ''){
     var editCSS = document.createElement('style')
     editCSS.innerHTML = "." + this.claseColor + "-" + id + " {color: " + color + ";}";
     document.body.appendChild(editCSS);
   }
 
+  obtenerpermiso(){
+    this.spinner.showLoading();
+    this.configPermisoService.obtenerpermiso(forms.aspirantesligth.codigo).subscribe(data=>{
+      this.permiso = data;
+       this.spinner.hideLoading();
+    });   
+  }
+
   abrirBusqueda(){
     const dialogRef =this.dialog.open(MfaspirantelingthComponent, {
-      width: '800px',
+      width: '850px',
       data:{
         idbanco: this.predonante.Idebanco,
         fechaInicio : this.predonante.FechaDesde,
@@ -135,18 +135,21 @@ export class LaspiranteligthComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      var req = new PredonanteRequest();
-      req.Idebanco = res.idbanco;
-      req.FechaDesde =res.fechaInicio;
-      req.FechaHasta = res.fechaFin;
-      req.IdeEstado = res.idestado;
-      req.Idecampania = res.idcampania;
-      req.IdeOrigen = res.idorigen;
-      req.Nombres = res.nombre;
+      if(res!=""){
+        var req = new PredonanteRequest();
 
-      this.predonante= req;
-
-      this.buscar(req);
+        req.Idebanco = res.idbanco;
+        req.FechaDesde =res.fechaInicio;
+        req.FechaHasta = res.fechaFin;
+        req.IdeEstado = res.idestado;
+        req.Idecampania = res.idcampania;
+        req.IdeOrigen = res.idorigen;
+        req.Nombres = res.nombre;
+  
+        this.predonante= req;
+  
+        this.listar(req);
+      }
     })
   }
 

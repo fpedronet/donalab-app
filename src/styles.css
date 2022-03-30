@@ -135,16 +135,20 @@ form{
   border-top-color:#68157561;
 }
 
+.mat-dialog-title{
+  color: #85153e;
+}
+
 @media (max-width:1200px){
   .example-button-row{
-    margin-left: 37%;
+    margin-left: 40%;
   }
 }
 
 @media (max-width:991px){
   
   .example-button-row{
-    margin-left: 33%;
+    margin-left: 36%;
   }
 }
 
@@ -216,7 +220,7 @@ form{
 
   
   .example-button-row{
-    margin-left: 30%;
+    margin-left: 33%;
   }
   #closemenu{
     display: none;
@@ -229,7 +233,7 @@ form{
     margin-left: 1em;
   }
   .example-button-row{
-    margin-left: 20%;
+    margin-left: 32%;
   }
   #closemenu{
     display: none;
@@ -238,7 +242,7 @@ form{
 
 @media (max-width:599px){
   .example-button-row{
-    margin-left: 13%;
+    margin-left: 29%;
   }
   .mat-header-row{
     min-height:22px;
@@ -254,7 +258,7 @@ form{
     margin-left: 0.4em;
   }
   .example-button-row{
-    margin-left: 5%;
+    margin-left: 32%;
   }
   .mat-header-row{
     min-height:22px;
