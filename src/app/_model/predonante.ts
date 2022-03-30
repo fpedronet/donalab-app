@@ -69,6 +69,10 @@ export class Predonante {
     temperatura?: number;
     codDonanteLIS?: string;
     plaquetas?: number;
+    pd?:string;
+    ch?:string;
+    en?:string;
+    do?:string;
 
     listaBanco?: Combobox[];
     listaCampania?: Combobox[];
