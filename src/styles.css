@@ -238,6 +238,10 @@ form{
   #closemenu{
     display: none;
   }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
+  }
 }
 
 @media (max-width:768px){
@@ -251,6 +255,10 @@ form{
   #closemenu{
     display: none;
   }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
+  }
 }
 
 @media (max-width:599px){
@@ -262,6 +270,10 @@ form{
   }
   #closemenu{
     display: none;
+  }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
   }
 }
 
@@ -278,5 +290,9 @@ form{
   }
   #closemenu{
     display: none;
+  }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
   }
 }
