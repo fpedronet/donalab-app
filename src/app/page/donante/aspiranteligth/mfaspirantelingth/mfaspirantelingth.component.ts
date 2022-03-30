@@ -54,7 +54,6 @@ export class MfaspirantelingthComponent implements OnInit {
       this.listaOrigen = resut.listaOrigen;
       this.listaEstado = resut.listaEstado;
 
-
       this.nombre=this.data.nombre,
       this.idcampania=String(this.data.idcampania),
       this.idorigen=String(this.data.idorigen),
