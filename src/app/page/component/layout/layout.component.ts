@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SpinnerService } from '../spinner/spinner.service';
 import { environment } from 'src/environments/environment';
 
@@ -16,6 +16,7 @@ import { MenuResponse } from 'src/app/_model/menu';
 export class LayoutComponent implements OnInit {
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private spinner : SpinnerService,
     private ConfigPermisoService : ConfigPermisoService,
@@ -27,6 +28,7 @@ export class LayoutComponent implements OnInit {
   panelOpenState = false;
   count=true;
   banco?: string = "";
+
   ngOnInit(): void {
     this.listar();   
   }
@@ -36,9 +38,18 @@ export class LayoutComponent implements OnInit {
     this.ConfigPermisoService.listar().subscribe(data=>{
       this.menus.listaMenu = data.listaMenu;
       this.menus.listaBanco = data.listaBanco;
-      this.codigo = data.listaBanco![0].codigo;
-      this.count = (data.listaBanco?.length!>1)? true: false;
-      this.banco = data.listaBanco![0].descripcion;
+
+      let bancoselect = this.usuarioService.sessionUsuario().codigobanco;
+
+      if(bancoselect!=null){
+        this.codigo = bancoselect;
+        this.banco = data.listaBanco?.filter(x=>x.codigo==bancoselect)[0].descripcion
+      }else{
+        this.codigo = data.listaBanco![0].codigo;
+        this.banco = data.listaBanco![0].descripcion;
+      }
+
+      this.count = (data.listaBanco?.length!>1)? true: false;     
 
       localStorage.setItem(environment.CODIGO_BANCO, this.codigo!);
 
@@ -48,6 +59,14 @@ export class LayoutComponent implements OnInit {
 
   selectbanco(idbanco: number){
     localStorage.setItem(environment.CODIGO_BANCO, idbanco.toString()!);
+
+    // this.route.params.subscribe((data: Params)=>{
+    //   debugger;
+    //   let id = (data["id"]==undefined)? 0:data["id"];
+    //   console.log(id);
+    //   console.log(data["id"]);
+    // }); 
+
   }
 
   closeLogin(){

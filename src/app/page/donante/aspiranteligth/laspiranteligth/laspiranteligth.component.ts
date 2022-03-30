@@ -68,6 +68,8 @@ export class LaspiranteligthComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
+    this.predonante.Idebanco = this.usuarioService.sessionUsuario().codigobanco;
     this.predonanteService = new PredonanteService(this.http);
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
