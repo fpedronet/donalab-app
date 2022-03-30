@@ -117,7 +117,11 @@ export class LaspiranteligthComponent implements OnInit {
 
   abrirBusqueda(){
     const dialogRef =this.dialog.open(MfaspirantelingthComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      // height: '100%',
       width: '850px',
+      panelClass: 'full-screen-modal',
       data:{
         idbanco: this.predonante.Idebanco,
         fechaInicio : this.predonante.FechaDesde,
