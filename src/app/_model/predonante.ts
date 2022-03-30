@@ -5,7 +5,7 @@ export class Predonante {
     idePreDonante?: number;
     codigo?: number;
     ideBanco?: number;
-    campania?: number;
+    ideCampania?: number;
     fecha?: Date;
     idePersona?: number;
     persona?: Persona;

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith} from 'rxjs/operators';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
@@ -23,6 +24,8 @@ export class CaspiranteligthComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router,
     private spinner: SpinnerService,
     private notifier: NotifierService,
     private comboboxService: ComboboxService,
@@ -32,21 +35,30 @@ export class CaspiranteligthComponent implements OnInit {
 
   /*tabla de encuesta maestra */
   form: FormGroup = new FormGroup({});
+
   id: number = 0;
-  ver: boolean = true;
+  edit: boolean = true;
   loading = true;
   existRegistro = false;
   countRegistro = 0;
 
   curUser: number = 0;
+  curBanco: number = 0;
 
-  tablasMaestras = ['TDoc', 'PAIS', 'DEPA', 'PROV', 'DST'];
+  tablasMaestras = ['TDoc', 'PAIS', 'DEPA', 'PROV', 'DST', 'GENE', 'ORI', 'CAMP'];
   tbTipoDocu: Combobox[] = [];
   tbPais: Combobox[] = [];
+  tbGenero: Combobox[] = [];
+  tbOrigen: Combobox[] = [];
+  tbCampana: Combobox[] = [];
 
+  muestraDistrito: boolean = false;
+  carBuscaDistrito: number = 2;
+  nroDistritosMuestra: number = 15;
   distritos: Distrito[] = [];
   filterDistritos: Observable<Distrito[]> | undefined;
   controlDistritos = new FormControl();
+  codDistrito: string = '';
 
   selectedPais: Combobox = new Combobox();
   
@@ -57,6 +69,7 @@ export class CaspiranteligthComponent implements OnInit {
     let user = this.usuarioService.sessionUsuario();
     if(user!=null){
       this.curUser = user.ideUsuario;
+      this.curBanco = user.codigobanco;
     }
 
     this.minDate.setMonth(this.maxDate.getMonth() - 12*80);
@@ -64,6 +77,7 @@ export class CaspiranteligthComponent implements OnInit {
 
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '###', disabled: true}),
+      'IdePersona': new FormControl({ value: 0, disabled: false}),
       'TipDocu': new FormControl({ value: '', disabled: false}),
       'NumDocu': new FormControl({ value: '', disabled: false}),
       'ApPaterno': new FormControl({ value: '', disabled: false}),
@@ -72,40 +86,51 @@ export class CaspiranteligthComponent implements OnInit {
       'Sexo': new FormControl({ value: '', disabled: false}),
       'FecNacimiento': new FormControl({ value: null, disabled: false}),
       'CodPais': new FormControl({ value: '', disabled: false}),
-      'CodDistrito': new FormControl({ value: null, disabled: false}),
       'Celular': new FormControl({ value: '', disabled: false}),
       'Telefono': new FormControl({ value: '', disabled: false}),
-      'Correo': new FormControl({ value: '', disabled: false})
+      'Correo': new FormControl({ value: '', disabled: false}),
+      'IdeOrigen': new FormControl({ value: 0, disabled: false}),
+      'IdeCampania': new FormControl({ value: 0, disabled: false}),
+      'Fecha': new FormControl({ value: new Date(), disabled: false}),
     });
 
-    /*this.route.params.subscribe((data: Params)=>{
+    this.route.params.subscribe((data: Params)=>{
       this.id = (data["id"]==undefined)? 0:data["id"];
-      this.ver = (data["ver"]=='true')? true : false
+      this.edit = (data["edit"]=='true')? true : false
       this.obtener();
-    });*/
+    });
   }
 
   listarCombo(){
-    this.comboboxService.cargarDatos(this.tablasMaestras,this.curUser).subscribe(data=>{
+    this.comboboxService.cargarDatos(this.tablasMaestras,this.curUser,this.curBanco).subscribe(data=>{
       if(data === undefined){
         this.notifier.showNotification(0,'Mensaje','Error en el servidor');
       }
       else{
         var tbCombobox: Combobox[] = data.items;
 
-        this.tbTipoDocu = tbCombobox.filter(e => e.codTabla?.trim() === 'TDoc');
-        this.tbPais = tbCombobox.filter(e => e.codTabla?.trim() === 'PAIS');
-        var tbDpto: Combobox[] = tbCombobox.filter(e => e.codTabla?.trim() === 'DEPA');
-        var tbProv: Combobox[] = tbCombobox.filter(e => e.codTabla?.trim() === 'PROV');
-        var tbDist: Combobox[] = tbCombobox.filter(e => e.codTabla?.trim() === 'DST');
+        this.tbTipoDocu = this.obtenerSubtabla(tbCombobox,'TDoc');
+        this.tbGenero = this.obtenerSubtabla(tbCombobox,'GENE');
+        this.tbOrigen = this.obtenerSubtabla(tbCombobox,'ORI');
+        this.tbCampana = this.obtenerSubtabla(tbCombobox,'CAMP');
+        this.tbPais = this.obtenerSubtabla(tbCombobox,'PAIS');
+        var tbDpto: Combobox[] = this.obtenerSubtabla(tbCombobox,'DEPA');
+        var tbProv: Combobox[] = this.obtenerSubtabla(tbCombobox,'PROV');
+        var tbDist: Combobox[] = this.obtenerSubtabla(tbCombobox,'DST');
+
+        //debugger;
 
         this.listarDistritos(tbDpto, tbProv, tbDist);
       }
     });
   }
 
+  obtenerSubtabla(tb: Combobox[], cod: string){
+    return tb.filter(e => e.codTabla?.trim() === cod);
+  }
+
   listarDistritos(tbDpto: Combobox[], tbProv: Combobox[], tbDist: Combobox[]){
-    tbDist.sort((a, b) => (a.codigo === undefined || b.codigo === undefined) ? 1 : (a.codigo < b.codigo ? -1 : (a.codigo > b.codigo ? 1 : 0)));
+    tbDist.sort((a, b) => (a.descripcion === undefined || b.descripcion === undefined) ? 1 : (a.descripcion < b.descripcion ? -1 : (a.descripcion > b.descripcion ? 1 : 0)));
     tbDist.forEach(d => {
       var distrito: Distrito = new Distrito();
       distrito.dist = d;
@@ -123,17 +148,23 @@ export class CaspiranteligthComponent implements OnInit {
   }
 
   changePais(value: Combobox){
+    //debugger;
     this.selectedPais = value;
+    this.muestraDistrito = true;
+    if(this.selectedPais !== '01'){
+      this.codDistrito = '';
+      this.muestraDistrito = false;
+    }
   }
 
   buscarDistritos(name: string): Distrito[]{    
     var results: Distrito[] = [];
     //debugger;
-    if(name.length >= 3){
+    if(name.length >= this.carBuscaDistrito){
       var filtro = name.toLowerCase();
       results = this.distritos.filter(e => e.dist?.descripcion?.toLowerCase().includes(filtro));
     }    
-    return results;
+    return results.slice(0,this.nroDistritosMuestra);
   }
 
   mostrarDistrito(d: Distrito): string{
@@ -144,40 +175,74 @@ export class CaspiranteligthComponent implements OnInit {
     return result;
   }
 
+  changeDistrito(event: any){
+    var distrito = event.option.value;
+    if(distrito !== undefined){
+      this.codDistrito = distrito.dist.codigo;
+    }
+  }
+
+  obtener(){
+    if(this.id!=0){
+      this.spinner.showLoading();
+      this.predonanteService.obtener(this.id).subscribe(data=>{
+
+        /*this.form = new FormGroup({
+          'nIdGrupo': new FormControl({ value: data.nIdGrupo }),
+          'nCodigo': new FormControl({ value: data.nIdGrupo, disabled: true }),
+          'cDescripcion': new FormControl({ value: data.cDescripcion, disabled: this.ver})
+        });*/
+        this.spinner.hideLoading();
+      });
+    }
+  }
+
   guardar(){
     let model = new Predonante();
 
-    model.codigo = this.form.value['Codigo'].value;
+    //debugger;
+    model.idePreDonante = this.id
+    model.codigo = this.form.value['Codigo'];;
 
     let p = new Persona();
-    p.idePersona = 0;
-    p.tipDocu = this.form.value['TipDocu'].value;
-    p.numDocu = this.form.value['NumDocu'].value;
-    p.apPaterno = this.form.value['ApPaterno'].value;
-    p.apMaterno = this.form.value['ApMaterno'].value;
-    var nombres: string = this.form.value['Nombres'].value;
+    p.idePersona = this.form.value['IdePersona'];;
+    p.tipDocu = this.form.value['TipDocu'];
+    p.numDocu = this.form.value['NumDocu'];
+    p.apPaterno = this.form.value['ApPaterno'];
+    p.apMaterno = this.form.value['ApMaterno'];
+    var nombres: string = this.form.value['Nombres'];
     var posEspacio = nombres.indexOf(' ');
     if(posEspacio !== -1){
       p.primerNombre = nombres.substring(0, posEspacio);
-      p.segundoNombre = nombres.substring(posEspacio, nombres.length-posEspacio-1);
+      p.segundoNombre = nombres.substring(posEspacio+1, nombres.length);
     }
     else{
       p.primerNombre = nombres;
       p.segundoNombre = '';
     }
-    p.sexo = this.form.value['Sexo'].value;
-    p.fecNacimiento = this.form.value['FecNacimiento'].value;
-    p.codPais = this.form.value['CodPais'].value;
-    p.codDistrito = this.form.value['CodDistrito'].value;
-    p.celular = this.form.value['Celular'].value;
-    p.telefono = this.form.value['Telefono'].value;
-    p.correo1 = this.form.value['Correo'].value;
+    p.sexo = this.form.value['Sexo'];
+    p.fecNacimiento = this.form.value['FecNacimiento'];
+    p.codPais = this.form.value['CodPais'];
+    p.codDistrito = this.codDistrito===''?undefined:this.codDistrito;
+    p.celular = this.form.value['Celular'];
+    p.telefono = this.form.value['Telefono'];
+    p.correo1 = this.form.value['Correo'];
 
-    debugger;
+    model.idePersona = p.idePersona;
+    model.persona = p;
+
+    model.ideBanco = this.curBanco;
+    model.ideOrigen = this.form.value['IdeOrigen'];
+    model.ideCampania = this.form.value['IdeCampania'];
+    model.fecha = this.form.value['Fecha'];
+    model.ideUsuReg = this.curUser;
+    model.codEstado = 0;
+
+    //debugger;
 
     this.spinner.showLoading();
     this.predonanteService.guardar(model).subscribe(data=>{
-
+      debugger;
       this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
 
       if(data.typeResponse==environment.EXITO){

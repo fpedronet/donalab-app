@@ -51,8 +51,8 @@
             </mat-form-field>
             <mat-form-field>
               <mat-select placeholder="Género" formControlName="Sexo" required>
-                <mat-option *ngFor="let el of ['M','F']" [value]="el">
-                  {{el}}
+                <mat-option *ngFor="let el of tbGenero" [value]="el.codigo">
+                  {{el.descripcion}}
                 </mat-option>              
               </mat-select>
             </mat-form-field>
@@ -67,15 +67,18 @@
             </mat-form-field>
             <mat-form-field>
               <mat-select placeholder="País" formControlName="CodPais" (selectionChange)="changePais($event.value)">
-                <mat-option *ngFor="let el of tbPais" [value]="el">
+                <mat-option *ngFor="let el of tbPais" [value]="el.codigo">
                   {{el.descripcion}}
                 </mat-option>              
               </mat-select>
             </mat-form-field>
-            <mat-form-field *ngIf="selectedPais.codigo === '01'">
+            <mat-form-field *ngIf="muestraDistrito">
               <mat-label>Distrito</mat-label>
-              <input type="text" matInput [formControl]="controlDistritos" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarDistrito">
+              <input #distrito type="text" matInput [formControl]="controlDistritos" [matAutocomplete]="auto">
+              <button *ngIf="distrito.value" matSuffix mat-icon-button aria-label="Clear" (click)="distrito.value=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarDistrito" (optionSelected)="changeDistrito($event)">
                 <mat-option *ngFor="let el of filterDistritos | async" [value]="el">
                   {{el.dist!.descripcion}}, {{el.prov!.descripcion}}, {{el.dpto!.descripcion}}
                 </mat-option>
@@ -93,8 +96,31 @@
               <mat-label>Correo</mat-label>
               <input matInput placeholder="Correo" formControlName="Correo">
             </mat-form-field>
+            <mat-divider></mat-divider>
+            <mat-form-field>
+              <mat-select placeholder="Banco Origen" formControlName="IdeOrigen" required>
+                <mat-option *ngFor="let el of tbOrigen" [value]="el.codigo">
+                  {{el.descripcion}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="tbCampana.length > 0">
+              <mat-select placeholder="Campaña" formControlName="IdeCampania" required>
+                <mat-option *ngFor="let el of tbCampana" [value]="el.codigo">
+                  {{el.descripcion}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha</mat-label>
+              <input matInput [matDatepicker]="Fecha" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="Fecha" required>
+              <mat-datepicker-toggle matSuffix [for]="Fecha"></mat-datepicker-toggle>
+              <mat-datepicker #Fecha></mat-datepicker>
+            </mat-form-field>
+            
             <button mat-stroked-button color="primary">Sí Donó</button>
             <button mat-flat-button color="primary">No Donó</button>
+
           </mat-step>
         </mat-stepper>
       </form>

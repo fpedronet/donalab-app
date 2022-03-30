@@ -15,6 +15,7 @@ export class ComboboxService {
 
   public cargarDatos(CodigosTabla: string[], IdeUsuario: number, IdeBanco: number = 0){
     var CodTabla = CodigosTabla.join('|');
+    //debugger;
 
     let href = `${this.url}/GetAllTablaMaestra`;
     let urls = `${href}?CodTabla=${CodTabla}&IdeUsuario=${IdeUsuario}&IdeBanco=${IdeBanco}`;

@@ -20,6 +20,12 @@ export class PredonanteService {
     return this.http.post<dataCollection>(urls,req);
   }
 
+  obtener(id: number){
+    let urls = `${this.url}/GetFirstPredonante?id=${id}`;
+
+    return this.http.get<Predonante>(urls);
+  }
+
   guardar(model: Predonante){
     let urls = `${this.url}/PostSavePredonante`;
     return this.http.post<Response>(urls, model);
