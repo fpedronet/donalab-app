@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>BUSQUEDA</h2>
+<h3 mat-dialog-title>BUSQUEDA</h3>
 
 <mat-dialog-content class="modal">
 
@@ -21,26 +21,24 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
+    <mat-label>Campaña</mat-label>
     <mat-select 
-    placeholder="Campaña"
     [(ngModel)]="idcampania"
     (selectionChange)="selectcampania($event.value)"
     >
-    <mat-option *ngFor="let el of listaCampania" [value]="el.codigo">
-      {{el.descripcion}}
-    </mat-option>  
+      <mat-option [value]="0" selected>Todos</mat-option>
+      <mat-option *ngFor="let el of listaCampania" [value]="el.codigo">{{el.descripcion}}</mat-option>  
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
+    <mat-label>Origen</mat-label>
     <mat-select 
-    placeholder="Origen"
     [(ngModel)]="idorigen"
     (selectionChange)="selectorigen($event.value)"
     >
-    <mat-option *ngFor="let el of listaOrigen" [value]="el.codigo">
-      {{el.descripcion}}
-    </mat-option>  
+      <mat-option [value]="0" selected>Todos</mat-option>
+      <mat-option *ngFor="let el of listaOrigen" [value]="el.codigo">{{el.descripcion}}</mat-option>  
     </mat-select>
   </mat-form-field>
 
@@ -50,9 +48,7 @@
     [(ngModel)]="idestado"
     (selectionChange)="selectestado($event.value)"
     >
-    <mat-option *ngFor="let el of listaEstado" [value]="el.codigo">
-      {{el.descripcion}}
-    </mat-option>  
+    <mat-option *ngFor="let el of listaEstado" [value]="el.codigo">{{el.descripcion}}</mat-option>  
     </mat-select>
   </mat-form-field>
   

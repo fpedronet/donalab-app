@@ -34,6 +34,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatTabsModule} from '@angular/material/tabs';
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatTreeModule} from '@angular/material/tree';
 
 @NgModule({
   declarations: [],
@@ -73,7 +74,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatListModule,
     MatTabsModule,
     NgApexchartsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTreeModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },

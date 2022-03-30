@@ -1,12 +1,12 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
     <div class="example-button-row">
-      <button mat-stroked-button color="primary" (click)="actualizar()">
-        <mat-icon class="maticon">update</mat-icon>
+      <button mat-flat-button class="btnHeader" (click)="actualizar()">
+        <mat-icon class="maticon">syncalt</mat-icon>
       </button>
-      <button *ngIf="permiso.guardar" mat-stroked-button color="primary" routerLink="/page/donante/aspirantelight/create">
-        <mat-icon class="maticon">feed</mat-icon>
+      <button *ngIf="permiso.guardar" mat-flat-button class="btnHeader" routerLink="/page/donante/aspirantelight/create">
+        <mat-icon class="maticon">add</mat-icon>
       </button>
-      <button mat-stroked-button color="primary" (click)="abrirBusqueda()">
+      <button mat-flat-button class="btnHeader" (click)="abrirBusqueda()">
         <mat-icon class="maticon">search</mat-icon>
       </button>
     </div>
@@ -39,12 +39,10 @@
             <mat-cell *matCellDef="let element" data-label="Nombres"> {{element.nombres}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+          <ng-container matColumnDef="codEstado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
             <mat-cell *matCellDef="let element" data-label="Estado">
-                <mat-icon class="{{claseColor}}-{{element.codEstado}}">
-                    brightness_1
-                </mat-icon>
+              <div class="circulo" style="background:{{element.colorhexa}}"></div>
             </mat-cell>
           </ng-container>          
               

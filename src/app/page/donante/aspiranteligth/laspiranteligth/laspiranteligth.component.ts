@@ -1,20 +1,21 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
-import { Combobox } from 'src/app/_model/combobox';
-import { ComboboxService } from 'src/app/_service/combobox.service';
+import { HttpClient } from '@angular/common/http';
+import {merge, of as observableOf} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+
 import { PredonanteService } from 'src/app/_service/predonante.service';
-import { NotifierService } from '../../../component/notifier/notifier.service';
 import { SpinnerService } from '../../../component/spinner/spinner.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
-import forms from 'src/assets/json/formulario.json';
 import { Permiso } from 'src/app/_model/permiso';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MfaspirantelingthComponent } from '../mfaspirantelingth/mfaspirantelingth.component';
+import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
+import forms from 'src/assets/json/formulario.json';
+
 
 @Component({
   selector: 'app-laspirantelight',
@@ -24,7 +25,7 @@ import { MfaspirantelingthComponent } from '../mfaspirantelingth/mfaspiranteling
 export class LaspiranteligthComponent implements OnInit {
 
   dataSource: Predonante[] = [];
-  displayedColumns: string[] = ['codigo', 'nombres', 'estado', 'accion'];
+  displayedColumns: string[] = ['codigo', 'nombres', 'codEstado', 'accion'];
   loading = true;
   existRegistro = false;
   countRegistro = 0;
@@ -32,7 +33,6 @@ export class LaspiranteligthComponent implements OnInit {
   user: any;
   predonante = new PredonanteRequest();
 
-  claseColor: string = 'icon-estado'
   permiso: Permiso = {};
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -42,7 +42,6 @@ export class LaspiranteligthComponent implements OnInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private spinner: SpinnerService,
-    private notifier: NotifierService,
     private usuarioService: UsuarioService,
     private predonanteService: PredonanteService,
     private configPermisoService : ConfigPermisoService,
@@ -64,53 +63,49 @@ export class LaspiranteligthComponent implements OnInit {
     req.Nombres = '';
 
     this.predonante= req;      
-    this.listar(req);
   }
 
   actualizar(){
-    this.listar(this.predonante);
+    this.ngAfterViewInit();
   }
 
-  listar(request: PredonanteRequest){
-    this.loading = true;
-    this.spinner.showLoading();
-    this.predonanteService!.listarLight(request).subscribe(data=>{
-      //debugger;
-      if(data === undefined){
-        this.notifier.showNotification(0,'Mensaje','Error en el servidor');
-      }
-      else{
-        this.dataSource = data.items;
+  ngAfterViewInit() {
+    this.predonanteService = new PredonanteService(this.http);
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
-        //Extrae los valores únicos de los estados y crea clases de colores
-        this.crearColores(this.dataSource);
-      }      
-      this.spinner.hideLoading();
-      this.loading = false;
-    });
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.loading = true;
+          return this.predonanteService!.listar(
+            this.predonante.Idebanco!,
+            this.predonante.IdeEstado!,
+            this.predonante.Idecampania!,
+            this.predonante.IdeOrigen!,
+            this.predonante.Nombres!,
+            this.predonante.FechaDesde!,
+            this.predonante.FechaHasta!,
+            this.paginator.pageIndex,
+            this.paginator.pageSize
+          ).pipe(catchError(() => observableOf(null)));
+        }),
+        map(res => {
+
+           this.loading = false;
+           this.existRegistro = res === null;
+
+          if (res === null) {
+            return [];
+          }
+
+          this.countRegistro = res.pagination.total;
+
+          return res.items;
+        }),
+      ).subscribe(data => (this.dataSource = data));
   }
 
-  crearColores(datos: Predonante[]){
-    let colores: string[][] = [];
-    let codCol: string[] = [];
-    datos.forEach(e => {
-      let codigo = e.codEstado!.toString();
-      if (!codCol.includes(codigo)) {
-        codCol.push(codigo);
-        colores.push([codigo,e.colorhexa!]);            
-      }
-    });
-
-    colores.forEach(e => {
-      this.crearClasesCss(e[0], e[1]);
-    });
-  }
-
-  crearClasesCss(id: string = '0', color: string = ''){
-    var editCSS = document.createElement('style')
-    editCSS.innerHTML = "." + this.claseColor + "-" + id + " {color: " + color + ";}";
-    document.body.appendChild(editCSS);
-  }
 
   obtenerpermiso(){
     this.spinner.showLoading();
@@ -122,7 +117,11 @@ export class LaspiranteligthComponent implements OnInit {
 
   abrirBusqueda(){
     const dialogRef =this.dialog.open(MfaspirantelingthComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      // height: '100%',
       width: '850px',
+      panelClass: 'full-screen-modal',
       data:{
         idbanco: this.predonante.Idebanco,
         fechaInicio : this.predonante.FechaDesde,
@@ -146,9 +145,8 @@ export class LaspiranteligthComponent implements OnInit {
         req.IdeOrigen = res.idorigen;
         req.Nombres = res.nombre;
   
-        this.predonante= req;
-  
-        this.listar(req);
+        this.predonante= req;  
+        this.ngAfterViewInit();
       }
     })
   }

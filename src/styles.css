@@ -21,6 +21,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding:5px;
 }
 
+.btnHeader{
+  background-color: #681575d9;
+  color: white;
+}
+
 .maticon{
   font-size: 26px;
 }
@@ -32,7 +37,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background:white;
   margin-top:40px;
   /* box-shadow:0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%); */
-  box-shadow: 0px 1px 6px 2px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
 }
 .mat-card.cardborde{
   padding: 0;
@@ -85,7 +90,7 @@ form{
 }
 
 .example-button-row{
-  margin-left: 50%;
+  margin-left: 44%;
 }
 
 /* botones en la cabezera formulario */
@@ -137,6 +142,14 @@ form{
 
 .mat-dialog-title{
   color: #85153e;
+}
+
+.circulo {
+  width: 27px;
+  height: 27px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
 }
 
 @media (max-width:1200px){
@@ -225,6 +238,10 @@ form{
   #closemenu{
     display: none;
   }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
+  }
 }
 
 @media (max-width:768px){
@@ -238,6 +255,10 @@ form{
   #closemenu{
     display: none;
   }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
+  }
 }
 
 @media (max-width:599px){
@@ -249,6 +270,10 @@ form{
   }
   #closemenu{
     display: none;
+  }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
   }
 }
 
@@ -265,5 +290,9 @@ form{
   }
   #closemenu{
     display: none;
+  }
+  .circulo {
+    margin: auto;
+    margin-right: 1px;
   }
 }
