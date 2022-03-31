@@ -145,8 +145,8 @@ form{
 }
 
 .circulo {
-  width: 27px;
-  height: 27px;
+  width: 24px;
+  height: 24px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -274,6 +274,7 @@ form{
   .circulo {
     margin: auto;
     margin-right: 1px;
+    cursor: pointer;
   }
 }
 

@@ -16,7 +16,6 @@ import { MfaspirantelingthComponent } from '../mfaspirantelingth/mfaspiranteling
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import forms from 'src/assets/json/formulario.json';
 
-
 @Component({
   selector: 'app-laspirantelight',
   templateUrl: './laspiranteligth.component.html',
@@ -78,7 +77,7 @@ export class LaspiranteligthComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.loading = true;
-          return this.predonanteService!.listar(
+          return this.predonanteService!.listarligth(
             this.predonante.Idebanco!,
             this.predonante.IdeEstado!,
             this.predonante.Idecampania!,

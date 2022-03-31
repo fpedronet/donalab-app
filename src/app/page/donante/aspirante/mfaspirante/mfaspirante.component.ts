@@ -6,20 +6,19 @@ import { PredonanteService } from 'src/app/_service/predonante.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 
 @Component({
-  selector: 'app-mfaspirantelingth',
-  templateUrl: './mfaspirantelingth.component.html',
-  styleUrls: ['./mfaspirantelingth.component.css']
+  selector: 'app-mfaspirante',
+  templateUrl: './mfaspirante.component.html',
+  styleUrls: ['./mfaspirante.component.css']
 })
-export class MfaspirantelingthComponent implements OnInit {
-  
+export class MfaspiranteComponent implements OnInit {
+
   constructor(
-    private dialogRef: MatDialogRef<MfaspirantelingthComponent>,
+    private dialogRef: MatDialogRef<MfaspiranteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private spinner : SpinnerService,
     private predonanteService : PredonanteService,
     private usuarioService: UsuarioService,
-  ) { 
-  }
+  ) { }
 
   loading = true;
 

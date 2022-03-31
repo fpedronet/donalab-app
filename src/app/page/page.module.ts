@@ -15,6 +15,11 @@ import { CaspiranteComponent } from './donante/aspirante/caspirante/caspirante.c
 import { LaspiranteligthComponent } from './donante/aspiranteligth/laspiranteligth/laspiranteligth.component';
 import { CaspiranteligthComponent } from './donante/aspiranteligth/caspiranteligth/caspiranteligth.component';
 import { MfaspirantelingthComponent } from './donante/aspiranteligth/mfaspirantelingth/mfaspirantelingth.component';
+import { MfaspiranteComponent } from './donante/aspirante/mfaspirante/mfaspirante.component';
+import { CchequeoComponent } from './donante/chequeo/cchequeo/cchequeo.component';
+import { LchequeoComponent } from './donante/chequeo/lchequeo/lchequeo.component';
+import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevista.component';
+import { CentrevistaComponent } from './donante/entrevista/centrevista/centrevista.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,12 @@ import { MfaspirantelingthComponent } from './donante/aspiranteligth/mfaspirante
     CaspiranteComponent,
     LaspiranteligthComponent,
     CaspiranteligthComponent,
-    MfaspirantelingthComponent   
+    MfaspirantelingthComponent,
+    MfaspiranteComponent,
+    CchequeoComponent,
+    LchequeoComponent,
+    LentrevistaComponent,
+    CentrevistaComponent   
   ],
   imports: [
     MaterialModule,
