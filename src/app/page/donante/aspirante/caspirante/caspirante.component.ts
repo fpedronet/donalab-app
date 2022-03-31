@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-caspirante',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CaspiranteComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+   }
+
 
   ngOnInit(): void {
   }
 
+  guardar(){
+
+  }
 }

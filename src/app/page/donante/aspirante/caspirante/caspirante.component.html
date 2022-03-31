@@ -1,1 +1,134 @@
-<p style="padding-top: 100px;">CREAR ASPIRANTE</p>
+<mat-toolbar color="primary" class="example-toolbar submenu">
+    <div class="example-button-row">
+      <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
+        <mat-icon class="maticon">west</mat-icon>
+      </button>
+      <button mat-flat-button class="btnHeader">
+        <mat-icon class="maticon">save</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  
+  <div class="container">  
+  <mat-card class="cardborde">   
+    <mat-toolbar class="cardtitle"></mat-toolbar>
+
+    <h2 class="title-label"> CREAR POSTULANTES</h2>
+    <mat-divider></mat-divider>
+    
+    <div id="content"> 
+        <div style="width: 100%; float:left"> 
+            <div style="text-align: center; color: #1a0da4; font-weight:500">FRANCISCO PEDRO CONDOR MARTINEZ</div> 
+            <div style="text-align: center; color: #1a0da4; font-weight:600">45036143</div> 
+        </div> 
+    </div>
+    <br style="clear:both;"/>
+
+    <form style="padding-top: 0px;" id="ngForm" #frmGrupo="ngForm" (ngSubmit)="guardar()">
+        <mat-stepper labelPosition="bottom" #stepper>
+            <mat-step>
+                <ng-template matStepLabel>Datos Principales</ng-template>
+
+                <div class="content">
+                    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+
+                            <mat-grid-list cols="1" rowHeight="2:1">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>columna 1 - 1</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>columna 1 - 1</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>columna 1 - 1</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>columna 1 - 1</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>
+                            </mat-grid-list>
+                           
+                        </div>
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+                            <div style="text-align:center;"> 
+                                <img style="width: 224px;" src="../../../../../assets/people.png" />
+                            </div> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>columna 2 - 1</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Datos Secundario</ng-template>
+
+                <div class="content">
+                    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+
+                            <mat-grid-list cols="1" rowHeight="2:1">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>columna 1 - 1</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>columna 1 - 1</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>columna 1 - 1</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>
+                            </mat-grid-list>
+                           
+                        </div>
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>columna 2 - 1</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>columna 2 - 1</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>columna 2 - 1</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Datos de la Donación</ng-template>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>columna 2 - 1</mat-label>
+                    <input matInput placeholder="Código" formControlName="Codigo">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>columna 2 - 1</mat-label>
+                    <input matInput placeholder="Código" formControlName="Codigo">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>columna 2 - 1</mat-label>
+                    <input matInput placeholder="Código" formControlName="Codigo">
+                </mat-form-field>
+                
+            </mat-step>
+        </mat-stepper>
+    </form>
+   
+  </mat-card>
+  </div>
+  

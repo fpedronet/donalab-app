@@ -20,6 +20,8 @@ import { CchequeoComponent } from './donante/chequeo/cchequeo/cchequeo.component
 import { LchequeoComponent } from './donante/chequeo/lchequeo/lchequeo.component';
 import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevista.component';
 import { CentrevistaComponent } from './donante/entrevista/centrevista/centrevista.component';
+import { LdonacionComponent } from './donante/donacion/ldonacion/ldonacion.component';
+import { CdonacionComponent } from './donante/donacion/cdonacion/cdonacion.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { CentrevistaComponent } from './donante/entrevista/centrevista/centrevis
     CchequeoComponent,
     LchequeoComponent,
     LentrevistaComponent,
-    CentrevistaComponent   
+    CentrevistaComponent,
+    LdonacionComponent,
+    CdonacionComponent   
   ],
   imports: [
     MaterialModule,

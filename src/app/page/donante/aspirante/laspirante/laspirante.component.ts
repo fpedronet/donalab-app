@@ -154,7 +154,15 @@ export class LaspiranteComponent implements OnInit {
   }
 
   routeUrl(codigo: string, tipo:string){
-    this.router.navigate(['/page/donante/aspirante/create']);
+    if(tipo=="pd"){
+      this.router.navigate(['/page/donante/aspirante/create']);
+    }else if(tipo=="ch"){
+      this.router.navigate(['/page/donante/chequeo/create']);
+    }else if(tipo=="en"){
+      this.router.navigate(['/page/donante/entrevista/create']);
+    }else if(tipo=="do"){
+      this.router.navigate(['/page/donante/donacion/create']);
+    }   
   }
   
 }

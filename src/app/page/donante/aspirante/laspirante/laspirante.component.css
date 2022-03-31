@@ -1,1 +1,4 @@
 .widthTable{ flex: 0 0 75px; cursor: pointer; }
+.mat-divider{
+    margin-top: -8px;
+  }

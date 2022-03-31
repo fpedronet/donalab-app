@@ -58,6 +58,7 @@ export class LayoutComponent implements OnInit {
   }
 
   selectbanco(idbanco: number){
+    this.spinner.showLoading();
     localStorage.setItem(environment.CODIGO_BANCO, idbanco.toString()!);
     window.location.reload();
 
