@@ -59,14 +59,12 @@ export class LayoutComponent implements OnInit {
 
   selectbanco(idbanco: number){
     localStorage.setItem(environment.CODIGO_BANCO, idbanco.toString()!);
+    window.location.reload();
 
-    // this.route.params.subscribe((data: Params)=>{
-    //   debugger;
-    //   let id = (data["id"]==undefined)? 0:data["id"];
-    //   console.log(id);
-    //   console.log(data["id"]);
-    // }); 
-
+    // let currentUrl = this.router.url;
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    // this.router.onSameUrlNavigation = 'reload';
+    // this.router.navigate([currentUrl]);
   }
 
   closeLogin(){

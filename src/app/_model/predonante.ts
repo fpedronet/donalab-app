@@ -47,7 +47,6 @@ export class Predonante {
     nombres?: string;
     codEstado?: number;
     estado?: string;
-    colorhexa?: string;
     //
     ideMotivoRec?: number;
     motivoRec?: string;
@@ -69,6 +68,7 @@ export class Predonante {
     temperatura?: number;
     codDonanteLIS?: string;
     plaquetas?: number;
+    colorhexa?: string;
     pd?:string;
     ch?:string;
     en?:string;

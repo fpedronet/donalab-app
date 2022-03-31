@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { PredonanteService } from 'src/app/_service/predonante.service';
 import { SpinnerService } from '../../../component/spinner/spinner.service';
@@ -15,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MfaspiranteComponent } from '../mfaspirante/mfaspirante.component';
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import forms from 'src/assets/json/formulario.json';
+
 
 @Component({
   selector: 'app-laspirante',
@@ -38,6 +40,7 @@ export class LaspiranteComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private dialog: MatDialog,
     private spinner: SpinnerService,
     private usuarioService: UsuarioService,
@@ -101,6 +104,7 @@ export class LaspiranteComponent implements OnInit {
 
           this.countRegistro = res.pagination.total;
 
+          console.log(res.items);
           return res.items;
         }),
       ).subscribe(data => (this.dataSource = data));
@@ -147,6 +151,10 @@ export class LaspiranteComponent implements OnInit {
         this.ngAfterViewInit();
       }
     })
+  }
+
+  routeUrl(codigo: string, tipo:string){
+    this.router.navigate(['/page/donante/aspirante/create']);
   }
   
 }

@@ -45,32 +45,33 @@
         </ng-container>
 
         <ng-container matColumnDef="pd">
-          <mat-header-cell *matHeaderCellDef> PD </mat-header-cell>
-          <mat-cell *matCellDef="let element" data-label="PD">
-            <div class="circulo" style="background:{{element.pd}}"></div>
+          <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> PD </mat-header-cell>
+          <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="PD">
+            <div (click)="routeUrl(element.codigo, 'pd')" class="circulo" style="background: {{element.pd}}"></div>
           </mat-cell>
         </ng-container>   
         
         <ng-container matColumnDef="ch">
-          <mat-header-cell *matHeaderCellDef> CH </mat-header-cell>
-          <mat-cell *matCellDef="let element" data-label="CH">
-            <div class="circulo" style="background:{{element.ch}}"></div>
+          <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> CH </mat-header-cell>
+          <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="CH">            
+            <div (click)="routeUrl(element.codigo, 'ch')" class="circulo" style="background: {{element.ch}}"></div>
           </mat-cell>
         </ng-container>   
 
         <ng-container matColumnDef="en">
-          <mat-header-cell *matHeaderCellDef> EN </mat-header-cell>
-          <mat-cell *matCellDef="let element" data-label="EN">
-            <div class="circulo" style="background:{{element.en}}"></div>
+          <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> EN </mat-header-cell>
+          <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="EN">
+            <div (click)="routeUrl(element.codigo, 'en')" class="circulo" style="background: {{element.en}}"></div>
           </mat-cell>
         </ng-container>   
 
         <ng-container matColumnDef="do">
-          <mat-header-cell *matHeaderCellDef> DO </mat-header-cell>
-          <mat-cell *matCellDef="let element" data-label="DO">
-            <div class="circulo" style="background:{{element.do}}"></div>
+          <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> DO </mat-header-cell>
+          <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="DO">
+            <div (click)="routeUrl(element.codigo, 'do')" class="circulo" style="background: {{element.do}}"></div>
           </mat-cell>
-        </ng-container>   
+        </ng-container>
+        
                     
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
