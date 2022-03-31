@@ -66,42 +66,56 @@ export class CaspiranteligthComponent implements OnInit {
   maxDate: Date = new Date();
   minDate: Date = new Date();
 
+  textDono: string = 'SÍ DONÓ';
+  textNoDono: string = 'NO DONÓ';
+
   btnEstadoSel: boolean[] = [false, false];
+  estadoIni: number = 0;
 
   ngOnInit(): void {
+    //Obtiene parámetros de URL
+    this.route.params.subscribe((data: Params)=>{
+      this.id = (data["id"]==undefined)? 0:data["id"];
+      this.edit = (data["edit"]==undefined) ? true : ((data["edit"]=='true') ? true : false)      
+    });
+
+    //atributos de toke usuario
     let user = this.usuarioService.sessionUsuario();
     if(user!=null){
       this.curUser = user.ideUsuario;
       this.curBanco = user.codigobanco;
     }
 
+    //Inicializa componentes del form
     this.minDate.setMonth(this.maxDate.getMonth() - 12*80);
-    this.listarCombo();    
+    this.listarCombo();
+
+    //Busca origen y campaña de caché
+    var ideOri = localStorage.getItem('IdeOrigen');
+    ideOri = ideOri?ideOri:'';
+    var ideCam = localStorage.getItem('IdeCampania');
+    ideCam = ideCam?ideCam:'';
 
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '#######', disabled: true}),
-      'IdePersona': new FormControl({ value: 0, disabled: false}),
-      'TipDocu': new FormControl({ value: '1', disabled: false}),
-      'NumDocu': new FormControl({ value: '', disabled: false}),
-      'ApPaterno': new FormControl({ value: '', disabled: false}),
-      'ApMaterno': new FormControl({ value: '', disabled: false}),
-      'Nombres': new FormControl({ value: '', disabled: false}),
-      'Sexo': new FormControl({ value: '', disabled: false}),
-      'FecNacimiento': new FormControl({ value: null, disabled: false}),
-      'CodPais': new FormControl({ value: '', disabled: false}),
-      'Celular': new FormControl({ value: '', disabled: false}),
-      'Telefono': new FormControl({ value: '', disabled: false}),
-      'Correo': new FormControl({ value: '', disabled: false}),
-      'IdeOrigen': new FormControl({ value: localStorage.getItem('IdeOrigen'), disabled: false}),
-      'IdeCampania': new FormControl({ value: localStorage.getItem('IdeCampania'), disabled: false}),
-      'Fecha': new FormControl({ value: new Date(), disabled: false}),
-    });
+      'IdePersona': new FormControl({ value: 0, disabled: !this.edit}),
+      'TipDocu': new FormControl({ value: '1', disabled: !this.edit}),
+      'NumDocu': new FormControl({ value: '', disabled: !this.edit}),
+      'ApPaterno': new FormControl({ value: '', disabled: !this.edit}),
+      'ApMaterno': new FormControl({ value: '', disabled: !this.edit}),
+      'Nombres': new FormControl({ value: '', disabled: !this.edit}),
+      'Sexo': new FormControl({ value: '', disabled: !this.edit}),
+      'FecNacimiento': new FormControl({ value: null, disabled: !this.edit}),
+      'CodPais': new FormControl({ value: '', disabled: !this.edit}),
+      'Celular': new FormControl({ value: '', disabled: !this.edit}),
+      'Telefono': new FormControl({ value: '', disabled: !this.edit}),
+      'Correo': new FormControl({ value: '', disabled: !this.edit}),
+      'IdeOrigen': new FormControl({ value: ideOri, disabled: !this.edit}),
+      'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),
+      'Fecha': new FormControl({ value: new Date(), disabled: !this.edit}),
+    });    
 
-    this.route.params.subscribe((data: Params)=>{
-      this.id = (data["id"]==undefined)? 0:data["id"];
-      this.edit = (data["edit"]=='true')? true : false
-      this.obtener();
-    });
+    this.obtener();
   }
 
   listarCombo(){
@@ -191,10 +205,24 @@ export class CaspiranteligthComponent implements OnInit {
   }
 
   changeEstado(index: number){
-    if(this.btnEstadoSel[1-index] && !this.btnEstadoSel[index]){
-      this.btnEstadoSel[1-index] = !this.btnEstadoSel[1-index]
+    //Si el que aprieto está apagado
+    if(!this.btnEstadoSel[index]){
+      //Apaga el otro si eeste está prendindo
+      if(this.btnEstadoSel[1-index]){
+        this.btnEstadoSel[1-index] = false;
+      }      
+      this.btnEstadoSel[index] = true;
     }
-    this.btnEstadoSel[index] = !this.btnEstadoSel[index];
+    //Si el que aprieto está prendido
+    else{
+      //Si es nuevo o estaba pendiente podrá deseleccionar
+      if(this.id === 0 || this.estadoIni == 0){
+        this.btnEstadoSel[index] = false;
+      }
+      else{
+        console.log('No se puede deseleccionar cuando ya no está pendiente')
+      }
+    }
   }
 
   obtenerPersona(){
@@ -204,7 +232,7 @@ export class CaspiranteligthComponent implements OnInit {
 
     if(tipoDocu !== '' && numDocu !== ''){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
-        debugger;
+        //debugger;
         if(data !== undefined && data !== null && (data.onlyPoclab === 1 || data.idePersona !== 0)){
           this.form.patchValue({
             IdePersona: data.idePersona,
@@ -219,17 +247,7 @@ export class CaspiranteligthComponent implements OnInit {
             Correo: data.correo1
           });
 
-          this.changePais(data.codPais?data.codPais:'');
-
-          this.codDistrito = data.codDistrito?data.codDistrito:'';
-          if(this.codDistrito !== ''){
-            var distFind = this.distritos.find(e => e.dist?.codigo === this.codDistrito);
-            if(distFind !== undefined){
-              var distrito: Distrito = distFind;
-              this.distritoColor = 'primary';
-              this.controlDistritos.setValue(distrito);
-            }            
-          }
+          this.cambiaPaisDistrito(data.codPais, data.codDistrito);
         }
         else{
           this.form.patchValue({
@@ -254,16 +272,57 @@ export class CaspiranteligthComponent implements OnInit {
     }
   }
 
+  cambiaPaisDistrito(codPais: string = '', codDistrito: string = ''){
+    this.changePais(codPais?codPais:'');
+
+    this.codDistrito = codDistrito?codDistrito:'';
+    if(this.codDistrito !== ''){
+      var distFind = this.distritos.find(e => e.dist?.codigo === this.codDistrito);
+      if(distFind !== undefined){
+        var distrito: Distrito = distFind;
+        this.distritoColor = 'primary';
+        this.controlDistritos.setValue(distrito);
+      }            
+    }
+  }
+
   obtener(){
     if(this.id!=0){
       this.spinner.showLoading();
       this.predonanteService.obtener(this.id).subscribe(data=>{
+        //debugger;
+        var p = data.persona;
+        if(p !== undefined){
+          this.form.patchValue({
+            IdePersona: p.idePersona,
+            Codigo: data.codigo,
+            TipDocu: p.tipDocu,
+            NumDocu: p.numDocu,
+            ApPaterno: p.apPaterno,
+            ApMaterno: p.apMaterno,
+            Nombres: p.primerNombre + ' ' + p.segundoNombre,
+            Sexo: p.sexo,
+            FecNacimiento: p.fecNacimiento,
+            CodPais: p.codPais,
+            Celular: p.celular,
+            Telefono: p.telefono,
+            Correo: p.correo1,
+            IdeOrigen: data.ideOrigen?.toString(),
+            IdeCampania: data.ideCampania?.toString(),
+            Fecha: data.fecha
+          });
 
-        /*this.form = new FormGroup({
-          'nIdGrupo': new FormControl({ value: data.nIdGrupo }),
-          'nCodigo': new FormControl({ value: data.nIdGrupo, disabled: true }),
-          'cDescripcion': new FormControl({ value: data.cDescripcion, disabled: this.ver})
-        });*/
+          this.cambiaPaisDistrito(p.codPais, p.codDistrito);
+
+          var codEstado = data.codEstado?data.codEstado:0;
+          this.estadoIni = codEstado;
+          //debugger;
+
+          this.btnEstadoSel = [false, false];
+          if(codEstado > 0){
+            this.btnEstadoSel[codEstado-1] = true;
+          }
+        }
         this.spinner.hideLoading();
       });
     }

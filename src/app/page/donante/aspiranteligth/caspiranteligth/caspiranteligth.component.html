@@ -4,7 +4,7 @@
         <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirantelight">
           <mat-icon class="maticon">west</mat-icon>
         </button>
-        <button mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+        <button *ngIf="edit" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
           <mat-icon class="maticon">save</mat-icon>
         </button>
 
@@ -97,7 +97,7 @@
               <input type="email" matInput placeholder="ej. ejemplo@correo.com" formControlName="Correo">
             </mat-form-field>
             <mat-divider></mat-divider>
-            <mat-form-field>
+            <mat-form-field *ngIf="tbOrigen.length > 0">
               <mat-select placeholder="Banco Origen" formControlName="IdeOrigen" required>
                 <mat-option *ngFor="let el of tbOrigen" [value]="el.codigo">
                   {{el.descripcion}}
@@ -118,11 +118,11 @@
               <mat-datepicker #Fecha></mat-datepicker>
             </mat-form-field>
             
-            <button *ngIf="!btnEstadoSel[0]" text-transform: uppercase mat-stroked-button color="primary" (click)="changeEstado(0)">Sí Donó</button>
-            <button *ngIf="btnEstadoSel[0]" text-transform: uppercase mat-flat-button color="primary" (click)="changeEstado(0)">Sí Donó</button>
+            <button [disabled]="!edit" *ngIf="!btnEstadoSel[0]" type="button" mat-stroked-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
+            <button [disabled]="!edit" *ngIf="btnEstadoSel[0]" type="button" mat-flat-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
 
-            <button *ngIf="!btnEstadoSel[1]" text-transform: uppercase mat-stroked-button color="primary" (click)="changeEstado(1)">No Donó</button>
-            <button *ngIf="btnEstadoSel[1]" text-transform: uppercase mat-flat-button color="primary" (click)="changeEstado(1)">No Donó</button>
+            <button [disabled]="!edit" *ngIf="!btnEstadoSel[1]" type="button" mat-stroked-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
+            <button [disabled]="!edit" *ngIf="btnEstadoSel[1]" type="button" mat-flat-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
 
           </mat-step>
         </mat-stepper>
