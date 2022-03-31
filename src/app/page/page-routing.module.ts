@@ -30,7 +30,7 @@ const routes: Routes = [
 
   {path:'donante/aspirantelight', component: LaspiranteligthComponent, canActivate: [GuardService]},
   {path:'donante/aspirantelight/create', component: CaspiranteligthComponent, canActivate: [GuardService]},
-  {path:'donante/aspirantelight/edit/:id', component: CaspiranteligthComponent, canActivate: [GuardService]},
+  {path:'donante/aspirantelight/edit/:id/:edit', component: CaspiranteligthComponent, canActivate: [GuardService]},
 
   {path:'donante/chequeo', component: LchequeoComponent, canActivate: [GuardService]},
   {path:'donante/chequeo/create', component: CchequeoComponent, canActivate: [GuardService]},

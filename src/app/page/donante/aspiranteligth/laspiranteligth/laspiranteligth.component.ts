@@ -103,6 +103,7 @@ export class LaspiranteligthComponent implements OnInit {
           return res.items;
         }),
       ).subscribe(data => (this.dataSource = data));
+      
   }
 
 
@@ -115,6 +116,7 @@ export class LaspiranteligthComponent implements OnInit {
   }
 
   abrirBusqueda(){
+    //debugger;
     const dialogRef =this.dialog.open(MfaspirantelingthComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',

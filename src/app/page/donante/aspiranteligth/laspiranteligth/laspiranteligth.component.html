@@ -49,10 +49,10 @@
           <ng-container matColumnDef="accion">
               <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
               <mat-cell *matCellDef="let element" style="text-align: right;">
-                  <a *ngIf="permiso.ver" class="pointer ver" matTooltip="Ver" [routerLink]="['ver', element.nIdGrupo, true]">
+                  <a *ngIf="permiso.ver" class="pointer ver" matTooltip="Ver" [routerLink]="['/page/donante/aspirantelight/edit/', element.idePreDonante, false]">
                     <mat-icon>visibility</mat-icon>
                  </a>
-                 <a *ngIf="permiso.guardar" class="pointer edit" matTooltip="Editar" [routerLink]="['edit', element.nIdGrupo]">
+                 <a *ngIf="permiso.guardar" class="pointer edit" matTooltip="Editar" [routerLink]="['/page/donante/aspirantelight/edit/', element.idePreDonante, true]">
                    <mat-icon>edit</mat-icon>
                 </a>
               </mat-cell>
