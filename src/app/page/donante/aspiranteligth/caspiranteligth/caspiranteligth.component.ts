@@ -204,6 +204,7 @@ export class CaspiranteligthComponent implements OnInit {
 
     if(tipoDocu !== '' && numDocu !== ''){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
+        debugger;
         if(data !== undefined && data !== null && (data.onlyPoclab === 1 || data.idePersona !== 0)){
           this.form.patchValue({
             IdePersona: data.idePersona,
@@ -223,8 +224,11 @@ export class CaspiranteligthComponent implements OnInit {
           this.codDistrito = data.codDistrito?data.codDistrito:'';
           if(this.codDistrito !== ''){
             var distFind = this.distritos.find(e => e.dist?.codigo === this.codDistrito);
-            var dist: Distrito = distFind?distFind:new Distrito();
-            this.controlDistritos.setValue(dist);
+            if(distFind !== undefined){
+              var distrito: Distrito = distFind;
+              this.distritoColor = 'primary';
+              this.controlDistritos.setValue(distrito);
+            }            
           }
         }
         else{
@@ -310,7 +314,7 @@ export class CaspiranteligthComponent implements OnInit {
     model.ideUsuReg = this.curUser;
     model.codEstado = !this.btnEstadoSel[0]&&!this.btnEstadoSel[1]?0:(this.btnEstadoSel[0]?1:2);
 
-    debugger;
+    //debugger;
 
     this.spinner.showLoading();
     this.predonanteService.guardar(model).subscribe(data=>{
