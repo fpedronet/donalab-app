@@ -119,7 +119,7 @@ form{
 
 
 .container2 {
-  background-image: url("../src/assets/login3.png");
+  background-image: url("../src/assets/login.jpg");
   position: relative;
   width: 100%;
   height: 100%;        
@@ -295,5 +295,14 @@ form{
   .circulo {
     margin: auto;
     margin-right: 1px;
+  }
+  .container2 {
+    background: url('../src/assets/login.jpg') no-repeat center center/cover;
+    position: relative;
+    width: 100%;
+    height: 100%;        
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    background-repeat:initial;
   }
 }
