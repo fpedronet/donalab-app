@@ -114,7 +114,9 @@ export class CaspiranteligthComponent implements OnInit {
       'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),
       'Fecha': new FormControl({ value: new Date(), disabled: !this.edit}),
     });    
+  }
 
+  ngAfterViewInit(){
     this.obtener();
   }
 
@@ -230,12 +232,14 @@ export class CaspiranteligthComponent implements OnInit {
     var numDocu = this.form.value['NumDocu'];
     //debugger;
 
-    if(tipoDocu !== '' && numDocu !== ''){
+    if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
         //debugger;
         if(data !== undefined && data !== null && (data.onlyPoclab === 1 || data.idePersona !== 0)){
           this.form.patchValue({
             IdePersona: data.idePersona,
+            TipDocu: data.tipDocu,
+            NumDocu: data.numDocu,
             ApPaterno: data.apPaterno,
             ApMaterno: data.apMaterno,
             Nombres: data.primerNombre + ' ' + data.segundoNombre,
@@ -246,30 +250,54 @@ export class CaspiranteligthComponent implements OnInit {
             Telefono: data.telefono,
             Correo: data.correo1
           });
-
           this.cambiaPaisDistrito(data.codPais, data.codDistrito);
         }
         else{
-          this.form.patchValue({
-            IdePersona: 0,
-            ApPaterno: '',
-            ApMaterno: '',
-            Nombres: '',
-            Sexo: '',
-            FecNacimiento: null,
-            CodPais: '',
-            Celular: '',
-            Telefono: '',
-            Correo: ''
-          });
-
-          this.muestraDistrito = false;
-          this.controlDistritos.setValue(new Distrito());
-          this.codDistrito = '';
+          this.reiniciaPersona();
         }
-                  
       })
     }
+    else{
+      this.reiniciaPersona();
+    }
+  }
+
+  validaDocumento(tipoDocu: string, numDocu: string){
+    if(tipoDocu === '' || numDocu === '')
+      return false;
+
+    //DNI
+    if(tipoDocu === '1' && numDocu.length !== 8)
+      return false;
+
+    //RUC
+    if(tipoDocu === '6' && numDocu.length !== 11)
+      return false;
+
+    //CEXT / PASS
+    if((tipoDocu === '4' || tipoDocu === '7') && numDocu.length > 12)
+      return false;
+    
+    return true;
+  }
+
+  reiniciaPersona(){
+    this.form.patchValue({
+      IdePersona: 0,
+      ApPaterno: '',
+      ApMaterno: '',
+      Nombres: '',
+      Sexo: '',
+      FecNacimiento: null,
+      CodPais: '',
+      Celular: '',
+      Telefono: '',
+      Correo: ''
+    });
+
+    this.muestraDistrito = false;
+    this.controlDistritos.setValue(new Distrito());
+    this.codDistrito = '';
   }
 
   cambiaPaisDistrito(codPais: string = '', codDistrito: string = ''){
@@ -311,7 +339,6 @@ export class CaspiranteligthComponent implements OnInit {
             IdeCampania: data.ideCampania?.toString(),
             Fecha: data.fecha
           });
-
           this.cambiaPaisDistrito(p.codPais, p.codDistrito);
 
           var codEstado = data.codEstado?data.codEstado:0;
@@ -386,7 +413,7 @@ export class CaspiranteligthComponent implements OnInit {
         this.form.patchValue({
           Codigo: data.codigo
         })
-        //this.router.navigate(['/page/grupo']);
+        this.router.navigate(['/page/donante/aspirantelight']);
         this.spinner.hideLoading();
       }else{
         this.spinner.hideLoading();
