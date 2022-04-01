@@ -9,8 +9,9 @@ import { environment } from 'src/environments/environment';
 })
 export class CaspiranteComponent implements OnInit {
 
-  foto?: string =environment.UrlImage + "people.png";
   form: FormGroup = new FormGroup({});
+  foto?: string =environment.UrlImage + "people.png";
+  lector?: string =environment.UrlImage + "lector.png";
 
   constructor() {
    }
