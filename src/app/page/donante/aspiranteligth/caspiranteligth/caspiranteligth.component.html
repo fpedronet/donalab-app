@@ -4,7 +4,7 @@
         <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirantelight">
           <mat-icon class="maticon">west</mat-icon>
         </button>
-        <button *ngIf="edit" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+        <button *ngIf="edit && permiso.guardar" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
           <mat-icon class="maticon">save</mat-icon>
         </button>
 
@@ -25,14 +25,14 @@
           <mat-step>
             <ng-template matStepLabel>Datos principales</ng-template>
             <div *ngIf="muestraSangre && form.value['IdePersona']!==0" fxLayout="row wrap" fxLayoutGap="16px grid">
-              <div fxFlex="70%" fxFlex.xs="100%" fxFlex.sm="70%">
+              <div fxFlex="80%" fxFlex.xs="100%" fxFlex.sm="80%">
                 <mat-form-field appearance="outline">
                   <mat-label>Código</mat-label>
                   <input matInput placeholder="Código" formControlName="Codigo">
                 </mat-form-field>
               </div>
-              <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="30%">
-                <mat-card style="margin-bottom: 1.34375em; background-color: {{colFondo}};">
+              <div fxFlex="20%" fxFlex.xs="100%" fxFlex.sm="20%">
+                <mat-card style="margin-bottom: 1.34375em; text-align: center; background-color: {{colFondo}};">
                   <mat-card-title style="color: {{colLetra}}!important;">
                     {{abo}}
                   </mat-card-title>
@@ -65,10 +65,10 @@
                 <mat-form-field appearance="outline">
                   <mat-label>Documento</mat-label>
                   <input #DOCUMENTO matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)">
-                  <button *ngIf="DOCUMENTO.value" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
+                  <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
                     <mat-icon>close</mat-icon>
                   </button>
-                  <button *ngIf="DOCUMENTO.value" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event)">
+                  <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event)">
                     <mat-icon>search</mat-icon>
                   </button>
                 </mat-form-field>
