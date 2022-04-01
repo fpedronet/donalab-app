@@ -24,12 +24,35 @@
             
           <mat-step>
             <ng-template matStepLabel>Datos principales</ng-template>
-            <mat-form-field appearance="outline">
-              <mat-label>Código</mat-label>
-              <input matInput placeholder="Código" formControlName="Codigo">
-            </mat-form-field>
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
+            <div *ngIf="muestraSangre && form.value['IdePersona']!==0" fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="70%" fxFlex.xs="100%" fxFlex.sm="70%">
+                <mat-form-field appearance="outline">
+                  <mat-label>Código</mat-label>
+                  <input matInput placeholder="Código" formControlName="Codigo">
+                </mat-form-field>
+              </div>
+              <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="30%">
+                <mat-card style="margin-bottom: 1.34375em; background-color: {{colFondo}};">
+                  <mat-card-title style="color: {{colLetra}}!important;">
+                    {{abo}}
+                  </mat-card-title>
+                  <mat-card-subtitle style="color: {{colLetra}}!important;">
+                    {{rh}}
+                  </mat-card-subtitle>
+                </mat-card>
+              </div>
+            </div>
+            <div *ngIf="!muestraSangre || form.value['IdePersona']===0" fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%">
+                <mat-form-field appearance="outline">
+                  <mat-label>Código</mat-label>
+                  <input matInput placeholder="Código" formControlName="Codigo">
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="30%">
                 <mat-form-field>
                   <mat-select placeholder="Tipo de documento" formControlName="TipDocu" required>
                     <mat-option *ngFor="let el of tbTipoDocu" [value]="el.codigo">
@@ -38,21 +61,19 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-md-6 col-xs-12">
+              <div fxFlex="70%" fxFlex.xs="100%" fxFlex.sm="70%">
                 <mat-form-field appearance="outline">
                   <mat-label>Documento</mat-label>
-                  <input #DOCUMENTO matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona()">
-                  <button *ngIf="DOCUMENTO.value" type="button" matSuffix mat-icon-button aria-label="Buscar" (click)="obtenerPersona()">
+                  <input #DOCUMENTO matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)">
+                  <button *ngIf="DOCUMENTO.value" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <button *ngIf="DOCUMENTO.value" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event)">
                     <mat-icon>search</mat-icon>
                   </button>
                 </mat-form-field>
               </div>
             </div>
-            <mat-form-field *ngIf="true" appearance="outline">
-              <mat-label>
-                {{abo}} {{rh}}
-              </mat-label>
-            </mat-form-field>            
             <mat-form-field appearance="outline">
               <mat-label>Apellido Paterno</mat-label>
               <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>

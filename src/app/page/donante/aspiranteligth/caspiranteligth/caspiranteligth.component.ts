@@ -234,15 +234,21 @@ export class CaspiranteligthComponent implements OnInit {
     }
   }
 
-  obtenerPersona(){
+  obtenerPersona(e: Event){
     this.muestraSangre = false;
+
+    //console.log(e);
+    e.preventDefault(); // Evita otros eventos como blur    
 
     var tipoDocu = this.form.value['TipDocu'];
     var numDocu = this.form.value['NumDocu'];
+    
     //debugger;
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
+        if(this.form.value['IdePersona'] === data.idePersona)
+          return;
         //debugger;
         if(data !== undefined && data !== null && (data.onlyPoclab === 1 || data.idePersona !== 0)){
           this.form.patchValue({
@@ -263,18 +269,37 @@ export class CaspiranteligthComponent implements OnInit {
 
           if(data.idePersona !== 0){
             this.predonanteService.obtenerHistorial(data.idePersona).subscribe(dataH=>{
-              debugger;
-              if(dataH!==undefined){                
-                //Tipo de sangre
+              //debugger;
+              if(dataH!==undefined){
                 var historial: PersonaHistorial[] = dataH.items;
+
+                //Tipo de sangre
                 var hist1 = historial.find(e => e.tipo === 1);
+                this.muestraSangre = false;
                 if(hist1 !== undefined){
                   var tipoSangre: PersonaHistorial = hist1;
-                  this.muestraSangre = true;
+                  
                   this.abo = tipoSangre.dato1?tipoSangre.dato1:'';
                   this.rh = tipoSangre.dato2?tipoSangre.dato2:'';
                   this.colFondo = tipoSangre.colorFondo?tipoSangre.colorFondo:'';
+                  if(parseInt(this.colFondo) !== null){
+                    var numFondo = Math.abs(parseInt(this.colFondo));
+                    //this.colFondo = '#' + numFondo.toString(16).toUpperCase();
+                  }
                   this.colLetra = tipoSangre.colorLetra?tipoSangre.colorLetra:'';
+                  if(parseInt(this.colLetra) !== null){
+                    var numLetra = Math.abs(parseInt(this.colLetra));
+                    //this.colLetra = '#' + numLetra.toString(16).toUpperCase();
+                  }
+                  this.muestraSangre = true;
+                }
+
+                //Posible error
+                var hist2 = historial.filter(e => e.tipo! >= 2);
+                if(hist2 !== undefined){
+                  var errores: PersonaHistorial[] = hist2;
+                  var msgError = errores[errores.length-1];
+                  console.log(msgError);
                 }
               }
 
@@ -311,6 +336,11 @@ export class CaspiranteligthComponent implements OnInit {
   }
 
   reiniciaPersona(){
+    this.muestraSangre = false;
+    this.muestraDistrito = false;
+    this.controlDistritos.setValue(new Distrito());
+    this.codDistrito = '';
+
     this.form.patchValue({
       IdePersona: 0,
       ApPaterno: '',
@@ -323,12 +353,6 @@ export class CaspiranteligthComponent implements OnInit {
       Telefono: '',
       Correo: ''
     });
-
-    this.muestraDistrito = false;
-    this.controlDistritos.setValue(new Distrito());
-    this.codDistrito = '';
-
-    this.muestraSangre = false;
   }
 
   cambiaPaisDistrito(codPais: string = '', codDistrito: string = ''){
