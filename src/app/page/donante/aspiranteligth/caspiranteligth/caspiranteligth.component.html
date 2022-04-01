@@ -111,7 +111,7 @@
             </mat-form-field>
             <mat-form-field *ngIf="muestraDistrito" [color]="distritoColor" minlength="1" maxlength="100">
               <mat-label>Distrito</mat-label>
-              <input #DISTRITO type="text" matInput [formControl]="controlDistritos" [matAutocomplete]="auto" disabled="disabled">
+              <input #DISTRITO type="text" matInput [formControl]="controlDistritos" [matAutocomplete]="auto">
               <button *ngIf="DISTRITO.value" type="button" matSuffix mat-icon-button aria-label="Limpiar" (click)="DISTRITO.value=''">
                 <mat-icon>close</mat-icon>
               </button>
