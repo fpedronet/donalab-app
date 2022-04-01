@@ -4,17 +4,21 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith} from 'rxjs/operators';
+import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { Combobox } from 'src/app/_model/combobox';
 import { Distrito } from 'src/app/_model/distrito';
+import { Permiso } from 'src/app/_model/permiso';
 import { Persona } from 'src/app/_model/persona';
 import { PersonaHistorial } from 'src/app/_model/personahistorial';
 import { Predonante } from 'src/app/_model/predonante';
 import { ComboboxService } from 'src/app/_service/combobox.service';
+import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 import { PredonanteService } from 'src/app/_service/predonante.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { environment } from 'src/environments/environment';
+import forms from 'src/assets/json/formulario.json';
 
 @Component({
   selector: 'app-caspiranteligth',
@@ -29,13 +33,17 @@ export class CaspiranteligthComponent implements OnInit {
     private router: Router,
     private spinner: SpinnerService,
     private notifier: NotifierService,
+    private confirm : ConfimService,
     private comboboxService: ComboboxService,
     private usuarioService: UsuarioService,
-    private predonanteService: PredonanteService
+    private predonanteService: PredonanteService,
+    private configPermisoService : ConfigPermisoService,
   ) { }
 
   /*tabla de encuesta maestra */
   form: FormGroup = new FormGroup({});
+
+  permiso: Permiso = {};
 
   id: number = 0;
   edit: boolean = true;
@@ -80,6 +88,8 @@ export class CaspiranteligthComponent implements OnInit {
   colLetra: string = '';
 
   ngOnInit(): void {
+    this.obtenerpermiso();
+
     //Obtiene parámetros de URL
     this.route.params.subscribe((data: Params)=>{
       this.id = (data["id"]==undefined)? 0:data["id"];
@@ -125,6 +135,14 @@ export class CaspiranteligthComponent implements OnInit {
 
   ngAfterViewInit(){
     this.obtener();
+  }
+
+  obtenerpermiso(){
+    this.spinner.showLoading();
+    this.configPermisoService.obtenerpermiso(forms.aspirantesligth.codigo).subscribe(data=>{
+      this.permiso = data;
+       this.spinner.hideLoading();
+    });   
   }
 
   listarCombo(){
@@ -234,15 +252,21 @@ export class CaspiranteligthComponent implements OnInit {
     }
   }
 
-  obtenerPersona(){
-    this.muestraSangre = false;
+  obtenerPersona(e: Event){    
+    //console.log(e);
+    e.preventDefault(); // Evita otros eventos como blur   
+    
+    //this.muestraSangre = false;
 
     var tipoDocu = this.form.value['TipDocu'];
     var numDocu = this.form.value['NumDocu'];
+    
     //debugger;
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
+        if(this.form.value['IdePersona'] === data.idePersona)
+          return;
         //debugger;
         if(data !== undefined && data !== null && (data.onlyPoclab === 1 || data.idePersona !== 0)){
           this.form.patchValue({
@@ -261,25 +285,7 @@ export class CaspiranteligthComponent implements OnInit {
           });
           this.cambiaPaisDistrito(data.codPais, data.codDistrito);
 
-          if(data.idePersona !== 0){
-            this.predonanteService.obtenerHistorial(data.idePersona).subscribe(dataH=>{
-              debugger;
-              if(dataH!==undefined){                
-                //Tipo de sangre
-                var historial: PersonaHistorial[] = dataH.items;
-                var hist1 = historial.find(e => e.tipo === 1);
-                if(hist1 !== undefined){
-                  var tipoSangre: PersonaHistorial = hist1;
-                  this.muestraSangre = true;
-                  this.abo = tipoSangre.dato1?tipoSangre.dato1:'';
-                  this.rh = tipoSangre.dato2?tipoSangre.dato2:'';
-                  this.colFondo = tipoSangre.colorFondo?tipoSangre.colorFondo:'';
-                  this.colLetra = tipoSangre.colorLetra?tipoSangre.colorLetra:'';
-                }
-              }
-
-            });
-          }
+          this.obtieneHistorial(data.idePersona, true);
         }
         else{
           this.reiniciaPersona();
@@ -288,6 +294,49 @@ export class CaspiranteligthComponent implements OnInit {
     }
     else{
       this.reiniciaPersona();
+    }
+  }
+
+  obtieneHistorial(idPersona: number = 0, muestraErrores: boolean){
+    if(idPersona !== 0){
+      this.predonanteService.obtenerHistorial(idPersona).subscribe(dataH=>{
+        //debugger;
+        if(dataH!==undefined){
+          var historial: PersonaHistorial[] = dataH.items;
+
+          //Tipo de sangre
+          var hist1 = historial.find(e => e.tipo === 1);
+          this.muestraSangre = false;
+          if(hist1 !== undefined){
+            var tipoSangre: PersonaHistorial = hist1;
+            
+            this.abo = tipoSangre.dato1?tipoSangre.dato1:'';
+            this.rh = tipoSangre.dato2?tipoSangre.dato2:'';
+            this.colFondo = tipoSangre.colorFondo?tipoSangre.colorFondo:'';
+            this.colLetra = tipoSangre.colorLetra?tipoSangre.colorLetra:'';
+            this.muestraSangre = true;
+          }
+
+          if(muestraErrores){
+            //Posible error
+            var hist2 = historial.filter(e => e.tipo?e.tipo >= 2:false);
+            if(hist2 !== undefined){
+              var errores: PersonaHistorial[] = hist2;
+              var msgError = errores[errores.length-1].dato1;
+              //console.log(msgError);
+              if(msgError){
+                this.confirm.openConfirmDialog(true, msgError).afterClosed().subscribe(res =>{
+                  //Ok
+                  if(res){
+                    this.reiniciaPersona();
+                  }
+                });
+              }                  
+            }
+          }          
+        }
+
+      });
     }
   }
 
@@ -311,8 +360,15 @@ export class CaspiranteligthComponent implements OnInit {
   }
 
   reiniciaPersona(){
+    this.muestraSangre = false;
+    this.muestraDistrito = false;
+    this.controlDistritos.setValue(new Distrito());
+    this.codDistrito = '';
+
     this.form.patchValue({
       IdePersona: 0,
+      TipDocu: '1',
+      NumDocu: '',
       ApPaterno: '',
       ApMaterno: '',
       Nombres: '',
@@ -323,12 +379,6 @@ export class CaspiranteligthComponent implements OnInit {
       Telefono: '',
       Correo: ''
     });
-
-    this.muestraDistrito = false;
-    this.controlDistritos.setValue(new Distrito());
-    this.codDistrito = '';
-
-    this.muestraSangre = false;
   }
 
   cambiaPaisDistrito(codPais: string = '', codDistrito: string = ''){
@@ -370,7 +420,14 @@ export class CaspiranteligthComponent implements OnInit {
             IdeCampania: data.ideCampania?.toString(),
             Fecha: data.fecha
           });
+
+          //Deshabilita tipo de documento y documento si existe la postulación
+          this.form.get('TipDocu')?.disable();
+          this.form.get('NumDocu')?.disable();
+
           this.cambiaPaisDistrito(p.codPais, p.codDistrito);
+
+          this.obtieneHistorial(p.idePersona, false);
 
           var codEstado = data.codEstado?data.codEstado:0;
           this.estadoIni = codEstado;
