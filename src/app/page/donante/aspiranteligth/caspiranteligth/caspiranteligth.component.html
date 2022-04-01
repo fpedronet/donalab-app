@@ -54,7 +54,7 @@
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
               <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="30%">
                 <mat-form-field>
-                  <mat-select placeholder="Tipo de documento" formControlName="TipDocu" required>
+                  <mat-select [disabled]="id>0" placeholder="Tipo de documento" formControlName="TipDocu" required>
                     <mat-option *ngFor="let el of tbTipoDocu" [value]="el.codigo">
                       {{el.descripcion}}
                     </mat-option>              
@@ -64,7 +64,7 @@
               <div fxFlex="70%" fxFlex.xs="100%" fxFlex.sm="70%">
                 <mat-form-field appearance="outline">
                   <mat-label>Documento</mat-label>
-                  <input #DOCUMENTO matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)">
+                  <input #DOCUMENTO [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)">
                   <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
                     <mat-icon>close</mat-icon>
                   </button>
