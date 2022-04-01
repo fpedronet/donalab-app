@@ -63,11 +63,10 @@ export class LayoutComponent implements OnInit {
     this.spinner.showLoading();
     localStorage.setItem(environment.CODIGO_BANCO, idbanco.toString()!);
     window.location.reload();
+  }
 
-    // let currentUrl = this.router.url;
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    // this.router.onSameUrlNavigation = 'reload';
-    // this.router.navigate([currentUrl]);
+  clearLocalStore(){
+    localStorage.setItem(environment.CODIGO_FILTRO, "");
   }
 
   closeLogin(){

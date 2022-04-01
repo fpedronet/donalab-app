@@ -121,6 +121,7 @@ export class LaspiranteComponent implements OnInit {
   }
 
   abrirBusqueda(){
+    this.spinner.showLoading();
     const dialogRef =this.dialog.open(MfaspiranteComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',

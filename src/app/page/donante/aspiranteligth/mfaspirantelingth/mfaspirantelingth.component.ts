@@ -4,6 +4,7 @@ import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { Combobox } from 'src/app/_model/combobox';
 import { PredonanteService } from 'src/app/_service/predonante.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mfaspirantelingth',
@@ -54,14 +55,18 @@ export class MfaspirantelingthComponent implements OnInit {
       this.listaOrigen = resut.listaOrigen;
       this.listaEstado = resut.listaEstado;
 
-      this.nombre=this.data.nombre,
-      this.idcampania=String(this.data.idcampania),
-      this.idorigen=String(this.data.idorigen),
-      this.idestado=String(this.data.idestado),
-      this.fechaSelectInicio=this.data.fechaInicio,
-      this.fechaSelectFin=this.data.fechaFin,
-      this.fechaInicio=this.data.fechaInicio,
-      this.fechaFin=this.data.fechaFin,
+      let filtro = this.usuarioService.sessionFiltro();
+  
+      this.nombre= filtro![0];
+      this.idcampania=filtro![1];
+      this.idorigen=filtro![2];
+      this.idestado=filtro![3];
+
+      this.fechaSelectInicio=new Date(filtro![4]);
+      this.fechaInicio=new Date(filtro![4]);
+
+      this.fechaSelectFin=new Date(filtro![5]);
+      this.fechaFin=new Date(filtro![5]);
 
       this.spinner.hideLoading();
     });  
@@ -85,14 +90,9 @@ export class MfaspirantelingthComponent implements OnInit {
   }
 
   buscar(){
-    this.dialogRef.close({ 
-      nombre:this.nombre,
-      idcampania:this.idcampania ,
-      idorigen:this.idorigen ,
-      idestado:this.idestado ,
-      fechaInicio:this.fechaInicio ,
-      fechaFin:this.fechaFin ,
-     });
+    this.dialogRef.close();
+
+    localStorage.setItem(environment.CODIGO_FILTRO, this.nombre +"|"+ this.idcampania+"|"+this.idorigen+"|"+this.idestado+"|"+this.fechaInicio+"|"+this.fechaFin);
   }
 
 }

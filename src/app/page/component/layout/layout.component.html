@@ -32,11 +32,11 @@
       <nav class="nav1">
         <ul>
             <li *ngFor="let m of menus.listaMenu">
-              <a *ngIf="m.url=='/page/home'" routerLink="{{m.url}}">{{m.modulo}}</a>
+              <a *ngIf="m.url=='/page/home'" (click)="clearLocalStore()" routerLink="{{m.url}}">{{m.modulo}}</a>
               <a *ngIf="m.url!='/page/home'">{{m.modulo}}</a>
               <ul>
                 <li *ngFor="let s of m.listaSubMenu">
-                  <a routerLink="{{s.url}}">{{s.pantalla}}</a>
+                  <a (click)="clearLocalStore()" routerLink="{{s.url}}">{{s.pantalla}}</a>
                 </li>
               </ul>
             </li>
@@ -81,7 +81,7 @@
             <mat-expansion-panel *ngIf="m.url=='/page/home'" disabled="">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <a style="font-size: 17px;font-weight: 400;" *ngIf="m.url=='/page/home'" routerLink="{{m.url}}">
+                  <a style="font-size: 17px;font-weight: 400;" *ngIf="m.url=='/page/home'" routerLink="{{m.url}}" (click)="clearLocalStore()">
                     <mat-icon>home</mat-icon>
                     {{m.modulo}}
                   </a>
@@ -99,7 +99,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <p class="submenu" *ngFor="let s of m.listaSubMenu">
-                <a style="font-size: 17px;font-weight: 400;" routerLink="{{s.url}}">
+                <a style="font-size: 17px;font-weight: 400;" routerLink="{{s.url}}" (click)="clearLocalStore()">
                   <mat-icon>menuopen</mat-icon>
                   {{s.pantalla}}
                 </a>

@@ -46,7 +46,6 @@ export class MfaspiranteComponent implements OnInit {
   obtener(){    
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
 
-    this.spinner.showLoading();
     this.predonanteService.obtenerFiltro(codigobanco).subscribe(resut=>{
 
       this.listaCampania = resut.listaCampania;

@@ -8,16 +8,17 @@ export const environment = {
   // UrlApi:'https://service.poclab.pe/encuesta/api',  
   // UrlImage:'assets/',
 
-  //UrlApi:'https://sitedev.poclab.pe/donalabdev/api',  
-  //UrlImage:'assets/',
+  UrlApi:'https://sitedev.poclab.pe/donalabdev/api',  
+  UrlImage:'assets/',
 
-   UrlApi:'http://localhost:48394/api',
-   UrlImage:'../../../../assets/',
+  //  UrlApi:'http://localhost:48394/api',
+  //  UrlImage:'../../../../assets/',
 
   TOKEN_AUTH_USERNAME: 'mitomediapp',
   TOKEN_AUTH_PASSWORD: 'mito89codex',
   TOKEN_NAME: 'access_token',
   CODIGO_BANCO: 'access_banco',
+  CODIGO_FILTRO: 'access_filtro',
 
   ERROR: 0,
   EXITO: 1,

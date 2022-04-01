@@ -35,9 +35,24 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
       map((event: HttpEvent<any>) => {
           if (event instanceof HttpResponse) {
               // console.log('event--->>>', event);
+              this.spinner.hideLoading();
           }
           return event;
-      }));
+      }),
+      catchError((error: HttpErrorResponse) => {
+
+        let errorMsg = '';
+        if (error.error instanceof ErrorEvent) {            
+            errorMsg = `Error: ${error.error.message}`;
+        } else {
+            errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+        }
+
+          this.notifierService.showNotification(0,"Error",errorMsg);
+          this.spinner.hideLoading();
+          return throwError(errorMsg);
+         })
+      );
 
   }
 }
