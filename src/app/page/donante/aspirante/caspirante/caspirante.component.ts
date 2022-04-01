@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-caspirante',
@@ -7,6 +8,8 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
   styleUrls: ['./caspirante.component.css']
 })
 export class CaspiranteComponent implements OnInit {
+
+  foto?: string =environment.UrlImage + "people.png";
 
   constructor() {
    }

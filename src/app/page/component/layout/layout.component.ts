@@ -28,6 +28,8 @@ export class LayoutComponent implements OnInit {
   panelOpenState = false;
   count=true;
   banco?: string = "";
+  logo?: string =environment.UrlImage + "logoMenu.png";
+  user?: string =environment.UrlImage + "userMenu.png";
 
   ngOnInit(): void {
     this.listar();   
