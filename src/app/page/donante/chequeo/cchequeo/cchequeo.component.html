@@ -1,33 +1,87 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
-    <div class="example-button-row">
-      <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
-        <mat-icon class="maticon">west</mat-icon>
-      </button>
-      <button mat-flat-button class="btnHeader">
-        <mat-icon class="maticon">save</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
-  
-  <div class="container">  
-  <mat-card class="cardborde">   
-    <mat-toolbar class="cardtitle"></mat-toolbar>
-
-    <h2 class="title-label"> CREAR CHEQUEO</h2>
-    <mat-divider></mat-divider>
-    
-    <div id="content"> 
-        <div style="width: 100%; float:left"> 
-            <div style="text-align: center; color: #1a0da4; font-weight:500">FRANCISCO PEDRO CONDOR MARTINEZ</div> 
-            <div style="text-align: center; color: #1a0da4; font-weight:600">45036143</div> 
-        </div> 
-    </div>
-    <br style="clear:both;"/>
-
-    <form style="padding-top: 0px;" id="ngForm" #frmGrupo="ngForm">
-      <h1>Estamos trabajando</h1>
-    </form>
-   
-  </mat-card>
+  <div class="example-button-row">
+    <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
+      <mat-icon class="maticon">west</mat-icon>
+    </button>
+    <button mat-flat-button class="btnHeader">
+      <mat-icon class="maticon">save</mat-icon>
+    </button>
   </div>
+</mat-toolbar>
+
+<div class="container">  
+<mat-card class="cardborde">   
+  <mat-toolbar class="cardtitle"></mat-toolbar>
+
+  <h2 class="title-label"> CREAR CHEQUEO</h2>
+  <mat-divider></mat-divider>
+  
+  <div id="content"> 
+      <div style="width: 100%; float:left"> 
+          <div style="text-align: center; color: #1a0da4; font-weight:500">FRANCISCO PEDRO CONDOR MARTINEZ</div> 
+          <div style="text-align: center; color: #1a0da4; font-weight:600">45036143</div> 
+      </div> 
+  </div>
+  <br style="clear:both;"/>
+
+  <form style="padding-top: 0px;margin:10px;" id="ngForm" #frmGrupo="ngForm" (ngSubmit)="guardar()">
+      <div class="content">
+          <div fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">                                 
+                 <mat-form-field appearance="outline">
+                    <mat-label>Codigo</mat-label>
+                    <input matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required>
+                </mat-form-field>
+                <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Peso</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Talla</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+                <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Hemoglobina</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Hematocrito</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Plaquetas</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
+
+
+                 
+              </div>
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">                             
+                  <mat-form-field appearance="outline">
+                      <mat-label>Otros</mat-label>
+                      <input matInput placeholder="Código" formControlName="Codigo">
+                  </mat-form-field>
+              </div>
+          </div>
+      </div>
+  </form>
+ 
+</mat-card>
+</div>
+
   
