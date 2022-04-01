@@ -88,6 +88,8 @@ export class CaspiranteligthComponent implements OnInit {
   colLetra: string = '';
 
   ngOnInit(): void {
+    
+    //Extrae permisos
     this.obtenerpermiso();
 
     //Obtiene parámetros de URL
@@ -96,22 +98,22 @@ export class CaspiranteligthComponent implements OnInit {
       this.edit = (data["edit"]==undefined) ? true : ((data["edit"]=='true') ? true : false)      
     });
 
-    //Inicializa componentes del form
-    this.minDate.setMonth(this.maxDate.getMonth() - 12*80);
-    this.listarCombo();
-
     //atributos de tokeN usuario
     let user = this.usuarioService.sessionUsuario();
     if(user!=null){
       this.curUser = user.ideUsuario;
       this.curBanco = user.codigobanco;
-    }    
+    }     
 
     //Busca origen y campaña de caché
     var ideOri = localStorage.getItem('IdeOrigen');
     ideOri = ideOri?ideOri:this.curBanco.toString();
     var ideCam = localStorage.getItem('IdeCampania');
     ideCam = ideCam?ideCam:'1';
+
+    //Inicializa componentes del form
+    this.listarCombo();
+    this.minDate.setMonth(this.maxDate.getMonth() - 12*80);  
 
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '#######', disabled: true}),
@@ -134,7 +136,8 @@ export class CaspiranteligthComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    this.obtener();
+    //Ahora el obtener se llama después de listar distritos
+    //this.obtener();
   }
 
   obtenerpermiso(){
@@ -164,7 +167,9 @@ export class CaspiranteligthComponent implements OnInit {
 
         //debugger;
 
-        this.listarDistritos(tbDpto, tbProv, tbDist);
+        this.listarDistritos(tbDpto, tbProv, tbDist).then(res => {
+          this.obtener();
+        });
       }
     });
   }
@@ -173,22 +178,28 @@ export class CaspiranteligthComponent implements OnInit {
     return tb.filter(e => e.codTabla?.trim() === cod);
   }
 
-  listarDistritos(tbDpto: Combobox[], tbProv: Combobox[], tbDist: Combobox[]){
-    tbDist.sort((a, b) => (a.descripcion === undefined || b.descripcion === undefined) ? 1 : (a.descripcion < b.descripcion ? -1 : (a.descripcion > b.descripcion ? 1 : 0)));
-    tbDist.forEach(d => {
-      var distrito: Distrito = new Distrito();
-      distrito.dist = d;
-      distrito.prov = tbProv.find(e => d.codigo?.startsWith(e.codigo!));
-      distrito.dpto = tbDpto.find(e => d.codigo?.startsWith(e.codigo!));
-      this.distritos.push(distrito);
-    });
+  async listarDistritos(tbDpto: Combobox[], tbProv: Combobox[], tbDist: Combobox[]){
+    return new Promise(async (resolve) => {
+      tbDist.sort((a, b) => (a.descripcion === undefined || b.descripcion === undefined) ? 1 : (a.descripcion < b.descripcion ? -1 : (a.descripcion > b.descripcion ? 1 : 0)));
+      tbDist.forEach(d => {
+        var distrito: Distrito = new Distrito();
+        distrito.dist = d;
+        distrito.prov = tbProv.find(e => d.codigo?.startsWith(e.codigo!));
+        distrito.dpto = tbDpto.find(e => d.codigo?.startsWith(e.codigo!));
+        this.distritos.push(distrito);
+      });
+  
+      this.filterDistritos = this.controlDistritos.valueChanges.pipe(
+        startWith(''),
+        map(value => (typeof value === 'string'?value:value.dist.descripcion)),
+        map(name  => (name?this.buscarDistritos(name):[]))
+      )
 
-    this.filterDistritos = this.controlDistritos.valueChanges.pipe(
-      startWith(''),
-      map(value => (typeof value === 'string'?value:value.dist.descripcion)),
-      map(name  => (name?this.buscarDistritos(name):[]))
-    )
-    //debugger;
+      if(this.distritos.length === 0)
+        resolve('error')
+      else
+        resolve('ok')
+    })
   }
 
   changePais(value: string){
@@ -285,7 +296,7 @@ export class CaspiranteligthComponent implements OnInit {
           });
           this.cambiaPaisDistrito(data.codPais, data.codDistrito);
 
-          this.obtieneHistorial(data.idePersona, true);
+          this.obtieneHistorial(data.idePersona, false);
         }
         else{
           this.reiniciaPersona();
@@ -427,10 +438,9 @@ export class CaspiranteligthComponent implements OnInit {
           });
 
           //Deshabilita tipo de documento y documento si existe la postulación
-          this.form.get('TipDocu')?.disable();
-          this.form.get('NumDocu')?.disable();
-
-          this.cambiaPaisDistrito(p.codPais, p.codDistrito);
+          //Ya no (no deja enviar tipo de documento y documento)
+          //this.form.get('TipDocu')?.disable();
+          //this.form.get('NumDocu')?.disable();
 
           this.obtieneHistorial(p.idePersona, false);
 
@@ -442,6 +452,8 @@ export class CaspiranteligthComponent implements OnInit {
           if(codEstado > 0){
             this.btnEstadoSel[codEstado-1] = true;
           }
+
+          this.cambiaPaisDistrito(p.codPais, p.codDistrito);
         }
         this.spinner.hideLoading();
       });
