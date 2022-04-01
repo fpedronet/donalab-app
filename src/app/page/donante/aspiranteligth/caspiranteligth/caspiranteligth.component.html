@@ -109,7 +109,7 @@
                 </mat-option>              
               </mat-select>
             </mat-form-field>
-            <mat-form-field *ngIf="muestraDistrito" [color]="distritoColor">
+            <mat-form-field *ngIf="muestraDistrito" [color]="distritoColor" minlength="1" maxlength="100">
               <mat-label>Distrito</mat-label>
               <input #DISTRITO type="text" matInput [formControl]="controlDistritos" [matAutocomplete]="auto">
               <button *ngIf="DISTRITO.value" type="button" matSuffix mat-icon-button aria-label="Limpiar" (click)="DISTRITO.value=''">
@@ -121,15 +121,15 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" minlength="1" maxlength="50">
               <mat-label>Celular</mat-label>
               <input matInput placeholder="ej. +51 999999999" formControlName="Celular">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" minlength="1" maxlength="50">
               <mat-label>Teléfono</mat-label>
               <input matInput placeholder="ej. 9999999" formControlName="Telefono">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" minlength="1" maxlength="50">
               <mat-label>Correo</mat-label>
               <input type="email" matInput placeholder="ej. ejemplo@correo.com" formControlName="Correo">
             </mat-form-field>
@@ -155,11 +155,16 @@
               <mat-datepicker #Fecha></mat-datepicker>
             </mat-form-field>
             
-            <button [disabled]="!edit" *ngIf="!btnEstadoSel[0]" type="button" mat-stroked-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
-            <button [disabled]="!edit" *ngIf="btnEstadoSel[0]" type="button" mat-flat-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
-
-            <button [disabled]="!edit" *ngIf="!btnEstadoSel[1]" type="button" mat-stroked-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
-            <button [disabled]="!edit" *ngIf="btnEstadoSel[1]" type="button" mat-flat-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" style="text-align: center;">
+                <button [disabled]="!edit" *ngIf="!btnEstadoSel[0]" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
+                <button [disabled]="!edit" *ngIf="btnEstadoSel[0]" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
+              </div>
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" style="text-align: center;">
+                <button [disabled]="!edit" *ngIf="!btnEstadoSel[1]" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
+                <button [disabled]="!edit" *ngIf="btnEstadoSel[1]" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
+              </div>              
+            </div>
 
           </mat-step>
         </mat-stepper>

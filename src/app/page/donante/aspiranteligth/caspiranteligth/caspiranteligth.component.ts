@@ -367,7 +367,7 @@ export class CaspiranteligthComponent implements OnInit {
 
     this.form.patchValue({
       IdePersona: 0,
-      TipDocu: '1',
+      //TipDocu: '1',
       NumDocu: '',
       ApPaterno: '',
       ApMaterno: '',
@@ -383,6 +383,7 @@ export class CaspiranteligthComponent implements OnInit {
 
   cambiaPaisDistrito(codPais: string = '', codDistrito: string = ''){
     this.changePais(codPais?codPais:'');
+    //debugger;
 
     this.codDistrito = codDistrito?codDistrito:'';
     if(this.codDistrito !== ''){
@@ -391,7 +392,11 @@ export class CaspiranteligthComponent implements OnInit {
         var distrito: Distrito = distFind;
         this.distritoColor = 'primary';
         this.controlDistritos.setValue(distrito);
-      }            
+      }
+      else{
+        this.distritoColor = 'accent';
+        this.controlDistritos.setValue(new Distrito());
+      }
     }
   }
 
