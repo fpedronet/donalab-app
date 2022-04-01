@@ -9,6 +9,7 @@ import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { Combobox } from 'src/app/_model/combobox';
 import { Distrito } from 'src/app/_model/distrito';
 import { Persona } from 'src/app/_model/persona';
+import { PersonaHistorial } from 'src/app/_model/personahistorial';
 import { Predonante } from 'src/app/_model/predonante';
 import { ComboboxService } from 'src/app/_service/combobox.service';
 import { PredonanteService } from 'src/app/_service/predonante.service';
@@ -72,6 +73,12 @@ export class CaspiranteligthComponent implements OnInit {
   btnEstadoSel: boolean[] = [false, false];
   estadoIni: number = 0;
 
+  muestraSangre: boolean = false;
+  abo: string = '';
+  rh: string = '';
+  colFondo: string = '';
+  colLetra: string = '';
+
   ngOnInit(): void {
     //Obtiene parámetros de URL
     this.route.params.subscribe((data: Params)=>{
@@ -79,22 +86,22 @@ export class CaspiranteligthComponent implements OnInit {
       this.edit = (data["edit"]==undefined) ? true : ((data["edit"]=='true') ? true : false)      
     });
 
-    //atributos de toke usuario
-    let user = this.usuarioService.sessionUsuario();
-    if(user!=null){
-      this.curUser = user.ideUsuario;
-      this.curBanco = user.codigobanco;
-    }
-
     //Inicializa componentes del form
     this.minDate.setMonth(this.maxDate.getMonth() - 12*80);
     this.listarCombo();
 
+    //atributos de tokeN usuario
+    let user = this.usuarioService.sessionUsuario();
+    if(user!=null){
+      this.curUser = user.ideUsuario;
+      this.curBanco = user.codigobanco;
+    }    
+
     //Busca origen y campaña de caché
     var ideOri = localStorage.getItem('IdeOrigen');
-    ideOri = ideOri?ideOri:'';
+    ideOri = ideOri?ideOri:this.curBanco.toString();
     var ideCam = localStorage.getItem('IdeCampania');
-    ideCam = ideCam?ideCam:'';
+    ideCam = ideCam?ideCam:'1';
 
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '#######', disabled: true}),
@@ -228,6 +235,8 @@ export class CaspiranteligthComponent implements OnInit {
   }
 
   obtenerPersona(){
+    this.muestraSangre = false;
+
     var tipoDocu = this.form.value['TipDocu'];
     var numDocu = this.form.value['NumDocu'];
     //debugger;
@@ -251,6 +260,26 @@ export class CaspiranteligthComponent implements OnInit {
             Correo: data.correo1
           });
           this.cambiaPaisDistrito(data.codPais, data.codDistrito);
+
+          if(data.idePersona !== 0){
+            this.predonanteService.obtenerHistorial(data.idePersona).subscribe(dataH=>{
+              debugger;
+              if(dataH!==undefined){                
+                //Tipo de sangre
+                var historial: PersonaHistorial[] = dataH.items;
+                var hist1 = historial.find(e => e.tipo === 1);
+                if(hist1 !== undefined){
+                  var tipoSangre: PersonaHistorial = hist1;
+                  this.muestraSangre = true;
+                  this.abo = tipoSangre.dato1?tipoSangre.dato1:'';
+                  this.rh = tipoSangre.dato2?tipoSangre.dato2:'';
+                  this.colFondo = tipoSangre.colorFondo?tipoSangre.colorFondo:'';
+                  this.colLetra = tipoSangre.colorLetra?tipoSangre.colorLetra:'';
+                }
+              }
+
+            });
+          }
         }
         else{
           this.reiniciaPersona();
@@ -298,6 +327,8 @@ export class CaspiranteligthComponent implements OnInit {
     this.muestraDistrito = false;
     this.controlDistritos.setValue(new Distrito());
     this.codDistrito = '';
+
+    this.muestraSangre = false;
   }
 
   cambiaPaisDistrito(codPais: string = '', codDistrito: string = ''){
