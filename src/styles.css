@@ -81,7 +81,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 } 
 
 form{
-  margin: 10px;
+  margin: 3px;
   padding-top:23px;
 }
 
@@ -97,6 +97,9 @@ form{
 .example-button-row .mat-button-base {
   /* margin: 8px 8px 8px 0; */
   margin: 10px 36px -3px -25px;
+  min-width: 58px;
+  line-height: 31px;
+  border-radius:9px;
 }
 
 /* loading page */
@@ -151,6 +154,8 @@ form{
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+
 
 @media (max-width:1200px){
   .example-button-row{

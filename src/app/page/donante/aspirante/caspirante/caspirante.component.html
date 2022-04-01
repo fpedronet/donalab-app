@@ -32,100 +32,352 @@
                 <div class="content">
                     <div fxLayout="row wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-
-                            <mat-grid-list cols="1" rowHeight="2:1">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>columna 1 - 1</mat-label>
-                                    <input matInput placeholder="Código" formControlName="Codigo">
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>columna 1 - 1</mat-label>
-                                    <input matInput placeholder="Código" formControlName="Codigo">
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>columna 1 - 1</mat-label>
-                                    <input matInput placeholder="Código" formControlName="Codigo">
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>columna 1 - 1</mat-label>
-                                    <input matInput placeholder="Código" formControlName="Codigo">
-                                </mat-form-field>
-                            </mat-grid-list>
-                           
-                        </div>
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-                            <div style="text-align:center;"> 
-                                <img style="width: 224px;" src="{{foto}}" />
-                            </div> 
                             <mat-form-field appearance="outline">
-                                <mat-label>columna 2 - 1</mat-label>
+                                <mat-select placeholder="DNI" formControlName="TipDocu" required>
+                                    <mat-option>DNI</mat-option>
+                                </mat-select>
+                            </mat-form-field>                                  
+                            <mat-form-field appearance="outline">
+                                <mat-label>Documento</mat-label>
+                                <input #DOCUMENTO matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required>
+                                <button type="button" matSuffix mat-icon-button aria-label="Buscar">
+                                    <img style="width: 70px; margin-top: -16px;" src="../../../../../assets/lector.png" />
+                                </button>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Apellido Paterno</mat-label>
+                                <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Apellido Materno</mat-label>
+                                <input matInput placeholder="Apellido Paterno" formControlName="apPaterno" minlength="1" maxlength="100" required>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput placeholder="Apellido Paterno" formControlName="nombres" minlength="1" maxlength="100" required>
+                            </mat-form-field>                               
+                            <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="5">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>F. Nacimiento</mat-label>
+                                        <input matInput placeholder="Apellido Paterno" formControlName="nombres" minlength="1" maxlength="100" required>
+                                    </mat-form-field>                             
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="3">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Edad</mat-label>
+                                        <input matInput placeholder="Apellido Paterno" formControlName="nombres" minlength="1" maxlength="100" required>
+                                    </mat-form-field>                                
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="4">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Sexo</mat-label>
+                                        <mat-select >
+                                          <mat-option>Masculino</mat-option>  
+                                        </mat-select>
+                                    </mat-form-field> 
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">                             
+                            <mat-grid-list cols="12" rowHeight="232px" gutterSize="15px">
+                                <mat-grid-tile [colspan]="4">
+                                    <div style="text-align:center;">
+                                        <label style="font-weight:800;font-size:85px;color:#8f2626;">O</label>
+                                        <br>
+                                        <br>
+                                        <label style="font-weight:800;font-size:22px;color:#8f2626;">+</label>
+                                    </div> 
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="8">                                   
+                                    <div>
+                                        <div style="text-align:center;">
+                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">PE00000001</label>                                 
+                                        </div>
+                                        <img style="width: 201px;" src="{{foto}}" />
+                                    </div> 
+                                </mat-grid-tile>
+                            </mat-grid-list>
+
+                            <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                                <mat-grid-tile [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Estado Civil</mat-label>
+                                        <mat-select >
+                                          <mat-option>Soltero</mat-option>  
+                                        </mat-select>
+                                    </mat-form-field>
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Nacionalidad</mat-label>
+                                        <mat-select >
+                                          <mat-option>Peruano</mat-option>  
+                                        </mat-select>
+                                    </mat-form-field>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Lugar Nacimiento</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
                             </mat-form-field>
                         </div>
                     </div>
-
                 </div>
-
             </mat-step>
+
             <mat-step>
                 <ng-template matStepLabel>Datos Secundario</ng-template>
 
                 <div class="content">
                     <div fxLayout="row wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-
-                            <mat-grid-list cols="1" rowHeight="2:1">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>columna 1 - 1</mat-label>
-                                    <input matInput placeholder="Código" formControlName="Codigo">
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>columna 1 - 1</mat-label>
-                                    <input matInput placeholder="Código" formControlName="Codigo">
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>columna 1 - 1</mat-label>
-                                    <input matInput placeholder="Código" formControlName="Codigo">
-                                </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Procedencia</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Grado Instrucción</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Ocupación</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Dirección</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field>
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Pais</mat-label>
+                                        <mat-select >
+                                          <mat-option></mat-option>  
+                                        </mat-select>
+                                    </mat-form-field>                           
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Departamento</mat-label>
+                                        <mat-select >
+                                          <mat-option></mat-option>  
+                                        </mat-select>
+                                    </mat-form-field>                             
+                                </mat-grid-tile>
                             </mat-grid-list>
-                           
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Provincia</mat-label>
+                                        <mat-select >
+                                          <mat-option></mat-option>  
+                                        </mat-select>
+                                    </mat-form-field>                           
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Distrito</mat-label>
+                                        <mat-select >
+                                          <mat-option></mat-option>  
+                                        </mat-select>
+                                    </mat-form-field>                             
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Celular</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                          
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Telefono</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                             
+                                </mat-grid-tile>
+                            </mat-grid-list>
                         </div>
+
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
                             <mat-form-field appearance="outline">
-                                <mat-label>columna 2 - 1</mat-label>
+                                <mat-label>Correo</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
                             </mat-form-field>
                             <mat-form-field appearance="outline">
-                                <mat-label>columna 2 - 1</mat-label>
+                                <mat-label>Lugar de Trabajo</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
                             </mat-form-field>
                             <mat-form-field appearance="outline">
-                                <mat-label>columna 2 - 1</mat-label>
+                                <mat-label>Viajes</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field>  
+                            <mat-form-field appearance="outline">
+                                <mat-label>Lugar</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
-                            </mat-form-field>
+                            </mat-form-field>   
+                            <mat-grid-tile  [colspan]="6">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Permanencia</mat-label>
+                                    <input matInput placeholder="Código" formControlName="Codigo">
+                                </mat-form-field>                       
+                            </mat-grid-tile>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field>  
+                            <mat-form-field appearance="outline">
+                                <mat-label>Otros</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field>                                                        
                         </div>
                     </div>
-
                 </div>
-
             </mat-step>
+
             <mat-step>
                 <ng-template matStepLabel>Datos de la Donación</ng-template>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>columna 2 - 1</mat-label>
-                    <input matInput placeholder="Código" formControlName="Codigo">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>columna 2 - 1</mat-label>
-                    <input matInput placeholder="Código" formControlName="Codigo">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>columna 2 - 1</mat-label>
-                    <input matInput placeholder="Código" formControlName="Codigo">
-                </mat-form-field>
+                <div class="content">
+                    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Campaña</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo Procedimiento</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Sangre</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo Donacion</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field> 
+                        </div>
+
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Documento</mat-label>
+                                        <mat-select >
+                                          <mat-option></mat-option>  
+                                        </mat-select>
+                                    </mat-form-field>                                                             
+                                </mat-grid-tile>
+
+                                <mat-grid-tile [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Nro</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                            
+                                </mat-grid-tile>
+                            </mat-grid-list>
+
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Apellido Paterno</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                                                              
+                                </mat-grid-tile>
+
+                                <mat-grid-tile [colspan]="6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Apellido Materno</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                            
+                                </mat-grid-tile>
+                            </mat-grid-list>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Eje - Procede</mat-label>
+                                <input matInput placeholder="Código" formControlName="Codigo">
+                            </mat-form-field> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Vinculo</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field>  
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo</mat-label>
+                                <mat-select >
+                                  <mat-option></mat-option>  
+                                </mat-select>
+                            </mat-form-field>  
+
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="4">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Lote</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                                                              
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="4">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Donante</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                            
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="4">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Cant. Apto</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                            
+                                </mat-grid-tile>
+                            </mat-grid-list>
+
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="4">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Apoyo</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                                                              
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="4">
+                                                               
+                                </mat-grid-tile>
+                                <mat-grid-tile [colspan]="4">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Deuda Actual</mat-label>
+                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                    </mat-form-field>                            
+                                </mat-grid-tile>
+                            </mat-grid-list>
+
+                        </div>
+
+                    </div>
+                </div>
                 
             </mat-step>
+
         </mat-stepper>
     </form>
    
