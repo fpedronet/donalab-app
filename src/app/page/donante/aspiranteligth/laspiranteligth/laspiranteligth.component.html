@@ -30,8 +30,8 @@
         <mat-table [dataSource]="dataSource" matSort>
           
           <ng-container matColumnDef="codigo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Código </mat-header-cell>
-            <mat-cell *matCellDef="let element" data-label="Código"> {{element.codigo}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef [ngClass]="'widthTableCod'" mat-sort-header> Código </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'widthTableCod'" data-label="Código"> {{element.codigo}} </mat-cell>
           </ng-container>
         
           <ng-container matColumnDef="nombres">
@@ -40,15 +40,15 @@
           </ng-container>
 
           <ng-container matColumnDef="codEstado">
-            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
-            <mat-cell *matCellDef="let element" data-label="Estado">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="Estado">
               <div class="circulo" style="background:{{element.colorhexa}}"></div>
             </mat-cell>
           </ng-container>          
               
           <ng-container matColumnDef="accion">
-              <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
-              <mat-cell *matCellDef="let element" style="text-align: right;">
+              <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> Acción </mat-header-cell>
+              <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" style="text-align: right;">
                   <a *ngIf="permiso.ver" class="pointer ver" matTooltip="Ver" [routerLink]="['/page/donante/aspirantelight/edit/', element.idePreDonante, false]">
                     <mat-icon>visibility</mat-icon>
                  </a>

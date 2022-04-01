@@ -5,6 +5,7 @@ import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import { Response } from 'src/app/_model/response';
 import { dataCollection } from '../_model/dataCollection';
 import { Persona } from '../_model/persona';
+import { PersonaHistorial } from '../_model/personahistorial';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,13 @@ export class PredonanteService {
     let urls = `${this.url}/GetFirstPersona?idPersona=${idPersona}&tipoDocu=${tipoDocu}&numDocu=${numDocu}`;
 
     return this.http.get<Persona>(urls);
+  }
+
+  obtenerHistorial(idPersona: number = 0){
+    //debugger;
+    let urls = `${this.url}/GetAllPersonaHistorial?idPersona=${idPersona}`;
+
+    return this.http.get<dataCollection>(urls);
   }
 
   guardar(model: Predonante){
