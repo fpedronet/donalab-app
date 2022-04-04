@@ -89,6 +89,19 @@ export class MfaspirantelingthComponent implements OnInit {
     this.fechaFin=  this.fechaSelectFin;    
   }
 
+  limpiar(){
+    this.nombre="";
+    this.idcampania = "0";
+    this.idorigen = "0";
+    this.idestado! = "2";
+    this.fechaInicio = new Date();
+    this.fechaSelectInicio = new Date();
+    this.fechaFin = new Date();
+    this.fechaSelectFin = new Date();
+
+    localStorage.setItem(environment.CODIGO_FILTRO, this.nombre +"|"+ this.idcampania+"|"+this.idorigen+"|"+this.idestado+"|"+this.fechaInicio+"|"+this.fechaFin);
+  }
+
   buscar(){
     this.dialogRef.close();
 
