@@ -266,6 +266,12 @@ export class CaspiranteligthComponent implements OnInit {
     }
   }
 
+  obtenerPersonaEnter(key: number){
+    if(key === 13){
+      this.obtenerPersona(undefined);
+    }
+  }
+
   obtenerPersona(e?: Event){
     console.log(e);
     e?.preventDefault(); // Evita otros eventos como blur   
@@ -275,7 +281,7 @@ export class CaspiranteligthComponent implements OnInit {
     var tipoDocu = this.form.value['TipDocu'];
     var numDocu = this.form.value['NumDocu'];
     
-    debugger;
+    //debugger;
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
