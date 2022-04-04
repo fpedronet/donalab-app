@@ -135,7 +135,7 @@ export class CaspiranteligthComponent implements OnInit {
       'IdeOrigen': new FormControl({ value: ideOri, disabled: !this.edit}),
       'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),
       'Fecha': new FormControl({ value: new Date(), disabled: !this.edit}),
-    });    
+    }); 
   }
 
   ngAfterViewInit(){
@@ -417,8 +417,7 @@ export class CaspiranteligthComponent implements OnInit {
   obtener(){
     if(this.id!=0){
       this.currentTab = 1;
-      //window.scrollTo(0, document.body.scrollHeight);
-      
+
       this.spinner.showLoading();
       this.predonanteService.obtener(this.id).subscribe(data=>{
         //debugger;
