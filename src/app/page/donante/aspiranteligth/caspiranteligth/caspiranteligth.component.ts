@@ -275,7 +275,7 @@ export class CaspiranteligthComponent implements OnInit {
     var tipoDocu = this.form.value['TipDocu'];
     var numDocu = this.form.value['NumDocu'];
     
-    //debugger;
+    debugger;
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
