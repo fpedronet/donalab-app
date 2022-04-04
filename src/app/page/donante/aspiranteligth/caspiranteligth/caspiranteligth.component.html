@@ -64,7 +64,7 @@
               <div fxFlex="70%" fxFlex.xs="100%" fxFlex.sm="70%">
                 <mat-form-field appearance="outline">
                   <mat-label>Documento</mat-label>
-                  <input #DOCUMENTO type="text" [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)" (keyup.enter)="obtenerPersona($event)" >
+                  <input #DOCUMENTO type="text" [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)" (keydown)="obtenerPersonaEnter($event.keyCode)" >
                   <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
                     <mat-icon>close</mat-icon>
                   </button>

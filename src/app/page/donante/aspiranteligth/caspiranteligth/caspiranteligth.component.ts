@@ -266,6 +266,12 @@ export class CaspiranteligthComponent implements OnInit {
     }
   }
 
+  obtenerPersonaEnter(key: number){
+    if(key === 13){
+      this.obtenerPersona(undefined);
+    }
+  }
+
   obtenerPersona(e?: Event){
     console.log(e);
     e?.preventDefault(); // Evita otros eventos como blur   
