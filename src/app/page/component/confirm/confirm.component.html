@@ -3,7 +3,7 @@
         <h6 style="font-size:1.25rem; color: #003f94;" mat-dialog-title>{{data.message}}</h6>
         <mat-divider *ngIf="data.message2!=='' && data.message3!=='' && data.message3!=='' && data.message4!==''"></mat-divider>
         <br *ngIf="data.message2!=='' && data.message3!=='' && data.message3!=='' && data.message4!==''">
-        <div *ngIf="data.message2!=='' && data.message3!=='' && data.message3!=='' && data.message4!==''" style = "display: block" id = "otrasLineas">
+        <div id="otrasLineas" *ngIf="data.message2!=='' && data.message3!=='' && data.message3!=='' && data.message4!==''" style = "display: block" id = "otrasLineas">
             <!-- <br> -->
             <h6 style="font-size:1.20rem; text-align:left;" mat-dialog-title>{{data.message2}}</h6>
             <!-- <br> -->

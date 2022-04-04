@@ -16,6 +16,7 @@ import { MfaspirantelingthComponent } from '../mfaspirantelingth/mfaspiranteling
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import forms from 'src/assets/json/formulario.json';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-laspirantelight',
@@ -25,7 +26,7 @@ import { environment } from 'src/environments/environment';
 export class LaspiranteligthComponent implements OnInit {
 
   dataSource: Predonante[] = [];
-  displayedColumns: string[] = ['codigo', 'nombres', 'codEstado', 'accion'];
+  displayedColumns: string[] = ['codigo', 'nombres', 'codEstado'];
   loading = true;
   existRegistro = false;
   countRegistro = 0;
@@ -39,6 +40,7 @@ export class LaspiranteligthComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private dialog: MatDialog,
     private spinner: SpinnerService,
     private usuarioService: UsuarioService,
@@ -139,6 +141,18 @@ export class LaspiranteligthComponent implements OnInit {
         this.ngAfterViewInit();
         }
     })
+  }
+
+  abrirFormCrear(id: number){
+    var editar = true;
+    if(this.permiso.guardar)
+      editar = true;
+    else if(this.permiso.ver)
+      editar = false;
+    else
+      return; //Si no tiene al menos un permiso no hace nada
+    
+    this.router.navigate(['/page/donante/aspirantelight/edit/', id, editar]);
   }
 
 }
