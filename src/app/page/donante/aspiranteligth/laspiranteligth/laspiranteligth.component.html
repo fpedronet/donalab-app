@@ -42,21 +42,9 @@
           <ng-container matColumnDef="codEstado">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> Estado </mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="Estado">
-              <div class="circulo" style="background:{{element.colorhexa}}"></div>
+              <div class="circulo" style="background:{{element.colorhexa}}" (click)="abrirFormCrear(element.idePreDonante)"></div>
             </mat-cell>
-          </ng-container>          
-              
-          <ng-container matColumnDef="accion">
-              <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> Acción </mat-header-cell>
-              <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" style="text-align: right;">
-                  <a *ngIf="permiso.ver" class="pointer ver" matTooltip="Ver" [routerLink]="['/page/donante/aspirantelight/edit/', element.idePreDonante, false]">
-                    <mat-icon>visibility</mat-icon>
-                 </a>
-                 <a *ngIf="permiso.guardar" class="pointer edit" matTooltip="Editar" [routerLink]="['/page/donante/aspirantelight/edit/', element.idePreDonante, true]">
-                   <mat-icon>edit</mat-icon>
-                </a>
-              </mat-cell>
-            </ng-container>
+          </ng-container>
           
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

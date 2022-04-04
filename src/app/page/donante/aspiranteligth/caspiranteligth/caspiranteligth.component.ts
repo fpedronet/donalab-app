@@ -87,6 +87,8 @@ export class CaspiranteligthComponent implements OnInit {
   colFondo: string = '';
   colLetra: string = '';
 
+  currentTab: number = 0;
+
   ngOnInit(): void {
     
     //Extrae permisos
@@ -263,9 +265,9 @@ export class CaspiranteligthComponent implements OnInit {
     }
   }
 
-  obtenerPersona(e: Event){    
-    //console.log(e);
-    e.preventDefault(); // Evita otros eventos como blur   
+  obtenerPersona(e?: Event){
+    console.log(e);
+    e?.preventDefault(); // Evita otros eventos como blur   
     
     //this.muestraSangre = false;
 
@@ -276,7 +278,7 @@ export class CaspiranteligthComponent implements OnInit {
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
-        if(this.form.value['IdePersona'] === data.idePersona)
+        if(this.form.value['IdePersona'] === data.idePersona && data.idePersona !== 0)
           return;
         //debugger;
         if(data !== undefined && data !== null && (data.onlyPoclab === 1 || data.idePersona !== 0)){
@@ -296,7 +298,7 @@ export class CaspiranteligthComponent implements OnInit {
           });
           this.cambiaPaisDistrito(data.codPais, data.codDistrito);
 
-          this.obtieneHistorial(data.idePersona, false);
+          this.obtieneHistorial(data.idePersona, true);
         }
         else{
           this.reiniciaPersona();
@@ -413,6 +415,9 @@ export class CaspiranteligthComponent implements OnInit {
 
   obtener(){
     if(this.id!=0){
+      this.currentTab = 1;
+      //window.scrollTo(0, document.body.scrollHeight);
+      
       this.spinner.showLoading();
       this.predonanteService.obtener(this.id).subscribe(data=>{
         //debugger;

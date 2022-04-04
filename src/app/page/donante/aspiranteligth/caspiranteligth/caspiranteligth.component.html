@@ -13,14 +13,14 @@
 
 
 <div class="container">
-  <mat-card class="cardborde">
+  <mat-card id="card" class="cardborde">
       <mat-toolbar class="cardtitle"></mat-toolbar>
       <h2 *ngIf="id===0" class="title-label">CREAR POSTULANTE</h2>
       <h2 *ngIf="id!==0 && !edit" class="title-label">VER POSTULANTE</h2>
       <h2 *ngIf="id!==0 && edit" class="title-label">EDITAR POSTULANTE</h2>
       <mat-divider></mat-divider>
       <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
-        <mat-stepper labelPosition="bottom" #stepper>
+        <mat-stepper id="stepper" [selectedIndex]="currentTab" labelPosition="bottom" #stepper>
             
           <mat-step>
             <ng-template matStepLabel>Datos principales</ng-template>
@@ -64,7 +64,7 @@
               <div fxFlex="70%" fxFlex.xs="100%" fxFlex.sm="70%">
                 <mat-form-field appearance="outline">
                   <mat-label>Documento</mat-label>
-                  <input #DOCUMENTO [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)">
+                  <input #DOCUMENTO [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)" (keyup.enter)="obtenerPersona($event)">
                   <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
                     <mat-icon>close</mat-icon>
                   </button>
@@ -155,7 +155,7 @@
               <mat-datepicker #Fecha></mat-datepicker>
             </mat-form-field>
             
-            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+            <div id="buttonsDonacion" fxLayout="row wrap" fxLayoutGap="16px grid">
               <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" style="text-align: center;">
                 <button [disabled]="!edit" *ngIf="!btnEstadoSel[0]" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
                 <button [disabled]="!edit" *ngIf="btnEstadoSel[0]" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>

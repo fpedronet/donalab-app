@@ -17,11 +17,12 @@ export class ConfirmComponent implements OnInit {
 
   ngOnInit(): void {
     //Falta setear el valor de otras líneas según si la cadena msg2 es vacía
+    var lineas = document.getElementById("otrasLineas");
     if(this.otrasLineas){
-      document.getElementById("otrasLineas")!.style.display = "block"
+      if(lineas) lineas.style.display = "block"
     }
     else{
-      document.getElementById("otrasLineas")!.style.display = "none"
+      if(lineas) lineas.style.display = "none"
     }
   }
 }
