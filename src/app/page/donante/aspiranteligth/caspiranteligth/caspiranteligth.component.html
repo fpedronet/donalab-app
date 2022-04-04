@@ -19,8 +19,8 @@
       <h2 *ngIf="id!==0 && !edit" class="title-label">VER POSTULANTE</h2>
       <h2 *ngIf="id!==0 && edit" class="title-label">EDITAR POSTULANTE</h2>
       <mat-divider></mat-divider>
-      <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
-        <mat-stepper id="stepper" [selectedIndex]="currentTab" labelPosition="bottom" #stepper>
+      <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()" onKeyPress="if(event.keyCode == 13) event.returnValue = false;">
+        <mat-stepper #stepper id="stepper" [selectedIndex]="currentTab" labelPosition="bottom">
             
           <mat-step>
             <ng-template matStepLabel>Datos principales</ng-template>
@@ -64,7 +64,7 @@
               <div fxFlex="70%" fxFlex.xs="100%" fxFlex.sm="70%">
                 <mat-form-field appearance="outline">
                   <mat-label>Documento</mat-label>
-                  <input #DOCUMENTO [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)" (keyup.enter)="obtenerPersona($event)">
+                  <input #DOCUMENTO type="text" [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)" (keyup.enter)="obtenerPersona($event)" >
                   <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
                     <mat-icon>close</mat-icon>
                   </button>
@@ -93,6 +93,10 @@
                 </mat-option>              
               </mat-select>
             </mat-form-field>
+            <div style="padding-top: 10px">
+              <!--button style="float: left" mat-button matStepperPrevious type="button">Atrás</button-->
+              <button style="float: right" mat-button matStepperNext type="button">Siguiente</button>
+            </div>  
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>Datos secundarios</ng-template>
@@ -165,9 +169,16 @@
                 <button [disabled]="!edit" *ngIf="btnEstadoSel[1]" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
               </div>              
             </div>
-
+            <div style="padding-top: 10px">
+              <button style="float: left" mat-button matStepperPrevious type="button">Atrás</button>
+              <!--button style="float: right" mat-button matStepperNext type="button">Siguiente</button-->
+            </div>            
           </mat-step>
         </mat-stepper>
+        <!--div>
+          <button *ngIf="stepper.selectedIndex > 0" (click)="goBack(stepper)" type="button">Back</button>
+          <button *ngIf="stepper.selectedIndex < 1" (click)="goForward(stepper)" type="button">Next</button>
+        </div-->
       </form>
   </mat-card>    
 </div>

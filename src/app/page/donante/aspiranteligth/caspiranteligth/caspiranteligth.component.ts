@@ -19,6 +19,7 @@ import { PredonanteService } from 'src/app/_service/predonante.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { environment } from 'src/environments/environment';
 import forms from 'src/assets/json/formulario.json';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-caspiranteligth',
