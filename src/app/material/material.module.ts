@@ -40,7 +40,7 @@ import {MatTreeModule} from '@angular/material/tree';
   declarations: [],
   imports: [
     CommonModule,
-    MatTableModule
+    MatTableModule,
   ],
   exports:[
     MatTableModule,
@@ -75,7 +75,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTabsModule,
     NgApexchartsModule,
     MatExpansionModule,
-    MatTreeModule
+    MatTreeModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },

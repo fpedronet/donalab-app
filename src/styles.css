@@ -5,6 +5,10 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* botones grilla */
+
+.btnModal{
+  padding-top:13px;
+}
 .pointer{
   cursor: pointer;
 }
@@ -19,6 +23,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .delete{
   color: #da3f1e;
   padding:5px;
+}
+
+.btnRed{
+  color: #c50a0a;
+}
+
+.btnYellow{
+  color: #adb90e;
+}
+
+.btnBlue{
+  color: #170ad0;
 }
 
 .btnHeader{
@@ -90,16 +106,16 @@ form{
 }
 
 .example-button-row{
-  margin-left: 44%;
+  margin:44%;
 }
 
 /* botones en la cabezera formulario */
 .example-button-row .mat-button-base {
   /* margin: 8px 8px 8px 0; */
-  margin: 10px 36px -3px -25px;
-  min-width: 58px;
-  line-height: 31px;
-  border-radius:9px;
+  margin: 11px 34px -2px -24px;
+  min-width: 60px;
+  line-height: 33px;
+  border-radius:11px;
 }
 
 /* loading page */
@@ -155,18 +171,16 @@ form{
   border-radius: 50%;
 }
 
-
-
 @media (max-width:1200px){
   .example-button-row{
-    margin-left: 40%;
+    margin:44%;
   }
 }
 
 @media (max-width:991px){
   
   .example-button-row{
-    margin-left: 36%;
+    margin:44%;
   }
 }
 
@@ -238,8 +252,9 @@ form{
 
   
   .example-button-row{
-    margin-left: 33%;
+    margin:44%;
   }
+
   #closemenu{
     display: none;
   }
@@ -255,7 +270,7 @@ form{
     margin-left: 1em;
   }
   .example-button-row{
-    margin-left: 32%;
+    margin:44%;
   }
   #closemenu{
     display: none;
@@ -268,7 +283,7 @@ form{
 
 @media (max-width:599px){
   .example-button-row{
-    margin-left: 29%;
+    margin:50%;
   }
   .mat-header-row{
     min-height:22px;
@@ -289,7 +304,7 @@ form{
     margin-left: 0.4em;
   }
   .example-button-row{
-    margin-left: 32%;
+    margin:50%;
   }
   .mat-header-row{
     min-height:22px;

@@ -30,6 +30,10 @@ export class LayoutComponent implements OnInit {
   banco?: string = "";
   logo?: string =environment.UrlImage + "logoMenu.png";
   user?: string =environment.UrlImage + "userMenu.png";
+  username: string = "";
+  userdni: string = "99999999";
+
+  isShowing= true;
 
   ngOnInit(): void {
     this.listar();   
@@ -37,11 +41,15 @@ export class LayoutComponent implements OnInit {
 
   listar(){
     this.spinner.showLoading();
+    let session = this.usuarioService.sessionUsuario();
+
+    this.username= session.nombre.toUpperCase();
+    this.userdni= (session.documento=="")? this.userdni: session.documento;
+
     this.ConfigPermisoService.listar().subscribe(data=>{
       this.menus.listaMenu = data.listaMenu;
       this.menus.listaBanco = data.listaBanco;
-
-      let bancoselect = this.usuarioService.sessionUsuario().codigobanco;
+      let bancoselect = session.codigobanco;
 
       if(bancoselect!=null){
         this.codigo = bancoselect;
@@ -66,6 +74,7 @@ export class LayoutComponent implements OnInit {
   }
 
   clearLocalStore(){
+    debugger;
     localStorage.setItem(environment.CODIGO_FILTRO, "");
   }
 
@@ -73,5 +82,16 @@ export class LayoutComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(['']);
   }
+
+  
+  toggleSidenav(): boolean{
+    debugger;
+    if (!this.isShowing){
+        return this.isShowing = true;
+    }
+    else{
+        return this.isShowing = false;
+    }
+}
 
 }
