@@ -111,7 +111,6 @@ export class LaspiranteligthComponent implements OnInit {
           }
 
           this.countRegistro = res.pagination.total;
-
           return res.items;
         }),
       ).subscribe(data => (this.dataSource = data));

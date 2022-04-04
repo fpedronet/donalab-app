@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerService } from '../spinner/spinner.service';
 import { environment } from 'src/environments/environment';
 
@@ -14,6 +14,7 @@ import { MenuResponse } from 'src/app/_model/menu';
   styleUrls: ['./layout.component.css'],
 })
 export class LayoutComponent implements OnInit {
+
 
   constructor(
     private route: ActivatedRoute,
@@ -32,8 +33,7 @@ export class LayoutComponent implements OnInit {
   user?: string =environment.UrlImage + "userMenu.png";
   username: string = "";
   userdni: string = "99999999";
-
-  isShowing= true;
+  isshow: boolean = false;
 
   ngOnInit(): void {
     this.listar();   
@@ -74,8 +74,8 @@ export class LayoutComponent implements OnInit {
   }
 
   clearLocalStore(){
-    debugger;
-    localStorage.setItem(environment.CODIGO_FILTRO, "");
+    this.isshow = false;
+    localStorage.setItem(environment.CODIGO_FILTRO, "");    
   }
 
   closeLogin(){
@@ -83,15 +83,7 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  
-  toggleSidenav(): boolean{
-    debugger;
-    if (!this.isShowing){
-        return this.isShowing = true;
-    }
-    else{
-        return this.isShowing = false;
-    }
-}
-
+  abrirmenu(){
+    this.isshow = true;
+  }
 }

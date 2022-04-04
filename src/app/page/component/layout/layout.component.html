@@ -4,7 +4,7 @@
   <mat-toolbar color="primary">
 
     <div fxShow="true" fxHide.gt-sm="true">
-      <button mat-icon-button (click)="sidenav.toggle()">
+      <button mat-icon-button (click)="abrirmenu()">
         <mat-icon>menu</mat-icon>
       </button>
     </div>
@@ -51,7 +51,7 @@
   </mat-toolbar>
 
   <mat-sidenav-container fxFlexFill class="example-container">
-    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="{{isshow}}" fxHide.gt-sm="true">
       <div class="menu-header-bg">Menu</div>
       <div class="header-content">
         <img src="{{user}}" />
