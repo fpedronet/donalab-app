@@ -285,6 +285,7 @@ export class CaspiranteligthComponent implements OnInit {
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
+        console.log(data);
         if(this.form.value['IdePersona'] === data.idePersona && data.idePersona !== 0)
           return;
         //debugger;
