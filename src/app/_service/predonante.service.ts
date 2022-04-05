@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import { Response } from 'src/app/_model/response';
 import { dataCollection } from '../_model/dataCollection';
-import { Persona } from '../_model/persona';
+import { Persona, PersonaPoclab } from '../_model/persona';
 import { PersonaHistorial } from '../_model/personahistorial';
 
 @Injectable({
@@ -79,4 +79,5 @@ export class PredonanteService {
 
     return this.http.get<Predonante>(urls);
   }
+  
 }
