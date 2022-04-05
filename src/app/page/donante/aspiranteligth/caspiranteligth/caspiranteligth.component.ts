@@ -424,6 +424,9 @@ export class CaspiranteligthComponent implements OnInit {
     if(this.id!=0){
       this.currentTab = 1;
 
+      var c = document.getElementById('buttonsDonacion');
+      if(c) window.scrollTo(0, c.scrollHeight);
+
       this.spinner.showLoading();
       this.predonanteService.obtener(this.id).subscribe(data=>{
         //debugger;
