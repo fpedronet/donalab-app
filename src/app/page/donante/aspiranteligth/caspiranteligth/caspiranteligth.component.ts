@@ -20,6 +20,7 @@ import { UsuarioService } from 'src/app/_service/usuario.service';
 import { environment } from 'src/environments/environment';
 import forms from 'src/assets/json/formulario.json';
 import { MatStepper } from '@angular/material/stepper';
+import { PoclabService } from 'src/app/_service/poclab.service';
 
 @Component({
   selector: 'app-caspiranteligth',
@@ -39,6 +40,7 @@ export class CaspiranteligthComponent implements OnInit {
     private usuarioService: UsuarioService,
     private predonanteService: PredonanteService,
     private configPermisoService : ConfigPermisoService,
+    private poclabService: PoclabService,
   ) { }
 
   /*tabla de encuesta maestra */
@@ -285,37 +287,80 @@ export class CaspiranteligthComponent implements OnInit {
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
-        console.log(data);
-        if(this.form.value['IdePersona'] === data.idePersona && data.idePersona !== 0)
-          return;
+        //console.log(data);
         //debugger;
-        if(data !== undefined && data !== null && (data.onlyPoclab === 1 || data.idePersona !== 0)){
-          this.form.patchValue({
-            IdePersona: data.idePersona,
-            TipDocu: data.tipDocu,
-            NumDocu: data.numDocu,
-            ApPaterno: data.apPaterno,
-            ApMaterno: data.apMaterno,
-            Nombres: data.primerNombre + ' ' + data.segundoNombre,
-            Sexo: data.sexo,
-            FecNacimiento: data.fecNacimiento,
-            CodPais: data.codPais,
-            Celular: data.celular,
-            Telefono: data.telefono,
-            Correo: data.correo1
-          });
-          this.cambiaPaisDistrito(data.codPais, data.codDistrito);
-
-          this.obtieneHistorial(data.idePersona, true);
+        //Verifica si existe en BD
+        if(data!== undefined && data.idePersona !== 0){
+          //No carga repetidos (eficiencia)
+          if(this.form.value['IdePersona'] !== data.idePersona)
+            this.muestraDatosPersona(data);
         }
         else{
-          this.reiniciaPersona();
+          //Busca en Poclab
+          if(tipoDocu === '1'){
+            
+            this.poclabService.obtenerPersona(tipoDocu, numDocu).subscribe(dataP=>{
+              if(dataP!== undefined && dataP.nIdePersona !== 0){
+                if(this.form.value['IdePersona'] !== dataP.nIdePersona){
+                  //Convierte datos
+                  //debugger;
+                  var p = new Persona();
+                  p.tipDocu = '1';
+                  p.numDocu = dataP.vDocumento;
+                  p.idePersona = 0;
+                  p.apPaterno = dataP.vApePaterno;
+                  p.apMaterno = dataP.vApeMaterno;
+                  p.primerNombre = dataP.vPrimerNombre;
+                  p.segundoNombre = dataP.vSegundoNombre;
+                  p.sexo = dataP.vSexo;
+                  p.fecNacimiento = dataP.dteNacimiento;
+                  var codPais = dataP.vCodPais;
+                  if(codPais === 'PER'){
+                    p.codPais = '01';
+                  }
+                  else{
+                    p.codPais = dataP.vCodPais;
+                  }                  
+                  p.codDepartamento = dataP.vCodRegion;
+                  p.codProvincia = dataP.vCodProvincia;
+                  p.codDistrito = dataP.vCodDistrito;
+                  p.correo1 = dataP.vEmail;
+                  p.telefono = dataP.vTelefono1;
+                  this.muestraDatosPersona(p);
+                }                  
+              }                
+              else
+                this.reiniciaPersona();
+            })
+          }
+          else
+            this.reiniciaPersona();
         }
       })
     }
     else{
       this.reiniciaPersona();
     }
+  }
+
+  muestraDatosPersona(data: Persona){
+    this.form.patchValue({
+      IdePersona: data.idePersona,
+      TipDocu: data.tipDocu,
+      NumDocu: data.numDocu,
+      ApPaterno: data.apPaterno,
+      ApMaterno: data.apMaterno,
+      Nombres: data.primerNombre + ' ' + data.segundoNombre,
+      Sexo: data.sexo,
+      FecNacimiento: data.fecNacimiento,
+      CodPais: data.codPais,
+      Celular: data.celular,
+      Telefono: data.telefono,
+      Correo: data.correo1
+    });
+    this.cambiaPaisDistrito(data.codPais, data.codDistrito);
+
+    this.obtieneHistorial(data.idePersona, true);
   }
 
   obtieneHistorial(idPersona: number = 0, muestraErrores: boolean){
@@ -424,6 +469,9 @@ export class CaspiranteligthComponent implements OnInit {
   obtener(){
     if(this.id!=0){
       this.currentTab = 1;
+
+      /*var c = document.getElementById('buttonsDonacion');
+      if(c) window.scrollTo(0, c.scrollHeight);*/
 
       this.spinner.showLoading();
       this.predonanteService.obtener(this.id).subscribe(data=>{

@@ -161,11 +161,11 @@
             
             <div id="buttonsDonacion" fxLayout="row wrap" fxLayoutGap="16px grid">
               <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" style="text-align: center;">
-                <button [disabled]="!edit" *ngIf="!btnEstadoSel[0]" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
+                <button [disabled]="!edit" *ngIf="!btnEstadoSel[0]" style="width: 75%; outline-style: auto;" type="button" mat-stroked-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
                 <button [disabled]="!edit" *ngIf="btnEstadoSel[0]" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(0)">{{textDono}}</button>
               </div>
               <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" style="text-align: center;">
-                <button [disabled]="!edit" *ngIf="!btnEstadoSel[1]" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
+                <button [disabled]="!edit" *ngIf="!btnEstadoSel[1]" style="width: 75%; outline-style: auto;" type="button" mat-stroked-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
                 <button [disabled]="!edit" *ngIf="btnEstadoSel[1]" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(1)">{{textNoDono}}</button>
               </div>              
             </div>

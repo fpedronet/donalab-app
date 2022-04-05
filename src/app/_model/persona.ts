@@ -45,3 +45,38 @@ export class Persona {
     fecRegistro?: Date;
     onlyPoclab?:number;
 }
+
+export class PersonaPoclab{
+    nIdePersona?: number;
+    vDocumento?: string;
+    vApePaterno?: string;
+    vApeMaterno?: string;
+    vPrimerNombre?: string;
+    vSegundoNombre?: string;
+    vSexo?: string;
+    dteNacimiento?: Date;
+    vCodPais?: string;
+    vCodRegion?: string;
+    vCodProvincia?: string;
+    vCodDistrito?: string;
+    vEmail?: string;
+    vTelefono1?: string;
+
+    toPersona(){
+        var p = new Persona();
+        p.idePersona = this.nIdePersona;
+        p.apPaterno = this.vApePaterno;
+        p.apMaterno = this.vApeMaterno;
+        p.primerNombre = this.vPrimerNombre;
+        p.segundoNombre = this.vSegundoNombre;
+        p.sexo = this.vSexo;
+        p.fecNacimiento = this.dteNacimiento;
+        p.codPais = this.vCodPais;
+        p.codDepartamento = this.vCodRegion;
+        p.codProvincia = this.vCodProvincia;
+        p.codDistrito = this.vCodDistrito;
+        p.correo1 = this.vEmail;
+        p.telefono = this.vTelefono1;
+        return p;
+    }
+}
