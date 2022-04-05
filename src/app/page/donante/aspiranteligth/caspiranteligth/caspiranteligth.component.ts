@@ -307,7 +307,7 @@ export class CaspiranteligthComponent implements OnInit {
                   var p = new Persona();
                   p.tipDocu = '1';
                   p.numDocu = dataP.vDocumento;
-                  p.idePersona = dataP.nIdePersona;
+                  p.idePersona = 0;
                   p.apPaterno = dataP.vApePaterno;
                   p.apMaterno = dataP.vApeMaterno;
                   p.primerNombre = dataP.vPrimerNombre;
