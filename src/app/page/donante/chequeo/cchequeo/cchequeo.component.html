@@ -27,25 +27,56 @@
   <form style="padding-top: 0px;margin:10px;" id="ngForm" #frmGrupo="ngForm" (ngSubmit)="guardar()">
       <div class="content">
           <div fxLayout="row wrap" fxLayoutGap="16px grid">
-              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">                                 
-                 <mat-form-field appearance="outline">
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">  
+
+                <mat-form-field appearance="outline">
                     <mat-label>Codigo</mat-label>
                     <input matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Tipo Extracción</mat-label>
+                  <mat-select >
+                    <mat-option>Todos</mat-option>  
+                  </mat-select>
+                </mat-form-field> 
+
                 <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
-                  <mat-grid-tile [colspan]="6">
+                  <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Peso</mat-label>
                       <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
                     </mat-form-field>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="6">
+                  <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Talla</mat-label>
                       <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
+
+                <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Hemoglobina</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Hematocrito</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Plaquetas</mat-label>
+                      <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
                 <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">

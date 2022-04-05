@@ -1,6 +1,6 @@
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -16,36 +16,36 @@ import { CadenaConexionDto, Usuario } from './../../../_model/usuario';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private notifierService : NotifierService,
     private spinner : SpinnerService,
-    private usuarioService : UsuarioService,  
+    private usuarioService : UsuarioService, 
+    private elementRef: ElementRef 
   ) { }
 
 
   form: FormGroup = new FormGroup({});
-  usuario?: string;
-  clave?: string;
   mensaje?: string;
   error?: string;
   logologin?: string =environment.UrlImage + "logo.png";
   hospital?: CadenaConexionDto[] = [];
   idHospital?: any;
   verHospital: boolean = false;
+  input: any;
 
   ngOnInit(): void {
 
-    this.listaHospital();
-
     this.form = new FormGroup({
-      'usuario': new FormControl(''),
-      'clave': new FormControl(''),
-      'idHospital': new FormControl('')
+      'usuario': new FormControl(""),
+      'clave': new FormControl(""),
+      'idHospital': new FormControl("")
     });
+
+    this.listaHospital();
   }
 
   listaHospital(){
@@ -89,10 +89,23 @@ export class LoginComponent implements OnInit {
   
           this.router.navigate(['/page/home']);
         }
-              
         this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.mensaje!);
         this.spinner.hideLoading();
+        if(data.typeResponse!=environment.EXITO){
+          this.input.focus();
+          this.input.select();
+        }
       }); 
+    }
+  }
+
+  focus(name:any, input: any, btn:string=""){
+    this.input = input;
+    if(btn=="btnlogin"){
+      this.login();
+    }else{
+      name.focus();
+      name.select();
     }
   }
 
