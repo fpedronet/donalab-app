@@ -314,7 +314,13 @@ export class CaspiranteligthComponent implements OnInit {
                   p.segundoNombre = dataP.vSegundoNombre;
                   p.sexo = dataP.vSexo;
                   p.fecNacimiento = dataP.dteNacimiento;
-                  p.codPais = dataP.vCodPais;
+                  var codPais = dataP.vCodPais;
+                  if(codPais === 'PER'){
+                    p.codPais = '01';
+                  }
+                  else{
+                    p.codPais = dataP.vCodPais;
+                  }                  
                   p.codDepartamento = dataP.vCodRegion;
                   p.codProvincia = dataP.vCodProvincia;
                   p.codDistrito = dataP.vCodDistrito;
