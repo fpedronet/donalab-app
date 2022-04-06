@@ -34,11 +34,11 @@ const routes: Routes = [
 
   {path:'donante/chequeo', component: LchequeoComponent, canActivate: [GuardService]},
   {path:'donante/chequeo/create', component: CchequeoComponent, canActivate: [GuardService]},
-  {path:'donante/chequeo/edit/:id', component: CchequeoComponent, canActivate: [GuardService]},
+  {path:'donante/chequeo/edit/:id/:edit', component: CchequeoComponent, canActivate: [GuardService]},
 
   {path:'donante/entrevista', component: LentrevistaComponent, canActivate: [GuardService]},
   {path:'donante/entrevista/create', component: CentrevistaComponent, canActivate: [GuardService]},
-  {path:'donante/entrevista/edit/:id', component: CentrevistaComponent, canActivate: [GuardService]},
+  {path:'donante/entrevista/edit/:id/:edit', component: CentrevistaComponent, canActivate: [GuardService]},
 
   {path:'donante/donacion', component: LdonacionComponent, canActivate: [GuardService]},
   {path:'donante/donacion/create', component: CdonacionComponent, canActivate: [GuardService]},

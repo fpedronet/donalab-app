@@ -155,11 +155,11 @@ export class LaspiranteComponent implements OnInit {
     })
   }
 
-  routeUrl(codigo: string, tipo:string){
+  routeUrl(idpredonante: string, tipo:string){
     if(tipo=="pd"){
       this.router.navigate(['/page/donante/aspirante/create']);
     }else if(tipo=="ch"){
-      this.router.navigate(['/page/donante/chequeo/create']);
+      this.router.navigate(['/page/donante/chequeo/edit/'+idpredonante+"/"+false]);
     }else if(tipo=="en"){
       this.router.navigate(['/page/donante/entrevista/create']);
     }else if(tipo=="do"){
