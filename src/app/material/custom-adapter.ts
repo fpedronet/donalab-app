@@ -26,7 +26,8 @@ export class CustomDateAdapter extends NativeDateAdapter {
     displayFormat = Object.assign({}, displayFormat, { timeZone: 'utc' });
 
     const dtf = new Intl.DateTimeFormat(this.locale, displayFormat);
-    return dtf.format(date).replace(/[\u200e\u200f]/g, '');
+    const dts = dtf.format(date).replace(/[\u200e\u200f]/g, '');
+    return dts;
   }
 
 }

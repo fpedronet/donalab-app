@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
+import { Combobox } from 'src/app/_model/combobox';
+
+import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
+import { ChequeofisicoService } from 'src/app/_service/chequeofisico.service';
+import { UsuarioService } from 'src/app/_service/usuario.service';
+
 @Component({
   selector: 'app-cchequeo',
   templateUrl: './cchequeo.component.html',
@@ -9,28 +15,39 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class CchequeoComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
-  
-  constructor() { }
+  listaTipoExtraccion?: Combobox[] = [];
+  listaAspectoGeneral?: Combobox[] = [];
+  listaAspectoVenoso?: Combobox[] = [];
+
+  constructor(
+    private spinner: SpinnerService,
+    private usuarioService: UsuarioService,
+    private chequeofisicoService: ChequeofisicoService,
+  ) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '#######', disabled: true}),
-      'IdePersona': new FormControl({ value: 0, disabled: false}),
-      'TipDocu': new FormControl({ value: '1', disabled: false}),
-      'NumDocu': new FormControl({ value: '', disabled: false}),
-      'apPaterno': new FormControl({ value: '', disabled: false}),
-      'apMaterno': new FormControl({ value: '', disabled: false}),
-      'nombres': new FormControl({ value: '', disabled: false}),
-      'Sexo': new FormControl({ value: '', disabled: false}),
-      'FecNacimiento': new FormControl({ value: null, disabled: false}),
-      'CodPais': new FormControl({ value: '', disabled: false}),
-      'Celular': new FormControl({ value: '', disabled: false}),
-      'Telefono': new FormControl({ value: '', disabled: false}),
-      'Correo': new FormControl({ value: '', disabled: false}),
-      'IdeOrigen': new FormControl({ value: '', disabled: false}),
-      'IdeCampania': new FormControl({ value: '', disabled: false}),
-      'Fecha': new FormControl({ value: new Date(), disabled: false}),
+      'otro': new FormControl({ value: 0, disabled: false}),
+      'nIdTipoExtraccion': new FormControl({ value: '', disabled: false}),
+      
     });
+
+    this.obtener();
+  }
+
+  obtener(){
+
+    this.spinner.showLoading();
+    let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
+    this.chequeofisicoService.obtener(0,codigobanco).subscribe(data=>{
+
+      this.listaTipoExtraccion = data.listaTipoExtraccion;
+      this.listaAspectoGeneral = data.listaAspectoGeneral;
+      this.listaAspectoVenoso = data.listaAspectoVenoso;
+
+      this.spinner.hideLoading();
+    });      
   }
 
   guardar(){

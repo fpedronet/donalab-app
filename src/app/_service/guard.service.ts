@@ -21,6 +21,8 @@ export class GuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     //1) VERIFICAR SI ESTA LOGUEADO
+
+    // return true;
     let token = localStorage.getItem(environment.TOKEN_NAME);
     let url = state.url;
 

@@ -14,8 +14,8 @@ export class ChequeofisicoService {
 
   private url: string = `${environment.UrlApi}/chequeofisico`;
   
-  obtener(idPersona: number){
-    let urls = `${this.url}/GetFirstChequeFisico?idPersona=${idPersona}`;
+  obtener(idPersona: number,idbanco:number ){
+    let urls = `${this.url}/GetFirstChequeFisico?idPredonante=${idPersona}&idbanco=${idbanco}`;
 
     return this.http.get<ChequeoFisico>(urls);
   }
