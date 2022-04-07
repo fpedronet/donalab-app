@@ -18,8 +18,8 @@
   
   <div id="content"> 
       <div style="width: 100%; float:left"> 
-          <div style="text-align: center; color: #1a0da4; font-weight:500">FRANCISCO PEDRO CONDOR MARTINEZ</div> 
-          <div style="text-align: center; color: #1a0da4; font-weight:600">45036143</div> 
+          <div style="text-align: center; color: #1a0da4; font-weight:500">{{nombres}}</div> 
+          <div style="text-align: center; color: #1a0da4; font-weight:600">{{documento}}</div> 
       </div> 
   </div>
   <br style="clear:both;"/>
@@ -27,7 +27,7 @@
   <form onkeydown="return event.key != 'Enter';" class="forms" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
     <mat-stepper labelPosition="bottom" #stepper>
       <mat-step>
-        <ng-template matStepLabel>Datos 1</ng-template>
+        <ng-template matStepLabel>Datos 1 </ng-template>
         <div class="content">
           <div fxLayout="row wrap" fxLayoutGap="16px grid">
               <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">  

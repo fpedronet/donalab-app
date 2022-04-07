@@ -26,7 +26,9 @@ export class ChequeoFisico{
     aceptaAlarma?: string;
     cns?: string;
     nIdTipoExtraccion?: string;
-    
+    nombres?:string;
+    documento?: string;
+
     listaTipoExtraccion?: Combobox[];
     listaLesionesPuncion?: Combobox[];
     listaGrupoSanguineo?: Combobox[];

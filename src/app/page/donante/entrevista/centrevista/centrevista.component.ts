@@ -8,6 +8,9 @@ import { UsuarioService } from 'src/app/_service/usuario.service';
 import { EntrevistaService } from 'src/app/_service/entrevista.service';
 
 import { Combobox } from 'src/app/_model/combobox';
+import { Pregunta } from 'src/app/_model/pregunta';
+import { Entrevista } from 'src/app/_model/entrevista';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-centrevista',
@@ -21,10 +24,20 @@ export class CentrevistaComponent implements OnInit {
   listaLesionesPuncion?: Combobox[] = [];
   listaGrupoSanguineo?: Combobox[] = [];
   listaAspectoVenoso?: Combobox[] = [];
-  CodEstado: number = 0;
+  listaPregunta?: Pregunta[] = [];
+  
+  CodEstado: string = "0";
+  Codigo?: number;
   id: number = 0;
   ver: boolean = true;
+  $disable: boolean =false;
+  btnaceptado: boolean = false;
+  btnrechazado: boolean = false;
+  btnsi: boolean = false;
+  btnno: boolean = false;
 
+  checkedSi:boolean =false;
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -38,10 +51,19 @@ export class CentrevistaComponent implements OnInit {
     this.form = new FormGroup({
       'idePreDonante': new FormControl({ value: '', disabled: false}),
       'codigo': new FormControl({ value: '', disabled: false}),
-      'fecha': new FormControl({ value: new Date(), disabled: false}),
-      'observaciones': new FormControl({ value: '', disabled: false}),
       'codEstado': new FormControl({ value: '', disabled: false}),
-      'ideMotivoRec': new FormControl({ value: '', disabled: false})
+      'ideMotivoRec': new FormControl({ value: '', disabled: false}),
+      'pesoDonacion': new FormControl({ value: '', disabled: true}),
+      'hemoglobina': new FormControl({ value: '', disabled: true}),
+      'nIdTipoProceso': new FormControl({ value: '', disabled: false}),
+      'tallaDonacion': new FormControl({ value: '', disabled: true}),
+      'hematocrito': new FormControl({ value: '', disabled: true}),
+      'nIdTipoExtraccion': new FormControl({ value: '', disabled: false}),
+      'ideGrupo': new FormControl({ value: '', disabled: false}),
+      'estadoVenoso': new FormControl({ value: '', disabled: false}),
+      'lesionesVenas': new FormControl({ value: '', disabled: false}),
+      'fechaMed': new FormControl({ value: new Date(), disabled: false}),
+      'observacionesMed': new FormControl({ value: '', disabled: false}),
     });
 
     this.route.params.subscribe((data: Params)=>{
@@ -60,8 +82,10 @@ export class CentrevistaComponent implements OnInit {
 
     if(codigo!=0){
       cod = (codigo.target.value==0)? this.id: codigo.target.value;
+      this.$disable = false;
     }else{
       ids=  this.id;
+      this.$disable = true;
     }
 
     this.entrevistaService.obtener(ids,cod,codigobanco).subscribe(data=>{
@@ -70,17 +94,30 @@ export class CentrevistaComponent implements OnInit {
       this.listaLesionesPuncion = data.listaLesionesPuncion;
       this.listaGrupoSanguineo = data.listaGrupoSanguineo;
       this.listaAspectoVenoso = data.listaAspectoVenoso;
+      this.listaPregunta = data.listaPregunta;
 
       if(ids!=0 || cod!=0){
 
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
-          'codigo': new FormControl({ value: data.codigo, disabled: false}),
-          'fecha': new FormControl({ value: new Date(), disabled: false}),
-          'observaciones': new FormControl({ value: data.observaciones, disabled: false}),
-          'codEstado': new FormControl({ value: data.codEstado, disabled: false}),
-          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec, disabled: false})
+          'codigo': new FormControl({ value: data.codigo, disabled: this.ver}),
+          'codEstado': new FormControl({ value: data.codEstado, disabled: this.ver}),
+          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec, disabled: this.ver}),
+          'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: true}),
+          'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: true}),
+          'nIdTipoProceso': new FormControl({ value: data.nIdTipoProceso, disabled: this.ver}),
+          'tallaDonacion': new FormControl({ value: data.tallaDonacion, disabled: true}),
+          'hematocrito': new FormControl({ value: data.hematocrito, disabled: true}),
+          'nIdTipoExtraccion': new FormControl({ value: data.nIdTipoExtraccion, disabled: this.ver}),
+          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: this.ver}),
+          'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: this.ver}),
+          'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: this.ver}),
+          'fechaMed': new FormControl({ value: new Date(), disabled: this.ver}),
+          'ObservacionesMed': new FormControl({ value: data.observacionesMed, disabled: this.ver}),
         });
+
+        this.Codigo = data.codigo;
+        this.CodEstado = data.codEstado?.toString()!;
 
       }
 
@@ -88,11 +125,55 @@ export class CentrevistaComponent implements OnInit {
     });      
   }
 
+  changeEstado(estado: string, btn: string){
+    this.CodEstado= estado;
+
+    if(btn=="btn1"){
+      this.btnaceptado= true;
+      this.btnrechazado= false;
+    }else if(btn=="btn2"){
+      this.btnaceptado= false;
+      this.btnrechazado= true;
+    }
+  }
+
+  changeEstadoPregunta(estado: string, btn: string, idePregunta?: number){
+debugger;
+    var result = this.listaPregunta?.filter(y=>y.idePregunta==idePregunta)[0];
+    result!.respuesta= estado;
+    
+    // if(btn=="btn1"){
+    //   this.btnsi= true;
+    //   this.btnno= false;
+    // }else if(btn=="btn2"){
+    //   this.btnsi= false;
+    //   this.btnno= true;
+    // }
+
+  }
+
   guardar(){
+    let model = new Entrevista();
 
+    model.idePreDonante= this.form.value['idePreDonante'];
+    model.codigo= this.Codigo;
+    model.fechaMed= this.form.value['fechaMed'];
+    model.observacionesMed= this.form.value['observacionesMed'];
+    model.codEstado= this.form.value['codEstado'];
+    model.ideMotivoRec= this.form.value['ideMotivoRec'];
+
+    this.spinner.showLoading();
+    this.entrevistaService.guardar(model).subscribe(data=>{
+
+      this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+
+        if(data.typeResponse==environment.EXITO){
+          this.router.navigate(['/page/donante/aspirante']);
+          this.spinner.hideLoading();
+        }else{
+          this.spinner.hideLoading();
+        }
+      });
   }
 
-  changeEstado(val: number){
-
-  }
 }

@@ -162,7 +162,7 @@ export class LaspiranteComponent implements OnInit {
     }else if(tipo=="ch"){
       this.router.navigate(['/page/donante/chequeo/edit/'+idpredonante+"/"+false]);
     }else if(tipo=="en"){
-      this.router.navigate(['/page/donante/entrevista/create']);
+      this.router.navigate(['/page/donante/entrevista/edit/'+idpredonante+"/"+false]);
     }else if(tipo=="do"){
       this.router.navigate(['/page/donante/donacion/create']);
     }   

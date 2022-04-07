@@ -25,11 +25,15 @@ export class CchequeoComponent implements OnInit {
   listaAspectoGeneral?: Combobox[] = [];
   listaAspectoVenoso?: Combobox[] = [];
   listaMotivoRechazo?: Combobox[] = [];
+
+  nombres: string = "";
+  documento: string ="";
   CodEstado: string = "0";
   Codigo?: number;
   id: number = 0;
   ver: boolean = true;
   $disable: boolean =false;
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -75,6 +79,8 @@ export class CchequeoComponent implements OnInit {
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
     let ids=0;
     let cod=0;
+    this.nombres = "";
+    this.documento = "";
 
     if(codigo!=0){
       cod = (codigo.target.value==0)? this.id: codigo.target.value;
@@ -131,6 +137,8 @@ export class CchequeoComponent implements OnInit {
 
         this.Codigo = data.codigo;
         this.CodEstado = data.codEstado?.toString()!;
+        this.nombres = data.nombres!;
+        this.documento = data.documento!;
       }
 
       this.spinner.hideLoading();

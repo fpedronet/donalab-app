@@ -6,10 +6,19 @@ export class Entrevista{
     idePreDonante?: number;
     codigo?: number;
     ideUsuario?: number;
-    fecha?: Date;
-    observaciones?: string;
     codEstado?: number;
     ideMotivoRec?: number;
+    pesoDonacion?: number;
+    hemoglobina?: number;
+    nIdTipoProceso?: number;
+    tallaDonacion?: number;
+    hematocrito?: number;
+    nIdTipoExtraccion?: string;
+    ideGrupo?: string;
+    estadoVenoso?: string;
+    lesionesVenas?: string;
+    fechaMed?: Date;
+    observacionesMed?: string;
     
     listaPregunta?: Pregunta[];
     listaTipoExtraccion?: Combobox[];
