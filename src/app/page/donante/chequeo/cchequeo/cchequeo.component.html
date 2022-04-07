@@ -3,7 +3,7 @@
     <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
       <mat-icon class="maticon">west</mat-icon>
     </button>
-    <button mat-flat-button class="btnHeader">
+    <button mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
       <mat-icon class="maticon">save</mat-icon>
     </button>
   </div>
@@ -24,7 +24,7 @@
   </div>
   <br style="clear:both;"/>
 
-  <form style="padding-top: 0px;margin:10px;" id="ngForm" #frmGrupo="ngForm" (ngSubmit)="guardar()">
+  <form style="padding-top: 0px;margin:10px;" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
     <mat-stepper labelPosition="bottom" #stepper>
       <mat-step>
         <ng-template matStepLabel>Datos 1</ng-template>
@@ -33,9 +33,15 @@
 
               <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">  
 
+                <div [hidden]="true">
+                  <mat-form-field appearance="outline">
+                       <input matInput placeholder="Id" formControlName="idePreDonante">
+                  </mat-form-field>
+                </div> 
+
                 <mat-form-field appearance="outline">
                     <mat-label>Codigo</mat-label>
-                    <input matInput formControlName="NumDocu" minlength="1" maxlength="15" required>
+                    <input matInput formControlName="codigo" minlength="1" (keyup.enter)="obtener($event)" required>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -45,19 +51,19 @@
                      {{c.descripcion}}
                     </mat-option>
                   </mat-select>
-              </mat-form-field>
+                </mat-form-field>
 
                 <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Peso</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <input matInput type="number" class="example-right-align" formControlName="pesoDonacion" placeholder="0.00">
                     </mat-form-field>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Talla</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <input matInput type="number" class="example-right-align" formControlName="tallaDonacion" placeholder="0.00">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -66,19 +72,19 @@
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Hemoglobina</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <input matInput type="number" class="example-right-align" formControlName="hemoglobina" placeholder="0.00">
                     </mat-form-field>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Hematocrito</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <input matInput type="number" class="example-right-align" formControlName="hematocrito" placeholder="0.00">
                     </mat-form-field>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Plaquetas</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <input matInput type="number" class="example-right-align" formControlName="plaquetas" placeholder="0.00">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -87,7 +93,7 @@
                   <mat-grid-tile [colspan]="3">
                     <mat-form-field appearance="outline">
                       <mat-label>Presion Arterial 1</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <input matInput type="number" class="example-right-align" formControlName="presionArterial1" placeholder="0">
                     </mat-form-field>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="2">
@@ -96,13 +102,13 @@
                   <mat-grid-tile [colspan]="3">
                     <mat-form-field appearance="outline">
                       <mat-label>Presion Arterial 2</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <input matInput type="number" class="example-right-align" formControlName="presionArterial2" placeholder="0">
                     </mat-form-field>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
-                      <mat-label>Frec. Card</mat-label>
-                      <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                      <mat-label>Frec. Cardiaca</mat-label>
+                      <input matInput type="number" class="example-right-align" formControlName="frecuenciaCardiaca" placeholder="0">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -119,13 +125,15 @@
             <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">
               <mat-form-field appearance="outline">
                 <mat-label>Grupo ABO</mat-label>
-                <mat-select >
-                  <mat-option>Todos</mat-option>  
+                <mat-select formControlName="ideGrupo">
+                  <mat-option *ngFor="let c of listaGrupoSanguineo" [value]="c.codigo">
+                   {{c.descripcion}}
+                  </mat-option>
                 </mat-select>
-              </mat-form-field>  
+              </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Aspecto General</mat-label>
-                <mat-select formControlName="nIdTipoExtraccion">
+                <mat-select formControlName="aspectoGeneral">
                   <mat-option *ngFor="let c of listaAspectoGeneral" [value]="c.codigo">
                    {{c.descripcion}}
                   </mat-option>
@@ -133,13 +141,15 @@
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Lesiones Area de Punción</mat-label>
-                <mat-select >
-                  <mat-option>Todos</mat-option>  
+                <mat-select formControlName="lesionesVenas">
+                  <mat-option *ngFor="let c of listaLesionesPuncion" [value]="c.codigo">
+                   {{c.descripcion}}
+                  </mat-option>
                 </mat-select>
-              </mat-form-field> 
+              </mat-form-field>              
               <mat-form-field appearance="outline">
                 <mat-label>Estado Venoso</mat-label>
-                <mat-select formControlName="nIdTipoExtraccion">
+                <mat-select formControlName="estadoVenoso">
                   <mat-option *ngFor="let c of listaAspectoVenoso" [value]="c.codigo">
                    {{c.descripcion}}
                   </mat-option>
@@ -147,25 +157,37 @@
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Observaciones</mat-label>
-                <input matInput formControlName="NumDocu" minlength="1" maxlength="15" required>
+                <input matInput minlength="1" maxlength="5000" formControlName="obsedrvaciones">
               </mat-form-field>
               <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
                 <mat-grid-tile [colspan]="4">
                   <mat-form-field appearance="outline">
                     <mat-label>Temperatura °C</mat-label>
-                    <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    <input matInput type="number" class="example-right-align" formControlName="temperatura" placeholder="0.00">
                   </mat-form-field>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="4">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Estado</mat-label>
-                    <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
-                  </mat-form-field>
+                <mat-grid-tile [colspan]="4" style="top: -6px;">
+                  <button *ngIf="CodEstado==0" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado(2)">NO APTO</button>
+                  <button *ngIf="CodEstado==2" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(0)">NO APTO</button>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="4">
+                  <mat-form-field appearance="outline" *ngIf="CodEstado==2">
+                    <mat-label>Motivo Rechazo</mat-label>
+                    <mat-select formControlName="ideMotivoRec">
+                      <mat-option *ngFor="let c of listaMotivoRechazo" [value]="c.codigo">
+                       {{c.descripcion}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                <mat-grid-tile [colspan]="12">
                   <mat-form-field appearance="outline">
                     <mat-label>Fecha Chequeo</mat-label>
-                    <input matInput formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                    <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" formControlName="fecha" required>
+                    <mat-datepicker-toggle matSuffix [for]="dFechaIni"></mat-datepicker-toggle>
+                    <mat-datepicker #dFechaIni></mat-datepicker>
                   </mat-form-field>
                 </mat-grid-tile>
               </mat-grid-list>

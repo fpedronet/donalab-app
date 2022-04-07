@@ -54,14 +54,14 @@
           <ng-container matColumnDef="ch">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> CH </mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="CH">            
-              <div (click)="routeUrl(element.codigo, 'ch')" class="circulo" style="background: {{element.ch}}"></div>
+              <div (click)="routeUrl(element.idePreDonante, 'ch')" class="circulo" style="background: {{element.ch}}"></div>
             </mat-cell>
           </ng-container>   
 
           <ng-container matColumnDef="en">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> EN </mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="EN">
-              <div (click)="routeUrl(element.codigo, 'en')" class="circulo" style="background: {{element.en}}"></div>
+              <div (click)="routeUrl(element.idePreDonante, 'en')" class="circulo" style="background: {{element.en}}"></div>
             </mat-cell>
           </ng-container>   
 
