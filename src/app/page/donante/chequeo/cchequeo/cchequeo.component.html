@@ -24,7 +24,7 @@
   </div>
   <br style="clear:both;"/>
 
-  <form style="padding-top: 0px;margin:10px;" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
+  <form onkeydown="return event.key != 'Enter';" class="forms" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
     <mat-stepper labelPosition="bottom" #stepper>
       <mat-step>
         <ng-template matStepLabel>Datos 1</ng-template>

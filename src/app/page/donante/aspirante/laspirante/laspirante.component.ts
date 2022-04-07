@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MfaspiranteComponent } from '../mfaspirante/mfaspirante.component';
 import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
 import forms from 'src/assets/json/formulario.json';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -51,21 +52,28 @@ export class LaspiranteComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerpermiso();
 
-    let req = new PredonanteRequest();
-    const fechaInicio = new Date();
+    let filtro = this.usuarioService.sessionFiltro();
 
-    req.Idebanco = this.usuarioService.sessionUsuario().codigobanco;
-    // req.FechaDesde = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
-    req.FechaDesde = new Date();
-    req.FechaHasta = new Date();
-    req.IdeEstado = 1;
-    req.Idecampania = 0;
-    req.IdeOrigen = 0;
-    req.Nombres = '';
+    if(filtro!=null){   
+      this.predonante.Nombres! = filtro[0];
+      this.predonante.Idecampania! = parseInt(filtro[1]);
+      this.predonante.IdeOrigen! = parseInt(filtro[2]);
+      this.predonante.IdeEstado! = parseInt(filtro[3]);
+      this.predonante.FechaDesde! = new Date(filtro[4]);
+      this.predonante.FechaHasta! = new Date(filtro[5]);
+    }else{
 
-    this.predonante= req;     
+      this.predonante.Nombres! = "";
+      this.predonante.Idecampania! = 0;
+      this.predonante.IdeOrigen! = 0;
+      this.predonante.IdeEstado! = 1;
+      this.predonante.FechaDesde! = new Date();
+      this.predonante.FechaHasta! = new Date();
+    }    
+
+    localStorage.setItem(environment.CODIGO_FILTRO, this.predonante.Nombres +"|"+ this.predonante.Idecampania+"|"+this.predonante.IdeOrigen+"|"+this.predonante.IdeEstado+"|"+this.predonante.FechaDesde+"|"+this.predonante.FechaHasta);
+ 
   }
-
 
   actualizar(){
     this.ngAfterViewInit();
@@ -73,7 +81,9 @@ export class LaspiranteComponent implements OnInit {
 
   ngAfterViewInit() {
 
-    this.predonante.Idebanco = this.usuarioService.sessionUsuario().codigobanco;
+    let filtro = this.usuarioService.sessionFiltro();
+    let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
+
     this.predonanteService = new PredonanteService(this.http);
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -83,13 +93,13 @@ export class LaspiranteComponent implements OnInit {
         switchMap(() => {
           this.loading = true;
           return this.predonanteService!.listar(
-            this.predonante.Idebanco!,
-            this.predonante.IdeEstado!,
-            this.predonante.Idecampania!,
-            this.predonante.IdeOrigen!,
-            this.predonante.Nombres!,
-            this.predonante.FechaDesde!,
-            this.predonante.FechaHasta!,
+            codigobanco,
+            parseInt(filtro![3]),
+            parseInt(filtro![1]),
+            parseInt(filtro![2]),
+            filtro![0],
+            new Date(filtro![4]),
+            new Date(filtro![5]),
             this.paginator.pageIndex,
             this.paginator.pageSize
           ).pipe(catchError(() => observableOf(null)));
@@ -104,11 +114,10 @@ export class LaspiranteComponent implements OnInit {
           }
 
           this.countRegistro = res.pagination.total;
-
-          console.log(res.items);
           return res.items;
         }),
       ).subscribe(data => (this.dataSource = data));
+      
   }
 
 
@@ -121,40 +130,32 @@ export class LaspiranteComponent implements OnInit {
   }
 
   abrirBusqueda(){
-    this.spinner.showLoading();
     const dialogRef =this.dialog.open(MfaspiranteComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
       width: '850px',
       panelClass: 'full-screen-modal',
-      data:{
-        fechaInicio : this.predonante.FechaDesde,
-        fechaFin : this.predonante.FechaHasta,
-        idestado : this.predonante.IdeEstado,
-        idcampania : this.predonante.Idecampania,
-        idorigen : this.predonante.IdeOrigen,
-        nombre : this.predonante.Nombres,
-      }
     });
 
     dialogRef.afterClosed().subscribe(res => {
       if(res!=""){
-        var req = new PredonanteRequest();
-
-        req.Idebanco = this.usuarioService.sessionUsuario().codigobanco;
-        req.FechaDesde =res.fechaInicio;
-        req.FechaHasta = res.fechaFin;
-        req.IdeEstado = res.idestado;
-        req.Idecampania = res.idcampania;
-        req.IdeOrigen = res.idorigen;
-        req.Nombres = res.nombre;
-  
-        this.predonante= req;  
         this.ngAfterViewInit();
-      }
+        }
     })
   }
 
+  abrirFormCrear(id: number){
+    var editar = true;
+    if(this.permiso.guardar)
+      editar = true;
+    else if(this.permiso.ver)
+      editar = false;
+    else
+      return; //Si no tiene al menos un permiso no hace nada
+    
+    this.router.navigate(['/page/donante/aspirante/edit/', id, editar]);
+  }
+  
   routeUrl(idpredonante: string, tipo:string){
     if(tipo=="pd"){
       this.router.navigate(['/page/donante/aspirante/create']);

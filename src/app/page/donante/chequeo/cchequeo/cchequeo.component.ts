@@ -69,7 +69,6 @@ export class CchequeoComponent implements OnInit {
   }
 
   obtener(codigo: any){
-    debugger;
     this.spinner.showLoading();
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
     let ids=0;
@@ -138,7 +137,6 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
-
     let motivo = this.form.value['ideMotivoRec'];
 
     if(this.CodEstado==2 && motivo==""){
@@ -167,18 +165,18 @@ export class CchequeoComponent implements OnInit {
     model.ideMotivoRec= this.form.value['ideMotivoRec'];
     model.aceptaAlarma= "0";
 
-    // this.spinner.showLoading();
-    // this.chequeofisicoService.guardar(model).subscribe(data=>{
+    this.spinner.showLoading();
+    this.chequeofisicoService.guardar(model).subscribe(data=>{
 
-    //   this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+      this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
 
-    //   if(data.typeResponse==environment.EXITO){
-    //     this.router.navigate(['/page/donante/aspirante']);
-    //     this.spinner.hideLoading();
-    //   }else{
-    //     this.spinner.hideLoading();
-    //   }
-    // });
+        if(data.typeResponse==environment.EXITO){
+          this.router.navigate(['/page/donante/aspirante']);
+          this.spinner.hideLoading();
+        }else{
+          this.spinner.hideLoading();
+        }
+      });
     }
   }
 }
