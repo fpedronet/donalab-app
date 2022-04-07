@@ -30,7 +30,6 @@
         <ng-template matStepLabel>Datos 1</ng-template>
         <div class="content">
           <div fxLayout="row wrap" fxLayoutGap="16px grid">
-
               <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">  
 
                 <div [hidden]="true">
@@ -92,7 +91,7 @@
                 <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
                   <mat-grid-tile [colspan]="3">
                     <mat-form-field appearance="outline">
-                      <mat-label>Presion Arterial 1</mat-label>
+                      <mat-label>Medida Sistolica</mat-label>
                       <input matInput type="number" class="example-right-align" formControlName="presionArterial1" placeholder="0">
                     </mat-form-field>
                   </mat-grid-tile>
@@ -101,7 +100,7 @@
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="3">
                     <mat-form-field appearance="outline">
-                      <mat-label>Presion Arterial 2</mat-label>
+                      <mat-label>Medida Diastolica</mat-label>
                       <input matInput type="number" class="example-right-align" formControlName="presionArterial2" placeholder="0">
                     </mat-form-field>
                   </mat-grid-tile>
@@ -114,9 +113,11 @@
                 </mat-grid-list>
                  
               </div>
-
           </div>
         </div>
+        <div style="padding-top: 10px">
+          <button style="float: right; background:#3f51b5; color: #fff;" mat-button matStepperNext type="button">Siguiente</button>
+        </div>  
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Datos 2</ng-template>
@@ -167,11 +168,11 @@
                   </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="4" style="top: -6px;">
-                  <button *ngIf="CodEstado==0" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado(2)">NO APTO</button>
-                  <button *ngIf="CodEstado==2" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado(0)">NO APTO</button>
+                  <button *ngIf="CodEstado=='0'" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado('2')">NO APTO</button>
+                  <button *ngIf="CodEstado=='2'" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado('0')">NO APTO</button>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="4">
-                  <mat-form-field appearance="outline" *ngIf="CodEstado==2">
+                  <mat-form-field appearance="outline" *ngIf="CodEstado=='2'">
                     <mat-label>Motivo Rechazo</mat-label>
                     <mat-select formControlName="ideMotivoRec">
                       <mat-option *ngFor="let c of listaMotivoRechazo" [value]="c.codigo">
@@ -193,6 +194,9 @@
               </mat-grid-list>
             </div>
           </div>
+        </div>
+        <div style="padding-top: 10px">
+          <button style="float: left;background:#3f51b5; color: #fff;" mat-button matStepperPrevious type="button">Atrás</button>
         </div>
       </mat-step>
     </mat-stepper>
