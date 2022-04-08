@@ -17,11 +17,12 @@
   <mat-divider></mat-divider>
   
   <div id="content"> 
-      <div style="width: 100%; float:left"> 
-        <div style="text-align: center; color: #1a0da4; font-weight:500">{{nombres}}</div> 
+      <div style="width: 100%; float:left;margin-bottom: -17px;"> 
+        <div style="text-align: center; color: #1a0da4; font-weight: 500;padding-top: 11px;">{{nombres}}</div> 
         <div style="text-align: center; color: #1a0da4; font-weight:600">{{documento}}</div> 
       </div> 
   </div>
+
   <br style="clear:both;"/>
 
   <form onkeydown="return event.key != 'Enter';" class="forms" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
@@ -143,11 +144,14 @@
     
                 <mat-form-field appearance="outline">
                   <mat-label>Observaciones</mat-label>
-                  <input matInput minlength="1" maxlength="5000" formControlName="ObservacionesMed">
+                  <input matInput minlength="1" maxlength="5000" formControlName="observacionesMed">
                 </mat-form-field>
       
               </div>    
           </div>
+        </div>
+        <div style="padding-top: 10px">
+          <button class="btnnext" mat-button matStepperNext type="button">Siguiente</button>
         </div>
       </mat-step>
       <mat-step>
@@ -161,24 +165,29 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
                   <label class="radio">SI
+                    <input *ngIf="c.respuesta=='SI'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('SI',c.idePregunta)">
                     <input type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('SI',c.idePregunta)">
                     <span class="check"></span>
                   </label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
                   <label class="radio">NO
-                    <input type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('NO',c.idePregunta)">
+                    <input *ngIf="c.respuesta=='NO'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('NO',c.idePregunta)">
+                    <input  type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('NO',c.idePregunta)">
                     <span class="check"></span>
                   </label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="4">
                   <mat-form-field appearance="outline" style="font-size: 10px;">
-                    <input class="respuesta" matInput minlength="1" maxlength="500" [value]="c.observacion">
+                    <input class="respuesta" matInput minlength="1" maxlength="500" (keyup)="changeObservacion($event,c.idePregunta)" [value]="c.observacion">
                   </mat-form-field>
                 </mat-grid-tile>
               </mat-grid-list>
             </div>
           </div>
+        </div>
+        <div style="padding-top: 10px">
+          <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>
         </div>
       </mat-step>
     </mat-stepper>

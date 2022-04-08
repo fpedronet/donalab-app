@@ -17,11 +17,12 @@
   <mat-divider></mat-divider>
   
   <div id="content"> 
-      <div style="width: 100%; float:left"> 
-          <div style="text-align: center; color: #1a0da4; font-weight:500">{{nombres}}</div> 
-          <div style="text-align: center; color: #1a0da4; font-weight:600">{{documento}}</div> 
-      </div> 
+    <div style="width: 100%; float:left;margin-bottom: -17px;"> 
+      <div style="text-align: center; color: #1a0da4; font-weight: 500;padding-top: 11px;">{{nombres}}</div> 
+      <div style="text-align: center; color: #1a0da4; font-weight:600">{{documento}}</div> 
+    </div> 
   </div>
+
   <br style="clear:both;"/>
 
   <form onkeydown="return event.key != 'Enter';" class="forms" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
@@ -116,7 +117,7 @@
           </div>
         </div>
         <div style="padding-top: 10px">
-          <button style="float: right; background:#3f51b5; color: #fff;" mat-button matStepperNext type="button">Siguiente</button>
+          <button class="btnnext" mat-button matStepperNext type="button">Siguiente</button>
         </div>  
       </mat-step>
       <mat-step>
@@ -196,7 +197,7 @@
           </div>
         </div>
         <div style="padding-top: 10px">
-          <button style="float: left;background:#3f51b5; color: #fff;" mat-button matStepperPrevious type="button">Atrás</button>
+          <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>
         </div>
       </mat-step>
     </mat-stepper>

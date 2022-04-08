@@ -6,7 +6,7 @@ export class Entrevista{
     idePreDonante?: number;
     codigo?: number;
     ideUsuario?: number;
-    codEstado?: number;
+    codEstado?: string;
     ideMotivoRec?: number;//ok
     pesoDonacion?: number;//ok
     hemoglobina?: number; //ok
