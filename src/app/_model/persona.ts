@@ -1,3 +1,5 @@
+import { Foto } from "./foto";
+
 export class Persona {
     idePersona?: number;
     tipDocu?: string;
@@ -25,7 +27,7 @@ export class Persona {
     codDepartamento?: string;
     codPais?: string;
     codGradoInstruccion?: string;
-    codOcupacion?: number;
+    codOcupacion?: string;
     telefono?: string;
     celular?: string;
     correo1?: string;
@@ -43,7 +45,7 @@ export class Persona {
     hematrocito?: number;
     mostrarFirma?: string;
     fecRegistro?: Date;
-    onlyPoclab?:number;
+    foto?: Foto;
 }
 
 export class PersonaPoclab{

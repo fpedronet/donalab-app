@@ -58,7 +58,8 @@ export class CaspiranteComponent implements OnInit {
   curUser: number = 0;
   curBanco: number = 0;
 
-  tablasMaestras = ['TDoc', 'PAIS', 'DEPA', 'PROV', 'DST', 'GENE', 'ECV', 'NCN', 'PRDO', 'GINS', 'ORI', 'CAMP', 'TPRO', 'TEXR'];
+  tablasMaestras = ['TDoc', 'PAIS', 'DEPA', 'PROV', 'DST', 'GENE', 'ECV',
+  'NCN', 'PRDO', 'OCUPA', 'GINS', 'ORI', 'CAMP', 'TPRO', 'TEXR', 'TDON'];
   tbTipoDocu: Combobox[] = [];
   tbPais: Combobox[] = [];
   tbGenero: Combobox[] = [];
@@ -66,12 +67,16 @@ export class CaspiranteComponent implements OnInit {
   tbGraIns: Combobox[] = [];
   tbNacion: Combobox[] = [];
   tbProced: Combobox[] = [];
+  tbOcupa: Combobox[] = [];
   tbViajes: string[] = ['', 'Sí', 'No']
   tbOrigen: Combobox[] = [];
   tbCampana: Combobox[] = [];
   tbTipoProced: Combobox[] = [];
   tbTipoExtrac: Combobox[] = [];
   tbTipoDonac: Combobox[] = [];
+
+  muestraPaciente: boolean = false;
+  selectedTipoDonacion: string = '';
 
   muestraDistrito: boolean = false;
   carBuscaDistrito: number = 2;
@@ -145,14 +150,14 @@ export class CaspiranteComponent implements OnInit {
       'LugarNacimiento': new FormControl({ value: '', disabled: !this.edit}),
       'Procedencia': new FormControl({ value: '', disabled: !this.edit}),
       'CodGradoInstruccion': new FormControl({ value: '', disabled: !this.edit}),
-      'Ocupacion': new FormControl({ value: '', disabled: !this.edit}),
+      'CodOcupacion': new FormControl({ value: '', disabled: !this.edit}),
       'Direccion': new FormControl({ value: '', disabled: !this.edit}),
       'CodPais': new FormControl({ value: '', disabled: !this.edit}),
       'Celular': new FormControl({ value: '', disabled: !this.edit}),
       'Telefono': new FormControl({ value: '', disabled: !this.edit}),
       'Correo': new FormControl({ value: '', disabled: !this.edit}),
       'LugarTrabajo': new FormControl({ value: '', disabled: !this.edit}),
-      'Viajes': new FormControl({ value: '', disabled: !this.edit}),
+      'ViajeSN': new FormControl({ value: '', disabled: !this.edit}),
       'Lugar': new FormControl({ value: '', disabled: !this.edit}),
       'Permanencia': new FormControl({ value: '', disabled: !this.edit}),
       'FechaViaje': new FormControl({ value: null, disabled: !this.edit}),
@@ -165,6 +170,7 @@ export class CaspiranteComponent implements OnInit {
       'PacNumDocu': new FormControl({ value: '', disabled: !this.edit}),
       'PacApPaterno': new FormControl({ value: '', disabled: !this.edit}),
       'PacApMaterno': new FormControl({ value: '', disabled: !this.edit}),
+      'PacNombres': new FormControl({ value: '', disabled: !this.edit}),
       'CodEje': new FormControl({ value: '', disabled: !this.edit}),
       'CodParentesco': new FormControl({ value: '', disabled: !this.edit}),
       'IdeOrigen': new FormControl({ value: ideOri, disabled: !this.edit}),
@@ -200,12 +206,14 @@ export class CaspiranteComponent implements OnInit {
         this.tbEstCivil = this.obtenerSubtabla(tbCombobox,'ECV');
         this.tbNacion = this.obtenerSubtabla(tbCombobox,'NCN');
         this.tbProced = this.obtenerSubtabla(tbCombobox,'PRDO');
+        this.tbOcupa = this.obtenerSubtabla(tbCombobox,'OCUPA');
         this.tbGraIns = this.obtenerSubtabla(tbCombobox,'GINS');
         this.tbOrigen = this.obtenerSubtabla(tbCombobox,'ORI');
         this.tbCampana = this.obtenerSubtabla(tbCombobox,'CAMP');
         this.tbPais = this.obtenerSubtabla(tbCombobox,'PAIS');
         this.tbTipoProced = this.obtenerSubtabla(tbCombobox,'TPRO');
         this.tbTipoExtrac = this.obtenerSubtabla(tbCombobox,'TEXR');
+        this.tbTipoDonac = this.obtenerSubtabla(tbCombobox,'TDON');
         var tbDpto: Combobox[] = this.obtenerSubtabla(tbCombobox,'DEPA');
         var tbProv: Combobox[] = this.obtenerSubtabla(tbCombobox,'PROV');
         var tbDist: Combobox[] = this.obtenerSubtabla(tbCombobox,'DST');
@@ -255,6 +263,15 @@ export class CaspiranteComponent implements OnInit {
       this.codDistrito = '';
       this.distritoColor = 'accent';
       this.muestraDistrito = false;
+    }
+  }
+
+  changeDonacion(value: string){
+    //debugger;
+    this.selectedTipoDonacion = value;
+    this.muestraPaciente = false;
+    if(this.selectedTipoDonacion === '002' || this.selectedTipoDonacion === '004'){
+      this.muestraPaciente = true;
     }
   }
 
@@ -308,32 +325,30 @@ export class CaspiranteComponent implements OnInit {
     }
   }
 
-  obtenerPersonaEnter(key: number){
+  obtenerPersonaEnter(key: number, esPaciente: boolean = false){
     if(key === 13){
-      this.obtenerPersona(undefined);
+      this.obtenerPersona(undefined, esPaciente);
     }
   }
 
-  obtenerPersona(e?: Event){
-    console.log(e);
+  obtenerPersona(e?: Event, esPaciente: boolean = false){
+    //console.log(e);
     e?.preventDefault(); // Evita otros eventos como blur   
     
-    //this.muestraSangre = false;
-
-    var tipoDocu = this.form.value['TipDocu'];
-    var numDocu = this.form.value['NumDocu'];
+    var tipoDocu = esPaciente?this.form.value['PacTipDocu']:this.form.value['TipDocu'];
+    var numDocu = esPaciente?this.form.value['PacNumDocu']:this.form.value['NumDocu'];
     
     //debugger;
 
     if(this.validaDocumento(tipoDocu, numDocu)){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
-        //console.log(data);
-        //debugger;
         //Verifica si existe en BD
+        var formPersona = esPaciente?this.form.value['IdePaciente']:this.form.value['IdePersona'];
+
         if(data!== undefined && data.idePersona !== 0){
-          //No carga repetidos (eficiencia)
-          if(this.form.value['IdePersona'] !== data.idePersona)
-            this.muestraDatosPersona(data);
+          //No carga repetidos (eficiencia)          
+          if(formPersona !== data.idePersona)
+            this.muestraDatosPersona(data, esPaciente);
         }
         else{
           //Busca en Poclab
@@ -341,7 +356,7 @@ export class CaspiranteComponent implements OnInit {
             
             this.poclabService.obtenerPersona(tipoDocu, numDocu).subscribe(dataP=>{
               if(dataP!== undefined && dataP.nIdePersona !== 0){
-                if(this.form.value['IdePersona'] !== dataP.nIdePersona){
+                if(formPersona !== dataP.nIdePersona){
                   //Convierte datos
                   //debugger;
                   var p = new Persona();
@@ -366,7 +381,7 @@ export class CaspiranteComponent implements OnInit {
                   p.codDistrito = dataP.vCodDistrito;
                   p.correo1 = dataP.vEmail;
                   p.telefono = dataP.vTelefono1;
-                  this.muestraDatosPersona(p);
+                  this.muestraDatosPersona(p, esPaciente);
                 }                  
               }                
               else
@@ -383,24 +398,53 @@ export class CaspiranteComponent implements OnInit {
     }
   }
 
-  muestraDatosPersona(data: Persona){
-    this.form.patchValue({
-      IdePersona: data.idePersona,
-      TipDocu: data.tipDocu,
-      NumDocu: data.numDocu,
-      ApPaterno: data.apPaterno,
-      ApMaterno: data.apMaterno,
-      Nombres: data.primerNombre + ' ' + data.segundoNombre,
-      Sexo: data.sexo,
-      FecNacimiento: data.fecNacimiento,
-      CodPais: data.codPais,
-      Celular: data.celular,
-      Telefono: data.telefono,
-      Correo: data.correo1
-    });
-    this.cambiaPaisDistrito(data.codPais, data.codDistrito);
+  muestraDatosPersona(data: Persona, esPaciente: boolean = false){
+    //debugger;
+    //Ocupación por defecto
+    if(data.codOcupacion === undefined || !this.tbOcupa.find(e => e.codigo === data.codOcupacion?.toString()))
+      data.codOcupacion = '111';
 
-    this.obtieneHistorial(data.idePersona, true);
+    if(esPaciente){
+      this.form.patchValue({
+        IdePaciente: data.idePersona,
+        PacTipDocu: data.tipDocu,
+        PacNumDocu: data.numDocu,
+        PacApPaterno: data.apPaterno,
+        PacApMaterno: data.apMaterno,
+        PacNombres: data.primerNombre + ' ' + data.segundoNombre
+      });
+    }
+    else{
+      this.form.patchValue({
+        IdePersona: data.idePersona,
+        TipDocu: data.tipDocu,
+        NumDocu: data.numDocu,
+        ApPaterno: data.apPaterno,
+        ApMaterno: data.apMaterno,
+        Nombres: data.primerNombre + ' ' + data.segundoNombre,
+        Sexo: data.sexo,
+        FecNacimiento: data.fecNacimiento,
+        CodPais: data.codPais,
+        Celular: data.celular,
+        Telefono: data.telefono,
+        Correo: data.correo1,
+        //Datos completos
+        Edad: data.edad,
+        EstadoCivil: data.estadoCivil,
+        Nacionalidad: data.nacionalidad,
+        LugarNacimiento: data.lugarNacimiento,
+        Procedencia: data.procedencia,
+        CodGradoInstruccion: data.codGradoInstruccion,
+        CodOcupacion: data.codOcupacion,
+        Direccion: data.direccion,
+        LugarTrabajo: data.lugarTrabajo
+      });
+    }
+
+    if(!esPaciente){
+      this.cambiaPaisDistrito(data.codPais, data.codDistrito);
+      this.obtieneHistorial(data.idePersona, false);
+    }    
   }
 
   obtieneHistorial(idPersona: number = 0, muestraErrores: boolean){
@@ -465,26 +509,48 @@ export class CaspiranteComponent implements OnInit {
     return true;
   }
 
-  reiniciaPersona(){
-    this.muestraSangre = false;
-    this.muestraDistrito = false;
-    this.controlDistritos.setValue(new Distrito());
-    this.codDistrito = '';
+  reiniciaPersona(esPaciente: boolean = false){
+    if(esPaciente){
+      this.form.patchValue({
+        IdePaciente: 0,
+        //PacTipDocu: '1',
+        PacNumDocu: '',
+        PacApPaterno: '',
+        PacApMaterno: '',
+        PacNombres: ''
+      });
+    }
+    else{
+      this.muestraSangre = false;
+      this.muestraDistrito = false;
+      this.controlDistritos.setValue(new Distrito());
+      this.codDistrito = '';
 
-    this.form.patchValue({
-      IdePersona: 0,
-      //TipDocu: '1',
-      NumDocu: '',
-      ApPaterno: '',
-      ApMaterno: '',
-      Nombres: '',
-      Sexo: '',
-      FecNacimiento: null,
-      CodPais: '',
-      Celular: '',
-      Telefono: '',
-      Correo: ''
-    });
+      this.form.patchValue({
+        IdePersona: 0,
+        //TipDocu: '1',
+        NumDocu: '',
+        ApPaterno: '',
+        ApMaterno: '',
+        Nombres: '',
+        Sexo: '',
+        FecNacimiento: null,
+        CodPais: '',
+        Celular: '',
+        Telefono: '',
+        Correo: '',
+        //Datos completos
+        Edad: '',
+        EstadoCivil: '',
+        Nacionalidad: '',
+        LugarNacimiento: '',
+        Procedencia: '',
+        CodGradoInstruccion: '',
+        CodOcupacion: '',
+        Direccion: '',
+        LugarTrabajo: ''
+      });
+    }    
   }
 
   cambiaPaisDistrito(codPais: string = '', codDistrito: string = ''){
@@ -594,6 +660,16 @@ export class CaspiranteComponent implements OnInit {
     p.celular = this.form.value['Celular'];
     p.telefono = this.form.value['Telefono'];
     p.correo1 = this.form.value['Correo'];
+    //Datos completos
+    p.edad = this.form.value['Edad'];
+    p.estadoCivil = this.form.value['EstadoCivil'];
+    p.nacionalidad = this.form.value['Nacionalidad'];
+    p.lugarNacimiento = this.form.value['LugarNacimiento'];
+    p.procedencia = this.form.value['Procedencia'];
+    p.codGradoInstruccion = this.form.value['CodGradoInstruccion'];
+    p.codOcupacion = this.form.value['CodOcupacion'];
+    p.direccion = this.form.value['Direccion'];
+    p.lugarTrabajo = this.form.value['LugarTrabajo'];
 
     model.idePersona = p.idePersona;
     model.persona = p;
@@ -624,6 +700,12 @@ export class CaspiranteComponent implements OnInit {
         this.spinner.hideLoading();
       }      
     });
+  }
+
+  subirFoto(fileInput: Event){
+    let file = (<HTMLInputElement>fileInput.target).files?[0]:undefined;
+
+    //if(file?.type == "image/jpeg")
   }
 
 }

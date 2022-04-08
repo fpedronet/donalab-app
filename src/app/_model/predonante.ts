@@ -1,6 +1,7 @@
 import { pagination } from './pagination';
 import { Combobox } from "./combobox";
 import { Persona } from "./persona";
+import { Foto } from './foto';
 
 export class Predonante {
     idePreDonante?: number;
@@ -69,6 +70,7 @@ export class Predonante {
     codDonanteLIS?: string;
     plaquetas?: number;
     colorhexa?: string;
+    foto?: Foto;
     pd?:string;
     ch?:string;
     en?:string;
