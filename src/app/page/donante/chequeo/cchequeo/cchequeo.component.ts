@@ -28,7 +28,7 @@ export class CchequeoComponent implements OnInit {
 
   nombres: string = "";
   documento: string ="";
-  CodEstado: string = "0";
+  CodEstado: string = "";
   Codigo?: number;
   id: number = 0;
   ver: boolean = true;
@@ -44,6 +44,17 @@ export class CchequeoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.inicializar();
+
+    this.route.params.subscribe((data: Params)=>{
+      this.id = (data["id"]==undefined)? 0:data["id"];
+      this.ver = (data["ver"]=='true')? true : false
+      this.obtener(0);
+    });
+  }
+
+  inicializar(){
     this.form = new FormGroup({
       'idePreDonante': new FormControl({ value: 0, disabled: false}),
       'nIdTipoExtraccion': new FormControl({ value: '', disabled: false}),
@@ -66,15 +77,10 @@ export class CchequeoComponent implements OnInit {
       'temperatura': new FormControl({ value: '', disabled: false}),
       'ideMotivoRec': new FormControl({ value: '', disabled: false})
     });
-
-    this.route.params.subscribe((data: Params)=>{
-      this.id = (data["id"]==undefined)? 0:data["id"];
-      this.ver = (data["ver"]=='true')? true : false
-      this.obtener(0);
-    });
   }
-
+  
   obtener(codigo: any){
+
     this.spinner.showLoading();
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
     let ids=0;
@@ -103,7 +109,7 @@ export class CchequeoComponent implements OnInit {
 
         let aterrial1='';
         let aterrial2='';
-        if(data.presionArterial!=""){
+        if(data.presionArterial!="" && data.presionArterial!=null){
           let aterrial= data.presionArterial?.split('/');
   
           if(aterrial!.length>1){
@@ -136,7 +142,7 @@ export class CchequeoComponent implements OnInit {
         });
 
         this.Codigo = data.codigo;
-        this.CodEstado = data.codEstado?.toString()!;
+        this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
         this.nombres = data.nombres!;
         this.documento = data.documento!;
       }

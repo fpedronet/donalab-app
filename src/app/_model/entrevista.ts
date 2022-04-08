@@ -19,6 +19,8 @@ export class Entrevista{
     lesionesVenas?: string;
     fechaMed?: Date;
     observacionesMed?: string;
+    nombres?:string;
+    documento?: string;
     
     listaPregunta?: Pregunta[];
     listaTipoExtraccion?: Combobox[];

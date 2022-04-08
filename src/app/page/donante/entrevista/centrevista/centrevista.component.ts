@@ -26,6 +26,8 @@ export class CentrevistaComponent implements OnInit {
   listaAspectoVenoso?: Combobox[] = [];
   listaPregunta?: Pregunta[] = [];
   
+  nombres: string = "";
+  documento: string ="";
   CodEstado: string = "0";
   Codigo?: number;
   id: number = 0;
@@ -33,10 +35,7 @@ export class CentrevistaComponent implements OnInit {
   $disable: boolean =false;
   btnaceptado: boolean = false;
   btnrechazado: boolean = false;
-  btnsi: boolean = false;
-  btnno: boolean = false;
 
-  checkedSi:boolean =false;
   
   constructor(
     private route: ActivatedRoute,
@@ -79,6 +78,8 @@ export class CentrevistaComponent implements OnInit {
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
     let ids=0;
     let cod=0;
+    this.nombres = "";
+    this.documento = "";
 
     if(codigo!=0){
       cod = (codigo.target.value==0)? this.id: codigo.target.value;
@@ -118,7 +119,8 @@ export class CentrevistaComponent implements OnInit {
 
         this.Codigo = data.codigo;
         this.CodEstado = data.codEstado?.toString()!;
-
+        this.nombres = data.nombres!;
+        this.documento = data.documento!;
       }
 
       this.spinner.hideLoading();
