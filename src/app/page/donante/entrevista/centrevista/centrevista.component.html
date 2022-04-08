@@ -1,33 +1,195 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
-    <div class="example-button-row">
-      <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
-        <mat-icon class="maticon">west</mat-icon>
-      </button>
-      <button mat-flat-button class="btnHeader">
-        <mat-icon class="maticon">save</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
-  
-  <div class="container">  
-  <mat-card class="cardborde">   
-    <mat-toolbar class="cardtitle"></mat-toolbar>
-
-    <h2 class="title-label"> CREAR ENTREVISTA</h2>
-    <mat-divider></mat-divider>
-    
-    <div id="content"> 
-        <div style="width: 100%; float:left"> 
-            <div style="text-align: center; color: #1a0da4; font-weight:500">FRANCISCO PEDRO CONDOR MARTINEZ</div> 
-            <div style="text-align: center; color: #1a0da4; font-weight:600">45036143</div> 
-        </div> 
-    </div>
-    <br style="clear:both;"/>
-
-    <form style="padding-top: 0px;" id="ngForm" #frmGrupo="ngForm">
-      <h1>Estamos trabajando</h1>
-    </form>
-   
-  </mat-card>
+  <div class="example-button-row">
+    <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
+      <mat-icon class="maticon">west</mat-icon>
+    </button>
+    <button mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+      <mat-icon class="maticon">save</mat-icon>
+    </button>
   </div>
+</mat-toolbar>
+
+<div class="container">  
+<mat-card class="cardborde">   
+  <mat-toolbar class="cardtitle"></mat-toolbar>
+
+  <h2 class="title-label"> CREAR ENTREVISTA</h2>
+  <mat-divider></mat-divider>
+  
+  <div id="content"> 
+      <div style="width: 100%; float:left"> 
+        <div style="text-align: center; color: #1a0da4; font-weight:500">{{nombres}}</div> 
+        <div style="text-align: center; color: #1a0da4; font-weight:600">{{documento}}</div> 
+      </div> 
+  </div>
+  <br style="clear:both;"/>
+
+  <form onkeydown="return event.key != 'Enter';" class="forms" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
+    <mat-stepper labelPosition="bottom" #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Datos Principal</ng-template>        
+        <div class="content">
+          <div fxLayout="row wrap" fxLayoutGap="16px grid">    
+              <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">  
+    
+                <div [hidden]="true">
+                  <mat-form-field appearance="outline">
+                       <input matInput placeholder="Id" formControlName="idePreDonante">
+                  </mat-form-field>
+                </div> 
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Codigo</mat-label>
+                    <input matInput formControlName="codigo" minlength="1" (keyup.enter)="obtener($event)" required>
+                </mat-form-field>
+    
+                <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Peso</mat-label>
+                      <input matInput type="number" class="example-right-align" formControlName="pesoDonacion" placeholder="0.00">
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Hemoglobina</mat-label>
+                      <input matInput type="number" class="example-right-align" formControlName="hemoglobina" placeholder="0.00">
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Tipo Proceso</mat-label>
+                      <mat-select formControlName="nIdTipoProceso">
+                        <mat-option>
+                         Todos
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+    
+                <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Talla</mat-label>
+                      <input matInput type="number" class="example-right-align" formControlName="tallaDonacion" placeholder="0.00">
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Hematocrito</mat-label>
+                      <input matInput type="number" class="example-right-align" formControlName="hematocrito" placeholder="0.00">
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Tipo Extracción</mat-label>
+                      <mat-select formControlName="nIdTipoExtraccion">
+                        <mat-option *ngFor="let c of listaTipoExtraccion" [value]="c.codigo">
+                         {{c.descripcion}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+    
+                <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">                  
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Grupo ABO</mat-label>
+                      <mat-select formControlName="ideGrupo">
+                        <mat-option *ngFor="let c of listaGrupoSanguineo" [value]="c.codigo">
+                         {{c.descripcion}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Estado Venoso</mat-label>
+                      <mat-select formControlName="estadoVenoso">
+                        <mat-option *ngFor="let c of listaAspectoVenoso" [value]="c.codigo">
+                         {{c.descripcion}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Lesiones Area de Punción</mat-label>
+                      <mat-select formControlName="lesionesVenas">
+                        <mat-option *ngFor="let c of listaLesionesPuncion" [value]="c.codigo">
+                         {{c.descripcion}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> 
+                  </mat-grid-tile>
+                </mat-grid-list>
+    
+                <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Fecha Entrevista</mat-label>
+                      <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" formControlName="fechaMed" required>
+                      <mat-datepicker-toggle matSuffix [for]="dFechaIni"></mat-datepicker-toggle>
+                      <mat-datepicker #dFechaIni></mat-datepicker>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <button *ngIf="!btnaceptado" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado('2','btn1')">ACEPTADO</button>
+                    <button *ngIf="btnaceptado" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado('2','btn1')">ACEPTADO</button>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="4">
+                    <button *ngIf="!btnrechazado" style="width: 75%;" type="button" mat-stroked-button color="primary" (click)="changeEstado('0', 'btn2')">RECHAZADO</button>
+                    <button *ngIf="btnrechazado" style="width: 75%;" type="button" mat-flat-button color="primary" (click)="changeEstado('0','btn2')">RECHAZADO</button>
+                  </mat-grid-tile>
+                </mat-grid-list>
+    
+                <mat-form-field appearance="outline">
+                  <mat-label>Observaciones</mat-label>
+                  <input matInput minlength="1" maxlength="5000" formControlName="ObservacionesMed">
+                </mat-form-field>
+      
+              </div>    
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Preguntas</ng-template>
+        <div class="content">
+          <div fxLayout="row wrap" fxLayoutGap="16px grid">
+            <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">
+              <mat-grid-list cols="12" rowHeight="50px" gutterSize="15px" *ngFor="let c of listaPregunta">
+                <mat-grid-tile [colspan]="6">
+                  <div style="margin-right:auto;">{{c.pregunta}}</div>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <label class="radio">SI
+                    <input type="radio" name="btn{{c.idePregunta}}">
+                    <span class="check"></span>
+                  </label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <label class="radio">NO
+                    <input type="radio" name="btn{{c.idePregunta}}">
+                    <span class="check"></span>
+                  </label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="4">
+                  <mat-form-field appearance="outline" style="font-size: 10px;">
+                    <input class="respuesta" matInput minlength="1" maxlength="500" [value]="c.observacion">
+                  </mat-form-field>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+   
+  </form>
+ 
+</mat-card>
+</div>
+
   

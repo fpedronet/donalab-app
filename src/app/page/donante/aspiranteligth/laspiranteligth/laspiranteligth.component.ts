@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
-import {merge, of as observableOf} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { merge, of as observableOf } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
 import { PredonanteService } from 'src/app/_service/predonante.service';
 import { SpinnerService } from '../../../component/spinner/spinner.service';
@@ -154,5 +154,4 @@ export class LaspiranteligthComponent implements OnInit {
     
     this.router.navigate(['/page/donante/aspirantelight/edit/', id, editar]);
   }
-
 }

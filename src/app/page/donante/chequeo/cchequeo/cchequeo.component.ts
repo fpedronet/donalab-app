@@ -25,10 +25,15 @@ export class CchequeoComponent implements OnInit {
   listaAspectoGeneral?: Combobox[] = [];
   listaAspectoVenoso?: Combobox[] = [];
   listaMotivoRechazo?: Combobox[] = [];
-  CodEstado: number = 0;
+
+  nombres: string = "";
+  documento: string ="";
+  CodEstado: string = "";
+  Codigo?: number;
   id: number = 0;
   ver: boolean = true;
-
+  $disable: boolean =false;
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -39,8 +44,20 @@ export class CchequeoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.inicializar();
+
+    this.route.params.subscribe((data: Params)=>{
+      this.id = (data["id"]==undefined)? 0:data["id"];
+      this.ver = (data["ver"]=='true')? true : false
+      this.obtener(0);
+    });
+  }
+
+  inicializar(){
     this.form = new FormGroup({
       'idePreDonante': new FormControl({ value: 0, disabled: false}),
+      'nIdTipoExtraccion': new FormControl({ value: '', disabled: false}),
       'codigo': new FormControl({ value: '', disabled: false}),
       'fecha': new FormControl({ value: new Date(), disabled: false}),
       'pesoDonacion': new FormControl({ value: '', disabled: false}),
@@ -60,25 +77,23 @@ export class CchequeoComponent implements OnInit {
       'temperatura': new FormControl({ value: '', disabled: false}),
       'ideMotivoRec': new FormControl({ value: '', disabled: false})
     });
-
-    this.route.params.subscribe((data: Params)=>{
-      this.id = (data["id"]==undefined)? 0:data["id"];
-      this.ver = (data["ver"]=='true')? true : false
-      this.obtener(0);
-    });
   }
-
+  
   obtener(codigo: any){
-    debugger;
+
     this.spinner.showLoading();
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
     let ids=0;
     let cod=0;
+    this.nombres = "";
+    this.documento = "";
 
     if(codigo!=0){
       cod = (codigo.target.value==0)? this.id: codigo.target.value;
+      this.$disable = false;
     }else{
       ids=  this.id;
+      this.$disable = true;
     }
 
     this.chequeofisicoService.obtener(ids,cod,codigobanco).subscribe(data=>{
@@ -94,7 +109,7 @@ export class CchequeoComponent implements OnInit {
 
         let aterrial1='';
         let aterrial2='';
-        if(data.presionArterial!=""){
+        if(data.presionArterial!="" && data.presionArterial!=null){
           let aterrial= data.presionArterial?.split('/');
   
           if(aterrial!.length>1){
@@ -105,7 +120,8 @@ export class CchequeoComponent implements OnInit {
 
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
-          'codigo': new FormControl({ value: data.codigo, disabled: this.ver}),
+          'nIdTipoExtraccion': new FormControl({ value: '', disabled: this.ver}),
+          'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
           'fecha': new FormControl({ value: data.fecha, disabled: this.ver}),
           'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: this.ver}),
           'tallaDonacion': new FormControl({ value: data.tallaDonacion, disabled: this.ver}),
@@ -122,33 +138,34 @@ export class CchequeoComponent implements OnInit {
           'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: this.ver}),
           'obsedrvaciones': new FormControl({ value: data.obsedrvaciones, disabled: this.ver}),
           'temperatura': new FormControl({ value: data.temperatura, disabled: this.ver}),
-          'codEstado': new FormControl({ value: data.codEstado, disabled: this.ver}),
-          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec, disabled: this.ver}),
-          'aceptaAlarma': new FormControl({ value: 0, disabled: this.ver})  
+          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec?.toString(), disabled: this.ver}),
         });
 
+        this.Codigo = data.codigo;
+        this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
+        this.nombres = data.nombres!;
+        this.documento = data.documento!;
       }
 
       this.spinner.hideLoading();
     });      
   }
 
-  changeEstado(estado: number){
+  changeEstado(estado: string){
     this.CodEstado= estado;
   }
 
   guardar(){
-
     let motivo = this.form.value['ideMotivoRec'];
 
-    if(this.CodEstado==2 && motivo==""){
+    if(this.CodEstado=="2" && motivo==""){
       this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el motivo del rechazo');
     }else{
 
     let model = new ChequeoFisico();
 
     model.idePreDonante= this.form.value['idePreDonante'];
-    model.codigo= this.form.value['codigo'];
+    model.codigo= this.Codigo;
     model.fecha= this.form.value['fecha'];
     model.pesoDonacion= this.form.value['pesoDonacion'];
     model.tallaDonacion= this.form.value['tallaDonacion'];
@@ -166,19 +183,19 @@ export class CchequeoComponent implements OnInit {
     model.codEstado=  this.CodEstado;
     model.ideMotivoRec= this.form.value['ideMotivoRec'];
     model.aceptaAlarma= "0";
+    
+    this.spinner.showLoading();
+    this.chequeofisicoService.guardar(model).subscribe(data=>{
 
-    // this.spinner.showLoading();
-    // this.chequeofisicoService.guardar(model).subscribe(data=>{
+      this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
 
-    //   this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-
-    //   if(data.typeResponse==environment.EXITO){
-    //     this.router.navigate(['/page/donante/aspirante']);
-    //     this.spinner.hideLoading();
-    //   }else{
-    //     this.spinner.hideLoading();
-    //   }
-    // });
+        if(data.typeResponse==environment.EXITO){
+          this.router.navigate(['/page/donante/aspirante']);
+          this.spinner.hideLoading();
+        }else{
+          this.spinner.hideLoading();
+        }
+      });
     }
   }
 }

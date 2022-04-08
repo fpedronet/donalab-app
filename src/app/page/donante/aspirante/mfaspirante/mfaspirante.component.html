@@ -4,7 +4,7 @@
 
   <mat-form-field appearance="outline">
       <mat-label>Nombre</mat-label>
-      <input [(ngModel)]="nombre" matInput placeholder="Búsqueda" #input>
+      <input [(ngModel)]="nombre" matInput placeholder="Búsqueda" #input (keyup.enter)="buscar()">
       <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 
@@ -57,7 +57,8 @@
 
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">  
-  <button mat-stroked-button color="warn" mat-dialog-close><mat-icon>close</mat-icon>Cerrar</button>
-  <button mat-stroked-button color="primary" (click)="buscar()"><mat-icon>search</mat-icon>Buscar</button>
-</mat-dialog-actions>
+<div class="btnModal" align="end">
+  <button mat-stroked-button class="btnRed" mat-dialog-close><mat-icon>close</mat-icon>Cerrar</button> 
+  <button mat-stroked-button class="btnYellow"(click)="limpiar()"><mat-icon>cleaning_services</mat-icon>Limpiar</button>
+  <button mat-stroked-button class="btnBlue" (click)="buscar()"><mat-icon>search</mat-icon>Buscar</button>
+</div>

@@ -6,6 +6,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* botones grilla */
 
+.forms{
+  padding-top: 0px;
+  margin:10px;
+}
+
 .btnModal{
   padding-top:13px;
 }
