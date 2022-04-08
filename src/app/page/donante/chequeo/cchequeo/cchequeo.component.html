@@ -90,21 +90,17 @@
                 </mat-grid-list>
 
                 <mat-grid-list cols="12" rowHeight="80px" gutterSize="15px">
-                  <mat-grid-tile [colspan]="3">
-                    <mat-form-field appearance="outline">
+                  <mat-grid-tile [colspan]="8">
+                    <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                       <mat-label>Medida Sistolica</mat-label>
                       <input matInput type="number" class="example-right-align" formControlName="presionArterial1" placeholder="0">
                     </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile [colspan]="2">
-                    <div style="font-size:37px;color:#cc1e42;font-weight:800;">/</div>
-                  </mat-grid-tile>
-                  <mat-grid-tile [colspan]="3">
-                    <mat-form-field appearance="outline">
+                    <div style="font-size:37px;color:#921528;font-weight:500;"> /</div>
+                    <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                       <mat-label>Medida Diastolica</mat-label>
                       <input matInput type="number" class="example-right-align" formControlName="presionArterial2" placeholder="0">
-                    </mat-form-field>
-                  </mat-grid-tile>
+                    </mat-form-field>                   
+                  </mat-grid-tile>                  
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Frec. Cardiaca</mat-label>
