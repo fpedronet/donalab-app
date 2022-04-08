@@ -118,7 +118,7 @@ export class CentrevistaComponent implements OnInit {
           'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: true}),
           'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: true}),
           'fechaMed': new FormControl({ value: data.fechaMed, disabled: this.ver}),
-          'ObservacionesMed': new FormControl({ value: data.observacionesMed, disabled: this.ver}),
+          'observacionesMed': new FormControl({ value: data.observacionesMed, disabled: this.ver}),
         });
 
         this.Codigo = data.codigo;
@@ -148,6 +148,11 @@ export class CentrevistaComponent implements OnInit {
     result!.respuesta= estado;
   }
 
+  changeObservacion(event: any, idePregunta?: number){
+    var result = this.listaPregunta?.filter(y=>y.idePregunta==idePregunta)[0];
+    result!.observacion= event.target.value;
+  }
+
   guardar(){
     let model = new Entrevista();
 
@@ -155,8 +160,10 @@ export class CentrevistaComponent implements OnInit {
     model.codigo= this.Codigo;
     model.fechaMed= this.form.value['fechaMed'];
     model.observacionesMed= this.form.value['observacionesMed'];
-    model.codEstado= this.form.value['codEstado'];
+    model.codEstado= this.CodEstado
     model.ideMotivoRec= this.form.value['ideMotivoRec'];
+
+    model.listaPregunta = this.listaPregunta;
 
     this.spinner.showLoading();
     this.entrevistaService.guardar(model).subscribe(data=>{

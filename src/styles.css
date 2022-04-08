@@ -47,6 +47,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: white;
 }
 
+.btnnext{
+  float: right;
+  background:#3f51b5; 
+  color: #fff;
+}
+
+.btnprevio{
+  float: left;
+  background:#3f51b5; 
+  color: #fff;
+}
+
 .maticon{
   font-size: 26px;
 }
