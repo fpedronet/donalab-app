@@ -21,11 +21,11 @@
     <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()" onKeyPress="if(event.keyCode == 13) event.returnValue = false;">
         <mat-stepper labelPosition="bottom" #stepper>
             <mat-step>
-                <ng-template matStepLabel>Datos Principales</ng-template>
+                <ng-template matStepLabel style="white-space: break-spaces;">Datos principales</ng-template>
 
                 <div class="content">
                     <div fxLayout="row-reverse wrap" fxLayoutGap="16px grid">
-                        <div fxFlex="40%" fxFlex.xs="100%" fxFlex.sm="40%">                             
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">                             
                             <mat-grid-list cols="12" rowHeight="232px" gutterSize="15px">
                                 <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="4">
                                     <mat-card style="margin-bottom: 1.34375em; text-align: center; background-color: {{colFondo}};">
@@ -57,7 +57,7 @@
 
                             
                         </div>
-                        <div fxFlex="60%" fxFlex.xs="100%" fxFlex.sm="60%">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
                             <mat-form-field appearance="outline">
                                 <mat-label>Código</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
@@ -135,7 +135,7 @@
             </mat-step>
 
             <mat-step>
-                <ng-template matStepLabel>Datos Secundario</ng-template>
+                <ng-template matStepLabel style="white-space: break-spaces;">Datos secundarios</ng-template>
 
                 <div class="content">
                     <div fxLayout="row wrap" fxLayoutGap="16px grid">
@@ -149,17 +149,10 @@
                               </mat-form-field>
                             <mat-form-field appearance="outline">
                                 <mat-label>Lugar de Nacimiento</mat-label>
-                                <input matInput placeholder="Lugar de Nacimiento" formControlName="LugarNac">
+                                <input matInput placeholder="Lugar de Nacimiento" formControlName="LugarNacimiento">
                             </mat-form-field>
-                            <mat-form-field>
-                                <mat-select placeholder="Estado Civil" formControlName="EstadoCivil">
-                                  <mat-option *ngFor="let el of tbEstCivil" [value]="el.codigo">
-                                    {{el.descripcion}}
-                                  </mat-option>              
-                                </mat-select>
-                              </mat-form-field>
                               <mat-form-field>
-                                <mat-select placeholder="Procedencia" formControlName="Procedencia" required>
+                                <mat-select placeholder="Procedencia" formControlName="Procedencia">
                                   <mat-option *ngFor="let el of tbProced" [value]="el.codigo">
                                     {{el.descripcion}}
                                   </mat-option>              
@@ -172,12 +165,13 @@
                                   </mat-option>              
                                 </mat-select>
                               </mat-form-field>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Ocupación</mat-label>
-                                <mat-select >
-                                  <mat-option></mat-option>  
+                              <mat-form-field>
+                                <mat-select placeholder="Ocupación" formControlName="CodOcupacion">
+                                  <mat-option *ngFor="let el of tbOcupa" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
                                 </mat-select>
-                            </mat-form-field> 
+                              </mat-form-field>
                             <mat-form-field appearance="outline">
                                 <mat-label>Dirección</mat-label>
                                 <input matInput placeholder="Direccion" formControlName="Direccion">
@@ -200,18 +194,18 @@
                                 {{el.dist!.descripcion}}, {{el.prov!.descripcion}}, {{el.dpto!.descripcion}}
                                 </mat-option>
                             </mat-autocomplete>
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" minlength="1" maxlength="50">
-                                <mat-label>Celular</mat-label>
-                                <input matInput placeholder="ej. +51 999999999" formControlName="Celular">
-                              </mat-form-field>
-                              <mat-form-field appearance="outline" minlength="1" maxlength="50">
-                                <mat-label>Teléfono</mat-label>
-                                <input matInput placeholder="ej. 9999999" formControlName="Telefono">
-                              </mat-form-field>
+                            </mat-form-field>                            
                         </div>
 
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+                          <mat-form-field appearance="outline" minlength="1" maxlength="50">
+                            <mat-label>Celular</mat-label>
+                            <input matInput placeholder="ej. +51 999999999" formControlName="Celular">
+                          </mat-form-field>
+                          <mat-form-field appearance="outline" minlength="1" maxlength="50">
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput placeholder="ej. 9999999" formControlName="Telefono">
+                          </mat-form-field>
                             <mat-form-field appearance="outline" minlength="1" maxlength="50">
                                 <mat-label>Correo</mat-label>
                                 <input type="email" matInput placeholder="ej. ejemplo@correo.com" formControlName="Correo">
@@ -221,7 +215,7 @@
                             <input matInput placeholder="Lugar de Trabajo" formControlName="LugarTrabajo">
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select #VIAJES placeholder="Viajes" formControlName="Viajes" required>
+                                <mat-select #VIAJES placeholder="Viajes" formControlName="ViajeSN" required>
                                   <mat-option *ngFor="let el of tbViajes" [value]="el">
                                     {{el}}
                                   </mat-option>              
@@ -258,7 +252,7 @@
             </mat-step>
 
             <mat-step>
-                <ng-template matStepLabel>Datos de la Donación</ng-template>
+                <ng-template matStepLabel style="white-space: break-spaces;">Datos de la Donación</ng-template>
 
                 <div class="content">
                     <mat-form-field *ngIf="tbOrigen.length > 0">
@@ -283,7 +277,8 @@
                       </mat-form-field>
                     <div fxLayout="row wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-                            
+                          <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
+                            <mat-grid-tile  [colspan]="6">
                             <mat-form-field >
                                 <mat-select placeholder="Tipo de Procedimiento" formControlName="CodTipoProcedimiento" required>
                                   <mat-option *ngFor="let el of tbTipoProced" [value]="el.codigo">
@@ -291,6 +286,8 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="6">
                               <mat-form-field *ngIf="tbCampana.length > 0">
                                 <mat-select placeholder="Tipo de Extracción" formControlName="CodTipoExtraccion" required>
                                   <mat-option *ngFor="let el of tbTipoExtrac" [value]="el.codigo">
@@ -298,40 +295,43 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                            </mat-grid-tile>
+                            </mat-grid-list>
                               <mat-form-field *ngIf="tbCampana.length > 0">
-                                <mat-select placeholder="Tipo de Donación" formControlName="CodTipoExtraccion" required>
+                                <mat-select placeholder="Tipo de Donación" formControlName="CodTipoExtraccion" required (selectionChange)="changeDonacion($event.value)">
                                   <mat-option *ngFor="let el of tbTipoDonac" [value]="el.codigo">
                                     {{el.descripcion}}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Sangre</mat-label>
-                                <mat-select >
-                                  <mat-option></mat-option>  
-                                </mat-select>
-                            </mat-form-field>
                         </div>
 
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+                        <div *ngIf="muestraPaciente" fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
                             <mat-label>
                                 Datos del paciente
                             </mat-label>
                             <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                                 <mat-grid-tile  [colspan]="6">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Documento</mat-label>
-                                        <mat-select >
-                                          <mat-option></mat-option>  
-                                        </mat-select>
-                                    </mat-form-field>                                                             
+                                  <mat-form-field appearance="outline">
+                                    <mat-select [disabled]="id>0" placeholder="Documento" formControlName="PacTipDocu" required>
+                                      <mat-option *ngFor="let el of tbTipoDocu" [value]="el.codigo">
+                                        {{el.descripcion}}
+                                      </mat-option>              
+                                    </mat-select>
+                                  </mat-form-field>
                                 </mat-grid-tile>
 
                                 <mat-grid-tile [colspan]="6">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Nro</mat-label>
-                                        <input matInput placeholder="Código" formControlName="Codigo">
-                                    </mat-form-field>                            
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Documento</mat-label>
+                                    <input #DOCUPAC type="text" [readonly]="id>0" matInput placeholder="Nro" formControlName="PacNumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event,true)" (keydown)="obtenerPersonaEnter($event.keyCode, true)" >
+                                    <button *ngIf="DOCUPAC.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUPAC.value='';reiniciaPersona(true)">
+                                      <mat-icon>close</mat-icon>
+                                    </button>
+                                    <button *ngIf="DOCUPAC.value && id===0" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event,true)">
+                                      <mat-icon>search</mat-icon>
+                                    </button>
+                                  </mat-form-field>
                                 </mat-grid-tile>
                             </mat-grid-list>
 
@@ -339,21 +339,21 @@
                                 <mat-grid-tile  [colspan]="6">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Apellido Paterno</mat-label>
-                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                        <input matInput placeholder="Apellido Paterno" formControlName="PacApPaterno">
                                     </mat-form-field>                                                              
                                 </mat-grid-tile>
 
                                 <mat-grid-tile [colspan]="6">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Apellido Materno</mat-label>
-                                        <input matInput placeholder="Código" formControlName="Codigo">
+                                        <input matInput placeholder="Apellido Materno" formControlName="PacApMaterno">
                                     </mat-form-field>                            
                                 </mat-grid-tile>
                             </mat-grid-list>
 
                             <mat-form-field appearance="outline">
-                                <mat-label>Nombre</mat-label>
-                                <input matInput placeholder="Código" formControlName="Codigo">
+                                <mat-label>Nombres</mat-label>
+                                <input matInput placeholder="Nombres" formControlName="PacNombres">
                             </mat-form-field> 
                             <mat-form-field appearance="outline">
                                 <mat-label>Eje - Procede</mat-label>
