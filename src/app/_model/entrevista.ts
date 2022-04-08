@@ -7,20 +7,20 @@ export class Entrevista{
     codigo?: number;
     ideUsuario?: number;
     codEstado?: number;
-    ideMotivoRec?: number;
-    pesoDonacion?: number;
-    hemoglobina?: number;
+    ideMotivoRec?: number;//ok
+    pesoDonacion?: number;//ok
+    hemoglobina?: number; //ok
     nIdTipoProceso?: number;
-    tallaDonacion?: number;
-    hematocrito?: number;
-    nIdTipoExtraccion?: string;
-    ideGrupo?: string;
-    estadoVenoso?: string;
-    lesionesVenas?: string;
-    fechaMed?: Date;
-    observacionesMed?: string;
-    nombres?:string;
-    documento?: string;
+    tallaDonacion?: number;//ok
+    hematocrito?: number;//ok
+    tipoExtraccion?: string;//ok
+    ideGrupo?: string;//ok
+    estadoVenoso?: string;//ok
+    lesionesVenas?: string;//ok
+    fechaMed?: Date;//ok
+    observacionesMed?: string;//ok
+    nombres?:string;//ok
+    documento?: string;//ok
     
     listaPregunta?: Pregunta[];
     listaTipoExtraccion?: Combobox[];

@@ -84,11 +84,7 @@
                   <mat-grid-tile [colspan]="4">
                     <mat-form-field appearance="outline">
                       <mat-label>Tipo Extracción</mat-label>
-                      <mat-select formControlName="nIdTipoExtraccion">
-                        <mat-option *ngFor="let c of listaTipoExtraccion" [value]="c.codigo">
-                         {{c.descripcion}}
-                        </mat-option>
-                      </mat-select>
+                      <input matInput formControlName="tipoExtraccion">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -165,13 +161,13 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
                   <label class="radio">SI
-                    <input type="radio" name="btn{{c.idePregunta}}">
+                    <input type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('SI',c.idePregunta)">
                     <span class="check"></span>
                   </label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
                   <label class="radio">NO
-                    <input type="radio" name="btn{{c.idePregunta}}">
+                    <input type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('NO',c.idePregunta)">
                     <span class="check"></span>
                   </label>
                 </mat-grid-tile>

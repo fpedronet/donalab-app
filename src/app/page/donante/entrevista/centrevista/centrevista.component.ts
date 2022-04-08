@@ -47,28 +47,33 @@ export class CentrevistaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
+    this.inicializar();
+
+    this.route.params.subscribe((data: Params)=>{
+      this.id = (data["id"]==undefined)? 0:data["id"];
+      this.ver = (data["ver"]=='true')? true : false
+      this.obtener(0);
+    });
+
+  }
+
+  inicializar(){
     this.form = new FormGroup({
       'idePreDonante': new FormControl({ value: '', disabled: false}),
       'codigo': new FormControl({ value: '', disabled: false}),
-      'codEstado': new FormControl({ value: '', disabled: false}),
       'ideMotivoRec': new FormControl({ value: '', disabled: false}),
       'pesoDonacion': new FormControl({ value: '', disabled: true}),
       'hemoglobina': new FormControl({ value: '', disabled: true}),
       'nIdTipoProceso': new FormControl({ value: '', disabled: false}),
       'tallaDonacion': new FormControl({ value: '', disabled: true}),
       'hematocrito': new FormControl({ value: '', disabled: true}),
-      'nIdTipoExtraccion': new FormControl({ value: '', disabled: false}),
-      'ideGrupo': new FormControl({ value: '', disabled: false}),
-      'estadoVenoso': new FormControl({ value: '', disabled: false}),
-      'lesionesVenas': new FormControl({ value: '', disabled: false}),
+      'tipoExtraccion': new FormControl({ value: '', disabled: true}),
+      'ideGrupo': new FormControl({ value: '', disabled: true}),
+      'estadoVenoso': new FormControl({ value: '', disabled: true}),
+      'lesionesVenas': new FormControl({ value: '', disabled: true}),
       'fechaMed': new FormControl({ value: new Date(), disabled: false}),
       'observacionesMed': new FormControl({ value: '', disabled: false}),
-    });
-
-    this.route.params.subscribe((data: Params)=>{
-      this.id = (data["id"]==undefined)? 0:data["id"];
-      this.ver = (data["ver"]=='true')? true : false
-      this.obtener(0);
     });
 
   }
@@ -101,24 +106,23 @@ export class CentrevistaComponent implements OnInit {
 
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
-          'codigo': new FormControl({ value: data.codigo, disabled: this.ver}),
-          'codEstado': new FormControl({ value: data.codEstado, disabled: this.ver}),
+          'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
           'ideMotivoRec': new FormControl({ value: data.ideMotivoRec, disabled: this.ver}),
           'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: true}),
           'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: true}),
           'nIdTipoProceso': new FormControl({ value: data.nIdTipoProceso, disabled: this.ver}),
           'tallaDonacion': new FormControl({ value: data.tallaDonacion, disabled: true}),
           'hematocrito': new FormControl({ value: data.hematocrito, disabled: true}),
-          'nIdTipoExtraccion': new FormControl({ value: data.nIdTipoExtraccion, disabled: this.ver}),
-          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: this.ver}),
-          'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: this.ver}),
-          'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: this.ver}),
-          'fechaMed': new FormControl({ value: new Date(), disabled: this.ver}),
+          'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: true}),
+          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: true}),
+          'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: true}),
+          'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: true}),
+          'fechaMed': new FormControl({ value: data.fechaMed, disabled: this.ver}),
           'ObservacionesMed': new FormControl({ value: data.observacionesMed, disabled: this.ver}),
         });
 
         this.Codigo = data.codigo;
-        this.CodEstado = data.codEstado?.toString()!;
+        this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
         this.nombres = data.nombres!;
         this.documento = data.documento!;
       }
@@ -139,19 +143,9 @@ export class CentrevistaComponent implements OnInit {
     }
   }
 
-  changeEstadoPregunta(estado: string, btn: string, idePregunta?: number){
-debugger;
+  changeEstadoPregunta(estado: string, idePregunta?: number){
     var result = this.listaPregunta?.filter(y=>y.idePregunta==idePregunta)[0];
     result!.respuesta= estado;
-    
-    // if(btn=="btn1"){
-    //   this.btnsi= true;
-    //   this.btnno= false;
-    // }else if(btn=="btn2"){
-    //   this.btnsi= false;
-    //   this.btnno= true;
-    // }
-
   }
 
   guardar(){
