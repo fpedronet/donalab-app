@@ -14,6 +14,7 @@ export class Predonante {
     codTipoDonacion?: string;
     codTipoExtraccion?: string;
     idePersonaRelacion?: number;
+    paciente?: Persona;
     codParentesco?: string;
     codEje?: string;
     ideGrupo?: number;
