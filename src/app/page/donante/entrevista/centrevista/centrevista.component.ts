@@ -121,7 +121,7 @@ export class CentrevistaComponent implements OnInit {
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
           'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
           'ideMotivoRec': new FormControl({ value: data.ideMotivoRec, disabled: !this.edit}),
-          'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: !true}),
+          'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: true}),
           'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: true}),
           'nIdTipoProceso': new FormControl({ value: data.nIdTipoProceso, disabled: !this.edit}),
           'tallaDonacion': new FormControl({ value: data.tallaDonacion, disabled: true}),

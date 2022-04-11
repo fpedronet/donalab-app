@@ -79,5 +79,13 @@ export class PredonanteService {
 
     return this.http.get<Predonante>(urls);
   }
-  
+
+  postFile(caption: string, fileToUpload: File) {
+    debugger;
+    const formData: FormData = new FormData();
+    formData.append('Image', fileToUpload, fileToUpload.name);
+    formData.append('ImageCaption', caption);
+    return this.http
+      .post(this.url, formData);
+  }
 }
