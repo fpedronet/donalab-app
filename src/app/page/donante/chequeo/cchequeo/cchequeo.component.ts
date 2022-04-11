@@ -57,7 +57,7 @@ export class CchequeoComponent implements OnInit {
   inicializar(){
     this.form = new FormGroup({
       'idePreDonante': new FormControl({ value: 0, disabled: false}),
-      'nIdTipoExtraccion': new FormControl({ value: '', disabled: false}),
+      'tipoExtraccion': new FormControl({ value: '', disabled: true}),
       'codigo': new FormControl({ value: '', disabled: false}),
       'fecha': new FormControl({ value: new Date(), disabled: false}),
       'pesoDonacion': new FormControl({ value: '', disabled: false}),
@@ -120,7 +120,7 @@ export class CchequeoComponent implements OnInit {
 
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
-          'nIdTipoExtraccion': new FormControl({ value: '', disabled: this.ver}),
+          'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: true}),
           'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
           'fecha': new FormControl({ value: data.fecha, disabled: this.ver}),
           'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: this.ver}),

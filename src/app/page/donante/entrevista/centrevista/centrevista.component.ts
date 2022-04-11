@@ -117,7 +117,7 @@ export class CentrevistaComponent implements OnInit {
           'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: true}),
           'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: true}),
           'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: true}),
-          'fechaMed': new FormControl({ value: data.fechaMed, disabled: this.ver}),
+          'fechaMed': new FormControl({ value: new Date(), disabled: this.ver}),
           'observacionesMed': new FormControl({ value: data.observacionesMed, disabled: this.ver}),
         });
 
@@ -125,6 +125,14 @@ export class CentrevistaComponent implements OnInit {
         this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
         this.nombres = data.nombres!;
         this.documento = data.documento!;
+
+        if(this.CodEstado=="1"){
+          this.btnaceptado= true;
+          this.btnrechazado= false;
+        }else if (this.CodEstado=="2"){
+          this.btnaceptado= false;
+          this.btnrechazado= true;
+        }
       }
 
       this.spinner.hideLoading();

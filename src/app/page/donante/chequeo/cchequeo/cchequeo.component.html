@@ -43,11 +43,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Tipo Extracción</mat-label>
-                  <mat-select formControlName="nIdTipoExtraccion">
-                    <mat-option *ngFor="let c of listaTipoExtraccion" [value]="c.codigo">
-                     {{c.descripcion}}
-                    </mat-option>
-                  </mat-select>
+                  <input matInput formControlName="tipoExtraccion">
                 </mat-form-field>
               </div>
 
@@ -169,13 +165,13 @@
                 <input matInput minlength="1" maxlength="5000" formControlName="obsedrvaciones">
               </mat-form-field>
               <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
-                <mat-grid-tile [colspan]="4">
+                <mat-grid-tile [colspan]="6">
                   <mat-form-field appearance="outline">
                     <mat-label>Temperatura °C</mat-label>
                     <input matInput type="number" class="example-right-align" formControlName="temperatura" placeholder="0.00">
                   </mat-form-field>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="4" style="top: -6px;">
+                <mat-grid-tile [colspan]="6" style="top: -6px;">
                   <button *ngIf="CodEstado=='0'" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeEstado('2')">NO APTO</button>
                   <button *ngIf="CodEstado=='2'" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeEstado('0')">NO APTO</button>
                 </mat-grid-tile>
