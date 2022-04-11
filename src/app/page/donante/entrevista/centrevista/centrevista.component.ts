@@ -163,7 +163,6 @@ export class CentrevistaComponent implements OnInit {
 
   obtenerpermiso(){
     this.configPermisoService.obtenerpermiso(forms.entrevista.codigo).subscribe(data=>{
-      debugger;
       this.permiso = data;
     });   
   }

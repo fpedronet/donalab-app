@@ -60,3 +60,12 @@
   border-radius: 50%;
   background: white;
 }
+
+.horizontal-scroll-contenedor{
+  margin: 4px, 4px;
+  padding: 4px;
+  background-color: #08c708;
+  width: 800px;
+  overflow: auto;
+  white-space: nowrap;
+}
