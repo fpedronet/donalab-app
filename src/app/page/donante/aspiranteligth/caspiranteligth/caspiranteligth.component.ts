@@ -285,7 +285,8 @@ export class CaspiranteligthComponent implements OnInit {
     
     //debugger;
 
-    if(this.validaDocumento(tipoDocu, numDocu)){
+    var validacion = this.validaDocumento(tipoDocu, numDocu);
+    if(validacion === ''){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
         //console.log(data);
         //debugger;
@@ -300,7 +301,7 @@ export class CaspiranteligthComponent implements OnInit {
           if(tipoDocu === '1'){
             
             this.poclabService.obtenerPersona(tipoDocu, numDocu).subscribe(dataP=>{
-              if(dataP!== undefined && dataP.nIdePersona !== 0){
+              if(dataP!== undefined && dataP!== null && dataP.nIdePersona !== 0){
                 if(this.form.value['IdePersona'] !== dataP.nIdePersona){
                   //Convierte datos
                   //debugger;
@@ -328,17 +329,14 @@ export class CaspiranteligthComponent implements OnInit {
                   p.telefono = dataP.vTelefono1;
                   this.muestraDatosPersona(p);
                 }                  
-              }                
-              else
-                this.reiniciaPersona();
+              }
             })
           }
-          else
-            this.reiniciaPersona();
         }
       })
     }
     else{
+      this.notifier.showNotification(2,'Mensaje',validacion);
       this.reiniciaPersona();
     }
   }
@@ -408,21 +406,25 @@ export class CaspiranteligthComponent implements OnInit {
 
   validaDocumento(tipoDocu: string, numDocu: string){
     if(tipoDocu === '' || numDocu === '')
-      return false;
+      return 'El tipo de documento y el documento no pueden estar vacíos';
 
     //DNI
     if(tipoDocu === '1' && numDocu.length !== 8)
-      return false;
+      return 'El DNI debe tener 8 dígitos';
 
     //RUC
     if(tipoDocu === '6' && numDocu.length !== 11)
-      return false;
+      return 'El RUC debe tener 11 dígitos';
 
-    //CEXT / PASS
-    if((tipoDocu === '4' || tipoDocu === '7') && numDocu.length > 12)
-      return false;
+    //CEXT
+    if(tipoDocu === '4' && numDocu.length > 12)
+      return 'El CEXT no puede exceder 12 dígitos';
+
+    //PASS
+    if(tipoDocu === '7' && numDocu.length > 12)
+      return 'El PASS no puede exceder 12 dígitos';
     
-    return true;
+    return '';
   }
 
   reiniciaPersona(){
@@ -558,6 +560,10 @@ export class CaspiranteligthComponent implements OnInit {
     model.idePersona = p.idePersona;
     model.persona = p;
 
+    model.ideTipProc = '01';
+    model.codTipoExtraccion = '01';
+    model.codTipoDonacion = '01';
+    model.idePersonaRelacion = 0; //Paciente
     model.ideBanco = this.curBanco;
     model.ideOrigen = this.form.value['IdeOrigen'];
     model.ideCampania = this.form.value['IdeCampania'];

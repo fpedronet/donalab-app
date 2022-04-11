@@ -58,8 +58,8 @@ export class CaspiranteComponent implements OnInit {
   curUser: number = 0;
   curBanco: number = 0;
 
-  tablasMaestras = ['TDoc', 'PAIS', 'DEPA', 'PROV', 'DST', 'GENE', 'ECV',
-  'NCN', 'PRDO', 'OCUPA', 'GINS', 'ORI', 'CAMP', 'TPRO', 'TEXR', 'TDON'];
+  tablasMaestras = ['TDoc', 'PAIS', 'DEPA', 'PROV', 'DST', 'GENE', 'ECV', 'NCN',
+  'PRDO', 'OCUPA', 'GINS', 'ORI', 'CAMP', 'TPRO', 'TEXR', 'TDON', 'EJE', 'VNCL', 'TREC'];
   tbTipoDocu: Combobox[] = [];
   tbPais: Combobox[] = [];
   tbGenero: Combobox[] = [];
@@ -68,15 +68,21 @@ export class CaspiranteComponent implements OnInit {
   tbNacion: Combobox[] = [];
   tbProced: Combobox[] = [];
   tbOcupa: Combobox[] = [];
-  tbViajes: string[] = ['', 'Sí', 'No']
+  tbViajes: string[] = ['Sí', 'No']
   tbOrigen: Combobox[] = [];
   tbCampana: Combobox[] = [];
   tbTipoProced: Combobox[] = [];
   tbTipoExtrac: Combobox[] = [];
+  filterTipoExtrac: Combobox[] = [];
   tbTipoDonac: Combobox[] = [];
+  tbEje: Combobox[] = [];
+  tbVinculo: Combobox[] = [];
+  tbTipoRecep: Combobox[] = [];
 
   muestraPaciente: boolean = false;
   selectedTipoDonacion: string = '';
+  idPaciente: number = 0;
+  pacientePoclab: boolean = false;
 
   muestraDistrito: boolean = false;
   carBuscaDistrito: number = 2;
@@ -157,7 +163,7 @@ export class CaspiranteComponent implements OnInit {
       'Telefono': new FormControl({ value: '', disabled: !this.edit}),
       'Correo': new FormControl({ value: '', disabled: !this.edit}),
       'LugarTrabajo': new FormControl({ value: '', disabled: !this.edit}),
-      'ViajeSN': new FormControl({ value: '', disabled: !this.edit}),
+      'ViajeSN': new FormControl({ value: 'No', disabled: !this.edit}),
       'Lugar': new FormControl({ value: '', disabled: !this.edit}),
       'Permanencia': new FormControl({ value: '', disabled: !this.edit}),
       'FechaViaje': new FormControl({ value: null, disabled: !this.edit}),
@@ -166,16 +172,18 @@ export class CaspiranteComponent implements OnInit {
       'CodTipoExtraccion': new FormControl({ value: '', disabled: !this.edit}),
       'CodTipoDonacion': new FormControl({ value: '', disabled: !this.edit}),
       'IdePaciente': new FormControl({ value: 0, disabled: !this.edit}),
-      'PacTipDocu': new FormControl({ value: '', disabled: !this.edit}),
+      'PacTipDocu': new FormControl({ value: '1', disabled: !this.edit}),
       'PacNumDocu': new FormControl({ value: '', disabled: !this.edit}),
       'PacApPaterno': new FormControl({ value: '', disabled: !this.edit}),
       'PacApMaterno': new FormControl({ value: '', disabled: !this.edit}),
       'PacNombres': new FormControl({ value: '', disabled: !this.edit}),
+      'PacFecNacimiento': new FormControl({ value: null, disabled: !this.edit}),
+      'PacSexo': new FormControl({ value: '', disabled: !this.edit}),
       'CodEje': new FormControl({ value: '', disabled: !this.edit}),
       'CodParentesco': new FormControl({ value: '', disabled: !this.edit}),
-      'IdeOrigen': new FormControl({ value: ideOri, disabled: !this.edit}),
-      'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),
       'TipRecep': new FormControl({ value: ideCam, disabled: !this.edit}),
+      'IdeOrigen': new FormControl({ value: ideOri, disabled: !this.edit}),
+      'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),      
       'Fecha': new FormControl({ value: new Date(), disabled: !this.edit}),
     }); 
   }
@@ -213,7 +221,11 @@ export class CaspiranteComponent implements OnInit {
         this.tbPais = this.obtenerSubtabla(tbCombobox,'PAIS');
         this.tbTipoProced = this.obtenerSubtabla(tbCombobox,'TPRO');
         this.tbTipoExtrac = this.obtenerSubtabla(tbCombobox,'TEXR');
+        this.changeTipoProced(); //Llena por defecto todo para msotrar
         this.tbTipoDonac = this.obtenerSubtabla(tbCombobox,'TDON');
+        this.tbEje = this.obtenerSubtabla(tbCombobox,'EJE');
+        this.tbVinculo = this.obtenerSubtabla(tbCombobox,'VNCL');
+        this.tbTipoRecep = this.obtenerSubtabla(tbCombobox,'TREC');
         var tbDpto: Combobox[] = this.obtenerSubtabla(tbCombobox,'DEPA');
         var tbProv: Combobox[] = this.obtenerSubtabla(tbCombobox,'PROV');
         var tbDist: Combobox[] = this.obtenerSubtabla(tbCombobox,'DST');
@@ -225,6 +237,20 @@ export class CaspiranteComponent implements OnInit {
         });
       }
     });
+  }
+
+  changeTipoProced(value: string = ''){
+    if(value === ''){
+      this.filterTipoExtrac = this.tbTipoExtrac;
+    }
+    else{
+      this.filterTipoExtrac = this.tbTipoExtrac.filter(e => e.codAsocia === value);
+      if(this.filterTipoExtrac.length > 0){
+        this.form.patchValue({
+          CodTipoExtraccion: this.filterTipoExtrac[0].codigo
+        });
+      }
+    }
   }
 
   obtenerSubtabla(tb: Combobox[], cod: string){
@@ -340,7 +366,8 @@ export class CaspiranteComponent implements OnInit {
     
     //debugger;
 
-    if(this.validaDocumento(tipoDocu, numDocu)){
+    var validacion = this.validaDocumento(tipoDocu, numDocu);
+    if(validacion === ''){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
         //Verifica si existe en BD
         var formPersona = esPaciente?this.form.value['IdePaciente']:this.form.value['IdePersona'];
@@ -355,7 +382,7 @@ export class CaspiranteComponent implements OnInit {
           if(tipoDocu === '1'){
             
             this.poclabService.obtenerPersona(tipoDocu, numDocu).subscribe(dataP=>{
-              if(dataP!== undefined && dataP.nIdePersona !== 0){
+              if(dataP!== undefined && dataP!== null && dataP.nIdePersona !== 0){
                 if(formPersona !== dataP.nIdePersona){
                   //Convierte datos
                   //debugger;
@@ -382,19 +409,20 @@ export class CaspiranteComponent implements OnInit {
                   p.correo1 = dataP.vEmail;
                   p.telefono = dataP.vTelefono1;
                   this.muestraDatosPersona(p, esPaciente);
+                  if(esPaciente){
+                    this.pacientePoclab = true;
+                    this.idPaciente = data.idePersona?data.idePersona:0;
+                  }                    
                 }                  
-              }                
-              else
-                this.reiniciaPersona();
+              }
             })
           }
-          else
-            this.reiniciaPersona();
         }
       })
     }
     else{
-      this.reiniciaPersona();
+      this.notifier.showNotification(2,'Mensaje',validacion);
+      this.reiniciaPersona(esPaciente);
     }
   }
 
@@ -411,7 +439,9 @@ export class CaspiranteComponent implements OnInit {
         PacNumDocu: data.numDocu,
         PacApPaterno: data.apPaterno,
         PacApMaterno: data.apMaterno,
-        PacNombres: data.primerNombre + ' ' + data.segundoNombre
+        PacNombres: data.primerNombre + ' ' + data.segundoNombre,
+        PacFecNacimiento: data.fecNacimiento,
+        PacSexo: data.sexo
       });
     }
     else{
@@ -492,32 +522,40 @@ export class CaspiranteComponent implements OnInit {
 
   validaDocumento(tipoDocu: string, numDocu: string){
     if(tipoDocu === '' || numDocu === '')
-      return false;
+      return 'El tipo de documento y el documento no pueden estar vacíos';
 
     //DNI
     if(tipoDocu === '1' && numDocu.length !== 8)
-      return false;
+      return 'El DNI debe tener 8 dígitos';
 
     //RUC
     if(tipoDocu === '6' && numDocu.length !== 11)
-      return false;
+      return 'El RUC debe tener 11 dígitos';
 
-    //CEXT / PASS
-    if((tipoDocu === '4' || tipoDocu === '7') && numDocu.length > 12)
-      return false;
+    //CEXT
+    if(tipoDocu === '4' && numDocu.length > 12)
+      return 'El CEXT no puede exceder 12 dígitos';
+
+    //PASS
+    if(tipoDocu === '7' && numDocu.length > 12)
+      return 'El PASS no puede exceder 12 dígitos';
     
-    return true;
+    return '';
   }
 
   reiniciaPersona(esPaciente: boolean = false){
     if(esPaciente){
+      this.idPaciente = 0;
+      this.pacientePoclab = false;
       this.form.patchValue({
         IdePaciente: 0,
         //PacTipDocu: '1',
         PacNumDocu: '',
         PacApPaterno: '',
         PacApMaterno: '',
-        PacNombres: ''
+        PacNombres: '',
+        PacFecNacimiento: null,
+        PacSexo: ''
       });
     }
     else{
@@ -641,17 +679,8 @@ export class CaspiranteComponent implements OnInit {
     p.apPaterno = p.apPaterno?.toUpperCase();
     p.apMaterno = this.form.value['ApMaterno'];
     p.apMaterno = p.apMaterno?.toUpperCase();
-    var nombres: string = this.form.value['Nombres'];
-    nombres = nombres.toUpperCase();
-    var posEspacio = nombres.indexOf(' ');
-    if(posEspacio !== -1){
-      p.primerNombre = nombres.substring(0, posEspacio);
-      p.segundoNombre = nombres.substring(posEspacio+1, nombres.length);
-    }
-    else{
-      p.primerNombre = nombres;
-      p.segundoNombre = '';
-    }
+    this.asignarNombres(p, this.form.value['Nombres']);
+    
     p.sexo = this.form.value['Sexo'];
     p.fecNacimiento = this.form.value['FecNacimiento'];
     p.codPais = this.form.value['CodPais'];
@@ -679,9 +708,33 @@ export class CaspiranteComponent implements OnInit {
     model.ideCampania = this.form.value['IdeCampania'];
     model.fecha = this.form.value['Fecha'];
     model.ideUsuReg = this.curUser;
-    model.codEstado = !this.btnEstadoSel[0]&&!this.btnEstadoSel[1]?0:(this.btnEstadoSel[0]?1:2);
+    model.codEstado = 0;
+    //Datos completos
+    model.viajeSN = this.form.value['ViajeSN'];
+    model.viajes = this.form.value['Lugar'];
+    model.permanencia = this.form.value['Permanencia'];
+    model.fechaViaje = this.form.value['FechaViaje'];
+    model.otros = this.form.value['Otros'];
+    model.ideTipProc = this.form.value['CodTipoProcedimiento'];
+    model.codTipoExtraccion = this.form.value['CodTipoExtraccion'];
+    model.codTipoDonacion = this.form.value['CodTipoDonacion'];
 
-    //debugger;
+    let a = new Persona();
+    a.idePersona = this.form.value['IdePaciente'];
+    a.tipDocu = this.form.value['PacTipDocu'];
+    a.numDocu = this.form.value['PacNumDocu'];
+    a.apPaterno = this.form.value['PacApPaterno'];
+    a.apMaterno = this.form.value['PacApMaterno'];
+    this.asignarNombres(a, this.form.value['PacNombres']);
+    a.fecNacimiento = this.form.value['PacFecNacimiento'];
+    a.sexo = this.form.value['PacSexo'];
+
+    model.idePersonaRelacion = a.idePersona;
+    model.paciente = a;
+
+    model.codEje = this.form.value['CodEje'];
+    model.codParentesco = this.form.value['CodParentesco'];
+    model.tipRecep = this.form.value['TipRecep'];
 
     this.spinner.showLoading();
     this.predonanteService.guardar(model).subscribe(data=>{
@@ -702,10 +755,23 @@ export class CaspiranteComponent implements OnInit {
     });
   }
 
+  asignarNombres(p: Persona, nombres: string){
+    nombres = nombres.toUpperCase();
+    var posEspacio = nombres.indexOf(' ');
+    if(posEspacio !== -1){
+      p.primerNombre = nombres.substring(0, posEspacio);
+      p.segundoNombre = nombres.substring(posEspacio+1, nombres.length);
+    }
+    else{
+      p.primerNombre = nombres;
+      p.segundoNombre = '';
+    }
+  }
+
   subirFoto(fileInput: Event){
     let file = (<HTMLInputElement>fileInput.target).files?[0]:undefined;
 
-    //if(file?.type == "image/jpeg")
+    //if(file.type == "image/jpeg")
   }
 
 }

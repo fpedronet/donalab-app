@@ -63,6 +63,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-size: 26px;
 }
 
+.labelSubtittle{
+  color: #681575d9;
+  font-weight: 500;
+  font-size: larger;
+}
+
 /* sub menu de los botones */
 .mat-toolbar.mat-primary.submenu{
   position: fixed;
