@@ -3,7 +3,7 @@
     <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
       <mat-icon class="maticon">west</mat-icon>
     </button>
-    <button mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+    <button *ngIf="edit && permiso.guardar" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
       <mat-icon class="maticon">save</mat-icon>
     </button>
   </div>
@@ -13,7 +13,10 @@
 <mat-card class="cardborde">   
   <mat-toolbar class="cardtitle"></mat-toolbar>
 
-  <h2 class="title-label"> CREAR ENTREVISTA</h2>
+  <h2 *ngIf="id==0" class="title-label">CREAR ENTREVISTA</h2>
+  <h2 *ngIf="id!==0 && !edit" class="title-label">VER ENTREVISTA</h2>
+  <h2 *ngIf="id!==0 && edit" class="title-label">EDITAR ENTREVISTA</h2>
+
   <mat-divider></mat-divider>
   
   <div id="content"> 
@@ -41,7 +44,13 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Codigo</mat-label>
-                    <input matInput formControlName="codigo" minlength="1" (keyup.enter)="obtener($event)" required>
+                    <input matInput formControlName="codigo" minlength="1" maxlength="15" (keyup.enter)="obtener($event)" required>
+                    <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Limpiar" (click)="limpiar()">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Buscar" (click)="obtener($event)">
+                      <mat-icon>search</mat-icon>
+                    </button>
                 </mat-form-field>
               </div>
               
@@ -151,12 +160,12 @@
               <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">
                 <mat-grid-list cols="12" rowHeight="40px" gutterSize="15px">
                   <mat-grid-tile [colspan]="4">
-                    <button *ngIf="!btnaceptado" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeEstado('1','btn1')">ACEPTADO</button>
-                    <button *ngIf="btnaceptado" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeEstado('1','btn1')">ACEPTADO</button>
+                    <button [disabled]="!edit" *ngIf="!btnaceptado" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeestado('1','btn1')">ACEPTADO</button>
+                    <button [disabled]="!edit" *ngIf="btnaceptado" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeestado('1','btn1')">ACEPTADO</button>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="4">
-                    <button *ngIf="!btnrechazado" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeEstado('2', 'btn2')">RECHAZADO</button>
-                    <button *ngIf="btnrechazado" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeEstado('2','btn2')">RECHAZADO</button>
+                    <button [disabled]="!edit" *ngIf="!btnrechazado" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeestado('2', 'btn2')">RECHAZADO</button>
+                    <button [disabled]="!edit" *ngIf="btnrechazado" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeestado('2','btn2')">RECHAZADO</button>
                   </mat-grid-tile>
                 </mat-grid-list>
               </div>
@@ -190,21 +199,21 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
                   <label class="radio">SI
-                    <input *ngIf="c.respuesta=='SI'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('SI',c.idePregunta)">
-                    <input type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('SI',c.idePregunta)">
+                    <input *ngIf="c.respuesta=='SI'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
+                    <input type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
                     <span class="check"></span>
                   </label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
                   <label class="radio">NO
-                    <input *ngIf="c.respuesta=='NO'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('NO',c.idePregunta)">
-                    <input  type="radio" name="btn{{c.idePregunta}}" (click)="changeEstadoPregunta('NO',c.idePregunta)">
+                    <input *ngIf="c.respuesta=='NO'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
+                    <input  type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
                     <span class="check"></span>
                   </label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="4">
                   <mat-form-field appearance="outline" style="font-size: 10px;">
-                    <input class="respuesta" matInput minlength="1" maxlength="500" (keyup)="changeObservacion($event,c.idePregunta)" [value]="c.observacion">
+                    <input class="respuesta" matInput minlength="1" maxlength="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
                   </mat-form-field>
                 </mat-grid-tile>
               </mat-grid-list>

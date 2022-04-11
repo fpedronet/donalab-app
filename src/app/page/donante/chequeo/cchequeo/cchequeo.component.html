@@ -3,7 +3,7 @@
     <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
       <mat-icon class="maticon">west</mat-icon>
     </button>
-    <button mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+    <button *ngIf="btnestado!='1'&& edit && permiso.guardar" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
       <mat-icon class="maticon">save</mat-icon>
     </button>
   </div>
@@ -13,7 +13,10 @@
 <mat-card class="cardborde">   
   <mat-toolbar class="cardtitle"></mat-toolbar>
 
-  <h2 class="title-label"> CREAR CHEQUEO</h2>
+  <h2 *ngIf="id==0" class="title-label">CREAR CHEQUEO</h2>
+  <h2 *ngIf="id!==0 && !edit" class="title-label">VER CHEQUEO</h2>
+  <h2 *ngIf="id!==0 && edit" class="title-label">EDITAR CHEQUEO</h2>
+
   <mat-divider></mat-divider>
   
   <div id="content"> 
@@ -39,7 +42,13 @@
                 </div> 
                 <mat-form-field appearance="outline">
                     <mat-label>Codigo</mat-label>
-                    <input matInput formControlName="codigo" minlength="1" (keyup.enter)="obtener($event)" required>
+                    <input matInput formControlName="codigo" minlength="1" maxlength="15" (keyup.enter)="obtener($event)" required>
+                    <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Limpiar" (click)="limpiar()">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Buscar" (click)="obtener($event)">
+                      <mat-icon>search</mat-icon>
+                    </button>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Tipo Extracción</mat-label>
@@ -52,15 +61,15 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Peso</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="pesoDonacion" placeholder="0.00">
+                      <input matInput type="number" class="example-right-align" formControlName="pesoDonacion" placeholder="0.00" (keyup.enter)="focus(tallaDonacion)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>  
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
-                      <mat-label>Hemoglobina</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="hemoglobina" placeholder="0.00">
+                      <mat-label>Talla</mat-label>
+                      <input matInput #tallaDonacion type="number" class="example-right-align" formControlName="tallaDonacion" placeholder="0.00" (keyup.enter)="focus(presion1)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>              
@@ -68,12 +77,12 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                       <mat-label>Medida Sistolica</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="presionArterial1" placeholder="0">
+                      <input matInput #presion1 type="number" class="example-right-align" formControlName="presionArterial1" placeholder="0" (keyup.enter)="focus(presion2)">
                     </mat-form-field>
                     <div style="font-size:37px;color:#921528;font-weight:500;"> /</div>
                     <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                       <mat-label>Medida Diastolica</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="presionArterial2" placeholder="0">
+                      <input matInput #presion2 type="number" class="example-right-align" formControlName="presionArterial2" placeholder="0" (keyup.enter)="focus(hemoglobina)">
                     </mat-form-field>                   
                   </mat-grid-tile>
                 </mat-grid-list> 
@@ -83,8 +92,8 @@
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
-                      <mat-label>Talla</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="tallaDonacion" placeholder="0.00">
+                      <mat-label>Hemoglobina</mat-label>
+                      <input matInput #hemoglobina type="number" class="example-right-align" formControlName="hemoglobina" placeholder="0.00" (keyup.enter)="focus(hematocrito)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -92,7 +101,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Hematocrito</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="hematocrito" placeholder="0.00">
+                      <input matInput #hematocrito type="number" class="example-right-align" formControlName="hematocrito" placeholder="0.00" (keyup.enter)="focus(plaquetas)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -103,7 +112,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Plaquetas</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="plaquetas" placeholder="0.00">
+                      <input matInput #plaquetas type="number" class="example-right-align" formControlName="plaquetas" placeholder="0.00" (keyup.enter)="focus(frecuenciaCardiaca)">
                     </mat-form-field>
                   </mat-grid-tile> 
                 </mat-grid-list> 
@@ -111,7 +120,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Frec. Cardiaca</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="frecuenciaCardiaca" placeholder="0">
+                      <input matInput #frecuenciaCardiaca type="number" class="example-right-align" formControlName="frecuenciaCardiaca" placeholder="0">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>  
@@ -130,7 +139,8 @@
             <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">
               <mat-form-field appearance="outline">
                 <mat-label>Grupo ABO</mat-label>
-                <mat-select formControlName="ideGrupo">
+                <mat-select
+                formControlName="ideGrupo">
                   <mat-option *ngFor="let c of listaGrupoSanguineo" [value]="c.codigo">
                    {{c.descripcion}}
                   </mat-option>
@@ -138,7 +148,8 @@
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Aspecto General</mat-label>
-                <mat-select formControlName="aspectoGeneral">
+                <mat-select 
+                formControlName="aspectoGeneral">
                   <mat-option *ngFor="let c of listaAspectoGeneral" [value]="c.codigo">
                    {{c.descripcion}}
                   </mat-option>
@@ -146,7 +157,8 @@
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Lesiones Area de Punción</mat-label>
-                <mat-select formControlName="lesionesVenas">
+                <mat-select 
+                formControlName="lesionesVenas">
                   <mat-option *ngFor="let c of listaLesionesPuncion" [value]="c.codigo">
                    {{c.descripcion}}
                   </mat-option>
@@ -154,7 +166,8 @@
               </mat-form-field>              
               <mat-form-field appearance="outline">
                 <mat-label>Estado Venoso</mat-label>
-                <mat-select formControlName="estadoVenoso">
+                <mat-select 
+                formControlName="estadoVenoso">
                   <mat-option *ngFor="let c of listaAspectoVenoso" [value]="c.codigo">
                    {{c.descripcion}}
                   </mat-option>
@@ -162,18 +175,18 @@
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Observaciones</mat-label>
-                <input matInput minlength="1" maxlength="5000" formControlName="obsedrvaciones">
+                <input matInput #obsedrvaciones minlength="1" maxlength="5000" formControlName="obsedrvaciones" (keyup.enter)="focus(temperatura)">
               </mat-form-field>
               <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                 <mat-grid-tile [colspan]="6">
                   <mat-form-field appearance="outline">
                     <mat-label>Temperatura °C</mat-label>
-                    <input matInput type="number" class="example-right-align" formControlName="temperatura" placeholder="0.00">
+                    <input matInput #temperatura type="number" class="example-right-align" formControlName="temperatura" placeholder="0.00" (keyup.enter)="focus(dFechaInicio)">
                   </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6" style="top: -6px;">
-                  <button *ngIf="CodEstado=='0'" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeEstado('2')">NO APTO</button>
-                  <button *ngIf="CodEstado=='2'" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeEstado('0')">NO APTO</button>
+                  <button [disabled]="!edit" *ngIf="CodEstado=='0' || CodEstado=='1'" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeestado('2')">NO APTO</button>
+                  <button [disabled]="!edit" *ngIf="CodEstado=='2'" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeestado('0')">NO APTO</button>
                 </mat-grid-tile>
               </mat-grid-list>
               <mat-grid-list *ngIf="CodEstado=='2'" cols="12" rowHeight="75px" gutterSize="15px">
@@ -192,7 +205,7 @@
                 <mat-grid-tile [colspan]="12">
                   <mat-form-field appearance="outline">
                     <mat-label>Fecha Chequeo</mat-label>
-                    <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" formControlName="fecha" required>
+                    <input matInput #dFechaInicio [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" formControlName="fecha" required>
                     <mat-datepicker-toggle matSuffix [for]="dFechaIni"></mat-datepicker-toggle>
                     <mat-datepicker #dFechaIni></mat-datepicker>
                   </mat-form-field>

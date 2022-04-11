@@ -144,25 +144,27 @@ export class LaspiranteComponent implements OnInit {
     })
   }
 
-  abrirFormCrear(id: number){
+  
+  routeUrl(id: string, tipo:string){
+    var editar = true;
+
+    //PERMISO
     var editar = true;
     if(this.permiso.guardar)
       editar = true;
     else if(this.permiso.ver)
       editar = false;
     else
-      return; //Si no tiene al menos un permiso no hace nada
-    
-    this.router.navigate(['/page/donante/aspirante/edit/', id, editar]);
-  }
-  
-  routeUrl(idpredonante: string, tipo:string){
+      return; 
+
+      
+    //URL
     if(tipo=="pd"){
       this.router.navigate(['/page/donante/aspirante/create']);
     }else if(tipo=="ch"){
-      this.router.navigate(['/page/donante/chequeo/edit/'+idpredonante+"/"+false]);
+      this.router.navigate(['/page/donante/chequeo/edit/'+id+"/"+editar]);
     }else if(tipo=="en"){
-      this.router.navigate(['/page/donante/entrevista/edit/'+idpredonante+"/"+false]);
+      this.router.navigate(['/page/donante/entrevista/edit/'+id+"/"+editar]);
     }else if(tipo=="do"){
       this.router.navigate(['/page/donante/donacion/create']);
     }   
