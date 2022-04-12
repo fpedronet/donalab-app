@@ -80,12 +80,20 @@ export class PredonanteService {
     return this.http.get<Predonante>(urls);
   }
 
-  postFile(caption: string, fileToUpload: File) {
-    debugger;
-    const formData: FormData = new FormData();
-    formData.append('Image', fileToUpload, fileToUpload.name);
-    formData.append('ImageCaption', caption);
-    return this.http
-      .post(this.url, formData);
+
+
+
+
+  postFile(model: Predonante) {
+    let urls = `${this.url}/PostSaveFoto`;
+    return this.http.post<Response>(urls, model);
   }
+
+  obtenerFoto(){
+    let urls = `${this.url}/GetFirstFoto`;
+
+    return this.http.get<Persona>(urls);
+  }
+
+
 }

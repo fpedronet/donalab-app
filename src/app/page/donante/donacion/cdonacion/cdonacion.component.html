@@ -12,18 +12,25 @@
     <mat-toolbar class="cardtitle"></mat-toolbar>
   
     <div class="container">
-        <div class="row">
-          <div class="col s8 offset-2">
-            <div class="card-panel teal lighten-2">
-              <h4 class="center white-text">Image Library</h4>
+
+      <div class="container">
+        <h1>TechGeekNext Upload Image Example</h1>
+        <br>
+        <form>
+            <div class="form-group">
+                <img [src]="imageUrl"  style="width:250px;height:200px">
+                <br>
+                <input type="file" (change)="upload($event)">
+                <br>
+                <button (click)="guardar()">Guardar Foto</button>
+                <br>
+                <button (click)="obtener()">Mostrar Foto</button>
             </div>
-            <!-- <form #imageForm=ngForm (ngSubmit)="OnSubmit()"> -->
-              <img [src]="imageUrl"  style="width:250px;height:200px">
-              <input type="file" #Image accept="image/*" (change)="handleFileInput($event)">
-              <button type="button" (click)="btnguardar()" class="btn-large btn-submit">Submit</button>
-            <!-- </form> -->
-          </div>
-        </div>
+            <br>
+    
+        </form>
+    </div>
+
       </div>
 
   </mat-card>
