@@ -2,14 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import forms from 'src/assets/json/formulario.json';
 
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { ChequeofisicoService } from 'src/app/_service/chequeofisico.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
+import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 
 import { Combobox } from 'src/app/_model/combobox';
 import { ChequeoFisico } from 'src/app/_model/chequeofisico';
+import { Permiso } from 'src/app/_model/permiso';
 
 @Component({
   selector: 'app-cchequeo',
@@ -19,6 +22,8 @@ import { ChequeoFisico } from 'src/app/_model/chequeofisico';
 export class CchequeoComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
+  permiso: Permiso = {};
+  
   listaTipoExtraccion?: Combobox[] = [];
   listaLesionesPuncion?: Combobox[] = [];
   listaGrupoSanguineo?: Combobox[] = [];
@@ -31,15 +36,18 @@ export class CchequeoComponent implements OnInit {
   CodEstado: string = "";
   Codigo?: number;
   id: number = 0;
-  ver: boolean = true;
+  edit: boolean = true;
   $disable: boolean =false;
-  
+  btndisable: boolean = false;
+  btnestado: string = "";
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private spinner: SpinnerService,
     private notifierService : NotifierService,
     private usuarioService: UsuarioService,
+    private configPermisoService : ConfigPermisoService,
     private chequeofisicoService: ChequeofisicoService,
   ) { }
 
@@ -47,9 +55,13 @@ export class CchequeoComponent implements OnInit {
 
     this.inicializar();
 
+    this.obtenerpermiso();
+
     this.route.params.subscribe((data: Params)=>{
+      debugger;
       this.id = (data["id"]==undefined)? 0:data["id"];
-      this.ver = (data["ver"]=='true')? true : false
+      this.edit = (data["edit"]=='true')? true : false;
+      this.btndisable = (this.id==0)? false: true;
       this.obtener(0);
     });
   }
@@ -57,7 +69,7 @@ export class CchequeoComponent implements OnInit {
   inicializar(){
     this.form = new FormGroup({
       'idePreDonante': new FormControl({ value: 0, disabled: false}),
-      'nIdTipoExtraccion': new FormControl({ value: '', disabled: false}),
+      'tipoExtraccion': new FormControl({ value: '', disabled: true}),
       'codigo': new FormControl({ value: '', disabled: false}),
       'fecha': new FormControl({ value: new Date(), disabled: false}),
       'pesoDonacion': new FormControl({ value: '', disabled: false}),
@@ -77,6 +89,8 @@ export class CchequeoComponent implements OnInit {
       'temperatura': new FormControl({ value: '', disabled: false}),
       'ideMotivoRec': new FormControl({ value: '', disabled: false})
     });
+
+    this.CodEstado = "0";
   }
   
   obtener(codigo: any){
@@ -90,6 +104,7 @@ export class CchequeoComponent implements OnInit {
 
     if(codigo!=0){
       cod = (codigo.target.value==0)? this.id: codigo.target.value;
+      cod = (cod==undefined)? this.form.value['codigo']: cod; 
       this.$disable = false;
     }else{
       ids=  this.id;
@@ -117,41 +132,53 @@ export class CchequeoComponent implements OnInit {
             aterrial2= aterrial![1];
           }
         }
-
+        debugger;
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
-          'nIdTipoExtraccion': new FormControl({ value: '', disabled: this.ver}),
+          'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: true}),
           'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
-          'fecha': new FormControl({ value: data.fecha, disabled: this.ver}),
-          'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: this.ver}),
-          'tallaDonacion': new FormControl({ value: data.tallaDonacion, disabled: this.ver}),
-          'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: this.ver}),
-          'hematocrito': new FormControl({ value: data.hematocrito, disabled: this.ver}),
-          'plaquetas': new FormControl({ value: data.plaquetas, disabled: this.ver}),
-          'presionArterial1': new FormControl({ value: aterrial1, disabled: this.ver}),
-          'presionArterial2': new FormControl({ value: aterrial2, disabled: this.ver}),
-          'presionArterial': new FormControl({ value: data.presionArterial, disabled: this.ver}),
-          'frecuenciaCardiaca': new FormControl({ value: data.frecuenciaCardiaca, disabled: this.ver}),
-          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: this.ver}),
-          'aspectoGeneral': new FormControl({ value: data.aspectoGeneral, disabled: this.ver}),
-          'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: this.ver}),
-          'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: this.ver}),
-          'obsedrvaciones': new FormControl({ value: data.obsedrvaciones, disabled: this.ver}),
-          'temperatura': new FormControl({ value: data.temperatura, disabled: this.ver}),
-          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec?.toString(), disabled: this.ver}),
+          'fecha': new FormControl({ value: data.fecha, disabled: !this.edit}),
+          'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: !this.edit}),
+          'tallaDonacion': new FormControl({ value: data.tallaDonacion, disabled: !this.edit}),
+          'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: !this.edit}),
+          'hematocrito': new FormControl({ value: data.hematocrito, disabled: !this.edit}),
+          'plaquetas': new FormControl({ value: data.plaquetas, disabled: !this.edit}),
+          'presionArterial1': new FormControl({ value: aterrial1, disabled: !this.edit}),
+          'presionArterial2': new FormControl({ value: aterrial2, disabled: !this.edit}),
+          'presionArterial': new FormControl({ value: data.presionArterial, disabled: !this.edit}),
+          'frecuenciaCardiaca': new FormControl({ value: data.frecuenciaCardiaca, disabled: !this.edit}),
+          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: !this.edit}),
+          'aspectoGeneral': new FormControl({ value: data.aspectoGeneral, disabled: !this.edit}),
+          'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: !this.edit}),
+          'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: !this.edit}),
+          'obsedrvaciones': new FormControl({ value: data.obsedrvaciones, disabled: !this.edit}),
+          'temperatura': new FormControl({ value: data.temperatura, disabled: !this.edit}),
+          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec?.toString(), disabled: !this.edit}),
         });
 
         this.Codigo = data.codigo;
         this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
+        this.btnestado = this.CodEstado;
         this.nombres = data.nombres!;
         this.documento = data.documento!;
+
+        if(data.idePreDonante==0 || data.idePreDonante==null){
+          this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
+        }
+
       }
 
       this.spinner.hideLoading();
     });      
   }
 
-  changeEstado(estado: string){
+  obtenerpermiso(){
+    this.configPermisoService.obtenerpermiso(forms.chequeo.codigo).subscribe(data=>{
+      this.permiso = data;
+    });   
+  }
+
+  changeestado(estado: string){
     this.CodEstado= estado;
   }
 
@@ -198,4 +225,14 @@ export class CchequeoComponent implements OnInit {
       });
     }
   }
+
+  focus(name:any){
+      name.focus();
+      name.select();
+  }
+
+  limpiar(){
+    this.inicializar();
+  }
+
 }

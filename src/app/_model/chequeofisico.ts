@@ -25,7 +25,7 @@ export class ChequeoFisico{
     ideUsuario?: number;
     aceptaAlarma?: string;
     cns?: string;
-    nIdTipoExtraccion?: string;
+    tipoExtraccion?: string;
     nombres?:string;
     documento?: string;
 

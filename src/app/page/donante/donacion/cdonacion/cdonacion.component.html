@@ -1,1 +1,32 @@
-<p>cdonacion works!</p>
+<mat-toolbar color="primary" class="example-toolbar submenu">
+    <div class="example-button-row">
+      <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
+        <mat-icon class="maticon">west</mat-icon>
+      </button>
+
+    </div>
+  </mat-toolbar>
+  
+  <div class="container">  
+  <mat-card class="cardborde">   
+    <mat-toolbar class="cardtitle"></mat-toolbar>
+  
+    <div class="container">
+        <div class="row">
+          <div class="col s8 offset-2">
+            <div class="card-panel teal lighten-2">
+              <h4 class="center white-text">Image Library</h4>
+            </div>
+            <!-- <form #imageForm=ngForm (ngSubmit)="OnSubmit()"> -->
+              <img [src]="imageUrl"  style="width:250px;height:200px">
+              <input type="file" #Image accept="image/*" (change)="handleFileInput($event)">
+              <button type="button" (click)="btnguardar()" class="btn-large btn-submit">Submit</button>
+            <!-- </form> -->
+          </div>
+        </div>
+      </div>
+
+  </mat-card>
+  </div>
+  
+    
