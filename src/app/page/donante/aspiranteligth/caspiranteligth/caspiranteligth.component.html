@@ -1,13 +1,11 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
-    <div class="example-button-row">  
-
+    <div class="example-button-row">
         <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirantelight">
           <mat-icon class="maticon">west</mat-icon>
         </button>
         <button *ngIf="edit && permiso.guardar" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
           <mat-icon class="maticon">save</mat-icon>
         </button>
-
     </div>
 </mat-toolbar>
 
