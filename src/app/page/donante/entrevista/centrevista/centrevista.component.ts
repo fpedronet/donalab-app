@@ -60,7 +60,7 @@ export class CentrevistaComponent implements OnInit {
 
     this.route.params.subscribe((data: Params)=>{
       this.id = (data["id"]==undefined)? 0:data["id"];
-      this.edit = (data["edit"]=='true')? true : false;
+      this.edit =(data["edit"]==undefined) ? true : (data["edit"]=='true')? true : false;
       this.btndisable = (this.id==0)? false: true;
       this.obtener(0);
     });
