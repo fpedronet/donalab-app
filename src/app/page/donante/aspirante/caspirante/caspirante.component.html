@@ -39,16 +39,16 @@
                                 </mat-grid-tile>
                                 <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="8">                                   
                                     <div>
-                                        <div style="text-align:center;">
-                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{getCodigo()}}</label>                                 
+                                        <div *ngIf="codigo !== ''" style="text-align:center;">
+                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
                                         </div>
                                         <img style="width: 201px;" src="{{foto}}" />
                                     </div> 
                                 </mat-grid-tile>
                                 <mat-grid-tile *ngIf="!muestraSangre || form.value['IdePersona']==0" [colspan]="12">                                   
                                     <div>
-                                        <div style="text-align:center;">
-                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{getCodigo()}}</label>                                 
+                                        <div *ngIf="codigo !== ''" style="text-align:center;">
+                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
                                         </div>
                                         <img style="width: 201px;" src="{{foto}}" />
                                     </div> 

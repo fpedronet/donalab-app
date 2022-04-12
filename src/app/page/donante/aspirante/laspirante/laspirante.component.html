@@ -47,7 +47,7 @@
           <ng-container matColumnDef="pd">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable'"> PD </mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTable'" data-label="PD">
-              <div (click)="routeUrl(element.codigo, 'pd')" class="circulo" style="background: {{element.pd}}"></div>
+              <div (click)="routeUrl(element.idePreDonante, 'pd')" class="circulo" style="background: {{element.pd}}"></div>
             </mat-cell>
           </ng-container>   
           

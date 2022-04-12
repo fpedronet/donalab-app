@@ -56,7 +56,7 @@ export class PredonanteService {
     return this.http.get<Predonante>(urls);
   }
 
-  obtenerPersona(idPersona: number, tipoDocu: string, numDocu: string){
+  obtenerPersona(idPersona: number, tipoDocu: string = '', numDocu: string = ''){
     let urls = `${this.url}/GetFirstPersona?idPersona=${idPersona}&tipoDocu=${tipoDocu}&numDocu=${numDocu}`;
 
     return this.http.get<Persona>(urls);

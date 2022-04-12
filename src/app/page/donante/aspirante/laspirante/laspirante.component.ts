@@ -160,7 +160,7 @@ export class LaspiranteComponent implements OnInit {
       
     //URL
     if(tipo=="pd"){
-      this.router.navigate(['/page/donante/aspirante/create']);
+      this.router.navigate(['/page/donante/aspirante/edit/'+id+"/"+editar]);
     }else if(tipo=="ch"){
       this.router.navigate(['/page/donante/chequeo/edit/'+id+"/"+editar]);
     }else if(tipo=="en"){
