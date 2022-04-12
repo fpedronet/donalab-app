@@ -192,10 +192,48 @@
         <ng-template matStepLabel>Preguntas</ng-template>
         <div class="content">          
 
+          <table>
+            <thead>
+              <tr>
+                <th>PREGUNTA</th>  
+                <th colspan="2">OPCIONES</th>   
+                <th>OBSERVACIÓN</th>             
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of listaPregunta">
+                <td>
+                  {{c.pregunta}}
+                </td>
+                <td>
+                  <label class="radio">SI
+                    <input *ngIf="c.respuesta=='SI'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
+                    <input type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
+                    <span class="check"></span>
+                  </label>
+                </td>
+                <td>
+                  <label class="radio">NO
+                    <input *ngIf="c.respuesta=='NO'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
+                    <input  type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
+                    <span class="check"></span>
+                  </label>
+                </td>
+                <td>
+                  <input type="text" class="txtrespuesta" [minLength]="1" [maxLength]="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
+
+                  <!-- <mat-form-field style="margin:0;padding-bottom:0;" appearance="outline" style="font-size: 10px;">
+                    <input class="respuesta" matInput minlength="1" maxlength="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
+                  </mat-form-field> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
           <div fxLayout="row wrap" fxLayoutGap="16px grid">
             <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">
-              <!-- <div class="horizontal-scroll-contenedor"> -->
-              <mat-grid-list cols="12" rowHeight="50px" gutterSize="15px" *ngFor="let c of listaPregunta">
+
+              <!-- <mat-grid-list cols="12" rowHeight="50px" gutterSize="15px" *ngFor="let c of listaPregunta">
                
                   <mat-grid-tile [colspan]="6">
                     <div style="margin-right:auto;">{{c.pregunta}}</div>
@@ -219,9 +257,7 @@
                       <input class="respuesta" matInput minlength="1" maxlength="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
                     </mat-form-field>
                   </mat-grid-tile>
-              </mat-grid-list>
-
-            <!-- </div> -->
+              </mat-grid-list> -->
 
             </div>
           </div>
