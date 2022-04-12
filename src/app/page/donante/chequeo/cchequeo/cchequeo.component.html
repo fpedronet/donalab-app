@@ -3,7 +3,7 @@
     <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
       <mat-icon class="maticon">west</mat-icon>
     </button>
-    <button *ngIf="btnestado!='1'&& edit && permiso.guardar" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+    <button *ngIf="edit && permiso.guardar" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
       <mat-icon class="maticon">save</mat-icon>
     </button>
   </div>

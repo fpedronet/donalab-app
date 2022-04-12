@@ -76,7 +76,8 @@ export class Predonante {
     ch?:string;
     en?:string;
     do?:string;
-
+    strFoto?: string;
+    
     listaBanco?: Combobox[];
     listaCampania?: Combobox[];
     listaOrigen?: Combobox[];

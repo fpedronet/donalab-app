@@ -39,7 +39,6 @@ export class CchequeoComponent implements OnInit {
   edit: boolean = true;
   $disable: boolean =false;
   btndisable: boolean = false;
-  btnestado: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -58,9 +57,8 @@ export class CchequeoComponent implements OnInit {
     this.obtenerpermiso();
 
     this.route.params.subscribe((data: Params)=>{
-      debugger;
       this.id = (data["id"]==undefined)? 0:data["id"];
-      this.edit = (data["edit"]=='true')? true : false;
+      this.edit = (data["edit"]==undefined) ? true : (data["edit"]=='true')? true : false;
       this.btndisable = (this.id==0)? false: true;
       this.obtener(0);
     });
@@ -158,7 +156,6 @@ export class CchequeoComponent implements OnInit {
 
         this.Codigo = data.codigo;
         this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
-        this.btnestado = this.CodEstado;
         this.nombres = data.nombres!;
         this.documento = data.documento!;
 

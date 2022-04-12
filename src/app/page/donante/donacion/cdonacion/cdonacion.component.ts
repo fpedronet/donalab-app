@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Foto } from 'src/app/_model/foto';
+import { Predonante } from 'src/app/_model/predonante';
 import { PredonanteService } from 'src/app/_service/predonante.service';
 
 @Component({
@@ -8,8 +10,10 @@ import { PredonanteService } from 'src/app/_service/predonante.service';
 })
 export class CdonacionComponent implements OnInit {
 
-  imageUrl: string = "../../../../../assets/people.png";
-  fileToUpload!: File;
+
+  imageUrl!: string;
+  imageError!: string;
+  isImageSaved!: boolean;
 
   constructor(
     private predonanteService: PredonanteService
@@ -19,32 +23,47 @@ export class CdonacionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  upload(fileInput: any) {
 
-  handleFileInput(file: any) {
-    debugger;
-    this.fileToUpload =file.target.files.item(0)!;
+    this.imageError = "";
+    if (fileInput.target.files && fileInput.target.files[0]) {
 
-    //Show image preview
-    var reader = new FileReader();
-    reader.onload = (event:any) => {
-      this.imageUrl = event.target.result;
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            const image = new Image();
+            image.src = e.target.result;
+            image.onload = rs => {
+
+                const imgBase64Path = e.target.result;
+                this.imageUrl = imgBase64Path;
+            };
+        };
+
+        reader.readAsDataURL(fileInput.target.files[0]);
+
     }
-    reader.readAsDataURL(this.fileToUpload);
   }
 
-  btnguardar(){
-    debugger;
-    let file = this.fileToUpload;
+  guardar(){
 
-   this.predonanteService.postFile("",file).subscribe(
-     data =>{
-       console.log('done');
-      //  Caption.value = null;
-      //  Image.value = null;
-       this.imageUrl = "../../../../../assets/people.png";
-     }
-   );
+    let model = new Predonante();
+    model.strFoto = this.imageUrl!;
+  
+    this.predonanteService.postFile(model).subscribe(data=>{
+      //debugger;
+      console.log(data);      
+    });
   }
+
+  obtener(){
+
+    this.predonanteService.obtenerFoto().subscribe(data=>{
+      
+      this.imageUrl = data.foto?.foto!;
+      console.log(data);      
+    });
+  }
+
 }
   
 
