@@ -130,7 +130,7 @@ export class CchequeoComponent implements OnInit {
             aterrial2= aterrial![1];
           }
         }
-        debugger;
+     
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
           'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: true}),
