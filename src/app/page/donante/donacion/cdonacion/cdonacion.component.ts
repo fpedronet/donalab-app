@@ -58,8 +58,8 @@ export class CdonacionComponent implements OnInit {
   obtener(){
 
     this.predonanteService.obtenerFoto().subscribe(data=>{
-      
-      this.imageUrl = data.foto?.foto!;
+      debugger;
+      this.imageUrl = data.strFoto!;
       console.log(data);      
     });
   }

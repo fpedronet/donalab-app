@@ -46,6 +46,7 @@ export class Persona {
     mostrarFirma?: string;
     fecRegistro?: Date;
     foto?: Foto;
+    strFoto?: string;
 }
 
 export class PersonaPoclab{
