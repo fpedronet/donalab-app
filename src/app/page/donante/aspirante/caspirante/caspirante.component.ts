@@ -19,6 +19,7 @@ import { PredonanteService } from 'src/app/_service/predonante.service';
 import forms from 'src/assets/json/formulario.json';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { environment } from 'src/environments/environment';
+import { Foto } from 'src/app/_model/foto';
 
 @Component({
   selector: 'app-caspirante',
@@ -51,6 +52,7 @@ export class CaspiranteComponent implements OnInit {
 
   id: number = 0;
   edit: boolean = true;
+  codigo: string = ''
   loading = true;
   existRegistro = false;
   countRegistro = 0;
@@ -110,7 +112,7 @@ export class CaspiranteComponent implements OnInit {
   colFondo: string = '';
   colLetra: string = '';
 
-  currentTab: number = 0;
+  //currentTab: number = 0;
 
   ngOnInit(): void {
     
@@ -625,7 +627,6 @@ export class CaspiranteComponent implements OnInit {
 
   obtener(){
     if(this.id!=0){
-      this.currentTab = 1;
 
       /*var c = document.getElementById('buttonsDonacion');
       if(c) window.scrollTo(0, c.scrollHeight);*/
@@ -634,7 +635,13 @@ export class CaspiranteComponent implements OnInit {
       this.predonanteService.obtener(this.id).subscribe(data=>{
         //debugger;
         var p = data.persona;
+        
         if(p !== undefined){
+          var edadStr: string = p.edad?.toString()!;
+          if(p.edad == 0)
+            edadStr = '';
+
+          this.codigo = data.codigo===undefined?'':data.codigo.toString();
           this.form.patchValue({
             IdePersona: p.idePersona,
             Codigo: data.codigo,
@@ -651,8 +658,48 @@ export class CaspiranteComponent implements OnInit {
             Correo: p.correo1,
             IdeOrigen: data.ideOrigen?.toString(),
             IdeCampania: data.ideCampania?.toString(),
-            Fecha: data.fecha
+            Fecha: data.fecha,
+            //Datos completos
+            Edad: edadStr,
+            EstadoCivil: p.estadoCivil,
+            Nacionalidad: p.nacionalidad,
+            LugarNacimiento: p.lugarNacimiento,
+            Procedencia: p.procedencia,
+            CodGradoInstruccion: p.codGradoInstruccion,
+            CodOcupacion: p.codOcupacion,
+            Direccion: p.direccion,
+            LugarTrabajo: p.lugarTrabajo,
+            //Otros datos predonante
+            Otros: data.otros,            
+            CodTipoDonacion: data.codTipoDonacion,
+            IdePaciente: 0
           });
+          if(data.ideTipProc !== undefined){
+            this.changeTipoProced(data.ideTipProc);
+            this.form.patchValue({
+              CodTipoProcedimiento: data.ideTipProc,
+              CodTipoExtraccion: data.codTipoExtraccion
+            });
+          }
+          //debugger;
+          if(data.viajeSN === 'Si' || data.viajeSN === 'Sí'){
+            this.form.patchValue({
+              ViajeSN: 'Sí',
+              Lugar: data.viajes,
+              Permanencia: data.permanencia,
+              FechaViaje: data.fechaViaje
+            });
+          }
+          if(data.codTipoDonacion === '002' || data.codTipoDonacion === '004'){
+            if(data.idePersonaRelacion !== undefined && data.idePersonaRelacion !== 0){
+              this.predonanteService.obtenerPersona(data.idePersonaRelacion).subscribe(dataP=>{
+                if(dataP !== undefined && data.idePersona !== 0)
+                  this.muestraDatosPersona(data, true);
+              })
+            }
+            
+          }
+        
 
           //Deshabilita tipo de documento y documento si existe la postulación
           //Ya no (no deja enviar tipo de documento y documento)
@@ -664,11 +711,6 @@ export class CaspiranteComponent implements OnInit {
           var codEstado = data.codEstado?data.codEstado:0;
           this.estadoIni = codEstado;
           //debugger;
-
-          this.btnEstadoSel = [false, false];
-          if(codEstado > 0){
-            this.btnEstadoSel[codEstado-1] = true;
-          }
 
           this.cambiaPaisDistrito(p.codPais, p.codDistrito);
         }
@@ -712,6 +754,12 @@ export class CaspiranteComponent implements OnInit {
     p.codOcupacion = this.form.value['CodOcupacion'];
     p.direccion = this.form.value['Direccion'];
     p.lugarTrabajo = this.form.value['LugarTrabajo'];
+
+    //Foto
+    let f = new Foto();
+    f.idePersona = p.idePersona;
+    f.foto = undefined;
+    model.foto = f;
 
     model.idePersona = p.idePersona;
     model.persona = p;
@@ -760,7 +808,7 @@ export class CaspiranteComponent implements OnInit {
         this.form.patchValue({
           Codigo: data.codigo
         })
-        this.router.navigate(['/page/donante/aspirantelight']);
+        this.router.navigate(['/page/donante/aspirante']);
         this.spinner.hideLoading();
       }else{
         this.spinner.hideLoading();

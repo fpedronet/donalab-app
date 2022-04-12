@@ -26,7 +26,7 @@ const routes: Routes = [
 
   {path:'donante/aspirante', component: LaspiranteComponent, canActivate: [GuardService]},
   {path:'donante/aspirante/create', component: CaspiranteComponent, canActivate: [GuardService]},
-  {path:'donante/aspirante/edit/:id', component: CaspiranteComponent, canActivate: [GuardService]},
+  {path:'donante/aspirante/edit/:id/:edit', component: CaspiranteComponent, canActivate: [GuardService]},
 
   {path:'donante/aspirantelight', component: LaspiranteligthComponent, canActivate: [GuardService]},
   {path:'donante/aspirantelight/create', component: CaspiranteligthComponent, canActivate: [GuardService]},
