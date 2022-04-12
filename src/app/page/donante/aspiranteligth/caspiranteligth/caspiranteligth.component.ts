@@ -336,7 +336,8 @@ export class CaspiranteligthComponent implements OnInit {
       })
     }
     else{
-      this.notifier.showNotification(2,'Mensaje',validacion);
+      if(validacion !== 'El tipo de documento y el documento no pueden estar vacíos')
+        this.notifier.showNotification(2,'Mensaje',validacion);
       this.reiniciaPersona();
     }
   }
@@ -374,10 +375,10 @@ export class CaspiranteligthComponent implements OnInit {
           if(hist1 !== undefined){
             var tipoSangre: PersonaHistorial = hist1;
             
-            this.abo = tipoSangre.dato1?tipoSangre.dato1:'';
-            this.rh = tipoSangre.dato2?tipoSangre.dato2:'';
-            this.colFondo = tipoSangre.colorFondo?tipoSangre.colorFondo:'';
-            this.colLetra = tipoSangre.colorLetra?tipoSangre.colorLetra:'';
+            this.abo = tipoSangre.dato1!==undefined?tipoSangre.dato1:'';
+            this.rh = tipoSangre.dato2!==undefined?tipoSangre.dato2:'';
+            this.colFondo = tipoSangre.colorFondo!==undefined?tipoSangre.colorFondo:'';
+            this.colLetra = tipoSangre.colorLetra!==undefined?tipoSangre.colorLetra:'';
             this.muestraSangre = true;
           }
 

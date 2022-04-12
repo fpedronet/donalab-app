@@ -181,7 +181,7 @@ export class CaspiranteComponent implements OnInit {
       'PacSexo': new FormControl({ value: '', disabled: !this.edit}),
       'CodEje': new FormControl({ value: '', disabled: !this.edit}),
       'CodParentesco': new FormControl({ value: '', disabled: !this.edit}),
-      'TipRecep': new FormControl({ value: ideCam, disabled: !this.edit}),
+      'TipRecep': new FormControl({ value: '', disabled: !this.edit}),
       'IdeOrigen': new FormControl({ value: ideOri, disabled: !this.edit}),
       'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),      
       'Fecha': new FormControl({ value: new Date(), disabled: !this.edit}),
@@ -295,9 +295,13 @@ export class CaspiranteComponent implements OnInit {
   changeDonacion(value: string){
     //debugger;
     this.selectedTipoDonacion = value;
-    this.muestraPaciente = false;
+    
     if(this.selectedTipoDonacion === '002' || this.selectedTipoDonacion === '004'){
       this.muestraPaciente = true;
+    }
+    else{
+      this.muestraPaciente = false;
+      //this.reiniciaPersona(true)
     }
   }
 
@@ -374,8 +378,13 @@ export class CaspiranteComponent implements OnInit {
 
         if(data!== undefined && data.idePersona !== 0){
           //No carga repetidos (eficiencia)          
-          if(formPersona !== data.idePersona)
+          if(formPersona !== data.idePersona){
             this.muestraDatosPersona(data, esPaciente);
+            if(esPaciente){
+              this.pacientePoclab = false;
+              this.idPaciente = data.idePersona!==undefined?data.idePersona:0;
+            }
+          }            
         }
         else{
           //Busca en Poclab
@@ -411,8 +420,8 @@ export class CaspiranteComponent implements OnInit {
                   this.muestraDatosPersona(p, esPaciente);
                   if(esPaciente){
                     this.pacientePoclab = true;
-                    this.idPaciente = data.idePersona?data.idePersona:0;
-                  }                    
+                    this.idPaciente = data.idePersona!==undefined?data.idePersona:0;
+                  }
                 }                  
               }
             })
@@ -421,7 +430,8 @@ export class CaspiranteComponent implements OnInit {
       })
     }
     else{
-      this.notifier.showNotification(2,'Mensaje',validacion);
+      if(validacion !== 'El tipo de documento y el documento no pueden estar vacíos')
+        this.notifier.showNotification(2,'Mensaje',validacion);
       this.reiniciaPersona(esPaciente);
     }
   }
@@ -445,6 +455,9 @@ export class CaspiranteComponent implements OnInit {
       });
     }
     else{
+      var edadStr: string = data.edad?.toString()!;
+      if(data.edad == 0)
+        edadStr = '';
       this.form.patchValue({
         IdePersona: data.idePersona,
         TipDocu: data.tipDocu,
@@ -459,7 +472,7 @@ export class CaspiranteComponent implements OnInit {
         Telefono: data.telefono,
         Correo: data.correo1,
         //Datos completos
-        Edad: data.edad,
+        Edad: edadStr,
         EstadoCivil: data.estadoCivil,
         Nacionalidad: data.nacionalidad,
         LugarNacimiento: data.lugarNacimiento,
@@ -490,10 +503,10 @@ export class CaspiranteComponent implements OnInit {
           if(hist1 !== undefined){
             var tipoSangre: PersonaHistorial = hist1;
             
-            this.abo = tipoSangre.dato1?tipoSangre.dato1:'';
-            this.rh = tipoSangre.dato2?tipoSangre.dato2:'';
-            this.colFondo = tipoSangre.colorFondo?tipoSangre.colorFondo:'';
-            this.colLetra = tipoSangre.colorLetra?tipoSangre.colorLetra:'';
+            this.abo = tipoSangre.dato1!==undefined?tipoSangre.dato1:'';
+            this.rh = tipoSangre.dato2!==undefined?tipoSangre.dato2:'';
+            this.colFondo = tipoSangre.colorFondo!==undefined?tipoSangre.colorFondo:'';
+            this.colLetra = tipoSangre.colorLetra!==undefined?tipoSangre.colorLetra:'';
             this.muestraSangre = true;
           }
 
@@ -766,6 +779,12 @@ export class CaspiranteComponent implements OnInit {
       p.primerNombre = nombres;
       p.segundoNombre = '';
     }
+  }
+
+  getCodigo(){
+    var codigo = this.form.value['Codigo'];
+    codigo = codigo===undefined?'#######':codigo;
+    return codigo.toString();
   }
 
   subirFoto(fileInput: Event){

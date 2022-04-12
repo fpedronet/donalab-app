@@ -3,7 +3,7 @@
       <button mat-flat-button class="btnHeader" routerLink="/page/donante/aspirante">
         <mat-icon class="maticon">west</mat-icon>
       </button>
-      <button mat-flat-button class="btnHeader">
+      <button *ngIf="edit && permiso.guardar" mat-flat-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>
       </button>
     </div>
@@ -40,7 +40,7 @@
                                 <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="8">                                   
                                     <div>
                                         <div style="text-align:center;">
-                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">PE00000001</label>                                 
+                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{getCodigo()}}</label>                                 
                                         </div>
                                         <img style="width: 201px;" src="{{foto}}" />
                                     </div> 
@@ -48,7 +48,7 @@
                                 <mat-grid-tile *ngIf="!muestraSangre || form.value['IdePersona']==0" [colspan]="12">                                   
                                     <div>
                                         <div style="text-align:center;">
-                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">PE00000001</label>                                 
+                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{getCodigo()}}</label>                                 
                                         </div>
                                         <img style="width: 201px;" src="{{foto}}" />
                                     </div> 
@@ -58,7 +58,7 @@
                             
                         </div>
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-                            <mat-form-field appearance="outline">
+                            <mat-form-field *vIf="false" appearance="outline">
                                 <mat-label>Código</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
                               </mat-form-field>
@@ -236,8 +236,10 @@
                                 </mat-form-field>
                               <mat-form-field appearance="outline">
                                   <mat-label>Fecha de Viaje</mat-label>
-                                  <input matInput placeholder="Fecha de Viaje" formControlName="FechaViaje">
-                              </mat-form-field>  
+                                  <input matInput [matDatepicker]="FechaViaje" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="FechaViaje" [required]="VIAJES.value === 'Sí'">
+                                  <mat-datepicker-toggle matSuffix [for]="FechaViaje"></mat-datepicker-toggle>
+                                  <mat-datepicker #FechaViaje></mat-datepicker>
+                                </mat-form-field>
                             </div>
                         </div>
                     </div>
@@ -287,7 +289,7 @@
                           </mat-grid-tile>
                           <mat-grid-tile  [colspan]="6">
                             <mat-form-field *ngIf="filterTipoExtrac.length > 0">
-                              <mat-select placeholder="Tipo de Extracción" formControlName="CodTipoExtraccion" required>
+                              <mat-select [disabled]="filterTipoExtrac.length === 1" placeholder="Tipo de Extracción" formControlName="CodTipoExtraccion" required>
                                 <mat-option *ngFor="let el of filterTipoExtrac" [value]="el.codigo">
                                   {{el.descripcion}}
                                 </mat-option>
@@ -315,9 +317,9 @@
                               </mat-form-field>
                             </mat-grid-tile>
                             <mat-grid-tile  [colspan]="6">
-                              <mat-form-field *ngIf="tbTipoExtrac.length > 0">
-                                <mat-select placeholder="Tipo de Extracción" formControlName="CodTipoExtraccion" required>
-                                  <mat-option *ngFor="let el of tbTipoExtrac" [value]="el.codigo">
+                              <mat-form-field *ngIf="filterTipoExtrac.length > 0">
+                                <mat-select [disabled]="filterTipoExtrac.length === 1" placeholder="Tipo de Extracción" formControlName="CodTipoExtraccion" required>
+                                  <mat-option *ngFor="let el of filterTipoExtrac" [value]="el.codigo">
                                     {{el.descripcion}}
                                   </mat-option>
                                 </mat-select>
@@ -340,7 +342,7 @@
                             <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                                 <mat-grid-tile  [colspan]="4">
                                   <mat-form-field appearance="outline">
-                                    <mat-select [disabled]="idPaciente>0 || pacientePoclab" placeholder="Tipo de documento" formControlName="PacTipDocu" required>
+                                    <mat-select [disabled]="idPaciente>0 || pacientePoclab" placeholder="Tipo de documento" formControlName="PacTipDocu" [required]="muestraPaciente">
                                       <mat-option *ngFor="let el of tbTipoDocu" [value]="el.codigo">
                                         {{el.descripcion}}
                                       </mat-option>              
@@ -351,7 +353,7 @@
                                 <mat-grid-tile [colspan]="8">
                                   <mat-form-field appearance="outline">
                                     <mat-label>Documento</mat-label>
-                                    <input #DOCUPAC type="text" [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Documento" formControlName="PacNumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event,true)" (keydown)="obtenerPersonaEnter($event.keyCode, true)" >
+                                    <input #DOCUPAC type="text" [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Documento" formControlName="PacNumDocu" minlength="1" maxlength="15" [required]="muestraPaciente" (blur)="obtenerPersona($event,true)" (keydown)="obtenerPersonaEnter($event.keyCode, true)" >
                                     <button *ngIf="DOCUPAC.value" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUPAC.value='';reiniciaPersona(true)">
                                       <mat-icon>close</mat-icon>
                                     </button>
@@ -366,28 +368,28 @@
                                 <mat-grid-tile  [colspan]="6">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Apellido Paterno</mat-label>
-                                        <input [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Apellido Paterno" formControlName="PacApPaterno" required>
+                                        <input [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Apellido Paterno" formControlName="PacApPaterno" [required]="muestraPaciente">
                                     </mat-form-field>                                                              
                                 </mat-grid-tile>
 
                                 <mat-grid-tile [colspan]="6">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Apellido Materno</mat-label>
-                                        <input [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Apellido Materno" formControlName="PacApMaterno" required>
+                                        <input [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Apellido Materno" formControlName="PacApMaterno" [required]="muestraPaciente">
                                     </mat-form-field>                            
                                 </mat-grid-tile>
                             </mat-grid-list>
 
                             <mat-form-field appearance="outline">
                                 <mat-label>Nombres</mat-label>
-                                <input [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Nombres" formControlName="PacNombres" required>
+                                <input [readonly]="idPaciente>0 || pacientePoclab" matInput placeholder="Nombres" formControlName="PacNombres" [required]="muestraPaciente">
                             </mat-form-field>
 
                             <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                               <mat-grid-tile  [colspan]="6">
                                 <mat-form-field appearance="outline">
                                   <mat-label>Fecha de nacimiento</mat-label>
-                                  <input [disabled]="idPaciente>0 || pacientePoclab" matInput [matDatepicker]="PacFecNacimiento" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="PacFecNacimiento" required>
+                                  <input [disabled]="idPaciente>0 || pacientePoclab" matInput [matDatepicker]="PacFecNacimiento" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="PacFecNacimiento" [required]="idPaciente === 0 && muestraPaciente">
                                   <mat-datepicker-toggle matSuffix [for]="PacFecNacimiento"></mat-datepicker-toggle>
                                   <mat-datepicker #PacFecNacimiento></mat-datepicker>
                                 </mat-form-field>
@@ -395,7 +397,7 @@
 
                               <mat-grid-tile [colspan]="6">
                                 <mat-form-field>
-                                  <mat-select [disabled]="idPaciente>0 || pacientePoclab" placeholder="Género" formControlName="PacSexo" required>
+                                  <mat-select [disabled]="idPaciente>0 || pacientePoclab" placeholder="Género" formControlName="PacSexo" [required]="idPaciente === 0 && muestraPaciente">
                                     <mat-option *ngFor="let el of tbGenero" [value]="el.codigo">
                                       {{el.descripcion}}
                                     </mat-option>
@@ -412,7 +414,7 @@
                               </mat-select>
                             </mat-form-field> 
                             <mat-form-field appearance="outline">
-                              <mat-select placeholder="Vínculo" formControlName="CodParentesco" required>
+                              <mat-select placeholder="Vínculo" formControlName="CodParentesco" [required]="muestraPaciente">
                                 <mat-option *ngFor="let el of tbVinculo" [value]="el.codigo">
                                   {{el.descripcion}}
                                 </mat-option>
