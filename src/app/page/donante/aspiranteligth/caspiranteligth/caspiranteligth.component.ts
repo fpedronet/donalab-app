@@ -523,7 +523,7 @@ export class CaspiranteligthComponent implements OnInit {
     }
   }
 
-  guardar(){
+  guardar(aceptaAlarma: boolean = false){
     let model = new Predonante();
 
     //debugger;
@@ -575,11 +575,11 @@ export class CaspiranteligthComponent implements OnInit {
     //debugger;
 
     this.spinner.showLoading();
+    model.aceptaAlarma = aceptaAlarma?1:0;
     this.predonanteService.guardar(model).subscribe(data=>{
-      //debugger;
-      this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
 
       if(data.typeResponse==environment.EXITO){
+        this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
         localStorage.setItem('IdeOrigen',model.ideOrigen===undefined?'':model.ideOrigen.toString());
         localStorage.setItem('IdeCampania',model.ideCampania===undefined?'':model.ideCampania.toString());
         this.form.patchValue({
@@ -588,6 +588,21 @@ export class CaspiranteligthComponent implements OnInit {
         this.router.navigate(['/page/donante/aspirantelight']);
         this.spinner.hideLoading();
       }else{
+        if(data.typeResponse==environment.ALERT){
+          this.confirm.openConfirmDialog(false, data.message!).afterClosed().subscribe(res =>{
+            //Ok
+            if(res){
+              //console.log('Sí');
+              this.guardar(true)
+            }
+            else{
+              //console.log('No');
+            }
+          });
+        }
+        else{
+          this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
+        }          
         this.spinner.hideLoading();
       }      
     });

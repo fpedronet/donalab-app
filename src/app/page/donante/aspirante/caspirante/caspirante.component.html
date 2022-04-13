@@ -44,8 +44,8 @@
                                           <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
                                       </div>
                                       
-                                      <img *ngIf="fotoUrl===''" [src]="foto" style="width: 200px; height: 222px;">
-                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl===''" [src]="foto" style="max-width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="max-width: 200px; height: 222px;">
                                       <br>                                        
                                   </div>
                                   <input *ngIf="edit" class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
@@ -59,8 +59,8 @@
                                           <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
                                       </div>
                                       
-                                      <img *ngIf="fotoUrl===''" [src]="foto" style="width: 200px; height: 222px;">
-                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl===''" [src]="foto" style="max-width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="max-width: 200px; height: 222px;">
                                       <br>                                        
                                   </div>
                                   <input *ngIf="edit" class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">

@@ -378,7 +378,7 @@ form{
   justify-content: center;
   align-items: center;
   border-radius: 3px;
-  content: 'Subir archivo'; /* testo por defecto */
+  content: 'Subir imagen'; /* testo por defecto */
   position: absolute;
   left: 0;
   right: 0;

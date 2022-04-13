@@ -161,7 +161,7 @@ export class CaspiranteComponent implements OnInit {
       'LugarNacimiento': new FormControl({ value: '', disabled: !this.edit}),
       'Procedencia': new FormControl({ value: '', disabled: !this.edit}),
       'CodGradoInstruccion': new FormControl({ value: '', disabled: !this.edit}),
-      'CodOcupacion': new FormControl({ value: '', disabled: !this.edit}),
+      'CodOcupacion': new FormControl({ value: 0, disabled: !this.edit}),
       'Direccion': new FormControl({ value: '', disabled: !this.edit}),
       'CodPais': new FormControl({ value: '', disabled: !this.edit}),
       'Celular': new FormControl({ value: '', disabled: !this.edit}),
@@ -375,7 +375,7 @@ export class CaspiranteComponent implements OnInit {
     
     //debugger;
 
-    var validacion = this.validaDocumento(tipoDocu, numDocu);
+    var validacion = this.validaDocumento(tipoDocu, numDocu, esPaciente);
     if(validacion === ''){
       this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
         //Verifica si existe en BD
@@ -445,7 +445,7 @@ export class CaspiranteComponent implements OnInit {
     //debugger;
     //Ocupación por defecto
     if(data.codOcupacion === undefined || !this.tbOcupa.find(e => e.codigo === data.codOcupacion?.toString()))
-      data.codOcupacion = '111';
+      data.codOcupacion = 111;
 
     if(esPaciente){
       this.form.patchValue({
@@ -540,7 +540,7 @@ export class CaspiranteComponent implements OnInit {
     }
   }
 
-  validaDocumento(tipoDocu: string, numDocu: string){
+  validaDocumento(tipoDocu: string, numDocu: string, esPaciente: boolean){
     if(tipoDocu === '' || numDocu === '')
       return 'El tipo de documento y el documento no pueden estar vacíos';
 
@@ -559,6 +559,15 @@ export class CaspiranteComponent implements OnInit {
     //PASS
     if(tipoDocu === '7' && numDocu.length > 12)
       return 'El PASS no puede exceder 12 dígitos';
+
+    //Validaciones extra para paciente
+    if(esPaciente){
+      if(this.form.value['TipDocu'] === '' || this.form.value['NumDocu'] === '')
+        return 'Debe completar el documento del postulante';
+      
+      if(this.form.value['TipDocu'] === tipoDocu && this.form.value['NumDocu'] === numDocu)
+        return 'El paciente no puede ser el mismo postulante'
+    }
     
     return '';
   }
@@ -584,6 +593,8 @@ export class CaspiranteComponent implements OnInit {
       this.controlDistritos.setValue(new Distrito());
       this.codDistrito = '';
 
+      this.fotoUrl = '';
+
       this.form.patchValue({
         IdePersona: 0,
         //TipDocu: '1',
@@ -604,7 +615,7 @@ export class CaspiranteComponent implements OnInit {
         LugarNacimiento: '',
         Procedencia: '',
         CodGradoInstruccion: '',
-        CodOcupacion: '',
+        CodOcupacion: 0,
         Direccion: '',
         LugarTrabajo: ''
       });
@@ -737,7 +748,7 @@ export class CaspiranteComponent implements OnInit {
     }
   }
 
-  guardar(){
+  guardar(aceptaAlarma: boolean = false){
     let model = new Predonante();
 
     //debugger;
@@ -763,7 +774,9 @@ export class CaspiranteComponent implements OnInit {
     p.telefono = this.form.value['Telefono'];
     p.correo1 = this.form.value['Correo'];
     //Datos completos
-    p.edad = this.form.value['Edad'];
+    var edad = 0;
+    if(this.form.value['Edad'] !== '') edad = parseInt(this.form.value['Edad']);
+    p.edad = edad===undefined?0:edad;
     p.estadoCivil = this.form.value['EstadoCivil'];
     p.nacionalidad = this.form.value['Nacionalidad'];
     p.lugarNacimiento = this.form.value['LugarNacimiento'];
@@ -818,19 +831,38 @@ export class CaspiranteComponent implements OnInit {
     model.tipRecep = this.form.value['TipRecep'];
 
     this.spinner.showLoading();
+    model.aceptaAlarma = aceptaAlarma?1:0;
+    debugger;
     this.predonanteService.guardar(model).subscribe(data=>{
-      //debugger;
-      this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
 
+      debugger;
       if(data.typeResponse==environment.EXITO){
+        this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
         localStorage.setItem('IdeOrigen',model.ideOrigen===undefined?'':model.ideOrigen.toString());
         localStorage.setItem('IdeCampania',model.ideCampania===undefined?'':model.ideCampania.toString());
         this.form.patchValue({
           Codigo: data.codigo
         })
+        if(data.codigo !== undefined && data.codigo !== null)
+          this.codigo = data.codigo;
         this.router.navigate(['/page/donante/aspirante']);
         this.spinner.hideLoading();
       }else{
+        if(data.typeResponse==environment.ALERT){
+          this.confirm.openConfirmDialog(false, data.message!).afterClosed().subscribe(res =>{
+            //Ok
+            if(res){
+              //console.log('Sí');
+              this.guardar(true)
+            }
+            else{
+              //console.log('No');
+            }
+          });
+        }
+        else{
+          this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
+        }          
         this.spinner.hideLoading();
       }      
     });

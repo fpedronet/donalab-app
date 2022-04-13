@@ -27,7 +27,7 @@ export class Persona {
     codDepartamento?: string;
     codPais?: string;
     codGradoInstruccion?: string;
-    codOcupacion?: string;
+    codOcupacion?: number;
     telefono?: string;
     celular?: string;
     correo1?: string;
