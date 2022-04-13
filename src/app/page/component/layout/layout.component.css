@@ -235,3 +235,7 @@ button{
   .example-tooltip-red {
     background: #b71c1c;
   }
+
+  .mat-divider {
+    border-top-color: #5a585a61;
+}
