@@ -97,6 +97,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding-top: 4px;  
 }
 
+.sub-title-label{
+  color: #85153e;
+  padding-top: 4px;
+  font-weight: 500
+}
 /* formulario */
 .container{
   margin-right: 2em;
@@ -135,7 +140,7 @@ form{
 /* botones en la cabezera formulario */
 .example-button-row .mat-button-base {
   /* margin: 8px 8px 8px 0; */
-  margin: 17px 34px -2px -24px;
+  margin: 15px 34px -2px -24px;
   min-width: 60px;
   line-height: 33px;
   border-radius:11px;
