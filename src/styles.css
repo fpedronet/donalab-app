@@ -94,7 +94,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .title-label{
   text-align: center;
   color: #85153e;
-  padding-top: 8px;  
+  padding-top: 4px;  
 }
 
 /* formulario */
@@ -135,10 +135,12 @@ form{
 /* botones en la cabezera formulario */
 .example-button-row .mat-button-base {
   /* margin: 8px 8px 8px 0; */
-  margin: 11px 34px -2px -24px;
+  margin: 17px 34px -2px -24px;
   min-width: 60px;
   line-height: 33px;
   border-radius:11px;
+  box-shadow: 0 0.125rem 0.625rem rgb(127 56 138 / 9%), 0 0.0625rem 0.125rem rgb(127 56 138 / 33%);
+  border-color: #7f388a87;
 }
 
 /* loading page */
