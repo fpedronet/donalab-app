@@ -26,7 +26,7 @@
                 <div class="content">
                     <div fxLayout="row-reverse wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">                             
-                            <mat-grid-list cols="12" rowHeight="232px" gutterSize="15px">
+                            <mat-grid-list cols="12" rowHeight="270px" gutterSize="15px">
                                 <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="4">
                                     <mat-card style="margin-bottom: 1.34375em; text-align: center; width: 100%; background-color: {{colFondo}};">
                                         <mat-card-title style="color: {{colLetra}}!important;">
@@ -37,21 +37,35 @@
                                         </mat-card-subtitle>
                                       </mat-card>
                                 </mat-grid-tile>
-                                <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="8">                                   
-                                    <div>
-                                        <div *ngIf="codigo !== ''" style="text-align:center;">
-                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
-                                        </div>
-                                        <img style="width: 201px;" src="{{foto}}" />
-                                    </div> 
+                                <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="8">
+                                  <div class="grid-imagen">
+                                    <div style="display: inline-block;">
+                                      <div *ngIf="codigo !== ''" style="text-align:center;">
+                                          <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
+                                      </div>
+                                      
+                                      <img *ngIf="fotoUrl===''" [src]="foto" style="width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="width: 200px; height: 222px;">
+                                      <br>                                        
+                                  </div>
+                                  <input *ngIf="edit" class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
+                                  </div>  
+                                  
                                 </mat-grid-tile>
                                 <mat-grid-tile *ngIf="!muestraSangre || form.value['IdePersona']==0" [colspan]="12">                                   
-                                    <div>
-                                        <div *ngIf="codigo !== ''" style="text-align:center;">
-                                            <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
-                                        </div>
-                                        <img style="width: 201px;" src="{{foto}}" />
-                                    </div> 
+                                  <div class="grid-imagen">
+                                    <div style="display: inline-block;">
+                                      <div *ngIf="codigo !== ''" style="text-align:center;">
+                                          <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
+                                      </div>
+                                      
+                                      <img *ngIf="fotoUrl===''" [src]="foto" style="width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="width: 200px; height: 222px;">
+                                      <br>                                        
+                                  </div>
+                                  <input *ngIf="edit" class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
+                                  </div>  
+                                     
                                 </mat-grid-tile>
                             </mat-grid-list>
 
@@ -78,9 +92,9 @@
                                 <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event)">
                                   <mat-icon>search</mat-icon>
                                 </button>
-                                <button type="button" matSuffix mat-icon-button aria-label="Buscar">
+                                <!--button type="button" matSuffix mat-icon-button aria-label="Buscar">
                                     <img style="width: 70px; margin-top: -16px;" src="{{lector}}" />
-                                </button>
+                                </button-->
                               </mat-form-field>
                               <mat-form-field appearance="outline">
                                 <mat-label>Apellido Paterno</mat-label>
