@@ -14,6 +14,7 @@
     left: 0;
     right: 0;
     overflow: hidden !important;
+    z-index: auto;
   }
 
 
@@ -87,6 +88,7 @@
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
     z-index:200;
+    position:fixed;
   } 
 
 
@@ -209,7 +211,8 @@ button{
   }
 
   .mat-drawer{
-    top:43px;
+    /* top:43px; */
+    z-index:400;
   }
 
   .mat-drawer-inner-container ng-tns-c117-2{
