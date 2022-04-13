@@ -190,29 +190,36 @@ export class CentrevistaComponent implements OnInit {
   }
 
   guardar(){
-    let model = new Entrevista();
 
-    model.idePreDonante= this.form.value['idePreDonante'];
-    model.codigo= this.Codigo;
-    model.fechaMed= this.form.value['fechaMed'];
-    model.observacionesMed= this.form.value['observacionesMed'];
-    model.codEstado= this.CodEstado
-    model.ideMotivoRec= this.form.value['ideMotivoRec'];
+    let id = this.form.value['idePreDonante'];
 
-    model.listaPregunta = this.listaPregunta;
+    if(id==null || id=="" || id==0){
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
+    }else{
+      let model = new Entrevista();
 
-    this.spinner.showLoading();
-    this.entrevistaService.guardar(model).subscribe(data=>{
-
-      this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-
-        if(data.typeResponse==environment.EXITO){
-          this.router.navigate(['/page/donante/aspirante']);
-          this.spinner.hideLoading();
-        }else{
-          this.spinner.hideLoading();
-        }
-      });
+      model.idePreDonante= this.form.value['idePreDonante'];
+      model.codigo= this.Codigo;
+      model.fechaMed= this.form.value['fechaMed'];
+      model.observacionesMed= this.form.value['observacionesMed'];
+      model.codEstado= this.CodEstado
+      model.ideMotivoRec= this.form.value['ideMotivoRec'];
+  
+      model.listaPregunta = this.listaPregunta;
+  
+      this.spinner.showLoading();
+      this.entrevistaService.guardar(model).subscribe(data=>{
+  
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+  
+          if(data.typeResponse==environment.EXITO){
+            this.router.navigate(['/page/donante/aspirante']);
+            this.spinner.hideLoading();
+          }else{
+            this.spinner.hideLoading();
+          }
+        });
+    }
   }
 
   limpiar(){
