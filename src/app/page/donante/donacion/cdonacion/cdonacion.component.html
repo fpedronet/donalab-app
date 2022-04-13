@@ -36,13 +36,13 @@
       
                   <div [hidden]="true">
                     <mat-form-field appearance="outline">
-                         <input matInput placeholder="Id" formControlName="idePreDonante">
+                         <input matInput placeholder="Id">
                     </mat-form-field>
                   </div> 
   
                   <mat-form-field appearance="outline">
                       <mat-label>Codigo</mat-label>
-                      <input matInput formControlName="codigo" minlength="1" maxlength="15" required>
+                      <input matInput minlength="1" maxlength="15" required>
                       <button type="button" matSuffix mat-icon-button aria-label="Limpiar">
                         <mat-icon>close</mat-icon>
                       </button>
@@ -57,7 +57,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Peso</mat-label>
-                        <input matInput type="number" class="example-right-align" formControlName="pesoDonacion" placeholder="0.00">
+                        <input matInput type="number" class="example-right-align" placeholder="0.00">
                       </mat-form-field>
                     </mat-grid-tile>                
                   </mat-grid-list>
@@ -66,7 +66,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Talla</mat-label>
-                        <input matInput type="number" class="example-right-align" formControlName="tallaDonacion" placeholder="0.00">
+                        <input matInput type="number" class="example-right-align" placeholder="0.00">
                       </mat-form-field>
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -75,7 +75,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Grupo ABO</mat-label>
-                        <mat-select formControlName="ideGrupo">
+                        <mat-select>
                           <!-- <mat-option *ngFor="let c of listaGrupoSanguineo" [value]="c.codigo">
                            {{c.descripcion}}
                           </mat-option> -->
@@ -90,7 +90,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Hemoglobina</mat-label>
-                        <input matInput type="number" class="example-right-align" formControlName="hemoglobina" placeholder="0.00">
+                        <input matInput type="number" class="example-right-align" placeholder="0.00">
                       </mat-form-field>
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -99,7 +99,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Hematocrito</mat-label>
-                        <input matInput type="number" class="example-right-align" formControlName="hematocrito" placeholder="0.00">
+                        <input matInput type="number" class="example-right-align" placeholder="0.00">
                       </mat-form-field>
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -108,7 +108,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Estado Venoso</mat-label>
-                        <mat-select formControlName="estadoVenoso">
+                        <mat-select>
                           <!-- <mat-option *ngFor="let c of listaAspectoVenoso" [value]="c.codigo">
                            {{c.descripcion}}
                           </mat-option> -->
@@ -123,7 +123,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Tipo Proceso</mat-label>
-                        <mat-select formControlName="nIdTipoProceso">
+                        <mat-select>
                           <mat-option>
                            Todos
                           </mat-option>
@@ -136,7 +136,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Tipo Extracción</mat-label>
-                        <input matInput formControlName="tipoExtraccion">
+                        <input matInput>
                       </mat-form-field>
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -145,7 +145,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Lesiones Area de Punción</mat-label>
-                        <mat-select formControlName="lesionesVenas">
+                        <mat-select>
                           <!-- <mat-option *ngFor="let c of listaLesionesPuncion" [value]="c.codigo">
                            {{c.descripcion}}
                           </mat-option> -->
@@ -170,14 +170,14 @@
   
                 <mat-form-field appearance="outline">
                   <mat-label>Fecha Entrevista</mat-label>
-                  <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" formControlName="fechaMed" required>
+                  <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" required>
                   <mat-datepicker-toggle matSuffix [for]="dFechaIni"></mat-datepicker-toggle>
                   <mat-datepicker #dFechaIni></mat-datepicker>
                 </mat-form-field>
   
                 <mat-form-field appearance="outline">
                   <mat-label>Observaciones</mat-label>
-                  <input matInput minlength="1" maxlength="5000" formControlName="observacionesMed">
+                  <input matInput minlength="1" maxlength="5000">
                 </mat-form-field>
   
             </div>
