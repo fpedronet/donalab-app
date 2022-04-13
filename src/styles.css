@@ -196,6 +196,15 @@ form{
   border-radius: 50%;
 }
 
+
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label{
+  color: rgb(0 0 0 / 51%);
+}
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+  color: rgb(0 0 0 / 51%);
+}
+
 @media (max-width:1200px){
   .example-button-row{
     margin:44%;
