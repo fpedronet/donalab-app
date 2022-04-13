@@ -33,7 +33,7 @@
         <ul>
             <li *ngFor="let m of menus.listaMenu">
               <a *ngIf="m.url=='/page/home'" (click)="clearLocalStore()" routerLink="{{m.url}}">{{m.modulo}}</a>
-              <a *ngIf="m.url!='/page/home'">{{m.modulo}}</a>
+              <a *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'">{{m.modulo}}</a>
               <ul>
                 <li *ngFor="let s of m.listaSubMenu">
                   <a (click)="clearLocalStore()" routerLink="{{s.url}}">{{s.pantalla}}</a>
@@ -68,18 +68,6 @@
             <mat-expansion-panel *ngIf="m.url=='/page/home'" disabled="">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <a style="font-size: 17px;font-weight: 400;" *ngIf="m.url=='/page/home'" routerLink="" (click)="closeLogin()">
-                    <mat-icon>cancelpresentation</mat-icon>
-                    Cerrar
-                  </a>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-            </mat-expansion-panel> 
-
-
-            <mat-expansion-panel *ngIf="m.url=='/page/home'" disabled="">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
                   <a style="font-size: 17px;font-weight: 400;" *ngIf="m.url=='/page/home'" routerLink="{{m.url}}" (click)="clearLocalStore()">
                     <mat-icon>home</mat-icon>
                     {{m.modulo}}
@@ -88,7 +76,7 @@
               </mat-expansion-panel-header>
             </mat-expansion-panel>  
 
-            <mat-expansion-panel *ngIf="m.url!='/page/home'">
+            <mat-expansion-panel *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <a style="font-size: 17px;font-weight: 400;" *ngIf="m.url!='/page/home'">
@@ -104,6 +92,17 @@
                 </a>
               </p>
             </mat-expansion-panel>  
+
+            <mat-expansion-panel *ngIf="m.url=='/page/cerrar'" disabled="">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <a style="font-size: 17px;font-weight: 400;" routerLink="" (click)="closeLogin()">
+                    <mat-icon>cancelpresentation</mat-icon>
+                    {{m.modulo}}
+                  </a>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+            </mat-expansion-panel> 
 
           </div>       
         </mat-accordion>

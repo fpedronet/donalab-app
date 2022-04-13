@@ -79,11 +79,17 @@ export class LayoutComponent implements OnInit {
   }
 
   closeLogin(){
+    this.isshow = false;
     localStorage.clear();
     this.router.navigate(['']);
   }
 
   abrirmenu(){
-    this.isshow = true;
+
+    if(this.isshow){
+      this.isshow = false; 
+    }else{
+      this.isshow = true;  
+    }
   }
 }

@@ -80,9 +80,6 @@ export class LaspiranteligthComponent implements OnInit {
 
   ngAfterViewInit() {
 
-    let filtro = this.usuarioService.sessionFiltro();
-    let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
-
     this.predonanteService = new PredonanteService(this.http);
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -91,6 +88,9 @@ export class LaspiranteligthComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.loading = true;
+          let filtro = this.usuarioService.sessionFiltro();
+          let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
+          
           return this.predonanteService!.listarligth(
             codigobanco,
             parseInt(filtro![3]),

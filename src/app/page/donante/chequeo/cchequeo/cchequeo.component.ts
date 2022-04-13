@@ -130,7 +130,7 @@ export class CchequeoComponent implements OnInit {
             aterrial2= aterrial![1];
           }
         }
-        debugger;
+     
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
           'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: true}),
@@ -180,46 +180,52 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
+
+    let id =  this.form.value['idePreDonante'];
     let motivo = this.form.value['ideMotivoRec'];
 
-    if(this.CodEstado=="2" && motivo==""){
-      this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el motivo del rechazo');
+    if(id==null || id=="" || id==0){
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
     }else{
-
-    let model = new ChequeoFisico();
-
-    model.idePreDonante= this.form.value['idePreDonante'];
-    model.codigo= this.Codigo;
-    model.fecha= this.form.value['fecha'];
-    model.pesoDonacion= this.form.value['pesoDonacion'];
-    model.tallaDonacion= this.form.value['tallaDonacion'];
-    model.hemoglobina= this.form.value['hemoglobina'];
-    model.hematocrito= this.form.value['hematocrito'];
-    model.plaquetas= this.form.value['plaquetas'];
-    model.presionArterial= this.form.value['presionArterial1'] + "/" + this.form.value['presionArterial2'];
-    model.frecuenciaCardiaca= this.form.value['frecuenciaCardiaca'];
-    model.ideGrupo= this.form.value['ideGrupo'];
-    model.aspectoGeneral= this.form.value['aspectoGeneral'];
-    model.lesionesVenas= this.form.value['lesionesVenas'];
-    model.estadoVenoso= this.form.value['estadoVenoso'];
-    model.obsedrvaciones= this.form.value['obsedrvaciones'];
-    model.temperatura= this.form.value['temperatura'];
-    model.codEstado=  this.CodEstado;
-    model.ideMotivoRec= this.form.value['ideMotivoRec'];
-    model.aceptaAlarma= "0";
-    
-    this.spinner.showLoading();
-    this.chequeofisicoService.guardar(model).subscribe(data=>{
-
-      this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-
-        if(data.typeResponse==environment.EXITO){
-          this.router.navigate(['/page/donante/aspirante']);
-          this.spinner.hideLoading();
-        }else{
-          this.spinner.hideLoading();
-        }
-      });
+      if(this.CodEstado=="2" && motivo==""){
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el motivo del rechazo');
+      }else{
+  
+      let model = new ChequeoFisico();
+  
+      model.idePreDonante= this.form.value['idePreDonante'];
+      model.codigo= this.Codigo;
+      model.fecha= this.form.value['fecha'];
+      model.pesoDonacion= this.form.value['pesoDonacion'];
+      model.tallaDonacion= this.form.value['tallaDonacion'];
+      model.hemoglobina= this.form.value['hemoglobina'];
+      model.hematocrito= this.form.value['hematocrito'];
+      model.plaquetas= this.form.value['plaquetas'];
+      model.presionArterial= this.form.value['presionArterial1'] + "/" + this.form.value['presionArterial2'];
+      model.frecuenciaCardiaca= this.form.value['frecuenciaCardiaca'];
+      model.ideGrupo= this.form.value['ideGrupo'];
+      model.aspectoGeneral= this.form.value['aspectoGeneral'];
+      model.lesionesVenas= this.form.value['lesionesVenas'];
+      model.estadoVenoso= this.form.value['estadoVenoso'];
+      model.obsedrvaciones= this.form.value['obsedrvaciones'];
+      model.temperatura= this.form.value['temperatura'];
+      model.codEstado=  this.CodEstado;
+      model.ideMotivoRec= this.form.value['ideMotivoRec'];
+      model.aceptaAlarma= "0";
+      
+      this.spinner.showLoading();
+      this.chequeofisicoService.guardar(model).subscribe(data=>{
+  
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+  
+          if(data.typeResponse==environment.EXITO){
+            this.router.navigate(['/page/donante/aspirante']);
+            this.spinner.hideLoading();
+          }else{
+            this.spinner.hideLoading();
+          }
+        });
+      }
     }
   }
 
