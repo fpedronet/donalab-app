@@ -1,14 +1,22 @@
 {
     "aspirante":{
-        "codigo":"0101"
+        "codigo":"0101",
+        "nombre":"aspirante",
+        "modulo":"donante"
     },
     "aspirantesligth":{
-        "codigo":"0111"
+        "codigo":"0111",
+        "nombre":"aspirantelight",
+        "modulo":"donante"
     },
     "chequeo":{
-        "codigo":"0102"
+        "codigo":"0102",
+        "nombre":"chequeo",
+        "modulo":"donante"
     },
     "entrevista":{
-        "codigo":"0103"
+        "codigo":"0103",
+        "nombre":"entrevista",
+        "modulo":"donante"
     }
 }

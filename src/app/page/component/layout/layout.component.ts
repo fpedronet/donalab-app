@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerService } from '../spinner/spinner.service';
 import { environment } from 'src/environments/environment';
+import forms from 'src/assets/json/formulario.json';
 
 import { ConfigPermisoService } from './../../../_service/configpermiso.service';
 import { UsuarioService } from 'src/app/_service/usuario.service';
@@ -68,9 +69,33 @@ export class LayoutComponent implements OnInit {
   }
 
   selectbanco(idbanco: number){
+    debugger;
     this.spinner.showLoading();
+    let split = this.router.url.split('/');
     localStorage.setItem(environment.CODIGO_BANCO, idbanco.toString()!);
-    window.location.reload();
+
+    if(split.length > 3 && split.length <=4){
+
+      window.location.reload();
+
+    }else if(split.length >= 5){
+
+      let $modulo = split[2];
+      let modulo = forms.aspirante.modulo;
+      let $nombre = split[3];
+
+      if($modulo==modulo){
+
+        let $url = ($nombre ==forms.aspirantesligth.nombre)? forms.aspirantesligth.nombre : forms.aspirante.nombre;
+        let url = "/page/" + split[2] + "/" + $url;
+        this.router.navigate([url]);
+
+      }
+    }
+    else{
+      window.location.reload();
+    }
+
   }
 
   clearLocalStore(){
