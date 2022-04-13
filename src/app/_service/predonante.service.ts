@@ -80,10 +80,6 @@ export class PredonanteService {
     return this.http.get<Predonante>(urls);
   }
 
-
-
-
-
   postFile(model: Predonante) {
     let urls = `${this.url}/PostSaveFoto`;
     return this.http.post<Response>(urls, model);

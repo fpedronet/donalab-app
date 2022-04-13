@@ -1,5 +1,5 @@
 export class Foto {
     idePersona?: number;
-    foto?: string;
+    strFoto?: string;
     tipo?: number;
 }

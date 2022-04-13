@@ -112,6 +112,9 @@ export class CaspiranteComponent implements OnInit {
   colFondo: string = '';
   colLetra: string = '';
 
+  fotoUrl: string = '';
+  fotoError: string = '';
+
   //currentTab: number = 0;
 
   ngOnInit(): void {
@@ -488,7 +491,9 @@ export class CaspiranteComponent implements OnInit {
 
     if(!esPaciente){
       this.cambiaPaisDistrito(data.codPais, data.codDistrito);
-      this.obtieneHistorial(data.idePersona, false);
+      this.obtieneHistorial(data.idePersona, true);
+      if(data.foto !== undefined && data.foto !== null && data.foto.strFoto !== undefined)
+        this.fotoUrl = data.foto.strFoto!==null?data.foto.strFoto:'';
     }    
   }
 
@@ -691,10 +696,20 @@ export class CaspiranteComponent implements OnInit {
             });
           }
           if(data.codTipoDonacion === '002' || data.codTipoDonacion === '004'){
+            this.changeDonacion(data.codTipoDonacion);
             if(data.idePersonaRelacion !== undefined && data.idePersonaRelacion !== 0){
               this.predonanteService.obtenerPersona(data.idePersonaRelacion).subscribe(dataP=>{
-                if(dataP !== undefined && data.idePersona !== 0)
-                  this.muestraDatosPersona(data, true);
+                //debugger;
+                if(dataP !== undefined && dataP.idePersona !== 0){
+                  this.muestraDatosPersona(dataP, true);
+                  this.pacientePoclab = false;
+                  this.idPaciente = dataP.idePersona!==undefined?dataP.idePersona:0;
+                  this.form.patchValue({
+                    CodEje: data.codEje,
+                    CodParentesco: data.codParentesco,
+                    TipRecep: data.tipRecep
+                  });
+                }                  
               })
             }
             
@@ -713,6 +728,9 @@ export class CaspiranteComponent implements OnInit {
           //debugger;
 
           this.cambiaPaisDistrito(p.codPais, p.codDistrito);
+
+          if(data.foto !== undefined && data.foto !== null && data.foto.strFoto !== undefined)
+            this.fotoUrl = data.foto.strFoto!==null?data.foto.strFoto:'';
         }
         this.spinner.hideLoading();
       });
@@ -758,8 +776,10 @@ export class CaspiranteComponent implements OnInit {
     //Foto
     let f = new Foto();
     f.idePersona = p.idePersona;
-    f.foto = undefined;
+    f.strFoto = this.fotoUrl;
+    f.tipo = 2; //Predonante
     model.foto = f;
+    //debugger;
 
     model.idePersona = p.idePersona;
     model.persona = p;
@@ -835,10 +855,20 @@ export class CaspiranteComponent implements OnInit {
     return codigo.toString();
   }
 
-  subirFoto(fileInput: Event){
-    let file = (<HTMLInputElement>fileInput.target).files?[0]:undefined;
-
-    //if(file.type == "image/jpeg")
+  subirFoto(fileInput: any) {
+    this.fotoError = "";
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const image = new Image();
+        image.src = e.target.result;
+        image.onload = rs => {
+          const imgBase64Path = e.target.result;
+          this.fotoUrl = imgBase64Path;
+        };
+      };
+      reader.readAsDataURL(fileInput.target.files[0]);
+    }
   }
 
 }
