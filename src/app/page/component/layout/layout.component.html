@@ -33,7 +33,7 @@
         <ul>
             <li *ngFor="let m of menus.listaMenu">
               <a *ngIf="m.url=='/page/home'" (click)="clearLocalStore()" routerLink="{{m.url}}">{{m.modulo}}</a>
-              <a *ngIf="m.url!='/page/home'">{{m.modulo}}</a>
+              <a *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'">{{m.modulo}}</a>
               <ul>
                 <li *ngFor="let s of m.listaSubMenu">
                   <a (click)="clearLocalStore()" routerLink="{{s.url}}">{{s.pantalla}}</a>
