@@ -76,7 +76,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background:white;
   margin-top:30px;
   /* box-shadow:0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%); */
-  box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 20%), 0px 0px 0px 0px rgb(0 0 0 / 14%), 0px 0px 0px 0px rgb(0 0 0 / 12%);
 }
 .mat-card.cardborde{
   padding: 0;
@@ -196,6 +196,19 @@ form{
   border-radius: 50%;
 }
 
+
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label{
+  color: rgb(0 0 0 / 51%);
+}
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+  color: rgb(0 0 0 / 51%);
+}
+
+/* .mat-horizontal-content-container{
+  padding: 0 12px 24px 12px;
+} */
+
 @media (max-width:1200px){
   .example-button-row{
     margin:44%;
@@ -307,6 +320,10 @@ form{
 }
 
 @media (max-width:599px){
+  .container {
+    margin-right: 0.6em;
+    margin-left: 0.6em;
+  }
   .example-button-row{
     margin:50%;
   }
@@ -325,8 +342,8 @@ form{
 
 @media (max-width:450px){
   .container {
-    margin-right: 0.4em;
-    margin-left: 0.4em;
+    margin-right: 0.6em;
+    margin-left: 0.6em;
   }
   .example-button-row{
     margin:50%;
