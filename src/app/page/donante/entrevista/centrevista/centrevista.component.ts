@@ -41,6 +41,7 @@ export class CentrevistaComponent implements OnInit {
   btnaceptado: boolean = false;
   btnrechazado: boolean = false;
   btndisable: boolean = false;
+ 
   
   constructor(
     private route: ActivatedRoute,
