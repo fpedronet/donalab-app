@@ -387,16 +387,18 @@ export class CaspiranteligthComponent implements OnInit {
             var hist2 = historial.filter(e => e.tipo?e.tipo >= 2:false);
             if(hist2 !== undefined){
               var errores: PersonaHistorial[] = hist2;
-              var msgError = errores[errores.length-1].dato1;
-              //console.log(msgError);
-              if(msgError){
-                this.confirm.openConfirmDialog(true, msgError).afterClosed().subscribe(res =>{
-                  //Ok
-                  if(res){
-                    this.reiniciaPersona();
-                  }
-                });
-              }                  
+              if(errores.length > 1){
+                var msgError = errores[errores.length-1].dato1;
+                //console.log(msgError);
+                if(msgError){
+                  this.confirm.openConfirmDialog(true, msgError).afterClosed().subscribe(res =>{
+                    //Ok
+                    if(res){
+                      this.reiniciaPersona();
+                    }
+                  });
+                }     
+              }  
             }
           }          
         }

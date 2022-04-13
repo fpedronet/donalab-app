@@ -70,6 +70,7 @@ export class PredonanteService {
   }
 
   guardar(model: Predonante){
+    //debugger;
     let urls = `${this.url}/PostSavePredonante`;
     return this.http.post<Response>(urls, model);
   }

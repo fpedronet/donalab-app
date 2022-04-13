@@ -124,10 +124,10 @@
                                         <mat-datepicker #FecNacimiento></mat-datepicker>
                                       </mat-form-field>
                                 </mat-grid-tile>
-                                <mat-grid-tile [colspan]="5">
+                                <mat-grid-tile *ngIf="idPersona!==0" [colspan]="5">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Edad</mat-label>
-                                        <input type="number" matInput placeholder="Edad" formControlName="Edad" minlength="1" maxlength="3">
+                                        <input type="number" matInput placeholder="Edad" formControlName="Edad" minlength="1" maxlength="3" readonly>
                                     </mat-form-field>                                
                                 </mat-grid-tile>
                             </mat-grid-list>

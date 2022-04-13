@@ -86,6 +86,8 @@ export class CaspiranteComponent implements OnInit {
   idPaciente: number = 0;
   pacientePoclab: boolean = false;
 
+  idPersona: number = 0;
+
   muestraDistrito: boolean = false;
   carBuscaDistrito: number = 2;
   nroDistritosMuestra: number = 15;
@@ -190,6 +192,7 @@ export class CaspiranteComponent implements OnInit {
       'IdeOrigen': new FormControl({ value: ideOri, disabled: !this.edit}),
       'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),      
       'Fecha': new FormControl({ value: new Date(), disabled: !this.edit}),
+      'CodEstado': new FormControl({ value: 0, disabled: !this.edit}),
     }); 
   }
 
@@ -384,10 +387,14 @@ export class CaspiranteComponent implements OnInit {
         if(data!== undefined && data.idePersona !== 0){
           //No carga repetidos (eficiencia)          
           if(formPersona !== data.idePersona){
+            this.idPersona = 0;
             this.muestraDatosPersona(data, esPaciente);
             if(esPaciente){
               this.pacientePoclab = false;
               this.idPaciente = data.idePersona!==undefined?data.idePersona:0;
+            }
+            else{
+              this.idPersona = data.idePersona!==undefined?data.idePersona:0;
             }
           }            
         }
@@ -425,7 +432,8 @@ export class CaspiranteComponent implements OnInit {
                   this.muestraDatosPersona(p, esPaciente);
                   if(esPaciente){
                     this.pacientePoclab = true;
-                    this.idPaciente = data.idePersona!==undefined?data.idePersona:0;
+                    //debugger;
+                    this.idPaciente = 0;
                   }
                 }                  
               }
@@ -522,16 +530,18 @@ export class CaspiranteComponent implements OnInit {
             var hist2 = historial.filter(e => e.tipo?e.tipo >= 2:false);
             if(hist2 !== undefined){
               var errores: PersonaHistorial[] = hist2;
-              var msgError = errores[errores.length-1].dato1;
-              //console.log(msgError);
-              if(msgError){
-                this.confirm.openConfirmDialog(true, msgError).afterClosed().subscribe(res =>{
-                  //Ok
-                  if(res){
-                    this.reiniciaPersona();
-                  }
-                });
-              }                  
+              if(errores.length > 1){
+                var msgError = errores[errores.length-1].dato1;
+                //console.log(msgError);
+                if(msgError){
+                  this.confirm.openConfirmDialog(true, msgError).afterClosed().subscribe(res =>{
+                    //Ok
+                    if(res){
+                      this.reiniciaPersona();
+                    }
+                  });
+                }
+              }                                
             }
           }          
         }
@@ -574,6 +584,7 @@ export class CaspiranteComponent implements OnInit {
 
   reiniciaPersona(esPaciente: boolean = false){
     if(esPaciente){
+      this.idPersona = 0;
       this.idPaciente = 0;
       this.pacientePoclab = false;
       this.form.patchValue({
@@ -657,6 +668,8 @@ export class CaspiranteComponent implements OnInit {
           if(p.edad == 0)
             edadStr = '';
 
+          this.idPersona = p.idePersona!==undefined?0:p.idePersona!;
+
           this.codigo = data.codigo===undefined?'':data.codigo.toString();
           this.form.patchValue({
             IdePersona: p.idePersona,
@@ -685,6 +698,7 @@ export class CaspiranteComponent implements OnInit {
             CodOcupacion: p.codOcupacion,
             Direccion: p.direccion,
             LugarTrabajo: p.lugarTrabajo,
+            CodEstado: data.codEstado,
             //Otros datos predonante
             Otros: data.otros,            
             CodTipoDonacion: data.codTipoDonacion,
@@ -775,14 +789,16 @@ export class CaspiranteComponent implements OnInit {
     p.correo1 = this.form.value['Correo'];
     //Datos completos
     var edad = 0;
-    if(this.form.value['Edad'] !== '') edad = parseInt(this.form.value['Edad']);
-    p.edad = edad===undefined?0:edad;
+    //if(this.form.value['Edad'] !== '') edad = parseInt(this.form.value['Edad']);
+    //p.edadManual = edad===undefined?0:edad;
     p.estadoCivil = this.form.value['EstadoCivil'];
     p.nacionalidad = this.form.value['Nacionalidad'];
     p.lugarNacimiento = this.form.value['LugarNacimiento'];
     p.procedencia = this.form.value['Procedencia'];
     p.codGradoInstruccion = this.form.value['CodGradoInstruccion'];
-    p.codOcupacion = this.form.value['CodOcupacion'];
+    var ocupacion = 0;
+    if(this.form.value['CodOcupacion'] !== '') ocupacion = parseInt(this.form.value['CodOcupacion']);
+    p.codOcupacion = ocupacion;
     p.direccion = this.form.value['Direccion'];
     p.lugarTrabajo = this.form.value['LugarTrabajo'];
 
@@ -802,7 +818,7 @@ export class CaspiranteComponent implements OnInit {
     model.ideCampania = this.form.value['IdeCampania'];
     model.fecha = this.form.value['Fecha'];
     model.ideUsuReg = this.curUser;
-    model.codEstado = 0;
+    model.codEstado = this.form.value['CodEstado'];;
     //Datos completos
     model.viajeSN = this.form.value['ViajeSN'];
     model.viajes = this.form.value['Lugar'];
@@ -832,10 +848,10 @@ export class CaspiranteComponent implements OnInit {
 
     this.spinner.showLoading();
     model.aceptaAlarma = aceptaAlarma?1:0;
-    debugger;
+    //debugger;
     this.predonanteService.guardar(model).subscribe(data=>{
 
-      debugger;
+      //debugger;
       if(data.typeResponse==environment.EXITO){
         this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
         localStorage.setItem('IdeOrigen',model.ideOrigen===undefined?'':model.ideOrigen.toString());
