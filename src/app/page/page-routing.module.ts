@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GuardService } from '../_service/guard.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { CaspiranteComponent } from './donante/aspirante/caspirante/caspirante.component';
 import { LaspiranteComponent } from './donante/aspirante/laspirante/laspirante.component';
@@ -14,12 +15,12 @@ import { CentrevistaComponent } from './donante/entrevista/centrevista/centrevis
 import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevista.component';
 
 
-
 import { HomeComponent } from './home/home.component';
 
 import { Not403Component } from './not403/not403.component';
 
 const routes: Routes = [
+  {path:'dashboard', component: DashboardComponent},
   {path:'home', component: HomeComponent, canActivate: [GuardService]},
 
   {path: 'not-403', component: Not403Component},

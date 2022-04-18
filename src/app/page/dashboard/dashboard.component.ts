@@ -1,6 +1,3 @@
-import { UsuarioService } from 'src/app/_service/usuario.service';
-import { environment } from 'src/environments/environment';
-
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ApexAxisChartSeries,
@@ -31,29 +28,26 @@ export type ChartOptions = {
   legend: any;
 };
 
+
 @Component({
-  selector: 'app-inicio',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class HomeComponent implements OnInit {
+export class DashboardComponent implements OnInit {
 
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptionspie!: Partial<ChartOptions>;
   public chartOptionsbar!: Partial<ChartOptions>;
 
+  // @Input() genReporte?: FrecuenciaOpcion[] = [];
 
-  constructor(
-    private usuarioService: UsuarioService
-  ) { }
+  constructor() { }
 
   arrayOp: string[] = [];
   arraySer: number[] = [];
-  idEncuesta?: string;
-  usuario?: string;
-  
+
   ngOnInit(): void {
-    this.usuario = this.usuarioService.sessionUsuario()?.nombre;
     this.chart1();
     this.chart2();
   }
