@@ -39,6 +39,7 @@ export class CchequeoComponent implements OnInit {
   edit: boolean = true;
   $disable: boolean =false;
   btndisable: boolean = false;
+  btnestado:boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -156,6 +157,7 @@ export class CchequeoComponent implements OnInit {
 
         this.Codigo = data.codigo;
         this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
+        this.btnestado = (this.CodEstado== "2")? true : false;
         this.nombres = data.nombres!;
         this.documento = data.documento!;
 
@@ -176,7 +178,11 @@ export class CchequeoComponent implements OnInit {
   }
 
   changeestado(estado: string){
-    this.CodEstado= estado;
+    if(!this.btnestado){
+      this.CodEstado= estado;
+    }else{
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','Cuando el estado es NO APTO, no se podra cambiar');
+    }
   }
 
   guardar(){

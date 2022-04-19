@@ -19,8 +19,8 @@
     
     <div id="content"> 
         <div style="width: 100%; float:left;margin-bottom: -17px;"> 
-          <div style="text-align: center; color: #1a0da4; font-weight: 500;padding-top: 11px;">{{nombres}}</div> 
-          <div style="text-align: center; color: #1a0da4; font-weight:600">{{documento}}</div> 
+          <div style="text-align: center; color: #1a0da4; font-weight: 500;padding-top: 11px;">FRANCISCO CONDOR MARTINEZ</div> 
+          <div style="text-align: center; color: #1a0da4; font-weight:600">DNI: 45036143</div> 
         </div> 
     </div>
   
@@ -29,7 +29,7 @@
     <form onkeydown="return event.key != 'Enter';" class="forms" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
       <mat-stepper labelPosition="bottom" #stepper>
         <mat-step>
-          <ng-template matStepLabel>Datos Principal</ng-template>        
+          <ng-template matStepLabel>Donación</ng-template>        
           <div class="content">
             <div fxLayout="row wrap" fxLayoutGap="16px grid">    
                 <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">  
@@ -52,12 +52,12 @@
                   </mat-form-field>
                 </div>
                 
-                <div fxFlex="40%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
-                        <mat-label>Peso</mat-label>
-                        <input matInput type="number" class="example-right-align" placeholder="0.00">
+                        <mat-label>Código Donante</mat-label>
+                        <input matInput>
                       </mat-form-field>
                     </mat-grid-tile>                
                   </mat-grid-list>
@@ -65,12 +65,25 @@
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
-                        <mat-label>Talla</mat-label>
-                        <input matInput type="number" class="example-right-align" placeholder="0.00">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" required>
+                        <mat-datepicker-toggle matSuffix [for]="dFechaIni"></mat-datepicker-toggle>
+                        <mat-datepicker #dFechaIni></mat-datepicker>
                       </mat-form-field>
                     </mat-grid-tile>
                   </mat-grid-list>
   
+                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                    <mat-grid-tile [colspan]="12">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Tipo Extracción</mat-label>
+                        <input matInput>
+                      </mat-form-field>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                </div>
+  
+                <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
@@ -82,10 +95,8 @@
                         </mat-select>
                       </mat-form-field>
                     </mat-grid-tile>
-                  </mat-grid-list>
-                </div>
-  
-                <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%">
+                  </mat-grid-list> 
+                  
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
@@ -102,40 +113,14 @@
                         <input matInput type="number" class="example-right-align" placeholder="0.00">
                       </mat-form-field>
                     </mat-grid-tile>
-                  </mat-grid-list>
-  
-                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
-                    <mat-grid-tile [colspan]="12">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Estado Venoso</mat-label>
-                        <mat-select>
-                          <!-- <mat-option *ngFor="let c of listaAspectoVenoso" [value]="c.codigo">
-                           {{c.descripcion}}
-                          </mat-option> -->
-                        </mat-select>
-                      </mat-form-field>
-                    </mat-grid-tile>
-                  </mat-grid-list>                 
+                  </mat-grid-list>                
                 </div>
   
                 <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%">
-                  <!-- <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">    
-                    <mat-grid-tile [colspan]="12">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Tipo Proceso</mat-label>
-                        <mat-select>
-                          <mat-option>
-                           Todos
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </mat-grid-tile>
-                  </mat-grid-list> -->
-  
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
-                        <mat-label>Tipo Extracción</mat-label>
+                        <mat-label>Código Tubularia</mat-label>
                         <input matInput>
                       </mat-form-field>
                     </mat-grid-tile>
@@ -144,42 +129,12 @@
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
-                        <mat-label>Lesiones Area de Punción</mat-label>
-                        <mat-select>
-                          <!-- <mat-option *ngFor="let c of listaLesionesPuncion" [value]="c.codigo">
-                           {{c.descripcion}}
-                          </mat-option> -->
-                        </mat-select>
-                      </mat-form-field> 
+                        <mat-label>Observaciones</mat-label>
+                        <input matInput minlength="1" maxlength="5000">
+                      </mat-form-field>
                     </mat-grid-tile>
                   </mat-grid-list>
                 </div>
-  
-                <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">
-                  <mat-grid-list cols="12" rowHeight="40px" gutterSize="15px">
-                    <!-- <mat-grid-tile [colspan]="4">
-                      <button [disabled]="!edit" *ngIf="!btnaceptado" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeestado('1','btn1')">ACEPTADO</button>
-                      <button [disabled]="!edit" *ngIf="btnaceptado" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeestado('1','btn1')">ACEPTADO</button>
-                    </mat-grid-tile>
-                    <mat-grid-tile [colspan]="4">
-                      <button [disabled]="!edit" *ngIf="!btnrechazado" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeestado('2', 'btn2')">RECHAZADO</button>
-                      <button [disabled]="!edit" *ngIf="btnrechazado" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeestado('2','btn2')">RECHAZADO</button>
-                    </mat-grid-tile> -->
-                  </mat-grid-list>
-                </div>
-  
-                <mat-form-field appearance="outline">
-                  <mat-label>Fecha Entrevista</mat-label>
-                  <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" required>
-                  <mat-datepicker-toggle matSuffix [for]="dFechaIni"></mat-datepicker-toggle>
-                  <mat-datepicker #dFechaIni></mat-datepicker>
-                </mat-form-field>
-  
-                <mat-form-field appearance="outline">
-                  <mat-label>Observaciones</mat-label>
-                  <input matInput minlength="1" maxlength="5000">
-                </mat-form-field>
-  
             </div>
           </div>
           <div style="padding-top: 10px">
@@ -187,10 +142,165 @@
           </div>
         </mat-step>
         <mat-step>
-          <ng-template matStepLabel>Donación</ng-template>
+          <ng-template matStepLabel>Extracción</ng-template>
           <div class="content">          
-  
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Fecha Extracción</mat-label>
+                      <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" required>
+                      <mat-datepicker-toggle matSuffix [for]="dFechaIni"></mat-datepicker-toggle>
+                      <mat-datepicker #dFechaIni></mat-datepicker>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
 
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Inicio</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>                
+                </mat-grid-list>
+
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Fin</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Tipo Extracción</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </div>
+
+              <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Tipo Bolsa</mat-label>
+                      <mat-select>
+                        <!-- <mat-option *ngFor="let c of listaGrupoSanguineo" [value]="c.codigo">
+                         {{c.descripcion}}
+                        </mat-option> -->
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list> 
+                
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brazo</mat-label>
+                      <mat-select>
+                        <!-- <mat-option *ngFor="let c of listaGrupoSanguineo" [value]="c.codigo">
+                         {{c.descripcion}}
+                        </mat-option> -->
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Dificultad</mat-label>
+                      <mat-select>
+                        <!-- <mat-option *ngFor="let c of listaGrupoSanguineo" [value]="c.codigo">
+                         {{c.descripcion}}
+                        </mat-option> -->
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>  
+                
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Operador</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </div>
+
+              <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Hemocomponente</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Volumen</mat-label>
+                      <input matInput minlength="1" maxlength="5000">
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Peso Total</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="sub-title-label">OTROS DATOS</div>
+
+            <div style="padding-top: 15px;" fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reacion Adversa</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </div>
+
+              <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Rendimiento</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </div>
+
+              <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-tile [colspan]="12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Código Tululadura</mat-label>
+                      <input matInput>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </div>
+            </div>
           </div>
           <div style="padding-top: 10px">
             <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>

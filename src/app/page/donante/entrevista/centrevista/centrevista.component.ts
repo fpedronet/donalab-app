@@ -41,7 +41,7 @@ export class CentrevistaComponent implements OnInit {
   btnaceptado: boolean = false;
   btnrechazado: boolean = false;
   btndisable: boolean = false;
- 
+  currentTab: number = 0;
   
   constructor(
     private route: ActivatedRoute,
@@ -190,13 +190,27 @@ export class CentrevistaComponent implements OnInit {
     result!.observacion= event.target.value;
   }
 
-  guardar(){
+  changestepper(stepper: any){
+    this.currentTab = stepper._selectedIndex;
+  }
 
+  guardar(){
     let id = this.form.value['idePreDonante'];
+    let submit = true;
+    let $estado = this.CodEstado;
 
     if(id==null || id=="" || id==0){
+      submit = false;
+      this.currentTab = 0;
       this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
-    }else{
+    }
+    else if($estado=="0"){
+      submit = false;
+      this.currentTab = 0;
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione un estado APTO/NO APTO');
+    }
+
+    if(submit){
       let model = new Entrevista();
 
       model.idePreDonante= this.form.value['idePreDonante'];
