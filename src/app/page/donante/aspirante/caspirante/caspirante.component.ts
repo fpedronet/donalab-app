@@ -238,6 +238,12 @@ export class CaspiranteComponent implements OnInit {
         var tbProv: Combobox[] = this.obtenerSubtabla(tbCombobox,'PROV');
         var tbDist: Combobox[] = this.obtenerSubtabla(tbCombobox,'DST');
 
+        //Valores por defecto de tipo proc. y extracción
+        this.form.patchValue({
+          CodTipoProcedimiento: this.tbTipoProced[0].codigo
+        });
+        this.changeTipoProced(this.tbTipoProced[0].codigo)
+
         //debugger;
 
         this.listarDistritos(tbDpto, tbProv, tbDist).then(res => {
@@ -775,7 +781,7 @@ export class CaspiranteComponent implements OnInit {
     p.numDocu = this.form.value['NumDocu'];
     p.apPaterno = this.form.value['ApPaterno'];
     p.apPaterno = p.apPaterno?.toUpperCase();
-    p.apMaterno = this.form.value['ApMaterno'];
+    p.apMaterno = this.form.value['ApMaterno']; 
     p.apMaterno = p.apMaterno?.toUpperCase();
     this.asignarNombres(p, this.form.value['Nombres']);
     

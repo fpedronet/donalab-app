@@ -268,14 +268,14 @@
                 <ng-template matStepLabel style="white-space: break-spaces;">Datos de la Donación</ng-template>
 
                 <div class="content">
-                    <mat-form-field *ngIf="tbOrigen.length > 0">
+                    <mat-form-field *ngIf="tbOrigen.length > 0" appearance="outline">
                         <mat-select placeholder="Banco Origen" formControlName="IdeOrigen" required>
                           <mat-option *ngFor="let el of tbOrigen" [value]="el.codigo">
                             {{el.descripcion}}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
-                      <mat-form-field *ngIf="tbCampana.length > 0">
+                      <mat-form-field *ngIf="tbCampana.length > 0" appearance="outline">
                         <mat-select placeholder="Campaña" formControlName="IdeCampania" required>
                           <mat-option *ngFor="let el of tbCampana" [value]="el.codigo">
                             {{el.descripcion}}
@@ -293,8 +293,8 @@
                       <div *ngIf="!muestraPaciente" fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%">
                         <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
                           <mat-grid-tile  [colspan]="6">
-                          <mat-form-field >
-                              <mat-select placeholder="Tipo de Procedimiento" formControlName="CodTipoProcedimiento" required (selectionChange)="changeTipoProced($event.value)">
+                          <mat-form-field appearance="outline">
+                              <mat-select [disabled]="tbTipoProced.length === 1" placeholder="Tipo de Procedimiento" formControlName="CodTipoProcedimiento" required (selectionChange)="changeTipoProced($event.value)">
                                 <mat-option *ngFor="let el of tbTipoProced" [value]="el.codigo">
                                   {{el.descripcion}}
                                 </mat-option>
@@ -302,7 +302,7 @@
                             </mat-form-field>
                           </mat-grid-tile>
                           <mat-grid-tile  [colspan]="6">
-                            <mat-form-field *ngIf="filterTipoExtrac.length > 0">
+                            <mat-form-field *ngIf="filterTipoExtrac.length > 0" appearance="outline">
                               <mat-select [disabled]="filterTipoExtrac.length === 1" placeholder="Tipo de Extracción" formControlName="CodTipoExtraccion" required>
                                 <mat-option *ngFor="let el of filterTipoExtrac" [value]="el.codigo">
                                   {{el.descripcion}}
@@ -311,7 +311,7 @@
                             </mat-form-field>
                           </mat-grid-tile>
                           </mat-grid-list>
-                            <mat-form-field *ngIf="tbTipoDonac.length > 0">
+                            <mat-form-field *ngIf="tbTipoDonac.length > 0" appearance="outline">
                               <mat-select placeholder="Tipo de Donación" formControlName="CodTipoDonacion" required (selectionChange)="changeDonacion($event.value)">
                                 <mat-option *ngFor="let el of tbTipoDonac" [value]="el.codigo">
                                   {{el.descripcion}}
@@ -435,7 +435,7 @@
                               </mat-select>
                             </mat-form-field>  
                             <mat-form-field appearance="outline">
-                              <mat-select placeholder="Tipo" formControlName="TipRecep" required>
+                              <mat-select placeholder="Tipo" formControlName="TipRecep">
                                 <mat-option *ngFor="let el of tbTipoRecep" [value]="el.codigo">
                                   {{el.descripcion}}
                                 </mat-option>
