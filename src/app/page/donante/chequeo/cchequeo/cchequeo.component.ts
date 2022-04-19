@@ -186,16 +186,6 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
-
-    let id =  this.form.value['idePreDonante'];
-    let motivo = this.form.value['ideMotivoRec'];
-
-    if(id==null || id=="" || id==0){
-      this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
-    }else{
-      if(this.CodEstado=="2" && motivo==""){
-        this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el motivo del rechazo');
-      }else{
   
       let model = new ChequeoFisico();
   
@@ -208,6 +198,8 @@ export class CchequeoComponent implements OnInit {
       model.hematocrito= this.form.value['hematocrito'];
       model.plaquetas= this.form.value['plaquetas'];
       model.presionArterial= this.form.value['presionArterial1'] + "/" + this.form.value['presionArterial2'];
+      model.presionArterial1= this.form.value['presionArterial1'];
+      model.presionArterial2= this.form.value['presionArterial2'];
       model.frecuenciaCardiaca= this.form.value['frecuenciaCardiaca'];
       model.ideGrupo= this.form.value['ideGrupo'];
       model.aspectoGeneral= this.form.value['aspectoGeneral'];
@@ -219,8 +211,14 @@ export class CchequeoComponent implements OnInit {
       model.ideMotivoRec= this.form.value['ideMotivoRec'];
       model.aceptaAlarma= "0";
       
-      this.spinner.showLoading();
-      this.chequeofisicoService.guardar(model).subscribe(data=>{
+      let response = this.validaciones(model);
+
+      if(response!=""){
+        this.notifierService.showNotification(environment.ALERT,'Mensaje', response);
+      }else{
+
+        this.spinner.showLoading();
+        this.chequeofisicoService.guardar(model).subscribe(data=>{
   
         this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
   
@@ -231,8 +229,8 @@ export class CchequeoComponent implements OnInit {
             this.spinner.hideLoading();
           }
         });
+
       }
-    }
   }
 
   focus(name:any){
@@ -242,6 +240,41 @@ export class CchequeoComponent implements OnInit {
 
   limpiar(){
     this.inicializar();
+  }
+
+  validaciones(model: ChequeoFisico){
+
+    let mensaje ="";
+    let presion1 = (model.presionArterial1!=undefined && model.presionArterial1!="") ? (!Number(model.presionArterial1)? true: false): false;
+    let presion2 = (model.presionArterial2!=undefined && model.presionArterial2!="") ? (!Number(model.presionArterial2)? true: false): false;
+
+    if(model.idePreDonante==null  || model.idePreDonante==0){
+      mensaje = "El código al que hace referencia no existe";
+    }
+    else if(this.CodEstado=="2" && model.ideMotivoRec==undefined){
+      mensaje = "Seleccione el motivo del rechazo";
+    }
+    else if(!Number(model.pesoDonacion)){
+      mensaje = "El peso debe agregarse con kilos y gramos";
+    }
+    else if(!Number(model.tallaDonacion)){
+      mensaje = "La talla debe agregarse con metro y centimetros";
+    }
+    else if(presion1){
+      mensaje = "La medida sistolica solo es n° entero";
+    }
+    else if(presion2){
+      mensaje = "La medida diastolica solo es n° entero";
+    }
+    else if(!Number(model.hemoglobina)){
+      mensaje = "La hemoglobina debe agregarse con gramos y decilitro";
+    }
+    else if(!Number(model.hematocrito)){
+      mensaje = "La hematocrito es con porcentaje";
+    }
+   
+    return mensaje;
+
   }
 
 }

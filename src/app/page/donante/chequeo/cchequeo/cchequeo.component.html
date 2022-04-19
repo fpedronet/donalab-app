@@ -61,7 +61,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Peso</mat-label>
-                      <input matInput type="number" class="example-right-align" formControlName="pesoDonacion" placeholder="0.00" (keyup.enter)="focus(tallaDonacion)">
+                      <input matInput maxlength="6" class="example-right-align" formControlName="pesoDonacion" placeholder="0.00" (keyup.enter)="focus(tallaDonacion)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>  
@@ -69,7 +69,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Talla</mat-label>
-                      <input matInput #tallaDonacion type="number" class="example-right-align" formControlName="tallaDonacion" placeholder="0.00" (keyup.enter)="focus(presion1)">
+                      <input matInput maxlength="4" #tallaDonacion class="example-right-align" formControlName="tallaDonacion" placeholder="0.00" (keyup.enter)="focus(presion1)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>              
@@ -77,12 +77,12 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                       <mat-label>Medida Sistolica</mat-label>
-                      <input matInput #presion1 type="number" class="example-right-align" formControlName="presionArterial1" placeholder="0" (keyup.enter)="focus(presion2)">
+                      <input matInput maxlength="3" #presion1 class="example-right-align" formControlName="presionArterial1" placeholder="0" (keyup.enter)="focus(presion2)">
                     </mat-form-field>
                     <div style="font-size:37px;color:#921528;font-weight:500;"> /</div>
                     <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                       <mat-label>Medida Diastolica</mat-label>
-                      <input matInput #presion2 type="number" class="example-right-align" formControlName="presionArterial2" placeholder="0" (keyup.enter)="focus(hemoglobina)">
+                      <input matInput maxlength="2" #presion2 class="example-right-align" formControlName="presionArterial2" placeholder="0" (keyup.enter)="focus(hemoglobina)">
                     </mat-form-field>                   
                   </mat-grid-tile>
                 </mat-grid-list> 
@@ -93,7 +93,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Hemoglobina</mat-label>
-                      <input matInput #hemoglobina type="number" class="example-right-align" formControlName="hemoglobina" placeholder="0.00" (keyup.enter)="focus(hematocrito)">
+                      <input matInput maxlength="4" #hemoglobina class="example-right-align" formControlName="hemoglobina" placeholder="0.00" (keyup.enter)="focus(hematocrito)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -101,7 +101,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Hematocrito</mat-label>
-                      <input matInput #hematocrito type="number" class="example-right-align" formControlName="hematocrito" placeholder="0.00" (keyup.enter)="focus(plaquetas)">
+                      <input matInput maxlength="4" #hematocrito class="example-right-align" formControlName="hematocrito" placeholder="0.00" (keyup.enter)="focus(plaquetas)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -112,7 +112,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Plaquetas</mat-label>
-                      <input matInput #plaquetas type="number" class="example-right-align" formControlName="plaquetas" placeholder="0.00" (keyup.enter)="focus(frecuenciaCardiaca)">
+                      <input matInput maxlength="3" #plaquetas class="example-right-align" formControlName="plaquetas" placeholder="0" (keyup.enter)="focus(frecuenciaCardiaca)">
                     </mat-form-field>
                   </mat-grid-tile> 
                 </mat-grid-list> 
@@ -120,7 +120,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Frec. Cardiaca</mat-label>
-                      <input matInput #frecuenciaCardiaca type="number" class="example-right-align" formControlName="frecuenciaCardiaca" placeholder="0">
+                      <input matInput maxlength="3" #frecuenciaCardiaca class="example-right-align" formControlName="frecuenciaCardiaca" placeholder="0">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>  
@@ -185,7 +185,7 @@
                 <mat-grid-tile [colspan]="6">
                   <mat-form-field appearance="outline">
                     <mat-label>Temperatura °C</mat-label>
-                    <input matInput #temperatura type="number" class="example-right-align" formControlName="temperatura" placeholder="0.00" (keyup.enter)="focus(dFechaInicio)">
+                    <input matInput maxlength="4" #temperatura class="example-right-align" formControlName="temperatura" placeholder="0.00" (keyup.enter)="focus(dFechaInicio)">
                   </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6" style="top: -6px;">
