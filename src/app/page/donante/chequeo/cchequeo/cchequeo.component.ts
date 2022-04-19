@@ -186,36 +186,34 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
-  
-      let model = new ChequeoFisico();
-  
-      model.idePreDonante= this.form.value['idePreDonante'];
-      model.codigo= this.Codigo;
-      model.fecha= this.form.value['fecha'];
-      model.pesoDonacion= this.form.value['pesoDonacion'];
-      model.tallaDonacion= this.form.value['tallaDonacion'];
-      model.hemoglobina= this.form.value['hemoglobina'];
-      model.hematocrito= this.form.value['hematocrito'];
-      model.plaquetas= this.form.value['plaquetas'];
-      model.presionArterial= this.form.value['presionArterial1'] + "/" + this.form.value['presionArterial2'];
-      model.presionArterial1= this.form.value['presionArterial1'];
-      model.presionArterial2= this.form.value['presionArterial2'];
-      model.frecuenciaCardiaca= this.form.value['frecuenciaCardiaca'];
-      model.ideGrupo= this.form.value['ideGrupo'];
-      model.aspectoGeneral= this.form.value['aspectoGeneral'];
-      model.lesionesVenas= this.form.value['lesionesVenas'];
-      model.estadoVenoso= this.form.value['estadoVenoso'];
-      model.obsedrvaciones= this.form.value['obsedrvaciones'];
-      model.temperatura= this.form.value['temperatura'];
-      model.codEstado=  this.CodEstado;
-      model.ideMotivoRec= this.form.value['ideMotivoRec'];
-      model.aceptaAlarma= "0";
-      
-      let response = this.validaciones(model);
-
+        
+      let response = this.validaciones();
+debugger;
       if(response!=""){
         this.notifierService.showNotification(environment.ALERT,'Mensaje', response);
       }else{
+
+        let model = new ChequeoFisico();
+  
+        model.idePreDonante= this.form.value['idePreDonante'];
+        model.codigo= this.Codigo;
+        model.fecha= this.form.value['fecha'];
+        model.pesoDonacion= Number(this.form.value['pesoDonacion']);
+        model.tallaDonacion= Number(this.form.value['tallaDonacion']);
+        model.hemoglobina= Number(this.form.value['hemoglobina']);
+        model.hematocrito= Number(this.form.value['hematocrito']);
+        model.plaquetas= Number(this.form.value['plaquetas']);
+        model.presionArterial= this.form.value['presionArterial1'] + "/" + this.form.value['presionArterial2'];
+        model.frecuenciaCardiaca= Number(this.form.value['frecuenciaCardiaca']);
+        model.ideGrupo= this.form.value['ideGrupo'];
+        model.aspectoGeneral= this.form.value['aspectoGeneral'];
+        model.lesionesVenas= this.form.value['lesionesVenas'];
+        model.estadoVenoso= this.form.value['estadoVenoso'];
+        model.obsedrvaciones= this.form.value['obsedrvaciones'];
+        model.temperatura= Number(this.form.value['temperatura']);
+        model.codEstado=  this.CodEstado;
+        model.ideMotivoRec= this.form.value['ideMotivoRec'];
+        model.aceptaAlarma= "0";
 
         this.spinner.showLoading();
         this.chequeofisicoService.guardar(model).subscribe(data=>{
@@ -242,39 +240,78 @@ export class CchequeoComponent implements OnInit {
     this.inicializar();
   }
 
-  validaciones(model: ChequeoFisico){
+  validaciones(){
 
     let mensaje ="";
-    let presion1 = (model.presionArterial1!=undefined && model.presionArterial1!="") ? (!Number(model.presionArterial1)? true: false): false;
-    let presion2 = (model.presionArterial2!=undefined && model.presionArterial2!="") ? (!Number(model.presionArterial2)? true: false): false;
 
-    if(model.idePreDonante==null  || model.idePreDonante==0){
+    let $id = this.form.value['idePreDonante'];
+    let $ideMotivoRec= this.form.value['ideMotivoRec'];
+    let $peso  = this.esNumero(this.form.value['pesoDonacion']);
+    let $talla = this.esNumero(this.form.value['tallaDonacion']);
+    let $hemoglobina= this.esNumero(this.form.value['hemoglobina']);
+    let $hematocrito= this.esNumero(this.form.value['hematocrito']);   
+    let $presion1 = this.esNumero(this.form.value['presionArterial1']);
+    let $presion2= this.esNumero(this.form.value['presionArterial2']);   
+
+    if($id==null  || $id== "" || $id==0){
       mensaje = "El código al que hace referencia no existe";
     }
-    else if(this.CodEstado=="2" && model.ideMotivoRec==undefined){
+    else if(this.CodEstado=="2" && $ideMotivoRec==undefined){
       mensaje = "Seleccione el motivo del rechazo";
     }
-    else if(!Number(model.pesoDonacion)){
+    else if($peso==environment.ALERT){
       mensaje = "El peso debe agregarse con kilos y gramos";
     }
-    else if(!Number(model.tallaDonacion)){
+    else if($talla==environment.ALERT){
       mensaje = "La talla debe agregarse con metro y centimetros";
     }
-    else if(presion1){
+    else if($presion1==environment.ALERT){
       mensaje = "La medida sistolica solo es n° entero";
     }
-    else if(presion2){
+    else if($presion2==environment.ALERT){
       mensaje = "La medida diastolica solo es n° entero";
     }
-    else if(!Number(model.hemoglobina)){
+    else if($hemoglobina==environment.ALERT){
       mensaje = "La hemoglobina debe agregarse con gramos y decilitro";
     }
-    else if(!Number(model.hematocrito)){
+    else if($hematocrito==environment.ALERT){
       mensaje = "La hematocrito es con porcentaje";
     }
    
     return mensaje;
 
   }
+
+  
+  esNumero (dato: string){
+    /*Definición de los valores aceptados*/
+    var valoresAceptados = /^[0-9]+$/;
+
+    dato = dato.toString();
+
+    if(dato=="" || dato==null || dato==undefined){
+      return environment.OTRO;
+    }
+    else if (dato.indexOf(".") === -1 ){
+        if (dato.match(valoresAceptados)){
+           return environment.EXITO;
+        }else{
+           return environment.ALERT;
+        }
+    }else{
+        //dividir la expresión por el punto en un array
+        var particion = dato.split(".");
+        //evaluamos la primera parte de la división (parte entera)
+        if (particion[0].match(valoresAceptados) || particion[0]==""){
+            if (particion[1].match(valoresAceptados)){
+                return environment.EXITO;
+            }else {
+                return environment.ALERT;
+            }
+        }else{
+            return environment.ALERT;
+        }
+    }
+}
 
 }

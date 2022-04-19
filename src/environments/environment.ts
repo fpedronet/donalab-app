@@ -23,6 +23,7 @@ export const environment = {
   ERROR: 0,
   EXITO: 1,
   ALERT: 2,
+  OTRO: 3,
 
 };
 
