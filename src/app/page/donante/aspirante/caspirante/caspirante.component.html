@@ -26,7 +26,7 @@
                 <div class="content">
                     <div fxLayout="row-reverse wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">                             
-                            <mat-grid-list cols="12" rowHeight="270px" gutterSize="15px">
+                            <mat-grid-list cols="12" rowHeight="275px" gutterSize="15px">
                                 <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="4">
                                     <mat-card style="margin-bottom: 1.34375em; text-align: center; width: 100%; background-color: {{colFondo}};">
                                         <mat-card-title style="color: {{colLetra}}!important;">
@@ -43,12 +43,25 @@
                                       <div *ngIf="codigo !== ''" style="text-align:center;">
                                           <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
                                       </div>
+                                      <webcam [height]="222" [width]="200" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+                                              [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                                              [videoOptions]="videoOptions"
+                                              [imageQuality]="1"
+                                              (cameraSwitched)="cameraWasSwitched($event)"
+                                              (initError)="handleInitError($event)"
+                                      ></webcam>
+                                      <div class="snapshot" *ngIf="webcamImage && !showWebcam">
+                                        <img [src]="webcamImage.imageAsDataUrl"/>
+                                      </div>
                                       
-                                      <img *ngIf="fotoUrl===''" [src]="foto" style="max-width: 200px; height: 222px;">
-                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="max-width: 200px; height: 222px;">
-                                      <br>                                        
+                                      <img *ngIf="fotoUrl==='' && (!webcamImage && !showWebcam)" [src]="foto" style="max-width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl!=='' && (!webcamImage && !showWebcam)" [src]="fotoUrl" style="max-width: 200px; height: 222px;">
+                                    
                                   </div>
                                   <input *ngIf="edit" class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
+                                  <button *ngIf="edit && showWebcam" type="button" (click)="triggerSnapshot()">Tomar foto</button>
+                                  <button *ngIf="edit && !showWebcam" type="button" (click)="toggleWebcam()">Nueva foto</button>
+                                  <button *ngIf="edit" type="button" (click)="resetImage()">Reiniciar</button>
                                   </div>  
                                   
                                 </mat-grid-tile>
@@ -58,12 +71,27 @@
                                       <div *ngIf="codigo !== ''" style="text-align:center;">
                                           <label style="text-align: center; color: #1a0da4; font-weight: 600;font-size:18px;">{{codigo}}</label>                                 
                                       </div>
+
+                                      <webcam [height]="222" [width]="200" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+                                              [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                                              [videoOptions]="videoOptions"
+                                              [imageQuality]="1"
+                                              (cameraSwitched)="cameraWasSwitched($event)"
+                                              (initError)="handleInitError($event)"
+                                      ></webcam>
+                                      <div class="snapshot" *ngIf="webcamImage && !showWebcam">
+                                        <img [src]="webcamImage.imageAsDataUrl"/>
+                                      </div>
                                       
-                                      <img *ngIf="fotoUrl===''" [src]="foto" style="max-width: 200px; height: 222px;">
-                                      <img *ngIf="fotoUrl!==''" [src]="fotoUrl" style="max-width: 200px; height: 222px;">
-                                      <br>                                        
-                                  </div>
-                                  <input *ngIf="edit" class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
+                                      <img *ngIf="fotoUrl==='' && (!webcamImage && !showWebcam)" [src]="foto" style="max-width: 200px; height: 222px;">
+                                      <img *ngIf="fotoUrl!=='' && (!webcamImage && !showWebcam)" [src]="fotoUrl" style="max-width: 200px; height: 222px;">
+                                    </div>
+                                    <div *ngIf="edit" style="display: flex;">
+                                      <input class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
+                                      <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="triggerSnapshot()">Tomar foto</button>
+                                      <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="toggleWebcam()">Nueva foto</button>
+                                      <button class="photo-btn" type="button" (click)="resetImage()">Reiniciar</button>
+                                    </div>
                                   </div>  
                                      
                                 </mat-grid-tile>
@@ -119,15 +147,15 @@
                                 <mat-grid-tile  [colspan]="7">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Fecha de nacimiento</mat-label>
-                                        <input matInput [matDatepicker]="FecNacimiento" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="FecNacimiento" required>
+                                        <input #inputFecNac matInput [matDatepicker]="FecNacimiento" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="FecNacimiento" required (dateChange)="cambiaFechaNac(inputFecNac.value)">
                                         <mat-datepicker-toggle matSuffix [for]="FecNacimiento"></mat-datepicker-toggle>
                                         <mat-datepicker #FecNacimiento></mat-datepicker>
                                       </mat-form-field>
                                 </mat-grid-tile>
-                                <mat-grid-tile *ngIf="idPersona!==0" [colspan]="5">
+                                <mat-grid-tile *ngIf="fechaNac !== null" [colspan]="5">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Edad</mat-label>
-                                        <input type="number" matInput placeholder="Edad" formControlName="Edad" minlength="1" maxlength="3" readonly>
+                                        <input type="number" matInput placeholder="Edad" formControlName="Edad" minlength="1" maxlength="3">
                                     </mat-form-field>                                
                                 </mat-grid-tile>
                             </mat-grid-list>

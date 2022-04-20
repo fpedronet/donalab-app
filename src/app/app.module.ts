@@ -25,6 +25,7 @@ import { SpinnerModule } from './page/component/spinner/spinner.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { WebcamModule } from 'ngx-webcam';
 
 export function tokenGetter() {
   return localStorage.getItem(environment.TOKEN_NAME);
@@ -56,7 +57,8 @@ export function tokenGetter() {
     MatProgressSpinnerModule,
     SpinnerModule,
     HttpClientModule,
-    MatInputModule
+    MatInputModule,
+    WebcamModule
   ],
   providers: [
     {
