@@ -188,7 +188,7 @@ export class CchequeoComponent implements OnInit {
   guardar(){
         
       let response = this.validaciones();
-debugger;
+
       if(response!=""){
         this.notifierService.showNotification(environment.ALERT,'Mensaje', response);
       }else{
@@ -246,12 +246,15 @@ debugger;
 
     let $id = this.form.value['idePreDonante'];
     let $ideMotivoRec= this.form.value['ideMotivoRec'];
-    let $peso  = this.esNumero(this.form.value['pesoDonacion']);
-    let $talla = this.esNumero(this.form.value['tallaDonacion']);
-    let $hemoglobina= this.esNumero(this.form.value['hemoglobina']);
-    let $hematocrito= this.esNumero(this.form.value['hematocrito']);   
-    let $presion1 = this.esNumero(this.form.value['presionArterial1']);
-    let $presion2= this.esNumero(this.form.value['presionArterial2']);   
+    let $peso  = environment.validateNumber(this.form.value['pesoDonacion']);
+    let $talla = environment.validateNumber(this.form.value['tallaDonacion']);
+    let $hemoglobina= environment.validateNumber(this.form.value['hemoglobina']);
+    let $hematocrito= environment.validateNumber(this.form.value['hematocrito']);   
+    let $presion1 = environment.validateNumber(this.form.value['presionArterial1']);
+    let $presion2= environment.validateNumber(this.form.value['presionArterial2']);  
+    let $plaqueta= environment.validateNumber(this.form.value['plaquetas']);
+    let $frecuenciaCardiaca= environment.validateNumber(this.form.value['frecuenciaCardiaca']);
+    let $temperatura= environment.validateNumber(this.form.value['temperatura']);
 
     if($id==null  || $id== "" || $id==0){
       mensaje = "El código al que hace referencia no existe";
@@ -266,10 +269,10 @@ debugger;
       mensaje = "La talla debe agregarse con metro y centimetros";
     }
     else if($presion1==environment.ALERT){
-      mensaje = "La medida sistolica solo es n° entero";
+      mensaje = "La medida sistolica solo es numérico";
     }
     else if($presion2==environment.ALERT){
-      mensaje = "La medida diastolica solo es n° entero";
+      mensaje = "La medida diastolica solo es numérico";
     }
     else if($hemoglobina==environment.ALERT){
       mensaje = "La hemoglobina debe agregarse con gramos y decilitro";
@@ -277,41 +280,21 @@ debugger;
     else if($hematocrito==environment.ALERT){
       mensaje = "La hematocrito es con porcentaje";
     }
+    else if($plaqueta==environment.ALERT){
+      mensaje = "La plaqueta solo es numérico";
+    }
+    else if($frecuenciaCardiaca==environment.ALERT){
+      mensaje = "La frecuencia cardiaca solo es numérico";
+    }
+    else if($frecuenciaCardiaca==environment.ALERT){
+      mensaje = "La frecuencia cardiaca solo es numérico";
+    }
+    else if($temperatura==environment.ALERT){
+      mensaje = "La frecuencia cardiaca solo es numérico";
+    }
    
     return mensaje;
 
   }
-
-  
-  esNumero (dato: string){
-    /*Definición de los valores aceptados*/
-    var valoresAceptados = /^[0-9]+$/;
-
-    dato = dato.toString();
-
-    if(dato=="" || dato==null || dato==undefined){
-      return environment.OTRO;
-    }
-    else if (dato.indexOf(".") === -1 ){
-        if (dato.match(valoresAceptados)){
-           return environment.EXITO;
-        }else{
-           return environment.ALERT;
-        }
-    }else{
-        //dividir la expresión por el punto en un array
-        var particion = dato.split(".");
-        //evaluamos la primera parte de la división (parte entera)
-        if (particion[0].match(valoresAceptados) || particion[0]==""){
-            if (particion[1].match(valoresAceptados)){
-                return environment.EXITO;
-            }else {
-                return environment.ALERT;
-            }
-        }else{
-            return environment.ALERT;
-        }
-    }
-}
 
 }
