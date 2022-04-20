@@ -186,41 +186,46 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
+      debugger;
+      let $id = this.form.value['idePreDonante'];
+      let $ideMotivoRec= this.form.value['ideMotivoRec'];
+      let subtmit = true;
 
-    let id =  this.form.value['idePreDonante'];
-    let motivo = this.form.value['ideMotivoRec'];
+      if($id==null  || $id== "" || $id==0){
+        subtmit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje', 'El código al que hace referencia no existe');
+      }
+      else if(this.CodEstado=="2" && ($ideMotivoRec==undefined || $ideMotivoRec=="" )){
+        subtmit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje', 'Seleccione el motivo del rechazo');
+      }
 
-    if(id==null || id=="" || id==0){
-      this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
-    }else{
-      if(this.CodEstado=="2" && motivo==""){
-        this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el motivo del rechazo');
-      }else{
-  
-      let model = new ChequeoFisico();
-  
-      model.idePreDonante= this.form.value['idePreDonante'];
-      model.codigo= this.Codigo;
-      model.fecha= this.form.value['fecha'];
-      model.pesoDonacion= this.form.value['pesoDonacion'];
-      model.tallaDonacion= this.form.value['tallaDonacion'];
-      model.hemoglobina= this.form.value['hemoglobina'];
-      model.hematocrito= this.form.value['hematocrito'];
-      model.plaquetas= this.form.value['plaquetas'];
-      model.presionArterial= this.form.value['presionArterial1'] + "/" + this.form.value['presionArterial2'];
-      model.frecuenciaCardiaca= this.form.value['frecuenciaCardiaca'];
-      model.ideGrupo= this.form.value['ideGrupo'];
-      model.aspectoGeneral= this.form.value['aspectoGeneral'];
-      model.lesionesVenas= this.form.value['lesionesVenas'];
-      model.estadoVenoso= this.form.value['estadoVenoso'];
-      model.obsedrvaciones= this.form.value['obsedrvaciones'];
-      model.temperatura= this.form.value['temperatura'];
-      model.codEstado=  this.CodEstado;
-      model.ideMotivoRec= this.form.value['ideMotivoRec'];
-      model.aceptaAlarma= "0";
-      
-      this.spinner.showLoading();
-      this.chequeofisicoService.guardar(model).subscribe(data=>{
+      if(subtmit){
+
+        let model = new ChequeoFisico();
+
+        model.idePreDonante= this.form.value['idePreDonante'];
+        model.codigo= this.Codigo;
+        model.fecha= this.form.value['fecha'];
+        model.pesoDonacion= Number(this.form.value['pesoDonacion']);
+        model.tallaDonacion= Number(this.form.value['tallaDonacion']);
+        model.hemoglobina= Number(this.form.value['hemoglobina']);
+        model.hematocrito= Number(this.form.value['hematocrito']);
+        model.plaquetas= Number(this.form.value['plaquetas']);
+        model.presionArterial= this.form.value['presionArterial1'] + "/" + this.form.value['presionArterial2'];
+        model.frecuenciaCardiaca= Number(this.form.value['frecuenciaCardiaca']);
+        model.ideGrupo= this.form.value['ideGrupo'];
+        model.aspectoGeneral= this.form.value['aspectoGeneral'];
+        model.lesionesVenas= this.form.value['lesionesVenas'];
+        model.estadoVenoso= this.form.value['estadoVenoso'];
+        model.obsedrvaciones= this.form.value['obsedrvaciones'];
+        model.temperatura= Number(this.form.value['temperatura']);
+        model.codEstado=  this.CodEstado;
+        model.ideMotivoRec= this.form.value['ideMotivoRec'];
+        model.aceptaAlarma= "0";
+
+        this.spinner.showLoading();
+        this.chequeofisicoService.guardar(model).subscribe(data=>{
   
         this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
   
@@ -231,8 +236,8 @@ export class CchequeoComponent implements OnInit {
             this.spinner.hideLoading();
           }
         });
+
       }
-    }
   }
 
   focus(name:any){
@@ -242,6 +247,24 @@ export class CchequeoComponent implements OnInit {
 
   limpiar(){
     this.inicializar();
+  }
+
+  decimal(evt:any) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode!=46 && charCode > 31 && (charCode < 48 || charCode > 57)){
+        return false;
+    }
+    return true;
+    
+  }
+
+  number(evt:any) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57)){
+            return false;
+        }
+    return true;
+    
   }
 
 }
