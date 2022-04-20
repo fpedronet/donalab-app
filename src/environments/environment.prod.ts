@@ -20,32 +20,4 @@ export const environment = {
   EXITO: 1,
   ALERT: 2,
   OTRO: 3,
-
-  validateNumber (dato: string){
-    var valoresAceptados = /^[0-9]+$/;
-
-    dato = dato.toString();
-
-    if(dato=="" || dato==null || dato==undefined){
-      return environment.OTRO;
-    }
-    else if (dato.indexOf(".") === -1 ){
-        if (dato.match(valoresAceptados)){
-           return environment.EXITO;
-        }else{
-           return environment.ALERT;
-        }
-    }else{
-        var particion = dato.split(".");
-        if (particion[0].match(valoresAceptados) || particion[0]==""){
-            if (particion[1].match(valoresAceptados)){
-                return environment.EXITO;
-            }else {
-                return environment.ALERT;
-            }
-        }else{
-            return environment.ALERT;
-        }
-    }
-  }
 };
