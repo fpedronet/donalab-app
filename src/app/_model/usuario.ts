@@ -18,5 +18,6 @@ export class TokenUsuario{
     documento? : string;
     nombres? : string;
     access_token? : string;
+    codigoBanco? : string;
     typeResponse? : number;
 }
