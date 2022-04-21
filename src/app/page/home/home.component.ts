@@ -391,30 +391,35 @@ export class HomeComponent implements OnInit {
       series: this.arrayListSerie,
       chart: {
         type: "bar",
-        height: 235
+        height: 350,
+        toolbar: {
+          show: false
+        }
       },
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "55%",
+          columnWidth: "100%",
+          barHeight: '100%',
         }
       },
       dataLabels: {
-        enabled: false
+        enabled: true,       
+        position: 'top',
+        style: {
+          fontSize: '10px',
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          fontWeight: 'bold'
+        }
       },
       stroke: {
         show: true,
-        width: 2,
+        width: 1,
         colors: ["transparent"]
       },
       xaxis: {
         categories: this.arrayLabel3
       },
-      // yaxis: {
-      //   title: {
-      //     text: "$ (thousands)"
-      //   }
-      // },
       fill: {
         opacity: 1
       },
