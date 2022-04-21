@@ -1,6 +1,14 @@
+/* .mat-form-field-flex > .mat-form-field-infix { padding: 0.5em 0px !important;}
+.mat-form-field-label-wrapper { top: -1.5em; }
+
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+} */
+
 #chart {
     max-width: 380px;
-    margin: 35px auto;
+    margin: 8px auto;
     padding: 0;
   }  
 
@@ -22,9 +30,9 @@
 }
 
 .mat-divider{
-    margin: 12px;
-    margin-top: 25px;
-    margin-bottom: 17px;
+    margin: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .app.indigo-light .mat-card {
