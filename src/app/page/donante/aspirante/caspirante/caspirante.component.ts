@@ -512,6 +512,11 @@ export class CaspiranteComponent implements OnInit {
       });
     }
     else{
+      if(data.fecNacimiento !== undefined && data.fecNacimiento !== null)
+        this.updateFechaNac(data.fecNacimiento);
+      else
+        this.fechaNac = null;
+        
       this.form.patchValue({
         IdePersona: data.idePersona,
         TipDocu: data.tipDocu,
@@ -539,12 +544,7 @@ export class CaspiranteComponent implements OnInit {
 
       this.webcamImage = null;
       this.showWebcam = false;
-    }
-
-    if(data.fecNacimiento !== undefined && data.fecNacimiento !== null)
-      this.updateFechaNac(data.fecNacimiento);
-    else
-      this.fechaNac = null;
+    }    
 
     if(!esPaciente){
       this.cambiaPaisDistrito(data.codPais, data.codDistrito);
@@ -641,7 +641,7 @@ export class CaspiranteComponent implements OnInit {
       if(d < this.minDate || d > this.maxDate)
         this.fechaNac = null;
       else
-        this.fechaNac = d;
+        this.updateFechaNac(d);
     }
   }
 
@@ -650,7 +650,7 @@ export class CaspiranteComponent implements OnInit {
     //console.log(d);
     this.fechaNac = d;
     //Actualiza fecha si no existe
-    if(this.form.get('Edad')?.value === ''){
+    if(this.form.get('Edad') !== undefined){
       var edad = this.calcularEdad(d);
       this.form.patchValue({
         Edad: edad.toString()
@@ -964,11 +964,25 @@ export class CaspiranteComponent implements OnInit {
     model.codParentesco = this.form.value['CodParentesco'];
     model.tipRecep = this.form.value['TipRecep'];
 
-    this.spinner.showLoading();
     model.aceptaAlarma = aceptaAlarma?1:0;
     //debugger;
-    this.predonanteService.guardar(model).subscribe(data=>{
+    
+    if(this.showWebcam){
+      this.confirm.openConfirmDialog(true, 'La cámara está activa pero no ha tomado ninguna foto.').afterClosed().subscribe(res =>{
+        //Ok
+        if(res){
+          //console.log('Sí');
+        }
+      });
+    }
+    else{
+      this.guardaPostulante(model);
+    }
+  }
 
+  guardaPostulante(model: Predonante){
+    this.spinner.showLoading();
+    this.predonanteService.guardar(model).subscribe(data=>{
       //debugger;
       if(data.typeResponse==environment.EXITO){
         this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
