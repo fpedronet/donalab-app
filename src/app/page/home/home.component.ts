@@ -388,20 +388,7 @@ export class HomeComponent implements OnInit {
 
   chart3(){
     this.reportegrafico3 = {
-      series: [
-        {
-          name: "PENDIENTE",
-          data: [19, 4, 5, 2, 3]
-        },
-        {
-          name: "DONO",
-          data: [59, 697, 1, 3, 0]
-        },
-        {
-          name: "NO DONO",
-          data: [16, 195, 1, 0, 0]
-        }
-      ],
+      series: this.arrayListSerie,
       chart: {
         type: "bar",
         height: 235
