@@ -210,10 +210,18 @@ form{
   color: rgb(0 0 0 / 51%);
 }
 
+.mat-toolbar.mat-primary{
+  background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  z-index:200;
+  position:fixed;
+}
 
 @media (max-width:1200px){
   .example-button-row{
     margin:44%;
+  }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
   }
 }
 
@@ -221,6 +229,9 @@ form{
   
   .example-button-row{
     margin:44%;
+  }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
   }
 }
 
@@ -302,6 +313,9 @@ form{
     margin: auto;
     margin-right: 1px;
   }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  }
 }
 
 @media (max-width:768px){
@@ -318,6 +332,9 @@ form{
   .circulo {
     margin: auto;
     margin-right: 1px;
+  }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
   }
 }
 
@@ -339,6 +356,9 @@ form{
     margin: auto;
     margin-right: 1px;
     cursor: pointer;
+  }
+  .mat-toolbar.mat-primary{
+    background: #95081b;
   }
 }
 
@@ -369,6 +389,11 @@ form{
     -webkit-font-smoothing: antialiased;
     background-repeat:initial;
   }
+
+  .mat-toolbar.mat-primary{
+    background: #95081b;
+  }
+
 }
 
 .file-select {

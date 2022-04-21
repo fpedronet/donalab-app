@@ -27,7 +27,7 @@
 .menu-header-bg{
   height: 180px;
   width: 320px;
-  background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  background: linear-gradient(90deg, #9b1417 28%, #681575 100%);
   box-shadow: 0px 1px 10px rgb(192 19 67 / 82%);
   transform: rotate(-15deg);
   border-radius: 10px 10px 10px 50px;
@@ -80,16 +80,6 @@
   /* box-shadow: 1px 0px 1px 0px rgb(0 0 0 / 10%), 0px 3px 0px -3px rgb(0 0 0 / 64%), 0px 0px 0px 0px rgb(0 0 0 / 0%); */
 }
 
-
-
-
-
-
-  .mat-toolbar.mat-primary{
-    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
-    z-index:200;
-    position:fixed;
-  } 
 
 
   div {
