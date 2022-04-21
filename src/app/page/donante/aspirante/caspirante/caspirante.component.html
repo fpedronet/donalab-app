@@ -57,11 +57,13 @@
                                       <img *ngIf="fotoUrl==='' && (!webcamImage && !showWebcam)" [src]="foto" style="max-width: 200px; height: 222px;">
                                       <img *ngIf="fotoUrl!=='' && (!webcamImage && !showWebcam)" [src]="fotoUrl" style="max-width: 200px; height: 222px;">
                                     
-                                  </div>
-                                  <input *ngIf="edit" class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
-                                  <button *ngIf="edit && showWebcam" type="button" (click)="triggerSnapshot()">Tomar foto</button>
-                                  <button *ngIf="edit && !showWebcam" type="button" (click)="toggleWebcam()">Nueva foto</button>
-                                  <button *ngIf="edit" type="button" (click)="resetImage()">Reiniciar</button>
+                                    </div>
+                                    <div *ngIf="edit" style="display: flex;">
+                                      <input class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
+                                      <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="triggerSnapshot()">Tomar foto</button>
+                                      <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="toggleWebcam()">Nueva foto</button>
+                                      <button class="photo-btn" type="button" (click)="resetImage()">Reiniciar</button>
+                                    </div>
                                   </div>  
                                   
                                 </mat-grid-tile>

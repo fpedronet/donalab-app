@@ -173,7 +173,7 @@ export class CaspiranteComponent implements OnInit {
 
     //Inicializa componentes del form
     this.listarCombo();
-    this.minDate.setMonth(this.maxDate.getMonth() - 12*80);  
+    this.minDate.setMonth(this.maxDate.getMonth() - 12*120);  
 
     this.form = new FormGroup({
       'Codigo': new FormControl({ value: '#######', disabled: true}),

@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
 
   chart1(){
     this.chartOptionspie = {
-      series: [44, 55, 13, 43, 22],
+      series: [44, 55, 0, 43, 22],
       chart: {
         width: 380,
         type: "pie"
