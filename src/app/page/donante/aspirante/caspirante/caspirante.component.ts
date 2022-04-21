@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, startWith, map } from 'rxjs';
+import { Observable, startWith, map, Subject } from 'rxjs';
 import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
@@ -20,6 +20,7 @@ import forms from 'src/assets/json/formulario.json';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { environment } from 'src/environments/environment';
 import { Foto } from 'src/app/_model/foto';
+import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 
 @Component({
   selector: 'app-caspirante',
@@ -98,6 +99,8 @@ export class CaspiranteComponent implements OnInit {
   codDistrito: string = '';
 
   selectedPais: string = '';
+
+  fechaNac: Date | null = null;
   
   maxDate: Date = new Date();
   minDate: Date = new Date();
@@ -117,9 +120,34 @@ export class CaspiranteComponent implements OnInit {
   fotoUrl: string = '';
   fotoError: string = '';
 
+  //Webcam
+  public showWebcam = false;
+  public allowCameraSwitch = true;
+  public multipleWebcamsAvailable = false;
+  public deviceId: string = '';
+  public videoOptions: MediaTrackConstraints = {
+    width: {ideal: 200},
+    height: {ideal: 222}
+  };
+  public errors: WebcamInitError[] = [];
+
+  // latest snapshot
+  public webcamImage: WebcamImage | null = null;
+
+  // webcam snapshot trigger
+  private trigger: Subject<void> = new Subject<void>();
+  // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
+  private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
+  
+
   //currentTab: number = 0;
 
   ngOnInit(): void {
+    //Inicia cámara
+    WebcamUtil.getAvailableVideoInputs()
+    .then((mediaDevices: MediaDeviceInfo[]) => {
+      this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
+    });
     
     //Extrae permisos
     this.obtenerpermiso();
@@ -237,6 +265,12 @@ export class CaspiranteComponent implements OnInit {
         var tbDpto: Combobox[] = this.obtenerSubtabla(tbCombobox,'DEPA');
         var tbProv: Combobox[] = this.obtenerSubtabla(tbCombobox,'PROV');
         var tbDist: Combobox[] = this.obtenerSubtabla(tbCombobox,'DST');
+
+        //Valores por defecto de tipo proc. y extracción
+        this.form.patchValue({
+          CodTipoProcedimiento: this.tbTipoProced[0].codigo
+        });
+        this.changeTipoProced(this.tbTipoProced[0].codigo)
 
         //debugger;
 
@@ -417,6 +451,12 @@ export class CaspiranteComponent implements OnInit {
                   p.segundoNombre = dataP.vSegundoNombre;
                   p.sexo = dataP.vSexo;
                   p.fecNacimiento = dataP.dteNacimiento;
+
+                  if(p.fecNacimiento !== undefined && p.fecNacimiento !== null)
+                    this.fechaNac = p.fecNacimiento;
+                  else
+                    this.fechaNac = null;
+
                   var codPais = dataP.vCodPais;
                   if(codPais === 'PER'){
                     p.codPais = '01';
@@ -455,6 +495,10 @@ export class CaspiranteComponent implements OnInit {
     if(data.codOcupacion === undefined || !this.tbOcupa.find(e => e.codigo === data.codOcupacion?.toString()))
       data.codOcupacion = 111;
 
+    //debugger
+    var edadStr: string = data.edadManual?.toString()!;
+    if(edadStr === undefined || edadStr === '0') edadStr = '';
+
     if(esPaciente){
       this.form.patchValue({
         IdePaciente: data.idePersona,
@@ -468,9 +512,6 @@ export class CaspiranteComponent implements OnInit {
       });
     }
     else{
-      var edadStr: string = data.edad?.toString()!;
-      if(data.edad == 0)
-        edadStr = '';
       this.form.patchValue({
         IdePersona: data.idePersona,
         TipDocu: data.tipDocu,
@@ -495,7 +536,15 @@ export class CaspiranteComponent implements OnInit {
         Direccion: data.direccion,
         LugarTrabajo: data.lugarTrabajo
       });
+
+      this.webcamImage = null;
+      this.showWebcam = false;
     }
+
+    if(data.fecNacimiento !== undefined && data.fecNacimiento !== null)
+      this.updateFechaNac(data.fecNacimiento);
+    else
+      this.fechaNac = null;
 
     if(!esPaciente){
       this.cambiaPaisDistrito(data.codPais, data.codDistrito);
@@ -582,6 +631,66 @@ export class CaspiranteComponent implements OnInit {
     return '';
   }
 
+  cambiaFechaNac(dateStr: string){
+    var arrDate = this.separarFecha(dateStr);
+    if(arrDate.length === 0)
+      this.fechaNac = null;
+    else{
+      var d = new Date(arrDate[2], arrDate[1]-1, arrDate[0]);
+      //console.log(this.minDate + ' < ' + d + ' < ' + this.maxDate);
+      if(d < this.minDate || d > this.maxDate)
+        this.fechaNac = null;
+      else
+        this.fechaNac = d;
+    }
+  }
+
+  updateFechaNac(d: Date){
+    //debugger;
+    //console.log(d);
+    this.fechaNac = d;
+    //Actualiza fecha si no existe
+    if(this.form.get('Edad')?.value === ''){
+      var edad = this.calcularEdad(d);
+      this.form.patchValue({
+        Edad: edad.toString()
+      });
+    }
+  }
+
+  separarFecha(cad: string){
+    var arrStr: string[] = [];
+    var arr: number[] = [];
+    arrStr = cad.split('/');
+    if(arrStr.length !== 3)
+      return arr;
+    else{
+      for (let str of arrStr){
+        let num = parseInt(str);
+        if(num === null){
+          arr = [];
+          break;
+        }
+        else
+          arr.push(num)
+      }
+      return arr;
+    }
+  }
+
+  calcularEdad(date: Date) {
+    var hoy = new Date();
+    var cumpleanos = new Date(date);
+    var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+    var m = hoy.getMonth() - cumpleanos.getMonth();
+
+    if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+        edad--;
+    }
+
+    return edad;
+  }
+
   reiniciaPersona(esPaciente: boolean = false){
     if(esPaciente){
       this.idPersona = 0;
@@ -605,6 +714,8 @@ export class CaspiranteComponent implements OnInit {
       this.codDistrito = '';
 
       this.fotoUrl = '';
+      this.webcamImage = null;
+      this.showWebcam = false;
 
       this.form.patchValue({
         IdePersona: 0,
@@ -630,6 +741,7 @@ export class CaspiranteComponent implements OnInit {
         Direccion: '',
         LugarTrabajo: ''
       });
+      this.fechaNac = null;
     }    
   }
 
@@ -664,9 +776,9 @@ export class CaspiranteComponent implements OnInit {
         var p = data.persona;
         
         if(p !== undefined){
-          var edadStr: string = p.edad?.toString()!;
-          if(p.edad == 0)
-            edadStr = '';
+          //debugger;
+          var edadStr: string = p.edadManual?.toString()!;
+          if(edadStr === undefined || edadStr === '0') edadStr = '';
 
           this.idPersona = p.idePersona!==undefined?0:p.idePersona!;
 
@@ -704,6 +816,12 @@ export class CaspiranteComponent implements OnInit {
             CodTipoDonacion: data.codTipoDonacion,
             IdePaciente: 0
           });
+
+          if(p.fecNacimiento !== undefined && p.fecNacimiento !== null)
+            this.fechaNac = p.fecNacimiento;
+          else
+            this.fechaNac = null;
+          
           if(data.ideTipProc !== undefined){
             this.changeTipoProced(data.ideTipProc);
             this.form.patchValue({
@@ -775,7 +893,7 @@ export class CaspiranteComponent implements OnInit {
     p.numDocu = this.form.value['NumDocu'];
     p.apPaterno = this.form.value['ApPaterno'];
     p.apPaterno = p.apPaterno?.toUpperCase();
-    p.apMaterno = this.form.value['ApMaterno'];
+    p.apMaterno = this.form.value['ApMaterno']; 
     p.apMaterno = p.apMaterno?.toUpperCase();
     this.asignarNombres(p, this.form.value['Nombres']);
     
@@ -789,8 +907,8 @@ export class CaspiranteComponent implements OnInit {
     p.correo1 = this.form.value['Correo'];
     //Datos completos
     var edad = 0;
-    //if(this.form.value['Edad'] !== '') edad = parseInt(this.form.value['Edad']);
-    //p.edadManual = edad===undefined?0:edad;
+    if(this.form.value['Edad'] !== '') edad = parseInt(this.form.value['Edad']);
+    p.edadManual = edad===undefined?0:edad;
     p.estadoCivil = this.form.value['EstadoCivil'];
     p.nacionalidad = this.form.value['Nacionalidad'];
     p.lugarNacimiento = this.form.value['LugarNacimiento'];
@@ -805,7 +923,7 @@ export class CaspiranteComponent implements OnInit {
     //Foto
     let f = new Foto();
     f.idePersona = p.idePersona;
-    f.strFoto = this.fotoUrl;
+    f.strFoto = this.webcamImage?this.webcamImage.imageAsDataUrl:this.fotoUrl;
     f.tipo = 2; //Predonante
     model.foto = f;
     //debugger;
@@ -905,6 +1023,8 @@ export class CaspiranteComponent implements OnInit {
 
   subirFoto(fileInput: any) {
     this.fotoError = "";
+    this.webcamImage = null;
+    this.showWebcam = false;
     if (fileInput.target.files && fileInput.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -917,6 +1037,44 @@ export class CaspiranteComponent implements OnInit {
       };
       reader.readAsDataURL(fileInput.target.files[0]);
     }
+  }
+
+  //Métodos para cámara
+  public triggerSnapshot(): void {
+    this.trigger.next();
+    this.toggleWebcam();
+  }
+
+  public toggleWebcam(): void {
+    this.showWebcam = !this.showWebcam;
+  }
+
+  public handleInitError(error: WebcamInitError): void {
+    this.errors.push(error);
+  }
+
+  public handleImage(webcamImage: WebcamImage): void {
+    console.info('received webcam image', webcamImage);
+    this.webcamImage = webcamImage;
+  }
+
+  public cameraWasSwitched(deviceId: string): void {
+    console.log('active device: ' + deviceId);
+    this.deviceId = deviceId;
+  }
+
+  public get triggerObservable(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+
+  public get nextWebcamObservable(): Observable<boolean|string> {
+    return this.nextWebcam.asObservable();
+  }
+
+  resetImage(){
+    this.fotoUrl = '';
+    this.webcamImage = null;
+    this.showWebcam = false;
   }
 
 }
