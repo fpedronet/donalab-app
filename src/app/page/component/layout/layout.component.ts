@@ -48,6 +48,7 @@ export class LayoutComponent implements OnInit {
     this.userdni= (session.documento=="")? this.userdni: session.documento;
 
     this.ConfigPermisoService.listar().subscribe(data=>{
+   
       this.menus.listaMenu = data.listaMenu;
       this.menus.listaBanco = data.listaBanco;
       let bancoselect = session.codigobanco;
@@ -69,7 +70,6 @@ export class LayoutComponent implements OnInit {
   }
 
   selectbanco(idbanco: number){
-    debugger;
     this.spinner.showLoading();
     let split = this.router.url.split('/');
     localStorage.setItem(environment.CODIGO_BANCO, idbanco.toString()!);

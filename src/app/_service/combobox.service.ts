@@ -21,4 +21,5 @@ export class ComboboxService {
     let urls = `${href}?CodTabla=${CodTabla}&IdeUsuario=${IdeUsuario}&IdeBanco=${IdeBanco}`;
     return this.http.get<dataCollection>(urls);
   }
+  
 }
