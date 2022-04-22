@@ -1,6 +1,9 @@
+import { environment } from 'src/environments/environment';
 import { UsuarioService } from 'src/app/_service/usuario.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GraficoService } from 'src/app/_service/grafico.service';
+import { Serie } from 'src/app/_model/grafico';
+import { NotifierService } from '../component/notifier/notifier.service';
 
 import {
   ApexAxisChartSeries,
@@ -15,7 +18,6 @@ import {
   ApexFill,
   ApexTooltip
 } from "ng-apexcharts";
-import { Serie } from 'src/app/_model/grafico';
 
 export type ChartOptions = {
   series: any;
@@ -49,6 +51,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private graficoService : GraficoService,
+    private notifier: NotifierService,
   ) { }
 
   arrayListSerie: Serie[] = [];
@@ -215,11 +218,13 @@ export class HomeComponent implements OnInit {
 
           let splitData1 = x.cantidades?.split('|')[0];
           let splitData2 = x.cantidades?.split('|')[1];
-          let splitData3 = x.cantidades?.split('|')[2];
+          let splitData3 = x.cantidades?.split('|')[2];       
 
           arraypendiente.push(parseInt(splitData1!));
           arraydono.push(parseInt(splitData2!));
           arraynodono.push(parseInt(splitData3!));
+
+          count3 = parseInt(splitData1!) + parseInt(splitData2!) + parseInt(splitData3!) + count3;
         });
 
         let counts =1;
@@ -232,7 +237,6 @@ export class HomeComponent implements OnInit {
             x.data=arraynodono;
           }
           counts++;
-          count3++;
         });
 
         /* GRAFICO 4 */
@@ -330,6 +334,8 @@ export class HomeComponent implements OnInit {
           arraypendiente.push(parseInt(splitData1!));
           arraydono.push(parseInt(splitData2!));
           arraynodono.push(parseInt(splitData3!));
+
+          count3 = parseInt(splitData1!) + parseInt(splitData2!) + parseInt(splitData3!) + count3;
         });
 
         let counts =1;
@@ -342,7 +348,6 @@ export class HomeComponent implements OnInit {
             x.data=arraynodono;
           }
           counts++;
-          count3++;
         });
 
         this.registro3 = (count3>0)? true: false;
@@ -364,7 +369,7 @@ export class HomeComponent implements OnInit {
           });
 
         });
-        debugger;
+      
         this.registro4 = (count4>0)? true: false;
         this.chart4();
 
@@ -393,6 +398,10 @@ export class HomeComponent implements OnInit {
       this.$fechaInicio = this.fechaSelectInicio4;
       this.$fechaFin=  this.fechaSelectFin4;
       this.tipoReporte = 4;
+
+      if(this.$fechaInicio==null || this.$fechaFin==null){
+        this.notifier.showNotification(environment.ALERT,'Mensaje','Las fechas para las cantidad de unidades son obligatorio');
+      }
     } 
 
     this.listargrafico();  

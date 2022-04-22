@@ -8,9 +8,32 @@
 
 #chart {
     max-width: 380px;
-    margin: 8px auto;
+    margin: -12px auto;
     padding: 0;
-  }  
+  } 
+  
+  
+#chart2 {
+    max-width: 380px;
+    margin: 56px auto;
+    padding: 0;
+  } 
+
+  .chartvacio1{
+    color: #921427;
+    text-align: center;
+    font-weight: 400;
+    margin-top:114px;
+    margin-bottom:113px;
+  }
+  
+  .chartvacio2{
+    color: #921427;
+    text-align: center;
+    font-weight: 400;
+    margin-top:180px;
+    margin-bottom:180px;
+  }
 
 .p-2 {
     padding: 0.5rem!important;
@@ -63,7 +86,7 @@
 }
 
 .m-section__title {
-    margin: 0 9px 15px;
+    margin: 0 9px 6px;
     color: #681575;
     font-weight: 700;
     font-size: 2rem;
