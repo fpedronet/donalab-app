@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   public reportegrafico1!: Partial<ChartOptions>;
   public reportegrafico2!: Partial<ChartOptions>;
   public reportegrafico3!: Partial<ChartOptions>;
+  public reportegrafico4!: Partial<ChartOptions>;
 
 
   constructor(
@@ -62,10 +63,14 @@ export class HomeComponent implements OnInit {
   arrayLabel3: string[] = [];
   arraySeries3?: number[] = [];
 
+  arrayLabel4: string[] = [];
+  arraySeries4?: number[] = [];
+
   tipoReporte?: number = 0;
   registro1?: boolean = false;
   registro2?: boolean = false;
   registro3?: boolean = false;
+  registro4?: boolean = false;
   usuario?: string;
 
   $fechaInicio?: Date;
@@ -86,12 +91,18 @@ export class HomeComponent implements OnInit {
   fechaFin3?: Date;
   fechaSelectFin3?: Date;
 
+  fechaInicio4?: Date;
+  fechaSelectInicio4?: Date;
+  fechaFin4?: Date;
+  fechaSelectFin4?: Date;
+
   ngOnInit(): void {
 //($fecha.getDate()-1)
 
     this.chart1();
     this.chart2();
     this.chart3();
+    this.chart4();
 
     let $fecha = new Date();
 
@@ -113,6 +124,11 @@ export class HomeComponent implements OnInit {
     this.fechaFin3 = new Date();
     this.fechaSelectFin3 = new Date();
 
+    this.fechaInicio4 = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
+    this.fechaSelectInicio4 = this.fechaInicio4;
+    this.fechaFin4 = new Date();
+    this.fechaSelectFin4 = new Date();
+
     this.listargrafico();
   }
 
@@ -127,15 +143,17 @@ export class HomeComponent implements OnInit {
       let count1 = 0;
       let count2 = 0;
       let count3 = 0;
+      let count4 = 0;
       let arraypendiente: number[] =  [];
       let arraydono: number[] =[];
       let arraynodono: number[] =[];
+ 
+      let $grafico1 = data.filter(y=>y.ideGrafico==1);
+      let $grafico2 = data.filter(y=>y.ideGrafico==2);
+      let $grafico3 = data.filter(y=>y.ideGrafico==3);
+      let $grafico4 = data.filter(y=>y.ideGrafico==4);
 
       if(this.tipoReporte==0){
-
-        let $grafico1 = data.filter(y=>y.ideGrafico==1);
-        let $grafico2 = data.filter(y=>y.ideGrafico==2);
-        let $grafico3 = data.filter(y=>y.ideGrafico==3);
 
         this.arrayLabel1 = [];
         this.arraySeries1 = [];
@@ -148,6 +166,10 @@ export class HomeComponent implements OnInit {
         this.arrayListSerie = [] = [];
         this.arrayEtiqueta = {} = {};
 
+        this.arrayLabel4 = [];
+        this.arraySeries4 = [];
+
+        /* GRAFICO 1 */
         $grafico1.forEach(x=>{
 
           this.arrayLabel1.push(x.etiqueta!);
@@ -160,6 +182,7 @@ export class HomeComponent implements OnInit {
 
         });
 
+         /* GRAFICO 2 */
         $grafico2.forEach(x=>{
 
             this.arrayLabel2.push(x.etiqueta!);
@@ -172,6 +195,7 @@ export class HomeComponent implements OnInit {
 
         });
 
+         /* GRAFICO 3 */
         let subEtiqueta = $grafico3.filter(y=>y.subEtiquetas)[0].subEtiquetas;
 
         if(subEtiqueta!=""){
@@ -211,17 +235,31 @@ export class HomeComponent implements OnInit {
           count3++;
         });
 
+        /* GRAFICO 4 */
+        $grafico4.forEach(x=>{
+
+          this.arrayLabel4.push(x.etiqueta!);
+          let split = x.cantidades?.split('|');
+
+          split!.forEach(y=>{
+            count4 = parseInt(y) + count4;
+            this.arraySeries4?.push(parseInt(y))
+          });
+
+        });
+
+         /* VALIDADO REGISTRO PARA MOSTRAR EL GRAFICO */
         this.registro1 = (count1>0)? true: false;
         this.registro2 = (count2>0)? true: false;
         this.registro3 = (count3>0)? true: false;
+        this.registro4 = (count4>0)? true: false;
 
         this.chart1();
         this.chart2();
         this.chart3();
+        this.chart4();
 
       }else if (this.tipoReporte==1){
-
-        let $grafico1 = data.filter(y=>y.ideGrafico==1);
         
         this.arrayLabel1 = [];
         this.arraySeries1 = [];
@@ -243,8 +281,6 @@ export class HomeComponent implements OnInit {
 
       }else if(this.tipoReporte==2){
 
-        let $grafico2 = data.filter(y=>y.ideGrafico==2);
-
         this.arrayLabel2 = [];
         this.arraySeries2 = [];
 
@@ -265,7 +301,6 @@ export class HomeComponent implements OnInit {
 
       }else if(this.tipoReporte==3){
 
-        let $grafico3 = data.filter(y=>y.ideGrafico==3);
         this.arrayLabel3 = [];
         this.arraySeries3 = [];
         this.arrayListSerie = [] = [];
@@ -313,6 +348,26 @@ export class HomeComponent implements OnInit {
         this.registro3 = (count3>0)? true: false;
         this.chart3();
 
+      }else if(this.tipoReporte==4){
+
+        this.arrayLabel4 = [];
+        this.arraySeries4 = [];
+
+        $grafico4.forEach(x=>{
+
+          this.arrayLabel4.push(x.etiqueta!);
+          let split = x.cantidades?.split('|');
+
+          split!.forEach(y=>{
+            count4 = parseInt(y) + count4;
+            this.arraySeries4?.push(parseInt(y))
+          });
+
+        });
+        debugger;
+        this.registro4 = (count4>0)? true: false;
+        this.chart4();
+
       }
 
     });   
@@ -333,6 +388,11 @@ export class HomeComponent implements OnInit {
       this.$fechaInicio = this.fechaSelectInicio3;
       this.$fechaFin=  this.fechaSelectFin3;
       this.tipoReporte = 3;
+    } 
+    else if(reporte==4){
+      this.$fechaInicio = this.fechaSelectInicio4;
+      this.$fechaFin=  this.fechaSelectFin4;
+      this.tipoReporte = 4;
     } 
 
     this.listargrafico();  
@@ -433,5 +493,28 @@ export class HomeComponent implements OnInit {
     };
   }
 
+  chart4(){
+    this.reportegrafico4 = {
+      series: this.arraySeries4,
+      chart: {
+        width: 430,
+        type: "pie"
+      },
+      labels: this.arrayLabel4,
+      responsive: [
+        {
+          breakpoint: 450,
+          options: {
+            chart: {
+              width: 350
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+  }
   
 }

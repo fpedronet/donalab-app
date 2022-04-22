@@ -36,6 +36,7 @@
             </mat-card>
         </div>
 
+
     </div>
 
     <mat-divider></mat-divider>
@@ -176,6 +177,50 @@
                 </mat-card-content>
             </mat-card>
         </div>
+
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+            <mat-card class="mat-card mat-focus-indicator">
+                <mat-card-content>
+                    <div>
+                        <mat-card-title class="cardtitles"> CANTIDAD DE UNIDADES</mat-card-title>
+                    </div>
+                    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
+
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha Inicio</mat-label>
+                                <input matInput [matDatepicker]="fechaInicio4" placeholder="dd/mm/yyyy" [max]="fechaInicio4" 
+                                [(ngModel)]="fechaSelectInicio4"  (dateChange)="onDateChange(4)">
+                                <mat-datepicker-toggle matSuffix [for]="fechaInicio4"></mat-datepicker-toggle>
+                                <mat-datepicker #fechaInicio4></mat-datepicker>
+                              </mat-form-field>
+                        </div>
+                
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha Fin</mat-label>
+                                <input matInput [matDatepicker]="fechaFin4" placeholder="dd/mm/yyyy" [max]="fechaFin4" 
+                                [(ngModel)]="fechaSelectFin4" (dateChange)="onDateChange(4)">
+                                <mat-datepicker-toggle matSuffix [for]="fechaFin4"></mat-datepicker-toggle>
+                                <mat-datepicker #fechaFin4></mat-datepicker>
+                              </mat-form-field>
+                        </div>                
+                    </div>
+                    <div id="chart" *ngIf="registro4">
+                        <apx-chart
+                         [series]="reportegrafico4!.series"
+                         [chart]="reportegrafico4.chart"
+                         [labels]="reportegrafico4.labels"
+                         [responsive]="reportegrafico4.responsive"
+                        ></apx-chart>
+                    </div>
+                    <div *ngIf="!registro4">
+                        <p style="color: #921427;text-align: center;font-weight: 300;">NO EXISTE REGISTRO PARA MOSTRAR EL GRAFICO</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        
     </div>
 
     <mat-divider></mat-divider>
