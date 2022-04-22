@@ -1,4 +1,4 @@
-import { Foto } from "./foto";
+import { Foto } from "../foto";
 
 export class Persona {
     idePersona?: number;

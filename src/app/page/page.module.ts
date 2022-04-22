@@ -22,7 +22,6 @@ import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevis
 import { CentrevistaComponent } from './donante/entrevista/centrevista/centrevista.component';
 import { LdonacionComponent } from './donante/donacion/ldonacion/ldonacion.component';
 import { CdonacionComponent } from './donante/donacion/cdonacion/cdonacion.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -42,8 +41,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     LentrevistaComponent,
     CentrevistaComponent,
     LdonacionComponent,
-    CdonacionComponent,
-    DashboardComponent   
+    CdonacionComponent   
   ],
   imports: [
     MaterialModule,

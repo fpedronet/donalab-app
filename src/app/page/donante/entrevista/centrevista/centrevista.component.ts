@@ -10,8 +10,8 @@ import { EntrevistaService } from 'src/app/_service/entrevista.service';
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 
 import { Combobox } from 'src/app/_model/combobox';
-import { Pregunta } from 'src/app/_model/pregunta';
-import { Entrevista } from 'src/app/_model/entrevista';
+import { Pregunta } from 'src/app/_model/donante/pregunta';
+import { Entrevista } from 'src/app/_model/donante/entrevista';
 import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
-import { MenuResponse, OpcionMenuDto } from '../_model/menu';
+import { MenuResponse, OpcionMenuDto } from '../_model/configuracion/menu';
 import { Permiso } from './../_model/permiso';
 
 @Injectable({

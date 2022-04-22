@@ -11,7 +11,7 @@ import { NotifierService } from 'src/app/page/component/notifier/notifier.servic
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 
 import { Combobox } from 'src/app/_model/combobox';
-import { ChequeoFisico } from 'src/app/_model/chequeofisico';
+import { ChequeoFisico } from 'src/app/_model/donante/chequeofisico';
 import { Permiso } from 'src/app/_model/permiso';
 
 @Component({

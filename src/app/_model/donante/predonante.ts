@@ -1,7 +1,7 @@
-import { pagination } from './pagination';
-import { Combobox } from "./combobox";
+import { pagination } from '../pagination';
+import { Combobox } from "../combobox";
 import { Persona } from "./persona";
-import { Foto } from './foto';
+import { Foto } from '../foto';
 
 export class Predonante {
     idePreDonante?: number;

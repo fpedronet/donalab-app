@@ -8,7 +8,7 @@ import { UsuarioService } from 'src/app/_service/usuario.service';
 import { NotifierService } from '../../component/notifier/notifier.service';
 import { SpinnerService } from '../../component/spinner/spinner.service';
 
-import { CadenaConexionDto, Usuario } from './../../../_model/usuario';
+import { CadenaConexionDto, Usuario } from './../../../_model/configuracion/usuario';
 
 @Component({
   selector: 'app-login',

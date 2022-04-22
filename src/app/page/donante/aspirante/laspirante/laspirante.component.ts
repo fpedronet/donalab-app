@@ -14,7 +14,7 @@ import { Permiso } from 'src/app/_model/permiso';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MfaspiranteComponent } from '../mfaspirante/mfaspirante.component';
-import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
+import { Predonante, PredonanteRequest } from 'src/app/_model/donante/predonante';
 import forms from 'src/assets/json/formulario.json';
 import { environment } from 'src/environments/environment';
 

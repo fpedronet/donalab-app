@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 
-import { TokenUsuario, Usuario } from '../_model/usuario';
+import { TokenUsuario, Usuario } from '../_model/configuracion/usuario';
 
 @Injectable({
   providedIn: 'root'

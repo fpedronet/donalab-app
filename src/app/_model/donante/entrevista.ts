@@ -1,4 +1,4 @@
-import { Combobox } from "./combobox";
+import { Combobox } from "../combobox";
 import { Pregunta } from "./pregunta";
 
 export class Entrevista{

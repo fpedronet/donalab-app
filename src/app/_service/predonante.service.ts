@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Predonante, PredonanteRequest } from 'src/app/_model/predonante';
+import { Predonante, PredonanteRequest } from 'src/app/_model/donante/predonante';
 import { Response } from 'src/app/_model/response';
 import { dataCollection } from '../_model/dataCollection';
-import { Persona, PersonaPoclab } from '../_model/persona';
-import { PersonaHistorial } from '../_model/personahistorial';
+import { Persona, PersonaPoclab } from '../_model/donante/persona';
+import { PersonaHistorial } from '../_model/donante/personahistorial';
 
 @Injectable({
   providedIn: 'root'
