@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Persona, PersonaPoclab } from '../_model/donante/persona';
+import { Persona, PersonaPoclab } from '../../_model/donante/persona';
 
 @Injectable({
   providedIn: 'root'

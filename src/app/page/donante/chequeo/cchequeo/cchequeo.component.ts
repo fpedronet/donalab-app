@@ -5,8 +5,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import forms from 'src/assets/json/formulario.json';
 
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
-import { ChequeofisicoService } from 'src/app/_service/chequeofisico.service';
-import { UsuarioService } from 'src/app/_service/usuario.service';
+import { ChequeofisicoService } from 'src/app/_service/donante/chequeofisico.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 

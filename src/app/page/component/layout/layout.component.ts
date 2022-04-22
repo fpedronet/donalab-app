@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import forms from 'src/assets/json/formulario.json';
 
 import { ConfigPermisoService } from './../../../_service/configpermiso.service';
-import { UsuarioService } from 'src/app/_service/usuario.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 
 import { MenuResponse } from 'src/app/_model/configuracion/menu';
 

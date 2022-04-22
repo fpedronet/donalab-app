@@ -1,5 +1,5 @@
 import { environment } from 'src/environments/environment';
-import { UsuarioService } from 'src/app/_service/usuario.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GraficoService } from 'src/app/_service/grafico.service';
 import { Serie } from 'src/app/_model/grafico';

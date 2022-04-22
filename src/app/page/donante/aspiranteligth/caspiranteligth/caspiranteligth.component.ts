@@ -15,12 +15,12 @@ import { PersonaHistorial } from 'src/app/_model/donante/personahistorial';
 import { Predonante } from 'src/app/_model/donante/predonante';
 import { ComboboxService } from 'src/app/_service/combobox.service';
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
-import { PredonanteService } from 'src/app/_service/predonante.service';
-import { UsuarioService } from 'src/app/_service/usuario.service';
+import { PredonanteService } from 'src/app/_service/donante/predonante.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { environment } from 'src/environments/environment';
 import forms from 'src/assets/json/formulario.json';
 import { MatStepper } from '@angular/material/stepper';
-import { PoclabService } from 'src/app/_service/poclab.service';
+import { PoclabService } from 'src/app/_service/apiexterno/poclab.service';
 
 @Component({
   selector: 'app-caspiranteligth',

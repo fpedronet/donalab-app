@@ -3,10 +3,10 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 
-import { UsuarioService } from './usuario.service';
 
 import { ConfigPermisoService } from './configpermiso.service';
 import { map } from 'rxjs';
+import { UsuarioService } from './configuracion/usuario.service';
 
 @Injectable({
   providedIn: 'root'

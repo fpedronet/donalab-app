@@ -5,8 +5,8 @@ import forms from 'src/assets/json/formulario.json';
 
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
-import { UsuarioService } from 'src/app/_service/usuario.service';
-import { EntrevistaService } from 'src/app/_service/entrevista.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
+import { EntrevistaService } from 'src/app/_service/donante/entrevista.service';
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 
 import { Combobox } from 'src/app/_model/combobox';

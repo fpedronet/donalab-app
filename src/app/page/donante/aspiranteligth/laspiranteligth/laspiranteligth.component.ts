@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
-import { PredonanteService } from 'src/app/_service/predonante.service';
+import { PredonanteService } from 'src/app/_service/donante/predonante.service';
 import { SpinnerService } from '../../../component/spinner/spinner.service';
-import { UsuarioService } from 'src/app/_service/usuario.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 import { Permiso } from 'src/app/_model/permiso';
 import { MatDialog } from '@angular/material/dialog';

@@ -4,7 +4,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { UsuarioService } from 'src/app/_service/usuario.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { NotifierService } from '../../component/notifier/notifier.service';
 import { SpinnerService } from '../../component/spinner/spinner.service';
 

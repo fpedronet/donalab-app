@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
 import { Combobox } from 'src/app/_model/combobox';
-import { PredonanteService } from 'src/app/_service/predonante.service';
-import { UsuarioService } from 'src/app/_service/usuario.service';
+import { PredonanteService } from 'src/app/_service/donante/predonante.service';
+import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
