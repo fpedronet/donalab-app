@@ -240,5 +240,4 @@ export class CentrevistaComponent implements OnInit {
   limpiar(){
     this.inicializar();
   }
-
 }

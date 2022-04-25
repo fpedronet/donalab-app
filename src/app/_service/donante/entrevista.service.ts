@@ -25,5 +25,4 @@ export class EntrevistaService {
     let urls = `${this.url}/PostSaveEntrevista`;
     return this.http.post<Response>(urls, model);
   }
-
 }
