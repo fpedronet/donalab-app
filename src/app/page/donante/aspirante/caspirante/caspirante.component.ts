@@ -129,6 +129,7 @@ export class CaspiranteComponent implements OnInit {
     width: {ideal: 200},
     height: {ideal: 222}
   };
+  public mirrorOptions: string = 'never';
   public errors: WebcamInitError[] = [];
 
   // latest snapshot
@@ -496,7 +497,7 @@ export class CaspiranteComponent implements OnInit {
       data.codOcupacion = 111;
 
     //debugger
-    var edadStr: string = data.edadManual?.toString()!;
+    var edadStr: string = data.edad?.toString()!;
     if(edadStr === undefined || edadStr === '0') edadStr = '';
 
     if(esPaciente){
@@ -512,11 +513,15 @@ export class CaspiranteComponent implements OnInit {
       });
     }
     else{
+      this.form.patchValue({
+        Edad: edadStr
+      });
+      //debugger;
       if(data.fecNacimiento !== undefined && data.fecNacimiento !== null)
         this.updateFechaNac(data.fecNacimiento);
       else
         this.fechaNac = null;
-        
+
       this.form.patchValue({
         IdePersona: data.idePersona,
         TipDocu: data.tipDocu,
@@ -531,7 +536,7 @@ export class CaspiranteComponent implements OnInit {
         Telefono: data.telefono,
         Correo: data.correo1,
         //Datos completos
-        Edad: edadStr,
+        //Edad: edadStr,
         EstadoCivil: data.estadoCivil,
         Nacionalidad: data.nacionalidad,
         LugarNacimiento: data.lugarNacimiento,
@@ -777,7 +782,7 @@ export class CaspiranteComponent implements OnInit {
         
         if(p !== undefined){
           //debugger;
-          var edadStr: string = p.edadManual?.toString()!;
+          var edadStr: string = p.edad?.toString()!;
           if(edadStr === undefined || edadStr === '0') edadStr = '';
 
           this.idPersona = p.idePersona!==undefined?0:p.idePersona!;

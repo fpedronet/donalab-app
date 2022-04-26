@@ -14,13 +14,13 @@ export class GraficoService {
     private http: HttpClient
   ) { }
 
-  public listar(idbanco: number, fdesde: Date, fhasta: Date){
+  public listar(idbanco: number, fdesde: Date, fhasta: Date, idGrafico: number = 0){
 
     let fechadesde = (fdesde==undefined)? '' : fdesde.toDateString();
     let fechahasta= (fhasta==undefined)? '' : fhasta.toDateString();
 
     let href = `${this.url}/GetAllGrafico`;
-    let urls = `${href}?idbanco=${idbanco}&fdesde=${fechadesde}&fhasta=${fechahasta}`;
+    let urls = `${href}?idbanco=${idbanco}&fdesde=${fechadesde}&fhasta=${fechahasta}&idgrafico=${idGrafico}`;
 
     return this.http.get<Grafico[]>(urls);
   }

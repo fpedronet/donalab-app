@@ -220,6 +220,62 @@
                 </mat-card-content>
             </mat-card>
         </div>
+
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+            <mat-card class="mat-card mat-focus-indicator">
+                <mat-card-content>
+                    <div>
+                        <mat-card-title class="cardtitles"> UNIDADES EN STOCK</mat-card-title>
+                    </div>
+                    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
+
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha Inicio</mat-label>
+                                <input matInput [matDatepicker]="fechaInicio5" placeholder="dd/mm/yyyy" [max]="fechaInicio5" 
+                                [(ngModel)]="fechaSelectInicio5"  (dateChange)="onDateChange(5)">
+                                <mat-datepicker-toggle matSuffix [for]="fechaInicio5"></mat-datepicker-toggle>
+                                <mat-datepicker #fechaInicio5></mat-datepicker>
+                              </mat-form-field>
+                        </div>
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha Fin</mat-label>
+                                <input matInput [matDatepicker]="fechaFin5" placeholder="dd/mm/yyyy" [max]="fechaFin5" 
+                                [(ngModel)]="fechaSelectFin5" (dateChange)="onDateChange(5)">
+                                <mat-datepicker-toggle matSuffix [for]="fechaFin5"></mat-datepicker-toggle>
+                                <mat-datepicker #fechaFin5></mat-datepicker>
+                              </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="fill">
+                                <mat-label>Tipo de Stock</mat-label>
+                                <mat-select [(ngModel)]="curTipoStock" (selectionChange)="updateTipoStock($event.value)" name="food">
+                                  <mat-option *ngFor="let tipo of cboTipoStock" [value]="tipo.ideGrafico">
+                                    {{tipo.descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> 
+                    </div>
+                    <div *ngIf="registro5">
+                        <table class="default">
+                            <tr>                          
+                              <th scope="row">\</th>                          
+                              <th *ngFor="let tipo of tiposSangre">{{tipo}}</th>                          
+                            </tr>                          
+                            <tr *ngFor="let label of arrayLabel5; let i = index">                          
+                              <th>{{label}}</th>                          
+                              <td *ngFor="let cant of arraySeries5![i]">{{cant}}</td>                          
+                            </tr>                          
+                          </table>
+                    </div>
+                    <div *ngIf="!registro5">
+                        <p class="chartvacio2">NO EXISTE REGISTRO PARA MOSTRAR EL GRAFICO</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
         
     </div>
 
