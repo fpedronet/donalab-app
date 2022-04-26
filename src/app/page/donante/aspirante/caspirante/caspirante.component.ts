@@ -129,6 +129,7 @@ export class CaspiranteComponent implements OnInit {
     width: {ideal: 200},
     height: {ideal: 222}
   };
+  public mirrorOptions: string = 'never';
   public errors: WebcamInitError[] = [];
 
   // latest snapshot
