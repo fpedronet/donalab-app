@@ -62,7 +62,7 @@
                                       <input class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
                                       <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="triggerSnapshot()">Tomar foto</button>
                                       <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="toggleWebcam()">Nueva foto</button>
-                                      <button class="photo-btn" type="button" (click)="resetImage()">Reiniciar</button>
+                                      <button class="photo-btn" type="button" (click)="resetImage()">Limpiar</button>
                                     </div>
                                   </div>  
                                   
@@ -92,7 +92,7 @@
                                       <input class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
                                       <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="triggerSnapshot()">Tomar foto</button>
                                       <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="toggleWebcam()">Nueva foto</button>
-                                      <button class="photo-btn" type="button" (click)="resetImage()">Reiniciar</button>
+                                      <button class="photo-btn" type="button" (click)="resetImage()">Limpiar</button>
                                     </div>
                                   </div>  
                                      
@@ -157,7 +157,7 @@
                                 <mat-grid-tile *ngIf="fechaNac !== null" [colspan]="5">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Edad</mat-label>
-                                        <input type="number" matInput placeholder="Edad" formControlName="Edad" minlength="1" maxlength="3">
+                                        <input [readonly]="true" type="number" matInput placeholder="Edad" formControlName="Edad" minlength="1" maxlength="3">
                                     </mat-form-field>                                
                                 </mat-grid-tile>
                             </mat-grid-list>

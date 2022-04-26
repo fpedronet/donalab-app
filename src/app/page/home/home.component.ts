@@ -2,7 +2,7 @@ import { environment } from 'src/environments/environment';
 import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GraficoService } from 'src/app/_service/grafico.service';
-import { Serie } from 'src/app/_model/grafico';
+import { Serie, TipoStock } from 'src/app/_model/grafico';
 import { NotifierService } from '../component/notifier/notifier.service';
 
 import {
@@ -18,6 +18,7 @@ import {
   ApexFill,
   ApexTooltip
 } from "ng-apexcharts";
+import { SpinnerService } from '../component/spinner/spinner.service';
 
 export type ChartOptions = {
   series: any;
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private usuarioService: UsuarioService,
+    private spinner: SpinnerService,
     private graficoService : GraficoService,
     private notifier: NotifierService,
   ) { }
@@ -69,11 +71,15 @@ export class HomeComponent implements OnInit {
   arrayLabel4: string[] = [];
   arraySeries4?: number[] = [];
 
+  arrayLabel5: string[] = [];
+  arraySeries5?: number[][] = [];
+
   tipoReporte?: number = 0;
   registro1?: boolean = false;
   registro2?: boolean = false;
   registro3?: boolean = false;
   registro4?: boolean = false;
+  registro5?: boolean = false;
   usuario?: string;
 
   $fechaInicio?: Date;
@@ -98,6 +104,15 @@ export class HomeComponent implements OnInit {
   fechaSelectInicio4?: Date;
   fechaFin4?: Date;
   fechaSelectFin4?: Date;
+
+  fechaInicio5?: Date;
+  fechaSelectInicio5?: Date;
+  fechaFin5?: Date;
+  fechaSelectFin5?: Date;
+
+  tiposSangre?: string[];
+  cboTipoStock?: TipoStock[] = [];
+  curTipoStock?: number;
 
   ngOnInit(): void {
 //($fecha.getDate()-1)
@@ -132,6 +147,20 @@ export class HomeComponent implements OnInit {
     this.fechaFin4 = new Date();
     this.fechaSelectFin4 = new Date();
 
+    this.fechaInicio5 = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
+    this.fechaSelectInicio5 = this.fechaInicio5;
+    this.fechaFin5 = new Date();
+    this.fechaSelectFin5 = new Date();
+
+    //Añade tipos de gráficos
+    this.cboTipoStock?.push(new TipoStock(5,'Stock Disponible',''));
+    this.cboTipoStock?.push(new TipoStock(6,'Stock por Habilitar',''));
+    this.cboTipoStock?.push(new TipoStock(7,'Stock Reservado',''));
+    this.cboTipoStock?.push(new TipoStock(8,'Stock en Cuarentena',''));
+    this.cboTipoStock?.push(new TipoStock(9,'Stock Vencido',''));
+
+    this.curTipoStock = 5;
+
     this.listargrafico();
   }
 
@@ -141,12 +170,15 @@ export class HomeComponent implements OnInit {
 
     this.usuario = session.nombre;
 
-    this.graficoService.listar(session.codigobanco,this.$fechaInicio!,this.$fechaFin!).subscribe(data =>{
+    this.spinner.showLoading();
 
+    this.graficoService.listar(session.codigobanco,this.$fechaInicio!,this.$fechaFin!,this.tipoReporte==5?this.curTipoStock:this.tipoReporte).subscribe(data =>{
+      //debugger;
       let count1 = 0;
       let count2 = 0;
       let count3 = 0;
       let count4 = 0;
+      let count5 = 0;
       let arraypendiente: number[] =  [];
       let arraydono: number[] =[];
       let arraynodono: number[] =[];
@@ -155,6 +187,7 @@ export class HomeComponent implements OnInit {
       let $grafico2 = data.filter(y=>y.ideGrafico==2);
       let $grafico3 = data.filter(y=>y.ideGrafico==3);
       let $grafico4 = data.filter(y=>y.ideGrafico==4);
+      let $grafico5 = data.filter(y=>y.ideGrafico==this.curTipoStock);
 
       if(this.tipoReporte==0){
 
@@ -171,6 +204,11 @@ export class HomeComponent implements OnInit {
 
         this.arrayLabel4 = [];
         this.arraySeries4 = [];
+
+        this.arrayLabel5 = [];
+        this.arraySeries5 = [];
+
+        this.tiposSangre = [];
 
         /* GRAFICO 1 */
         $grafico1.forEach(x=>{
@@ -252,11 +290,42 @@ export class HomeComponent implements OnInit {
 
         });
 
+        /* GRAFICO 5 */
+        if($grafico5.length > 0){
+          let etiqsangre = $grafico5.filter(y=>y.subEtiquetas)[0].subEtiquetas;
+
+          if(etiqsangre!=""){
+            this.tiposSangre = etiqsangre!.split('|');
+            let vacio = this.tiposSangre.indexOf(' ');
+            if(vacio >= 0)
+              this.tiposSangre[vacio] = 'N/A';
+          }
+
+          $grafico5.forEach(x=>{
+            this.arrayLabel5.push(x.etiqueta!);
+
+            let tableRowStr = x.cantidades?.split('|');
+            let tableRow: number[] = [];
+            tableRowStr?.forEach(el => {
+              tableRow.push(parseInt(el))
+            });
+
+            //Limita las cantidades según los tipos de sangre existentes
+            tableRow = tableRow.slice(0,this.tiposSangre?.length);
+
+            this.arraySeries5?.push(tableRow!);
+  
+            count5 = count5 + tableRow!.reduce((a, b) => a + (b || 0), 0);
+          });
+        }
+        
+
          /* VALIDADO REGISTRO PARA MOSTRAR EL GRAFICO */
         this.registro1 = (count1>0)? true: false;
         this.registro2 = (count2>0)? true: false;
         this.registro3 = (count3>0)? true: false;
         this.registro4 = (count4>0)? true: false;
+        this.registro5 = (count5>0)? true: false;
 
         this.chart1();
         this.chart2();
@@ -374,6 +443,47 @@ export class HomeComponent implements OnInit {
         this.chart4();
 
       }
+      else if(this.tipoReporte==5){
+
+        this.arrayLabel5 = [];
+        this.arraySeries5 = [];
+
+        this.tiposSangre = [];
+        
+        if($grafico5.length > 0){
+          let etiqsangre = $grafico5.filter(y=>y.subEtiquetas)[0].subEtiquetas;
+
+          if(etiqsangre!=""){
+            this.tiposSangre = etiqsangre!.split('|');
+            let vacio = this.tiposSangre.indexOf(' ');
+            if(vacio >= 0)
+              this.tiposSangre[vacio] = 'N/A';
+          }
+
+          $grafico5.forEach(x=>{
+            this.arrayLabel5.push(x.etiqueta!);
+
+            let tableRowStr = x.cantidades?.split('|');
+            let tableRow: number[] = [];
+            tableRowStr?.forEach(el => {
+              tableRow.push(parseInt(el))
+            });
+
+            //debugger;
+
+            //Limita las cantidades según los tipos de sangre existentes
+            tableRow = tableRow.slice(0,this.tiposSangre?.length);
+
+            this.arraySeries5?.push(tableRow!);
+  
+            count5 = count5 + tableRow!.reduce((a, b) => a + (b || 0), 0);
+          });
+
+          this.registro5 = (count5>0)? true: false;
+        }
+      }
+
+      this.spinner.hideLoading();
 
     });   
   }
@@ -402,9 +512,24 @@ export class HomeComponent implements OnInit {
       if(this.$fechaInicio==null || this.$fechaFin==null){
         this.notifier.showNotification(environment.ALERT,'Mensaje','Las fechas para las cantidad de unidades son obligatorio');
       }
-    } 
+    }
+    else if(reporte==5){
+      this.$fechaInicio = this.fechaSelectInicio5;
+      this.$fechaFin=  this.fechaSelectFin5;
+      this.tipoReporte = 5;
+    }
 
     this.listargrafico();  
+  }
+
+  updateTipoStock(tipo: number){
+    this.$fechaInicio = this.fechaSelectInicio5;
+    this.$fechaFin=  this.fechaSelectFin5;
+    this.tipoReporte = 5;
+
+    this.curTipoStock = tipo;
+    this.listargrafico();  
+
   }
 
   chart1(){
