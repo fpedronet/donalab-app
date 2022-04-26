@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Donacion } from 'src/app/_model/donante/donacion';
 import { environment } from 'src/environments/environment';
+import { Response } from '../../_model/response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class DonacionService {
 
   private url: string = `${environment.UrlApi}/donacion`;
   
-  obtener(idpredonante: number,codigo:number,idbanco:number ){
-    let urls = `${this.url}/GetFirstDonacion?idpredonante=${idpredonante}&codigo=${codigo}&idbanco=${idbanco}`;
+  obtener(id: Number,codigo:string,idbanco:number ){
+    let urls = `${this.url}/GetFirstDonacion?id=${id}&codigo=${codigo}&idbanco=${idbanco}`;
 
     return this.http.get<Donacion>(urls);
   }

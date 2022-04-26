@@ -1,19 +1,38 @@
 import { Combobox } from "../combobox";
+import { Unidade } from "./unidade";
 
 export class Donacion{
-
+    codDonacion?:string;
+    codPostulante?: string;
     idePreDonante?: number;
     ideDonacion?: number;
-    dFechaRegistro?: Date;
-    dFechaExtraccion?: Date;
+    ideMuestra?: number;
+    ideExtraccion?: number;
+    fecha?: Date;
     codTipoExtraccion?: string; 
+    selloCalidad?: string;
+    donante?: string;
+    usuario?: string;
+    codEstado?: number;
+    estado?: string;
     ideGrupo?: string;
+    hemoglobina?: number;
+    hematocrito?: number;
+    obsedrvaciones?: string;
+    fechaExtraccion?: Date;
+    tipoExtraccion?: string;
     ideTipoBolsa?: string;
-    ideBrazo?: string;
-    ideDificultad?: string;
-    ideUsuReg?: number;   
-    nombres?:string;
+    brazo?: string;
+    dificultad?: string;
+    operador?: string;
+    vHoraIni?: string;
+    vHoraFin?: string;
+
+    codTubuladura?: string;
+    rendimiento?: number;
+    codReaccionAdversa?: string;
     documento?: string;
+
 
     listaTipoExtraccion?: Combobox[];
     listaGrupoSanguineo?: Combobox[];
@@ -21,4 +40,5 @@ export class Donacion{
     listaBrazo?: Combobox[];
     listaDificultad?: Combobox[];
     listaHemoComponente?: Combobox[];
+    listaExtraccionUnidad?: Unidade[];
 }
