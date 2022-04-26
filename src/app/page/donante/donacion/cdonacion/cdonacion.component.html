@@ -23,7 +23,7 @@
     <div id="content"> 
         <div style="width: 100%; float:left;margin-bottom: -17px;"> 
           <div style="text-align: center; color: #1a0da4; font-weight: 500;padding-top: 11px;">{{donante}}</div> 
-          <div style="text-align: center; color: #1a0da4; font-weight:600">DNI: ########</div> 
+          <div style="text-align: center; color: #1a0da4; font-weight:600">{{documento}}</div> 
         </div> 
     </div>
   
@@ -85,7 +85,7 @@
                       <mat-form-field appearance="outline">
                         <mat-label>Tipo Extracción</mat-label>
                         <mat-select
-                          [disabled]="!edit"
+                          [disabled]="true"
                           formControlName="codTipoExtraccion">
                           <mat-option *ngFor="let c of listaTipoExtraccion" [value]="c.codigo">
                             {{c.descripcion}}
@@ -116,7 +116,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Hemoglobina</mat-label>
-                        <input matInput type="number" oninput="if(this.value.length>=4) { this.value = this.value.slice(0,4); }" #hemoglobina class="example-right-align" formControlName="hemoglobina" placeholder="0.00">
+                        <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #hemoglobina class="example-right-align" formControlName="hemoglobina" placeholder="0.00">
                     </mat-form-field>                           
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -125,7 +125,7 @@
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Hematocrito</mat-label>
-                        <input matInput  type="number" oninput="if(this.value.length>=4) { this.value = this.value.slice(0,4); }" #hematocrito class="example-right-align" formControlName="hematocrito" placeholder="0.00">
+                        <input matInput  type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #hematocrito class="example-right-align" formControlName="hematocrito" placeholder="0.00">
                       </mat-form-field>
                     </mat-grid-tile>
                   </mat-grid-list>                
@@ -143,11 +143,11 @@
                 </div>
             </div>
           </div>
-          <div style="padding-top: 10px">
+          <div style="padding-top: 10px" *ngIf="existExtraccion">
             <button class="btnnext" mat-button matStepperNext type="button">Siguiente</button>
           </div>
         </mat-step>
-        <mat-step>
+        <mat-step *ngIf="existExtraccion">
           <ng-template matStepLabel>Extracción</ng-template>
           <div class="content">          
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
@@ -256,11 +256,12 @@
 
             <mat-divider></mat-divider>
 
-            <div style="padding-top: 15px;" fxLayout="row wrap" fxLayoutGap="16px grid">             
+            <br>
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">             
                 <table>
                   <thead>
                     <tr>
-                      <th>HEMOCOMPONENTE</th>  
+                      <th style="width: 239px;">HEMOCOMPONENTE</th>  
                       <th>VOLUMEN</th>   
                       <th>PESO TOTAL</th>             
                     </tr>
@@ -271,16 +272,18 @@
                         {{c.hemocomponente}}
                       </td>
                       <td>
-                        <input type="text" class="txtrespuesta" (keyup)="changevolumen($event,c.ideExtraccion)" [value]="c.volumen">
+                        <input type="number" class="example-right-align txtrespuesta" (keyup)="changevolumen($event,c.ideHemocomponente)" [value]="c.volumen">
                       </td>
                       <td>
-                        <input type="text" class="txtrespuesta" (keyup)="changepesototal($event,c.ideExtraccion)" [value]="c.pesoTotal">
+                        <input type="number" class="example-right-align txtrespuesta" (keyup)="changepesototal($event,c.ideHemocomponente)" [value]="c.pesoTotal">
                       </td>
                     </tr>
                   </tbody>
-                </table>
-            </div>
+                </table>             
+             </div>
 
+             <br> 
+             <br>
             <mat-divider></mat-divider>
 
             <div style="padding-top: 15px;" fxLayout="row wrap" fxLayoutGap="16px grid">

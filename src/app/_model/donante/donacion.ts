@@ -27,6 +27,7 @@ export class Donacion{
     operador?: string;
     vHoraIni?: string;
     vHoraFin?: string;
+    existExtraccion?: Boolean;
 
     codTubuladura?: string;
     rendimiento?: number;

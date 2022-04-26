@@ -43,6 +43,7 @@ export class CdonacionComponent implements OnInit {
   btnestado:boolean = false;
   vHoraIni?: string;
   vHoraFin?: string;
+  existExtraccion: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -123,7 +124,7 @@ export class CdonacionComponent implements OnInit {
       this.listaUnidade = data.listaExtraccionUnidad;
 
       if(ids!=0 || cod!=""){
-    debugger;
+
         let $fecha = new Date();
 
         let $fechaReg= data.fecha==null? $fecha:data.fecha; 
@@ -157,9 +158,7 @@ export class CdonacionComponent implements OnInit {
           'rendimiento': new FormControl({ value: data.rendimiento, disabled: false})//ok
         });
 
-        // this.Codigo = data.codigo;
-        // this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
-        // this.btnestado = (this.CodEstado== "2")? true : false;
+        this.existExtraccion = (data.ideDonacion==0 || data.ideDonacion==null)? false: true;
         this.donante = data.donante!;
         this.documento = data.documento!;
 
@@ -181,47 +180,90 @@ export class CdonacionComponent implements OnInit {
 
   guardar(){
 
-    let model = new Donacion();
+    let id = this.form.value['idePreDonante'];
+    let iddonacion = this.form.value['ideDonacion'];
+    let hemoglobina = this.form.value['hemoglobina'];
+    let hematocrito = this.form.value['hematocrito'];
+    let fechaextracc = this.form.value['fechaExtraccion'];
+    let submit = true;
+    let validatehemo = 0;
 
-    /*Insertar Donacion */
-    model.ideDonacion= this.form.value['ideDonacion'];
-    model.idePreDonante= this.form.value['idePreDonante'];
-    model.fecha= this.form.value['fecha'];
-    model.codTipoExtraccion= this.form.value['codTipoExtraccion'];
-    model.selloCalidad= this.form.value['selloCalidad'];
+    if(id==null || id=="" || id==0){
+      submit = false;
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','El código Pre Donante no existe');
+    }else if (iddonacion>0){
+      if(fechaextracc==null){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese la fecha de extracción');
+      }     
+    }
 
-     /*Insertar Extraccion */
-     model.ideExtraccion= this.form.value['ideExtraccion'];
-     model.ideDonacion= this.form.value['ideDonacion'];
-     model.fechaExtraccion= this.form.value['fechaExtraccion'];
-     model.vHoraIni= this.form.value['vHoraIni'];
-     model.vHoraFin= this.form.value['vHoraFin'];
-     model.ideTipoBolsa= this.form.value['ideTipoBolsa'];
-     model.brazo= this.form.value['brazo'];
-     model.dificultad= this.form.value['dificultad'];
-     model.rendimiento= this.form.value['rendimiento'];
-     model.codTubuladura= this.form.value['codTubuladura'];
-     model.operador= this.form.value['operador'];
 
-    this.spinner.showLoading();
-    this.donacionService.guardar(model).subscribe(data=>{
+    if(submit){
+      hemoglobina = (hemoglobina==0 || hemoglobina==null)? 0 :hemoglobina;
+      hematocrito = (hematocrito==0 || hematocrito==null)? 0 :hematocrito;
   
-    this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+      validatehemo= hemoglobina + hematocrito;
   
-       if(data.typeResponse==environment.EXITO){
-           this.router.navigate(['/page/donante/aspirante']);
-           this.spinner.hideLoading();
-        }else{
-          this.spinner.hideLoading();
-        }
-    });
+      if(validatehemo==0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese Hemoglobina o Hematocrito');
+      }
+    }
 
+    
+    if(submit){
+      let model = new Donacion();
+
+      /*Insertar Donacion */
+      model.ideDonacion= this.form.value['ideDonacion'];
+      model.idePreDonante= this.form.value['idePreDonante'];
+      model.fecha= this.form.value['fecha'];
+      model.codTipoExtraccion= this.form.value['codTipoExtraccion'];
+      model.selloCalidad= this.form.value['selloCalidad'];
+      model.existExtraccion = this.existExtraccion;
+
+      /*Insertar Chequeo */
+      model.ideGrupo= this.form.value['ideGrupo'];
+      model.hemoglobina= this.form.value['hemoglobina'];
+      model.hematocrito= this.form.value['hematocrito'];
+
+      if(this.existExtraccion){
+         /*Insertar Extraccion */
+          model.ideExtraccion= this.form.value['ideExtraccion'];
+          model.ideDonacion= this.form.value['ideDonacion'];
+          model.fechaExtraccion= this.form.value['fechaExtraccion'];
+          model.vHoraIni= this.form.value['vHoraIni'];
+          model.vHoraFin= this.form.value['vHoraFin'];
+          model.ideTipoBolsa= this.form.value['ideTipoBolsa'];
+          model.brazo= this.form.value['brazo'];
+          model.dificultad= this.form.value['dificultad'];
+          model.rendimiento= this.form.value['rendimiento'];
+          model.codTubuladura= this.form.value['codTubuladura'];
+          model.operador= this.form.value['operador'];
+
+          model.listaExtraccionUnidad= this.listaUnidade;
+      }
+     
+     this.spinner.showLoading();
+      this.donacionService.guardar(model).subscribe(data=>{
+      
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+      
+          if(data.typeResponse==environment.EXITO){
+              this.router.navigate(['/page/donante/aspirante']);
+              this.spinner.hideLoading();
+            }else{
+              this.spinner.hideLoading();
+            }
+        });
+    }
   }
 
   calcularhora(){
 
     let $fechaextraccion = this.form.value['fechaExtraccion'];
-    let $horactual = this.form.value['horaIni'];
+    let $horactual = this.form.value['vHoraIni'];
     let $addminuto = this.form.value['tipoExtraccion'];
 
     if($horactual!="" && $addminuto==undefined){
@@ -258,12 +300,14 @@ export class CdonacionComponent implements OnInit {
     }
   }
 
-  changevolumen(event: any, idePregunta?: number){
+  changevolumen(event: any, ideHemocomponente?: number){
+    var result = this.listaUnidade?.filter(y=>y.ideHemocomponente==ideHemocomponente)[0];
+    result!.volumen= event.target.value;
+  } 
 
-  }
-
-  changepesototal(event: any, idePregunta?: number){
-
+  changepesototal(event: any, ideHemocomponente?: number){
+    var result = this.listaUnidade?.filter(y=>y.ideHemocomponente==ideHemocomponente)[0];
+    result!.pesoTotal= event.target.value;
   }
 
   focus(name:any){

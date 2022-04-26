@@ -5,6 +5,10 @@ export class Unidade{
     hemocomponente?: string;
     codigoUnidad?: string;
     volumen?: number;
+    codFraccion?: number;
+    ideUnidadOrigen?: number;
+    ideMotivoRechazo?: number;
+    devuResult?: number;
     pesoTotal?: number;
    
 }

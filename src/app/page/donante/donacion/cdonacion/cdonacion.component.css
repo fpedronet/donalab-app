@@ -29,7 +29,7 @@
 
 
   table {
-    margin: auto;
+    /* margin: auto; */
      border-collapse: collapse;
      overflow-x: auto;
      display: block;
@@ -85,6 +85,10 @@
     border-color: #FBFFAD;
     }
   
+    .example-right-align {
+      text-align: right;
+    }
+    
     @media (max-width:960px){
       td {
         white-space: initial;
