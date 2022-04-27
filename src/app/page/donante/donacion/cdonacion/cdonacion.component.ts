@@ -48,6 +48,17 @@ export class CdonacionComponent implements OnInit {
   descextrac?: boolean = false;
   existapto?: string = "0";
 
+  window?: any;
+  nombres?: string;
+  Sexo?: string;
+  hematocrito?: string;
+  vFecNacimiento?: string;
+  edad?: string;
+  grupo?: string;
+  mostrarRh?: string;
+  codMuestra?: string;
+  vFecha?: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -56,7 +67,9 @@ export class CdonacionComponent implements OnInit {
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
     private donacionService: DonacionService
-  ) { }
+  ) { 
+    this.window = window;
+  }
 
   ngOnInit(): void {
 
@@ -290,6 +303,57 @@ export class CdonacionComponent implements OnInit {
         });
     }
   }
+
+  imprimir(){
+    debugger;
+    let idedonacion = this.form.value['ideDonacion'];
+    let idepredonante = this.form.value['idePreDonante'];
+
+    this.donacionService.imprimir(idedonacion,idepredonante).subscribe(data=>{
+      debugger;
+      this.nombres = data.nombres;
+
+      // var elemento = document.querySelector("#imprimir-seccion")!;
+
+      // let ventana = window.open('', 'PRINT', 'height=900,width=1000')!;
+      // ventana.document.write('<html><head>');
+
+
+      // ventana.document.write('</head><body >');
+      // ventana.document.write(elemento.innerHTML);
+      // ventana.document.write('</body></html>');
+      // ventana.document.close();
+      // ventana.focus();
+      // ventana.onload = function () {
+      //     ventana.print();
+      //     ventana.close();
+      // };
+
+
+// const stylesHtml = this.getTagsHtml('style');
+// const linksHtml = this.getTagsHtml('link');
+
+
+      const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
+      const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto')!;
+      popupWin.document.open();
+      popupWin.document.write(`
+          <html>
+              <head>
+                  <title>Print tab</title>
+                
+              </head>
+              <body onload="window.print(); window.close()">
+                  ${printContents}
+              </body>
+          </html>
+          `
+      );
+    popupWin.document.close();
+   
+    });
+  }
+
 
   calcularhora(){
  

@@ -36,6 +36,7 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTreeModule} from '@angular/material/tree';
 import {WebcamModule} from 'ngx-webcam';
+import {NgxPrintModule} from 'ngx-print' ;
 // import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
@@ -79,6 +80,7 @@ import {WebcamModule} from 'ngx-webcam';
     MatExpansionModule,
     MatTreeModule,
     WebcamModule,
+    NgxPrintModule,
     // NgxExtendedPdfViewerModule
   ],
   providers: [

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Donacion } from 'src/app/_model/donante/donacion';
+import { Donacion, ImprimirDonacion } from 'src/app/_model/donante/donacion';
 import { environment } from 'src/environments/environment';
 import { Response } from '../../_model/response';
 
@@ -24,5 +24,11 @@ export class DonacionService {
   guardar(model: Donacion){
     let urls = `${this.url}/PostSaveDonacion`;
     return this.http.post<Response>(urls, model);
+  }
+
+  imprimir(idedonacion: Number,idepredonante:number ){
+    let urls = `${this.url}/GetPrintDonacion?idedonacion=${idedonacion}&idepredonante=${idepredonante}`;
+
+    return this.http.get<ImprimirDonacion>(urls);
   }
 }

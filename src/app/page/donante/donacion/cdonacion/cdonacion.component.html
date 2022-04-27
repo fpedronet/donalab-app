@@ -6,7 +6,7 @@
       <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>
       </button>
-      <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader">
+      <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader" (click)="imprimir()" >
         <mat-icon class="maticon">print</mat-icon>
       </button>
     </div>
@@ -351,5 +351,9 @@
    
   </mat-card>
   </div>
+
+<div id="imprimir-seccion">
+  {{nombres}}
+</div>
   
     
