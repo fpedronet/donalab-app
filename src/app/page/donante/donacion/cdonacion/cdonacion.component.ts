@@ -45,6 +45,8 @@ export class CdonacionComponent implements OnInit {
   vHoraFin?: string;
   existExtraccion: boolean = false;
 
+  CodEstado?: string = "0";
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -97,7 +99,7 @@ export class CdonacionComponent implements OnInit {
   }
 
   obtener(codigo: any){
-
+debugger;
     this.spinner.showLoading();
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
     let ids=0;
@@ -115,7 +117,7 @@ export class CdonacionComponent implements OnInit {
     }
 
     this.donacionService.obtener(ids,cod,codigobanco).subscribe(data=>{
-
+debugger;
       this.listaTipoExtraccion = data.listaTipoExtraccion;
       this.listaGrupoSanguineo = data.listaGrupoSanguineo;
       this.listaTipoBolsa = data.listaTipoBolsa;
@@ -179,9 +181,10 @@ export class CdonacionComponent implements OnInit {
   }
 
   guardar(){
-
+debugger;
     let id = this.form.value['idePreDonante'];
     let iddonacion = this.form.value['ideDonacion'];
+    let ideGrupo = this.form.value['ideGrupo'];
     let hemoglobina = this.form.value['hemoglobina'];
     let hematocrito = this.form.value['hematocrito'];
     let fechaextracc = this.form.value['fechaExtraccion'];
@@ -191,7 +194,12 @@ export class CdonacionComponent implements OnInit {
     if(id==null || id=="" || id==0){
       submit = false;
       this.notifierService.showNotification(environment.ALERT,'Mensaje','El código Pre Donante no existe');
-    }else if (iddonacion>0){
+    }
+    else if(ideGrupo=="" || ideGrupo==null){
+      submit = false;
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el grupo ABO');
+    }
+    else if (iddonacion > 0){
       if(fechaextracc==null){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese la fecha de extracción');
@@ -247,11 +255,15 @@ export class CdonacionComponent implements OnInit {
      
      this.spinner.showLoading();
       this.donacionService.guardar(model).subscribe(data=>{
+        debugger;
+        this.notifierService.showNotification(data.swt!,'Mensaje',data.mensaje!);
       
-        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-      
-          if(data.typeResponse==environment.EXITO){
-              this.router.navigate(['/page/donante/aspirante']);
+          if(data.swt==environment.EXITO){
+              if(!this.existExtraccion){
+                this.obtener(0);                   
+              }else{
+                this.router.navigate(['/page/donante/aspirante']);                
+              }
               this.spinner.hideLoading();
             }else{
               this.spinner.hideLoading();
@@ -308,6 +320,10 @@ export class CdonacionComponent implements OnInit {
   changepesototal(event: any, ideHemocomponente?: number){
     var result = this.listaUnidade?.filter(y=>y.ideHemocomponente==ideHemocomponente)[0];
     result!.pesoTotal= event.target.value;
+  }
+
+  changeestado(estado: string){
+    this.CodEstado = estado;
   }
 
   focus(name:any){

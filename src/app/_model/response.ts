@@ -4,4 +4,6 @@ export class Response {
     stId?: number;
     inId?: number;
     codigo?: string;
+    swt?:number;
+    mensaje?:string;
 }
