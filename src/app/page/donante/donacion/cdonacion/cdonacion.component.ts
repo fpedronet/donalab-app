@@ -50,7 +50,7 @@ export class CdonacionComponent implements OnInit {
 
   window?: any;
   nombres?: string;
-  Sexo?: string;
+  sexo?: string;
   hematocrito?: string;
   vFecNacimiento?: string;
   edad?: string;
@@ -305,51 +305,45 @@ export class CdonacionComponent implements OnInit {
   }
 
   imprimir(){
-    debugger;
+   
     let idedonacion = this.form.value['ideDonacion'];
     let idepredonante = this.form.value['idePreDonante'];
 
+    this.spinner.showLoading();
     this.donacionService.imprimir(idedonacion,idepredonante).subscribe(data=>{
-      debugger;
+     debugger;
       this.nombres = data.nombres;
+      this.documento = data.documento!;
+      this.sexo = data.sexo;
+      this.hematocrito = data.hematocrito?.toString();
+      this.vFecNacimiento = data.vFecNacimiento;
+      this.edad = data.edad;
+      this.grupo = data.grupo;
+      this.mostrarRh = data.mostrarRh;
+      this.codMuestra = data.codMuestra;
+      this.vFecha = data.vFecha;
 
-      // var elemento = document.querySelector("#imprimir-seccion")!;
-
-      // let ventana = window.open('', 'PRINT', 'height=900,width=1000')!;
-      // ventana.document.write('<html><head>');
-
-
-      // ventana.document.write('</head><body >');
-      // ventana.document.write(elemento.innerHTML);
-      // ventana.document.write('</body></html>');
-      // ventana.document.close();
-      // ventana.focus();
-      // ventana.onload = function () {
-      //     ventana.print();
-      //     ventana.close();
-      // };
-
-
-// const stylesHtml = this.getTagsHtml('style');
-// const linksHtml = this.getTagsHtml('link');
-
-
-      const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
-      const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto')!;
-      popupWin.document.open();
-      popupWin.document.write(`
-          <html>
-              <head>
-                  <title>Print tab</title>
-                
-              </head>
-              <body onload="window.print(); window.close()">
-                  ${printContents}
-              </body>
-          </html>
-          `
-      );
-    popupWin.document.close();
+      setTimeout(function(){
+        const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
+            console.log(printContents);
+            const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
+            popupWin.document.open();
+            popupWin.document.write(`
+                <html>
+                    <head>
+                        <title>Print tab</title>
+                      
+                    </head>
+                    <body onload="window.print(); window.close()">
+                        ${printContents}
+                    </body>
+                </html>
+                `
+            );
+          popupWin.document.close();
+      },200);
+      this.spinner.hideLoading();
+      
    
     });
   }
