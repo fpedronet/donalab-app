@@ -47,7 +47,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles"> CANTIDAD DE POSTULANTE</mat-card-title>
+                        <mat-card-title class="cardtitles">POSTULANTES SEGÚN ESTADO</mat-card-title>
                     </div>
                     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
 
@@ -90,7 +90,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles"> TIPO DONACIÓN</mat-card-title>
+                        <mat-card-title class="cardtitles">POSTULANTES SEGÚN TIPO DONACIÓN</mat-card-title>
                     </div>
                     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
 
@@ -133,7 +133,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles"> TIPO DONACIÓN</mat-card-title>
+                        <mat-card-title class="cardtitles">POSTULANTES SEGÚN TIPO DE DONACIÓN Y ESTADO</mat-card-title>
                     </div>
                     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
 
@@ -182,7 +182,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles"> CANTIDAD DE UNIDADES</mat-card-title>
+                        <mat-card-title class="cardtitles">UNIDADES EN MOVIMIENTO (Lotes)</mat-card-title>
                     </div>
                     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
 
@@ -225,7 +225,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles"> UNIDADES EN STOCK</mat-card-title>
+                        <mat-card-title class="cardtitles">UNIDADES EN STOCK</mat-card-title>
                     </div>
                     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
 
@@ -259,19 +259,19 @@
                         </div> 
                     </div>
                     <div *ngIf="registro5">
-                        <table class="default">
+                        <table class="tabla-stock" rules="all">
                             <tr>                          
-                              <th scope="row">\</th>                          
-                              <th *ngFor="let tipo of tiposSangre">{{tipo}}</th>                          
+                              <th class="celda-stock" scope="row">\</th>                          
+                              <th class="celda-stock" *ngFor="let tipo of tiposSangre">{{tipo}}</th>                          
                             </tr>                          
                             <tr *ngFor="let label of arrayLabel5; let i = index">                          
-                              <th>{{label}}</th>                          
-                              <td *ngFor="let cant of arraySeries5![i]">{{cant}}</td>                          
+                              <th class="celda-stock">{{label}}</th>                          
+                              <td class="celda-stock" *ngFor="let cant of arraySeries5![i]">{{cant}}</td>                          
                             </tr>                          
                           </table>
                     </div>
                     <div *ngIf="!registro5">
-                        <p class="chartvacio2">NO EXISTE REGISTRO PARA MOSTRAR EL GRAFICO</p>
+                        <p class="chartvacio2">NO EXISTE REGISTRO PARA MOSTRAR LA TABLA</p>
                     </div>
                 </mat-card-content>
             </mat-card>

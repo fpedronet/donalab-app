@@ -319,7 +319,6 @@ export class HomeComponent implements OnInit {
           });
         }
         
-
          /* VALIDADO REGISTRO PARA MOSTRAR EL GRAFICO */
         this.registro1 = (count1>0)? true: false;
         this.registro2 = (count2>0)? true: false;

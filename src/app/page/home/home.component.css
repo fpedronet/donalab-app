@@ -137,3 +137,22 @@
     color: #fff!important;
 }
 
+.tabla-stock{
+    border-width: 1px;
+    border-style: solid;
+    display: table;
+    border-collapse: initial;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 0px;
+    border-color: #9b1417;
+    text-align: center;
+    border-color: #9b1417;
+}
+
+.celda-stock{
+    width: 30px;
+    word-wrap: break-word;
+    line-break: anywhere;
+    height: 25px;
+}
