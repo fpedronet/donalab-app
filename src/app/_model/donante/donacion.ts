@@ -28,6 +28,7 @@ export class Donacion{
     vHoraIni?: string;
     vHoraFin?: string;
     existExtraccion?: Boolean;
+    ideMotivoRechazo?: string;
 
     codTubuladura?: string;
     rendimiento?: number;

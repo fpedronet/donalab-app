@@ -3,10 +3,10 @@
       <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirante">
         <mat-icon class="maticon">west</mat-icon>
       </button>
-      <button *ngIf="existapto=='1'" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+      <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>
       </button>
-      <button *ngIf="existapto=='1'" mat-stroked-button class="btnHeader">
+      <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader">
         <mat-icon class="maticon">print</mat-icon>
       </button>
     </div>
@@ -16,7 +16,9 @@
   <mat-card class="cardborde">   
     <mat-toolbar class="cardtitle"></mat-toolbar>
   
-    <h2 class="title-label">CREAR DONACIÓN</h2>
+    <h2 *ngIf="id==0" class="title-label">CREAR DONACIÓN</h2>
+    <h2 *ngIf="id!==0 && !edit" class="title-label">VER DONACIÓN</h2>
+    <h2 *ngIf="id!==0 && edit" class="title-label">EDITAR DONACIÓN</h2>
 
     <mat-divider></mat-divider>
     
@@ -190,7 +192,7 @@
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
-                      <mat-label>Tipo Extracción</mat-label>
+                      <mat-label>Tiempo Extracción</mat-label>
                       <input matInput type="number" class="example-right-align" placeholder="0.00" formControlName="tipoExtraccion" (keyup.enter)="calcularhora()">
                     </mat-form-field>
                   </mat-grid-tile>
@@ -275,10 +277,10 @@
                         {{c.hemocomponente}}
                       </td>
                       <td>
-                        <input type="number" class="example-right-align txtrespuesta" (keyup)="changevolumen($event,c.ideHemocomponente)" [value]="c.volumen">
+                        <input [disabled]="!edit" type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" class="example-right-align txtrespuesta" (keyup)="changevolumen($event,c.ideHemocomponente)" [value]="c.volumen">
                       </td>
                       <td>
-                        <input type="number" class="example-right-align txtrespuesta" (keyup)="changepesototal($event,c.ideHemocomponente)" [value]="c.pesoTotal">
+                        <input [disabled]="!edit" type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" class="example-right-align txtrespuesta" (keyup)="changepesototal($event,c.ideHemocomponente)" [value]="c.pesoTotal">
                       </td>
                     </tr>
                   </tbody>
@@ -314,16 +316,17 @@
               <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12">
-                    <button [disabled]="!edit" *ngIf="CodEstado=='0' || CodEstado=='1'" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeestado('2')">Descartar extracción</button>
-                   <button [disabled]="!edit" *ngIf="CodEstado=='2'" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeestado('0')">Descartar extracción</button>
+                    <button [disabled]="!edit" *ngIf="!descextrac" style="font-size: 11px; width: 100%;" type="button" mat-stroked-button color="primary" (click)="changeestado(true)">Descartar extracción</button>
+                   <button [disabled]="!edit" *ngIf="descextrac" style="font-size: 11px; width: 100%;" type="button" mat-flat-button color="primary" (click)="changeestado(false)">Descartar extracción</button>
                   </mat-grid-tile>
                 </mat-grid-list>
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12" style="top: 45px;">
-                    <mat-form-field *ngIf="CodEstado=='2'" appearance="outline">
+                    <mat-form-field *ngIf="descextrac" appearance="outline">
                       <mat-label>Descartar extracción</mat-label>
-                      <mat-select                       
-                        >
+                      <mat-select
+                        [disabled]="!edit"
+                        formControlName="ideMotivoRechazo">                       
                         <mat-option *ngFor="let c of listaMotivoRechazo" [value]="c.codigo">
                           {{c.descripcion}}
                         </mat-option>
