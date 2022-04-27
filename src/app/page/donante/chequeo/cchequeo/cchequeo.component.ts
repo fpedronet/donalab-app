@@ -186,7 +186,7 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
-      debugger;
+
       let $id = this.form.value['idePreDonante'];
       let $ideMotivoRec= this.form.value['ideMotivoRec'];
       let subtmit = true;

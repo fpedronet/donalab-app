@@ -41,7 +41,7 @@ const routes: Routes = [
 
   {path:'donante/donacion', component: LdonacionComponent},
   {path:'donante/donacion/create', component: CdonacionComponent},
-  {path:'donante/donacion/edit/:id', component: CdonacionComponent},
+  {path:'donante/donacion/edit/:id/:edit', component: CdonacionComponent},
 
 ];
 
