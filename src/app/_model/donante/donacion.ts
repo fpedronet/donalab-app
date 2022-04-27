@@ -42,4 +42,5 @@ export class Donacion{
     listaDificultad?: Combobox[];
     listaHemoComponente?: Combobox[];
     listaExtraccionUnidad?: Unidade[];
+    listaMotivoRechazo?: Combobox[];
 }

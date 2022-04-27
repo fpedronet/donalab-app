@@ -33,7 +33,8 @@ export class CdonacionComponent implements OnInit {
   listaDificultad?: Combobox[] = [];
   listaHemoComponente?: Combobox[] = [];
   listaUnidade?: Unidade[] = [];
-  
+  listaMotivoRechazo?: Combobox[] = [];
+
   donante: string = "";
   documento: string ="";
   id: number = 0;
@@ -124,7 +125,8 @@ export class CdonacionComponent implements OnInit {
       this.listaBrazo = data.listaBrazo;
       this.listaDificultad = data.listaDificultad;
       this.listaUnidade = data.listaExtraccionUnidad;
-
+      this.listaMotivoRechazo = data.listaMotivoRechazo;
+      
       if(ids!=0 || cod!=""){
 
         let $fecha = new Date();

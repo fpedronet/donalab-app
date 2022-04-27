@@ -85,6 +85,8 @@ table {
  th {
     text-transform: uppercase;
     color: #4d41a8;
+    font-weight:500;
+      font-size:13px;
  }
  
  

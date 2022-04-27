@@ -149,7 +149,10 @@
         </mat-step>
         <mat-step *ngIf="existExtraccion">
           <ng-template matStepLabel>Extracción</ng-template>
-          <div class="content">          
+          <div class="content">  
+            
+            <mat-divider></mat-divider>
+            <br>
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
 
               <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%">
@@ -317,14 +320,13 @@
                 </mat-grid-list>
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12" style="top: 45px;">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field *ngIf="CodEstado=='2'" appearance="outline">
                       <mat-label>Descartar extracción</mat-label>
-                      <mat-select
-                       
+                      <mat-select                       
                         >
-                        <!-- <mat-option *ngFor="let c of listaDificultad" [value]="c.codigo">
+                        <mat-option *ngFor="let c of listaMotivoRechazo" [value]="c.codigo">
                           {{c.descripcion}}
-                        </mat-option> -->
+                        </mat-option>
                     </mat-select>
                     </mat-form-field>
                   </mat-grid-tile>
