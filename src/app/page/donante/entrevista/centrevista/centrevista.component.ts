@@ -155,7 +155,6 @@ export class CentrevistaComponent implements OnInit {
           this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
         }
 
-
       }
 
       this.spinner.hideLoading();

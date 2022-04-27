@@ -3,10 +3,10 @@
       <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirante">
         <mat-icon class="maticon">west</mat-icon>
       </button>
-      <button mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+      <button *ngIf="existapto=='1'" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>
       </button>
-      <button mat-stroked-button class="btnHeader">
+      <button *ngIf="existapto=='1'" mat-stroked-button class="btnHeader">
         <mat-icon class="maticon">print</mat-icon>
       </button>
     </div>

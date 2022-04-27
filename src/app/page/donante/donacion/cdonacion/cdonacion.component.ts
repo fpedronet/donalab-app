@@ -45,8 +45,8 @@ export class CdonacionComponent implements OnInit {
   vHoraIni?: string;
   vHoraFin?: string;
   existExtraccion: boolean = false;
-
   CodEstado?: string = "0";
+  existapto?: string = "0";
 
   constructor(
     private route: ActivatedRoute,
@@ -126,7 +126,7 @@ export class CdonacionComponent implements OnInit {
       this.listaDificultad = data.listaDificultad;
       this.listaUnidade = data.listaExtraccionUnidad;
       this.listaMotivoRechazo = data.listaMotivoRechazo;
-      
+
       if(ids!=0 || cod!=""){
 
         let $fecha = new Date();
@@ -162,13 +162,18 @@ export class CdonacionComponent implements OnInit {
           'rendimiento': new FormControl({ value: data.rendimiento, disabled: false})//ok
         });
 
+        this.existapto = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
         this.existExtraccion = (data.ideDonacion==0 || data.ideDonacion==null)? false: true;
         this.donante = data.donante!;
         this.documento = data.documento!;
-
+       
         if(data.idePreDonante==0 || data.idePreDonante==null){
           this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
+        }        
+        else if(data.codEstado!.toString()!="1"){
+          this.notifierService.showNotification(environment.ALERT,'Mensaje','Para la creación de la donacion debe estar APTO');
         }
+
       }
 
       this.spinner.hideLoading();
