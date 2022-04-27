@@ -51,7 +51,7 @@ export class CdonacionComponent implements OnInit {
   window?: any;
   nombres?: string;
   sexo?: string;
-  hematocrito?: string;
+  hematocritos?: string;
   vFecNacimiento?: string;
   edad?: string;
   grupo?: string;
@@ -311,11 +311,11 @@ export class CdonacionComponent implements OnInit {
 
     this.spinner.showLoading();
     this.donacionService.imprimir(idedonacion,idepredonante).subscribe(data=>{
-     debugger;
+   
       this.nombres = data.nombres;
       this.documento = data.documento!;
       this.sexo = data.sexo;
-      this.hematocrito = data.hematocrito?.toString();
+      this.hematocritos = data.hematocrito;
       this.vFecNacimiento = data.vFecNacimiento;
       this.edad = data.edad;
       this.grupo = data.grupo;
