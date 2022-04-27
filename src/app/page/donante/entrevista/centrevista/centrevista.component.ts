@@ -15,6 +15,8 @@ import { Entrevista } from 'src/app/_model/donante/entrevista';
 import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
 
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
+
 @Component({
   selector: 'app-centrevista',
   templateUrl: './centrevista.component.html',
@@ -51,7 +53,9 @@ export class CentrevistaComponent implements OnInit {
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
     private entrevistaService: EntrevistaService
-  ) { }
+  ) {
+    pdfDefaultOptions.assetsFolder = 'bleeding-edge';
+  }
 
   ngOnInit(): void {
     
