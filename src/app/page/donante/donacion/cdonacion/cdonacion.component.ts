@@ -99,7 +99,7 @@ export class CdonacionComponent implements OnInit {
   }
 
   obtener(codigo: any){
-debugger;
+
     this.spinner.showLoading();
     let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
     let ids=0;
@@ -117,7 +117,7 @@ debugger;
     }
 
     this.donacionService.obtener(ids,cod,codigobanco).subscribe(data=>{
-debugger;
+
       this.listaTipoExtraccion = data.listaTipoExtraccion;
       this.listaGrupoSanguineo = data.listaGrupoSanguineo;
       this.listaTipoBolsa = data.listaTipoBolsa;
@@ -181,7 +181,7 @@ debugger;
   }
 
   guardar(){
-debugger;
+
     let id = this.form.value['idePreDonante'];
     let iddonacion = this.form.value['ideDonacion'];
     let ideGrupo = this.form.value['ideGrupo'];
@@ -255,7 +255,7 @@ debugger;
      
      this.spinner.showLoading();
       this.donacionService.guardar(model).subscribe(data=>{
-        debugger;
+
         this.notifierService.showNotification(data.swt!,'Mensaje',data.mensaje!);
       
           if(data.swt==environment.EXITO){

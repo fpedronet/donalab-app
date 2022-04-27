@@ -45,13 +45,15 @@
    th {
       text-transform: uppercase;
       color: #4d41a8;
+      font-weight:400;
+      font-size:13px;
    }
    
    
    td {
      white-space: nowrap;
      border-bottom: none;
-     color: rgb(100 100 100);
+     color: rgb(75 74 74);
    }
    
    td:first-of-type, th:first-of-type {
