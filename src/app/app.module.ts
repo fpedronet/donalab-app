@@ -26,7 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { WebcamModule } from 'ngx-webcam';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+// import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 export function tokenGetter() {
   return localStorage.getItem(environment.TOKEN_NAME);
@@ -60,7 +60,7 @@ export function tokenGetter() {
     HttpClientModule,
     MatInputModule,
     WebcamModule,
-    NgxExtendedPdfViewerModule
+    // NgxExtendedPdfViewerModule
   ],
   providers: [
     {
