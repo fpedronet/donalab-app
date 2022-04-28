@@ -186,21 +186,66 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
-
+      debugger;
       let $id = this.form.value['idePreDonante'];
+      let peso = Number(this.form.value['pesoDonacion']);
+      let talla = Number(this.form.value['tallaDonacion']);
+      let presion1 = Number(this.form.value['presionArterial1']);
+      let presion2 = Number(this.form.value['presionArterial2']);
       let $ideMotivoRec= this.form.value['ideMotivoRec'];
-      let subtmit = true;
+      let hemoglobina = Number(this.form.value['hemoglobina']);
+      let hematocrito = Number(this.form.value['hematocrito']);
+      let plaqueta =  Number(this.form.value['plaquetas']);
+      let frecardiaca = Number(this.form.value['frecuenciaCardiaca']);
+      let temperatura= Number(this.form.value['temperatura']);
+      let submit = true;
 
       if($id==null  || $id== "" || $id==0){
-        subtmit = false;
+        submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje', 'El código al que hace referencia no existe');
       }
       else if(this.CodEstado=="2" && ($ideMotivoRec==undefined || $ideMotivoRec=="" )){
-        subtmit = false;
+        submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje', 'Seleccione el motivo del rechazo');
       }
+      else if(peso<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','El peso no puede ser menor a 0');
+      }
+      else if(talla<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La talla no puede ser menor a 0');
+      }
+      else if(presion1<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La medida sistolica no puede ser menor a 0');
+      }
+      else if(presion2<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La medida diastolica no puede ser menor a 0');
+      }
+      else if(hemoglobina<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La hemoglobina no puede ser menor a 0');
+      }
+      else if(hematocrito<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','El hematocrito no puede ser menor a 0');
+      }
+      else if(plaqueta<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La plaqueta no puede ser menor a 0');
+      }
+      else if(frecardiaca<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La frecuencia cardiaca no puede ser menor a 0');
+      }
+      else if(temperatura<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La temperatura no puede ser menor a 0');
+      }
 
-      if(subtmit){
+      if(submit){
 
         let model = new ChequeoFisico();
 
