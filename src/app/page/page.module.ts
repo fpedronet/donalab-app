@@ -22,6 +22,8 @@ import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevis
 import { CentrevistaComponent } from './donante/entrevista/centrevista/centrevista.component';
 import { LdonacionComponent } from './donante/donacion/ldonacion/ldonacion.component';
 import { CdonacionComponent } from './donante/donacion/cdonacion/cdonacion.component';
+import { RptetiquetaComponent } from './reporte/rptetiqueta/rptetiqueta.component';
+import { RptdonanteComponent } from './reporte/rptdonante/rptdonante.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { CdonacionComponent } from './donante/donacion/cdonacion/cdonacion.compo
     LentrevistaComponent,
     CentrevistaComponent,
     LdonacionComponent,
-    CdonacionComponent   
+    CdonacionComponent,
+    RptetiquetaComponent,
+    RptdonanteComponent   
   ],
   imports: [
     MaterialModule,

@@ -1,5 +1,5 @@
 import { Donacion } from 'src/app/_model/donante/donacion';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import forms from 'src/assets/json/formulario.json';
@@ -15,6 +15,7 @@ import { Permiso } from 'src/app/_model/permiso';
 import { DonacionService } from 'src/app/_service/donante/donacion.service';
 import { Unidade } from 'src/app/_model/donante/unidade';
 import * as JsBarcode from 'jsbarcode';
+import { RptetiquetaComponent } from 'src/app/page/reporte/rptetiqueta/rptetiqueta.component';
 
 @Component({
   selector: 'app-cdonacion',
@@ -23,6 +24,8 @@ import * as JsBarcode from 'jsbarcode';
 })
 export class CdonacionComponent implements OnInit {
 
+  @ViewChild(RptetiquetaComponent) rptetiqueta!: RptetiquetaComponent;
+  
   form: FormGroup = new FormGroup({});
   permiso: Permiso = {};
 
@@ -49,15 +52,6 @@ export class CdonacionComponent implements OnInit {
   existapto?: string = "0";
 
   window?: any;
-  nombres?: string;
-  sexo?: string;
-  hematocritos?: string;
-  vFecNacimiento?: string;
-  edad?: string;
-  grupo?: string;
-  mostrarRh?: string;
-  codMuestra?: string;
-  vFecha?: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -312,18 +306,19 @@ export class CdonacionComponent implements OnInit {
     this.spinner.showLoading();
     this.donacionService.imprimir(idedonacion,idepredonante).subscribe(data=>{
    
-      this.nombres = data.nombres;
-      this.documento = data.documento!;
-      this.sexo = data.sexo;
-      this.hematocritos = data.hematocrito;
-      this.vFecNacimiento = data.vFecNacimiento;
-      this.edad = data.edad;
-      this.grupo = data.grupo;
-      this.mostrarRh = data.mostrarRh;
-      this.codMuestra = data.codMuestra;
-      this.vFecha = data.vFecha;
+      // this.rptetiqueta.
+      this.rptetiqueta.nombres = data.nombres;
+      this.rptetiqueta.documento = data.documento!;
+      this.rptetiqueta.sexo = data.sexo;
+      this.rptetiqueta.hematocritos = data.hematocrito;
+      this.rptetiqueta.vFecNacimiento = data.vFecNacimiento;
+      this.rptetiqueta.edad = data.edad;
+      this.rptetiqueta.grupo = data.grupo;
+      this.rptetiqueta.mostrarRh = data.mostrarRh;
+      this.rptetiqueta.codMuestra = data.codMuestra;
+      this.rptetiqueta.vFecha = data.vFecha;
 
-      let code =(this.codMuestra==null || this.codMuestra=="")? "" : this.codMuestra!.toString();
+      let code =(this.rptetiqueta.codMuestra==null || this.rptetiqueta.codMuestra=="")? "" : this.rptetiqueta.codMuestra!.toString();
       if(code!=""){
         JsBarcode("#barcode", code, {        
           lineColor: "#000",
@@ -334,7 +329,6 @@ export class CdonacionComponent implements OnInit {
 
         setTimeout(function(){
           const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
-              console.log(printContents);
               const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
               popupWin.document.open();
               popupWin.document.write(`
@@ -360,7 +354,6 @@ export class CdonacionComponent implements OnInit {
    
     });
   }
-
 
   calcularhora(){
  
