@@ -13,8 +13,8 @@ import { Combobox } from 'src/app/_model/combobox';
 import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
 import { DonacionService } from 'src/app/_service/donante/donacion.service';
-import { IfStmt } from '@angular/compiler';
 import { Unidade } from 'src/app/_model/donante/unidade';
+import * as JsBarcode from 'jsbarcode';
 
 @Component({
   selector: 'app-cdonacion',
@@ -322,6 +322,14 @@ export class CdonacionComponent implements OnInit {
       this.mostrarRh = data.mostrarRh;
       this.codMuestra = data.codMuestra;
       this.vFecha = data.vFecha;
+
+      let code = this.codMuestra!.toString();
+      JsBarcode("#barcode", code, {        
+        lineColor: "#000",
+        width: 2,
+        height: 40,
+        displayValue: false
+      });
 
       setTimeout(function(){
         const printContents = document.getElementById('imprimir-seccion')!.innerHTML;

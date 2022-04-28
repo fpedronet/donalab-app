@@ -352,19 +352,43 @@
   </mat-card>
   </div>
 
-<div id="imprimir-seccion">
-  <p style="font-weight: 600;margin: 0 0 0px;">{{nombres}}</p>
-  <p style="font-weight: 600;margin: 0 0 0px;">{{documento}}</p>
-  <p style="font-weight: 500;margin: 0 0 0px;">{{sexo}}</p>
-  <p style="font-weight: 500;margin: 0 0 0px;">{{hematocritos}}</p>
-  <p style="font-weight: 500;margin: 0 0 0px;">{{vFecNacimiento}}</p>
-  <p style="font-weight: 500;margin: 0 0 0px;">{{edad}}</p>
-  <p style="font-weight: 600;margin: 0 0 0px;">||||||||||||</p>
-  <p style="font-weight: 600;margin: 0 0 0px;font-size:49px;">{{grupo}}</p>
-  <p style="font-weight: 500;margin: 0 0 0px;">{{mostrarRh}}</p>
-  <p style="font-weight: 600;margin: 0 0 0px;font-size:19px;">{{codMuestra}}</p>
-  <p style="font-weight: 500;margin: 0 0 0px;">{{vFecha}}</p>
-  
+<div id="imprimir-seccion" style="display: none;">
+
+  <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
+    <div style="width: 50%;">
+      <p style="font-weight: 600; margin: 0 0 0px;">{{nombres}}</p>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
+    <div style="width: 100%; display: flex;">
+      <p style="font-weight: 600; margin: 0 0 0px;">{{documento}}</p>
+      <p style="font-weight: 500; margin: 0 0 0px; margin-left:10px;">{{sexo}}</p>
+      <p style="font-weight: 500; margin: 0 0 0px; margin-left:10px;">{{hematocritos}}</p>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
+    <div style="width: 30%; display: flex;">
+      <p style="font-weight: 500; margin: 0 0 0px;">Fec. Nac.: {{vFecNacimiento}}</p>
+      <p style="font-weight: 500; margin: 0 0 0px; margin-left:10px;">Edad: {{edad}}</p>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
+    <div style="width: 33%;">
+      <svg id="barcode"></svg>
+    </div>
+    <div style="width: 40%;">
+      <p style="font-weight: 600; margin: 0 0 0px; font-size:49px;">{{grupo}}</p>
+      <p style="font-weight: 500; margin: 0 0 0px;">{{mostrarRh}}</p>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
+    <div style="width: 100%; display: flex;margin-top:-6px;">
+      <p style="font-weight: 600;margin: 0 0 0px;font-size:19px; margin-right:60px;">
+        {{codMuestra}}
+      </p>
+      <p style="font-weight: 500;margin: 0 0 0px;">{{vFecha}}</p>
+    </div>
+  </div>
 </div>
   
     
