@@ -204,7 +204,7 @@ export class HomeComponent implements OnInit {
         //debugger;123
 
         /* GRAFICO 1 */
-        if($grafico2.length > 0){
+        if($grafico1.length > 0){
           this.title1 = $grafico1.filter(y=>y.titulo)[0].titulo;
           $grafico1.forEach(x=>{
 
