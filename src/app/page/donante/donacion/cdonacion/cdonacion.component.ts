@@ -16,6 +16,7 @@ import { DonacionService } from 'src/app/_service/donante/donacion.service';
 import { Unidade } from 'src/app/_model/donante/unidade';
 import * as JsBarcode from 'jsbarcode';
 import { RptetiquetaComponent } from 'src/app/page/reporte/rptetiqueta/rptetiqueta.component';
+import { ReporteService } from 'src/app/_service/reporte/reporte.service';
 
 @Component({
   selector: 'app-cdonacion',
@@ -60,7 +61,8 @@ export class CdonacionComponent implements OnInit {
     private notifierService : NotifierService,
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
-    private donacionService: DonacionService
+    private donacionService: DonacionService,
+    private reporteService: ReporteService
   ) { 
     this.window = window;
   }
@@ -304,7 +306,7 @@ export class CdonacionComponent implements OnInit {
     let idepredonante = this.form.value['idePreDonante'];
 
     this.spinner.showLoading();
-    this.donacionService.imprimir(idedonacion,idepredonante).subscribe(data=>{
+    this.reporteService.rptetiqueta(idedonacion,idepredonante).subscribe(data=>{
    
       // this.rptetiqueta.
       this.rptetiqueta.nombres = data.nombres;
