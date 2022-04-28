@@ -124,8 +124,8 @@ export class HomeComponent implements OnInit {
 
     let $fecha = new Date();
 
-    //this.$fechaInicio = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
-    this.$fechaInicio = new Date($fecha.getFullYear()-2,$fecha.getMonth(), 1 );
+    this.$fechaInicio = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
+    //this.$fechaInicio = new Date($fecha.getFullYear()-2,$fecha.getMonth(), 1 );
     this.$fechaFin = new Date();
 
     this.$fechaMax = $fecha;
@@ -318,6 +318,9 @@ export class HomeComponent implements OnInit {
 
           //Barras circulares
           let arraySeries5_x: number[][] = [];
+
+          arraySeries5_x = this.arraySeries5;
+          /*
           let indexGR = this.arrayLabel5?.indexOf('GR');
           if(indexGR >= 0){
             arraySeries5_x.push(this.arraySeries5[indexGR]);
@@ -329,7 +332,7 @@ export class HomeComponent implements OnInit {
           let indexPQ = this.arrayLabel5?.indexOf('PQ');
           if(indexPQ >= 0){
             arraySeries5_x.push(this.arraySeries5[indexPQ]);
-          }
+          }*/
 
           this.arrayGrafico5_tot = [];
           for (let j = 0; j < this.tiposSangre.length; j++) {
@@ -382,9 +385,21 @@ export class HomeComponent implements OnInit {
     var graf: GraficoStock = new GraficoStock();
     var mayor = Math.max(...this.arrayGrafico5_tot);
     if(this.arrayGrafico5_tot.length > 0 && mayor>0){            
-      graf.arrayLabel = ['GR','CR','PQ'];
+      graf.arrayLabel = this.arrayLabel5;
       let j = this.arrayGrafico5_tot.indexOf(mayor)
-      graf.subTitle = tiposSangre[j];
+      if(order == 3){
+        graf.subTitle = 'Otros';
+        //Junta todos los valores en uno solo
+        for (let i = 0; i < arraySeries5_x.length; i++) {
+          for (let k = 0; k < this.arrayGrafico5_tot.length; k++) {
+            if(j !== k)
+              arraySeries5_x[i][j] = arraySeries5_x[i][j] + arraySeries5_x[i][k];
+          }
+        }
+      }
+      else{
+        graf.subTitle = tiposSangre[j];
+      }      
       //Asigna valores y los borra
       for (let i = 0; i < arraySeries5_x.length; i++) {
         graf.arraySeries!.push(arraySeries5_x[i][j]);
