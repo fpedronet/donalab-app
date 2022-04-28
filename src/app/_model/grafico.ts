@@ -1,6 +1,8 @@
 export class Grafico {
     ideGrafico?: number;
+    titulo?: string;
     etiqueta?: string;
+    icono?: string;
     subEtiquetas?: string;
     cantidades?: string;
     listaCantidad?: number[] = [];
@@ -12,13 +14,17 @@ export class Serie{
 }
 
 //Para las tablas de doble entrada
-export class TipoStock {
-    constructor(_ideGrafico: number, _descripcion: string, _titulo: string) {
-        this.ideGrafico = _ideGrafico;
-        this.descripcion = _descripcion;
-        this.titulo = _titulo;
+export class GraficoStock {
+    constructor(){
+        this.arrayLabel = [];
+        this.arraySeries = [];
+        this.total = 0;
+        this.visible = false;
     }
-    ideGrafico?: number;
-    descripcion?: string;
-    titulo?: string;
+    subTitle?: string;
+    arrayLabel?: string[];
+    arraySeries?: number[];
+    total?: number;
+    max?: number;
+    visible?: boolean;
 }
