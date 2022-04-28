@@ -201,6 +201,8 @@ export class HomeComponent implements OnInit {
 
         this.tiposSangre = [];
 
+        //debugger;
+
         /* GRAFICO 1 */
         this.title1 = $grafico1.filter(y=>y.titulo)[0].titulo;
         $grafico1.forEach(x=>{
@@ -286,8 +288,8 @@ export class HomeComponent implements OnInit {
         });
 
         /* GRAFICO 5 */
-        this.title5 = $grafico5.filter(y=>y.titulo)[0].titulo;
         if($grafico5.length > 0){
+          this.title5 = $grafico5.filter(y=>y.titulo)[0].titulo;
           let etiqsangre = $grafico5.filter(y=>y.subEtiquetas)[0].subEtiquetas;
 
           if(etiqsangre!=""){
