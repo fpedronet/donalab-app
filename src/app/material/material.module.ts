@@ -36,7 +36,8 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTreeModule} from '@angular/material/tree';
 import {WebcamModule} from 'ngx-webcam';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import {NgxPrintModule} from 'ngx-print' ;
+// import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [],
@@ -79,7 +80,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatExpansionModule,
     MatTreeModule,
     WebcamModule,
-    NgxExtendedPdfViewerModule
+    NgxPrintModule,
+    // NgxExtendedPdfViewerModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },

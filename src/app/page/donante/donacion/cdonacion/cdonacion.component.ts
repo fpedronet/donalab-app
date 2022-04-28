@@ -13,8 +13,8 @@ import { Combobox } from 'src/app/_model/combobox';
 import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
 import { DonacionService } from 'src/app/_service/donante/donacion.service';
-import { IfStmt } from '@angular/compiler';
 import { Unidade } from 'src/app/_model/donante/unidade';
+import * as JsBarcode from 'jsbarcode';
 
 @Component({
   selector: 'app-cdonacion',
@@ -45,8 +45,19 @@ export class CdonacionComponent implements OnInit {
   vHoraIni?: string;
   vHoraFin?: string;
   existExtraccion: boolean = false;
-  CodEstado?: string = "0";
+  descextrac?: boolean = false;
   existapto?: string = "0";
+
+  window?: any;
+  nombres?: string;
+  sexo?: string;
+  hematocritos?: string;
+  vFecNacimiento?: string;
+  edad?: string;
+  grupo?: string;
+  mostrarRh?: string;
+  codMuestra?: string;
+  vFecha?: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,7 +67,9 @@ export class CdonacionComponent implements OnInit {
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
     private donacionService: DonacionService
-  ) { }
+  ) { 
+    this.window = window;
+  }
 
   ngOnInit(): void {
 
@@ -95,7 +108,8 @@ export class CdonacionComponent implements OnInit {
       'brazo': new FormControl({ value: '', disabled: false}),         //ok 
       'dificultad': new FormControl({ value: '', disabled: false}),//ok
       'operador': new FormControl({ value: '', disabled: false}),//ok
-      'rendimiento': new FormControl({ value: '', disabled: false})//ok
+      'rendimiento': new FormControl({ value: '', disabled: false}),//ok
+      'ideMotivoRechazo': new FormControl({ value: '', disabled: false})//ok
     });
   }
 
@@ -134,8 +148,8 @@ export class CdonacionComponent implements OnInit {
         let $fechaReg= data.fecha==null? $fecha:data.fecha; 
         let $fechaExtr= data.fechaExtraccion==null? $fecha:data.fechaExtraccion; 
 
-        this.vHoraIni = (data.vHoraIni==null)? (`${(new Date().getHours()<10?'0':'') + new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`) : data.vHoraIni;
-        this.vHoraFin = (data.vHoraFin==null)? (`${(new Date().getHours()<10?'0':'') + new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`) : data.vHoraFin;
+        this.vHoraIni = (data.vHoraIni==null)? (`${(new Date().getHours()<10?'0':'') + new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`) : data.vHoraIni.substring(0,5);
+        this.vHoraFin = (data.vHoraFin==null)? (`${(new Date().getHours()<10?'0':'') + new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`) : data.vHoraFin.substring(0,5);
 
         this.form = new FormGroup({
           'codDonacion': new FormControl({ value: data.codDonacion, disabled: true}),//ok
@@ -144,26 +158,28 @@ export class CdonacionComponent implements OnInit {
           'ideDonacion': new FormControl({ value: data.ideDonacion, disabled: false}),//ok
           'ideMuestra': new FormControl({ value: data.ideMuestra, disabled: false}),//ok
           'ideExtraccion': new FormControl({ value: data.ideExtraccion, disabled: false}),//ok
-          'fecha': new FormControl({ value: $fechaReg, disabled: false}),//ok
-          'codTipoExtraccion': new FormControl({ value: data.codTipoExtraccion, disabled: false}),//ok
-          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: false}),//ok
-          'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: false}),//ok
-          'hematocrito': new FormControl({ value: data.hematocrito, disabled: false}),//ok
-          'codTubuladura': new FormControl({ value: data.codTubuladura, disabled: false}),//ok
+          'fecha': new FormControl({ value: $fechaReg, disabled: !this.edit}),//ok
+          'codTipoExtraccion': new FormControl({ value: data.codTipoExtraccion, disabled: !this.edit}),//ok
+          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: !this.edit}),//ok
+          'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: !this.edit}),//ok
+          'hematocrito': new FormControl({ value: data.hematocrito, disabled: !this.edit}),//ok
+          'codTubuladura': new FormControl({ value: data.codTubuladura, disabled: !this.edit}),//ok
           'obsedrvaciones': new FormControl({ value: data.obsedrvaciones, disabled: true}),//ok
-          'vHoraIni': new FormControl({ value: this.vHoraIni, disabled: false}),//ok
-          'vHoraFin': new FormControl({ value: this.vHoraFin, disabled: false}),//ok
-          'fechaExtraccion': new FormControl({ value: $fechaExtr, disabled: false}),//ok
-          'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: false}),//ok
-          'ideTipoBolsa': new FormControl({ value: data.ideTipoBolsa, disabled: false}),//ok
-          'brazo': new FormControl({ value: data.brazo, disabled: false}),         //ok 
-          'dificultad': new FormControl({ value: data.dificultad, disabled: false}),//ok
-          'operador': new FormControl({ value: data.operador, disabled: false}),//ok
-          'rendimiento': new FormControl({ value: data.rendimiento, disabled: false})//ok
+          'vHoraIni': new FormControl({ value: this.vHoraIni, disabled: !this.edit}),//ok
+          'vHoraFin': new FormControl({ value: this.vHoraFin, disabled: !this.edit}),//ok
+          'fechaExtraccion': new FormControl({ value: $fechaExtr, disabled: !this.edit}),//ok
+          'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: !this.edit}),//ok
+          'ideTipoBolsa': new FormControl({ value: data.ideTipoBolsa, disabled: !this.edit}),//ok
+          'brazo': new FormControl({ value: data.brazo, disabled: !this.edit}),         //ok 
+          'dificultad': new FormControl({ value: data.dificultad, disabled: !this.edit}),//ok
+          'operador': new FormControl({ value: data.operador, disabled: !this.edit}),//ok
+          'rendimiento': new FormControl({ value: data.rendimiento, disabled: !this.edit}),//ok
+          'ideMotivoRechazo': new FormControl({ value: data.ideMotivoRechazo?.toString(), disabled: !this.edit})//ok          
         });
 
         this.existapto = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
         this.existExtraccion = (data.ideDonacion==0 || data.ideDonacion==null)? false: true;
+        this.descextrac =  (data.ideMotivoRechazo?.toString()!="0")? true : false;
         this.donante = data.donante!;
         this.documento = data.documento!;
        
@@ -207,10 +223,16 @@ export class CdonacionComponent implements OnInit {
       this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el grupo ABO');
     }
     else if (iddonacion > 0){
+      let $countUnidades = this.listaUnidade?.filter(y=>y.volumen!>0).length;
+
       if(fechaextracc==null){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese la fecha de extracción');
-      }     
+      }   
+      else if($countUnidades==0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese el volumen unos de los hemocomponente');
+      }  
     }
 
 
@@ -244,6 +266,7 @@ export class CdonacionComponent implements OnInit {
       model.hematocrito= this.form.value['hematocrito'];
 
       if(this.existExtraccion){
+
          /*Insertar Extraccion */
           model.ideExtraccion= this.form.value['ideExtraccion'];
           model.ideDonacion= this.form.value['ideDonacion'];
@@ -256,13 +279,15 @@ export class CdonacionComponent implements OnInit {
           model.rendimiento= this.form.value['rendimiento'];
           model.codTubuladura= this.form.value['codTubuladura'];
           model.operador= this.form.value['operador'];
+          model.ideMotivoRechazo= (this.descextrac==false)? 0: this.form.value['ideMotivoRechazo'];          
 
-          model.listaExtraccionUnidad= this.listaUnidade;
+           /*Insertar Unidades */
+          model.listaExtraccionUnidad= this.listaUnidade?.filter(y=>y.volumen!>0);
       }
      
-     this.spinner.showLoading();
+      this.spinner.showLoading();
       this.donacionService.guardar(model).subscribe(data=>{
-
+ 
         this.notifierService.showNotification(data.swt!,'Mensaje',data.mensaje!);
       
           if(data.swt==environment.EXITO){
@@ -279,9 +304,69 @@ export class CdonacionComponent implements OnInit {
     }
   }
 
-  calcularhora(){
+  imprimir(){
+   
+    let idedonacion = this.form.value['ideDonacion'];
+    let idepredonante = this.form.value['idePreDonante'];
 
+    this.spinner.showLoading();
+    this.donacionService.imprimir(idedonacion,idepredonante).subscribe(data=>{
+   
+      this.nombres = data.nombres;
+      this.documento = data.documento!;
+      this.sexo = data.sexo;
+      this.hematocritos = data.hematocrito;
+      this.vFecNacimiento = data.vFecNacimiento;
+      this.edad = data.edad;
+      this.grupo = data.grupo;
+      this.mostrarRh = data.mostrarRh;
+      this.codMuestra = data.codMuestra;
+      this.vFecha = data.vFecha;
+
+      let code =(this.codMuestra==null || this.codMuestra=="")? "" : this.codMuestra!.toString();
+      if(code!=""){
+        JsBarcode("#barcode", code, {        
+          lineColor: "#000",
+          width: 2,
+          height: 40,
+          displayValue: false
+        });
+
+        setTimeout(function(){
+          const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
+              console.log(printContents);
+              const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
+              popupWin.document.open();
+              popupWin.document.write(`
+                  <html>
+                      <head>
+                          <title>Print tab</title>
+                        
+                      </head>
+                      <body onload="window.print(); window.close()">
+                          ${printContents}
+                      </body>
+                  </html>
+                  `
+              );
+            popupWin.document.close();
+        },200);
+      }else{
+        this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
+      }
+
+      this.spinner.hideLoading();
+      
+   
+    });
+  }
+
+
+  calcularhora(){
+ 
     let $fechaextraccion = this.form.value['fechaExtraccion'];
+    $fechaextraccion = new Date($fechaextraccion);
+
     let $horactual = this.form.value['vHoraIni'];
     let $addminuto = this.form.value['tipoExtraccion'];
 
@@ -329,8 +414,9 @@ export class CdonacionComponent implements OnInit {
     result!.pesoTotal= event.target.value;
   }
 
-  changeestado(estado: string){
-    this.CodEstado = estado;
+  changeestado(estado: boolean){
+    debugger;
+    this.descextrac = estado;
   }
 
   focus(name:any){
