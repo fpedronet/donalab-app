@@ -323,33 +323,38 @@ export class CdonacionComponent implements OnInit {
       this.codMuestra = data.codMuestra;
       this.vFecha = data.vFecha;
 
-      let code = this.codMuestra!.toString();
-      JsBarcode("#barcode", code, {        
-        lineColor: "#000",
-        width: 2,
-        height: 40,
-        displayValue: false
-      });
+      let code =(this.codMuestra==null || this.codMuestra=="")? "" : this.codMuestra!.toString();
+      if(code!=""){
+        JsBarcode("#barcode", code, {        
+          lineColor: "#000",
+          width: 2,
+          height: 40,
+          displayValue: false
+        });
 
-      setTimeout(function(){
-        const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
-            console.log(printContents);
-            const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
-            popupWin.document.open();
-            popupWin.document.write(`
-                <html>
-                    <head>
-                        <title>Print tab</title>
-                      
-                    </head>
-                    <body onload="window.print(); window.close()">
-                        ${printContents}
-                    </body>
-                </html>
-                `
-            );
-          popupWin.document.close();
-      },200);
+        setTimeout(function(){
+          const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
+              console.log(printContents);
+              const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
+              popupWin.document.open();
+              popupWin.document.write(`
+                  <html>
+                      <head>
+                          <title>Print tab</title>
+                        
+                      </head>
+                      <body onload="window.print(); window.close()">
+                          ${printContents}
+                      </body>
+                  </html>
+                  `
+              );
+            popupWin.document.close();
+        },200);
+      }else{
+        this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
+      }
+
       this.spinner.hideLoading();
       
    
