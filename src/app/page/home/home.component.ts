@@ -2,7 +2,7 @@ import { environment } from 'src/environments/environment';
 import { UsuarioService } from 'src/app/_service/configuracion/usuario.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GraficoService } from 'src/app/_service/grafico.service';
-import { Serie, TipoStock } from 'src/app/_model/grafico';
+import { GraficoStock, Serie } from 'src/app/_model/grafico';
 import { NotifierService } from '../component/notifier/notifier.service';
 
 import {
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
   public reportegrafico2!: Partial<ChartOptions>;
   public reportegrafico3!: Partial<ChartOptions>;
   public reportegrafico4!: Partial<ChartOptions>;
-
+  public reportesgrafico5!: Partial<ChartOptions>[];
 
   constructor(
     private usuarioService: UsuarioService,
@@ -56,23 +56,39 @@ export class HomeComponent implements OnInit {
     private notifier: NotifierService,
   ) { }
 
+  arrayCardClasses: string[] = ['gradient-orange tile p-2', 'gradient-red tile p-2', 'gradient-green tile p-2', 'gradient-brown tile p-2'];
+
   arrayListSerie: Serie[] = [];
   arrayEtiqueta: Serie = {};
 
   arrayLabel1: string[] = [];
   arraySeries1?: number[] = [];
+  title1?: string;
 
   arrayLabel2: string[] = [];
   arraySeries2?: number[] = [];
+  title2?: string;
 
   arrayLabel3: string[] = [];
   arraySeries3?: number[] = [];
+  title3?: string;
 
   arrayLabel4: string[] = [];
   arraySeries4?: number[] = [];
+  title4?: string;
 
   arrayLabel5: string[] = [];
   arraySeries5?: number[][] = [];
+  title5?: string;
+
+  //Barras circulares
+  modelGrafico5: GraficoStock[] = [];
+  arrayGrafico5_tot: number[] = [];
+
+  arrayLabel6: string[] = [];
+  arrayIcons6: string[] = [];
+  arraySeries6?: number[] = [];
+  title6?: string;
 
   tipoReporte?: number = 0;
   registro1?: boolean = false;
@@ -80,91 +96,55 @@ export class HomeComponent implements OnInit {
   registro3?: boolean = false;
   registro4?: boolean = false;
   registro5?: boolean = false;
+  registro5_1?: boolean = false;
+  registro5_2?: boolean = false;
+  registro5_3?: boolean = false;
+  registro6?: boolean = false;
   usuario?: string;
 
   $fechaInicio?: Date;
   $fechaFin?: Date;
 
-  fechaInicio1?: Date;
-  fechaSelectInicio1?: Date;
-  fechaFin1?: Date;
-  fechaSelectFin1?: Date;
-
-  fechaInicio2?: Date;
-  fechaSelectInicio2?: Date;
-  fechaFin2?: Date;
-  fechaSelectFin2?: Date;
-
-  fechaInicio3?: Date;
-  fechaSelectInicio3?: Date;
-  fechaFin3?: Date;
-  fechaSelectFin3?: Date;
-
-  fechaInicio4?: Date;
-  fechaSelectInicio4?: Date;
-  fechaFin4?: Date;
-  fechaSelectFin4?: Date;
-
-  fechaInicio5?: Date;
-  fechaSelectInicio5?: Date;
-  fechaFin5?: Date;
-  fechaSelectFin5?: Date;
+  $fechaMin?: Date;
+  $fechaMax?: Date;
 
   tiposSangre?: string[];
-  cboTipoStock?: TipoStock[] = [];
-  curTipoStock?: number;
+  //cboTipoStock?: TipoStock[] = [];
+
+  msgVacio?: string;
 
   ngOnInit(): void {
-//($fecha.getDate()-1)
 
     this.chart1();
     this.chart2();
     this.chart3();
     this.chart4();
 
+    this.msgVacio = '';
+
     let $fecha = new Date();
 
-    this.$fechaInicio = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
+    //this.$fechaInicio = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
+    this.$fechaInicio = new Date($fecha.getFullYear()-2,$fecha.getMonth(), 1 );
     this.$fechaFin = new Date();
 
-    this.fechaInicio1 = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
-    this.fechaSelectInicio1 = this.fechaInicio1;
-    this.fechaFin1 = new Date();
-    this.fechaSelectFin1 = new Date();
-
-    this.fechaInicio2 = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
-    this.fechaSelectInicio2 = this.fechaInicio2;
-    this.fechaFin2 = new Date();
-    this.fechaSelectFin2 = new Date();
-
-    this.fechaInicio3 = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
-    this.fechaSelectInicio3 = this.fechaInicio3;
-    this.fechaFin3 = new Date();
-    this.fechaSelectFin3 = new Date();
-
-    this.fechaInicio4 = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
-    this.fechaSelectInicio4 = this.fechaInicio4;
-    this.fechaFin4 = new Date();
-    this.fechaSelectFin4 = new Date();
-
-    this.fechaInicio5 = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
-    this.fechaSelectInicio5 = this.fechaInicio5;
-    this.fechaFin5 = new Date();
-    this.fechaSelectFin5 = new Date();
+    this.$fechaMax = $fecha;
 
     //Añade tipos de gráficos
-    this.cboTipoStock?.push(new TipoStock(5,'Stock Disponible',''));
+    /*this.cboTipoStock?.push(new TipoStock(5,'Stock Disponible',''));
     this.cboTipoStock?.push(new TipoStock(6,'Stock por Habilitar',''));
     this.cboTipoStock?.push(new TipoStock(7,'Stock Reservado',''));
     this.cboTipoStock?.push(new TipoStock(8,'Stock en Cuarentena',''));
-    this.cboTipoStock?.push(new TipoStock(9,'Stock Vencido',''));
+    this.cboTipoStock?.push(new TipoStock(9,'Stock Vencido',''));*/
 
-    this.curTipoStock = 5;
+    //this.curTipoStock = 5;
 
     this.listargrafico();
   }
 
   listargrafico(){
+
+    this.msgVacio = 'Cargando datos para mostrar...';
 
     let session = this.usuarioService.sessionUsuario();
 
@@ -172,13 +152,14 @@ export class HomeComponent implements OnInit {
 
     this.spinner.showLoading();
 
-    this.graficoService.listar(session.codigobanco,this.$fechaInicio!,this.$fechaFin!,this.tipoReporte==5?this.curTipoStock:this.tipoReporte).subscribe(data =>{
+    this.graficoService.listar(session.codigobanco,this.$fechaInicio!,this.$fechaFin!).subscribe(data =>{
       //debugger;
       let count1 = 0;
       let count2 = 0;
       let count3 = 0;
       let count4 = 0;
       let count5 = 0;
+      let count6 = 0;
       let arraypendiente: number[] =  [];
       let arraydono: number[] =[];
       let arraynodono: number[] =[];
@@ -187,9 +168,12 @@ export class HomeComponent implements OnInit {
       let $grafico2 = data.filter(y=>y.ideGrafico==2);
       let $grafico3 = data.filter(y=>y.ideGrafico==3);
       let $grafico4 = data.filter(y=>y.ideGrafico==4);
-      let $grafico5 = data.filter(y=>y.ideGrafico==this.curTipoStock);
+      let $grafico5 = data.filter(y=>y.ideGrafico==5);
+      let $grafico6 = data.filter(y=>y.ideGrafico==6);
 
-      if(this.tipoReporte==0){
+        this.registro5_1 = false;
+        this.registro5_2 = false;
+        this.registro5_3 = false;
 
         this.arrayLabel1 = [];
         this.arraySeries1 = [];
@@ -208,9 +192,17 @@ export class HomeComponent implements OnInit {
         this.arrayLabel5 = [];
         this.arraySeries5 = [];
 
+        this.modelGrafico5 = [];
+        this.reportesgrafico5 = [];
+
+        this.arrayLabel6 = [];
+        this.arraySeries6 = [];
+        this.arrayIcons6 = [];
+
         this.tiposSangre = [];
 
         /* GRAFICO 1 */
+        this.title1 = $grafico1.filter(y=>y.titulo)[0].titulo;
         $grafico1.forEach(x=>{
 
           this.arrayLabel1.push(x.etiqueta!);
@@ -223,7 +215,8 @@ export class HomeComponent implements OnInit {
 
         });
 
-         /* GRAFICO 2 */
+        /* GRAFICO 2 */
+        this.title2 = $grafico2.filter(y=>y.titulo)[0].titulo;
         $grafico2.forEach(x=>{
 
             this.arrayLabel2.push(x.etiqueta!);
@@ -236,7 +229,8 @@ export class HomeComponent implements OnInit {
 
         });
 
-         /* GRAFICO 3 */
+        /* GRAFICO 3 */
+        this.title3 = $grafico3.filter(y=>y.titulo)[0].titulo;
         let subEtiqueta = $grafico3.filter(y=>y.subEtiquetas)[0].subEtiquetas;
 
         if(subEtiqueta!=""){
@@ -245,7 +239,7 @@ export class HomeComponent implements OnInit {
           splitEtiqueta?.forEach(x=>{
             this.arrayEtiqueta = new Serie();
             this.arrayEtiqueta.name= x;
-            this.arrayEtiqueta.data= []
+            this.arrayEtiqueta.data= [];
 
             this.arrayListSerie.push(this.arrayEtiqueta);
           });         
@@ -278,6 +272,7 @@ export class HomeComponent implements OnInit {
         });
 
         /* GRAFICO 4 */
+        this.title4 = $grafico4.filter(y=>y.titulo)[0].titulo;
         $grafico4.forEach(x=>{
 
           this.arrayLabel4.push(x.etiqueta!);
@@ -291,6 +286,7 @@ export class HomeComponent implements OnInit {
         });
 
         /* GRAFICO 5 */
+        this.title5 = $grafico5.filter(y=>y.titulo)[0].titulo;
         if($grafico5.length > 0){
           let etiqsangre = $grafico5.filter(y=>y.subEtiquetas)[0].subEtiquetas;
 
@@ -298,10 +294,12 @@ export class HomeComponent implements OnInit {
             this.tiposSangre = etiqsangre!.split('|');
             let vacio = this.tiposSangre.indexOf(' ');
             if(vacio >= 0)
-              this.tiposSangre[vacio] = 'N/A';
+              this.tiposSangre[vacio] = 'ning.';
           }
 
           $grafico5.forEach(x=>{
+
+            //Tabla de doble entrada
             this.arrayLabel5.push(x.etiqueta!);
 
             let tableRowStr = x.cantidades?.split('|');
@@ -317,218 +315,107 @@ export class HomeComponent implements OnInit {
   
             count5 = count5 + tableRow!.reduce((a, b) => a + (b || 0), 0);
           });
+
+          //Barras circulares
+          let arraySeries5_x: number[][] = [];
+          let indexGR = this.arrayLabel5?.indexOf('GR');
+          if(indexGR >= 0){
+            arraySeries5_x.push(this.arraySeries5[indexGR]);
+          }
+          let indexCR = this.arrayLabel5?.indexOf('CR');
+          if(indexCR >= 0){
+            arraySeries5_x.push(this.arraySeries5[indexCR]);
+          }
+          let indexPQ = this.arrayLabel5?.indexOf('PQ');
+          if(indexPQ >= 0){
+            arraySeries5_x.push(this.arraySeries5[indexPQ]);
+          }
+
+          this.arrayGrafico5_tot = [];
+          for (let j = 0; j < this.tiposSangre.length; j++) {
+            let totPorSangre = 0;
+            for (let i = 0; i < arraySeries5_x.length; i++) {
+              totPorSangre = totPorSangre + arraySeries5_x[i][j];
+            }
+            this.arrayGrafico5_tot.push(totPorSangre);
+          }
+          //debugger;
+
+          //Busca primer mayor
+          this.creaSubgrafico5(this.tiposSangre, arraySeries5_x, 1);
+          //Busca segundo mayor
+          this.creaSubgrafico5(this.tiposSangre, arraySeries5_x, 2);
+          //Busca otros
+          this.creaSubgrafico5(this.tiposSangre, arraySeries5_x, 3);
         }
+
+        /* GRAFICO 6 */
+        this.title6 = $grafico6.filter(y=>y.titulo)[0].titulo;
+        $grafico6.forEach(x=>{
+
+          this.arrayLabel6.push(x.etiqueta!);
+          this.arrayIcons6.push(x.icono!);
+          this.arraySeries6?.push(parseInt(x.cantidades!));
+
+        });
         
          /* VALIDADO REGISTRO PARA MOSTRAR EL GRAFICO */
         this.registro1 = (count1>0)? true: false;
         this.registro2 = (count2>0)? true: false;
         this.registro3 = (count3>0)? true: false;
         this.registro4 = (count4>0)? true: false;
-        this.registro5 = (count5>0)? true: false;
+        this.registro5 = false;
+        this.registro6 = (count6>0)? true: false;
 
         this.chart1();
         this.chart2();
         this.chart3();
         this.chart4();
-
-      }else if (this.tipoReporte==1){
         
-        this.arrayLabel1 = [];
-        this.arraySeries1 = [];
-
-        $grafico1.forEach(x=>{
-
-          this.arrayLabel1.push(x.etiqueta!);
-          let split = x.cantidades?.split('|');
-
-          split!.forEach(y=>{
-            count1 = parseInt(y) + count1;
-            this.arraySeries1?.push(parseInt(y))
-          });
-
-        });
-
-        this.registro1 = (count1>0)? true: false;
-        this.chart1();
-
-      }else if(this.tipoReporte==2){
-
-        this.arrayLabel2 = [];
-        this.arraySeries2 = [];
-
-        $grafico2.forEach(x=>{
-
-          this.arrayLabel2.push(x.etiqueta!);
-          let split = x.cantidades?.split('|');
-
-          split!.forEach(y=>{
-            count2 = parseInt(y) + count2;
-            this.arraySeries2?.push(parseInt(y))
-          });
-
-        });
-
-        this.registro2 = (count2>0)? true: false;
-        this.chart2();
-
-      }else if(this.tipoReporte==3){
-
-        this.arrayLabel3 = [];
-        this.arraySeries3 = [];
-        this.arrayListSerie = [] = [];
-        this.arrayEtiqueta = {} = {};
-
-        let subEtiqueta = $grafico3.filter(y=>y.subEtiquetas)[0].subEtiquetas;
-
-        if(subEtiqueta!=""){
-          let splitEtiqueta = subEtiqueta?.split('|');
-          
-          splitEtiqueta?.forEach(x=>{
-            this.arrayEtiqueta = new Serie();
-            this.arrayEtiqueta.name= x;
-            this.arrayEtiqueta.data= []
-
-            this.arrayListSerie.push(this.arrayEtiqueta);
-          });         
-        }
-
-        $grafico3.forEach(x=>{
-          this.arrayLabel3.push(x.etiqueta!);   
-
-          let splitData1 = x.cantidades?.split('|')[0];
-          let splitData2 = x.cantidades?.split('|')[1];
-          let splitData3 = x.cantidades?.split('|')[2];
-
-          arraypendiente.push(parseInt(splitData1!));
-          arraydono.push(parseInt(splitData2!));
-          arraynodono.push(parseInt(splitData3!));
-
-          count3 = parseInt(splitData1!) + parseInt(splitData2!) + parseInt(splitData3!) + count3;
-        });
-
-        let counts =1;
-        this.arrayListSerie.forEach(x=>{
-          if(counts==1){
-            x.data=arraypendiente;
-          }else if(counts==2){
-            x.data=arraydono;
-          }else if(counts==3){
-            x.data=arraynodono;
-          }
-          counts++;
-        });
-
-        this.registro3 = (count3>0)? true: false;
-        this.chart3();
-
-      }else if(this.tipoReporte==4){
-
-        this.arrayLabel4 = [];
-        this.arraySeries4 = [];
-
-        $grafico4.forEach(x=>{
-
-          this.arrayLabel4.push(x.etiqueta!);
-          let split = x.cantidades?.split('|');
-
-          split!.forEach(y=>{
-            count4 = parseInt(y) + count4;
-            this.arraySeries4?.push(parseInt(y))
-          });
-
-        });
-      
-        this.registro4 = (count4>0)? true: false;
-        this.chart4();
-
-      }
-      else if(this.tipoReporte==5){
-
-        this.arrayLabel5 = [];
-        this.arraySeries5 = [];
-
-        this.tiposSangre = [];
-        
-        if($grafico5.length > 0){
-          let etiqsangre = $grafico5.filter(y=>y.subEtiquetas)[0].subEtiquetas;
-
-          if(etiqsangre!=""){
-            this.tiposSangre = etiqsangre!.split('|');
-            let vacio = this.tiposSangre.indexOf(' ');
-            if(vacio >= 0)
-              this.tiposSangre[vacio] = 'N/A';
-          }
-
-          $grafico5.forEach(x=>{
-            this.arrayLabel5.push(x.etiqueta!);
-
-            let tableRowStr = x.cantidades?.split('|');
-            let tableRow: number[] = [];
-            tableRowStr?.forEach(el => {
-              tableRow.push(parseInt(el))
-            });
-
-            //debugger;
-
-            //Limita las cantidades según los tipos de sangre existentes
-            tableRow = tableRow.slice(0,this.tiposSangre?.length);
-
-            this.arraySeries5?.push(tableRow!);
-  
-            count5 = count5 + tableRow!.reduce((a, b) => a + (b || 0), 0);
-          });
-
-          this.registro5 = (count5>0)? true: false;
-        }
-      }
-
+      this.msgVacio = 'No se han encontrado datos para mostrar';
       this.spinner.hideLoading();
 
     });   
   }
 
-  onDateChange(reporte: number){
-    if(reporte==1){
-      this.$fechaInicio = this.fechaSelectInicio1;
-      this.$fechaFin=  this.fechaSelectFin1; 
-      this.tipoReporte = 1;
-    }
-    else if(reporte==2){
-      this.$fechaInicio = this.fechaSelectInicio2;
-      this.$fechaFin=  this.fechaSelectFin2;
-      this.tipoReporte = 2;
-    } 
-    else if(reporte==3){
-      this.$fechaInicio = this.fechaSelectInicio3;
-      this.$fechaFin=  this.fechaSelectFin3;
-      this.tipoReporte = 3;
-    } 
-    else if(reporte==4){
-      this.$fechaInicio = this.fechaSelectInicio4;
-      this.$fechaFin=  this.fechaSelectFin4;
-      this.tipoReporte = 4;
-
-      if(this.$fechaInicio==null || this.$fechaFin==null){
-        this.notifier.showNotification(environment.ALERT,'Mensaje','Las fechas para las cantidad de unidades son obligatorio');
+  creaSubgrafico5(tiposSangre: string[], arraySeries5_x: number[][], order: number){
+    var graf: GraficoStock = new GraficoStock();
+    var mayor = Math.max(...this.arrayGrafico5_tot);
+    if(this.arrayGrafico5_tot.length > 0 && mayor>0){            
+      graf.arrayLabel = ['GR','CR','PQ'];
+      let j = this.arrayGrafico5_tot.indexOf(mayor)
+      graf.subTitle = tiposSangre[j];
+      //Asigna valores y los borra
+      for (let i = 0; i < arraySeries5_x.length; i++) {
+        graf.arraySeries!.push(arraySeries5_x[i][j]);
+        arraySeries5_x[i][j] = 0; //Borra
       }
-    }
-    else if(reporte==5){
-      this.$fechaInicio = this.fechaSelectInicio5;
-      this.$fechaFin=  this.fechaSelectFin5;
-      this.tipoReporte = 5;
-    }
+      this.arrayGrafico5_tot[j] = -1;
+      graf.total = graf.arraySeries!.reduce((a, b) => a + (b || 0), 0);
+      graf.max = Math.max(...graf.arraySeries!);
+      graf.visible = graf.total > 0;
 
-    this.listargrafico();  
+      this.modelGrafico5.push(graf);
+
+      if(graf.visible){
+        if(order == 1)
+        this.registro5_1 = true;
+        if(order == 2)
+          this.registro5_2 = true;
+        if(order == 3)
+          this.registro5_3 = true;
+      }      
+    }
+    this.chart5(graf);
   }
 
-  updateTipoStock(tipo: number){
-    this.$fechaInicio = this.fechaSelectInicio5;
-    this.$fechaFin=  this.fechaSelectFin5;
-    this.tipoReporte = 5;
+  onDateChange(){
+    
+    if(this.$fechaInicio==null || this.$fechaFin==null){
+      this.notifier.showNotification(environment.ALERT,'Mensaje','Las fechas son obligatorio');
+    }
 
-    this.curTipoStock = tipo;
     this.listargrafico();  
-
   }
 
   chart1(){
@@ -649,5 +536,93 @@ export class HomeComponent implements OnInit {
       ]
     };
   }
-  
+
+  chart5(graf: GraficoStock){
+    //debugger;    
+
+    var reportegrafico5!: Partial<ChartOptions>;
+
+    if(graf.visible){
+      //Ajustes iniciales
+    var arrayAux: number[] = [];
+    graf.arraySeries!.forEach(val => {
+      arrayAux.push(val*100/graf.max!);
+    });
+    reportegrafico5 = {
+      series: arrayAux,
+      chart: {
+        height: 360,
+        type: 'radialBar',
+      },
+      plotOptions: {
+        radialBar: {
+          offsetY: 0,
+          startAngle: 0,
+          endAngle: 270,
+          hollow: {
+            margin: 5,
+            size: '30%',
+            background: 'transparent',
+            image: undefined,
+          },
+          dataLabels: {
+            name: {
+              fontSize: '25px',
+            },
+            value: {
+              fontSize: '16px',
+              formatter: function (val: string) {
+                return Math.round(parseFloat(val)*graf.max!/100);              
+              }
+            },
+            total: {
+              show: true,
+              label: graf.subTitle,
+              formatter: function () {
+                // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                return graf.total!;
+              }
+            }
+          }
+        }
+      },
+      //colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
+      labels: graf.arrayLabel,
+      legend: {
+        show: true,
+        floating: true,
+        fontSize: '16px',
+        position: 'left',
+        offsetX: 45,
+        offsetY: 30,
+        labels: {
+          useSeriesColors: true,
+        },
+        markers: {
+          size: 0
+        },
+        formatter: function(seriesName: string, opts: { w: { globals: { series: { [x: string]: string; }; }; }; seriesIndex: string | number; }) {
+          return seriesName + ":  " + Math.round(parseFloat(opts.w.globals.series[opts.seriesIndex])*graf.max!/100);
+        },
+        itemMargin: {
+          vertical: 3
+        }
+      },
+      responsive: [{
+        breakpoint: 450,
+        options: {
+          chart: {
+            width: 275
+          },
+          legend: {
+            position: 'bottom',
+            offsetX: 0,
+            offsetY: 15
+          }
+        }
+      }]
+      };
+    }    
+    this.reportesgrafico5!.push(reportegrafico5);
+  }
 }

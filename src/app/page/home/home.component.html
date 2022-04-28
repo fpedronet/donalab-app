@@ -4,7 +4,14 @@
 
     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
 
-        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+        <div *ngFor="let et of arrayLabel6; let i = index" fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+            <mat-card [class]="arrayCardClasses[i % arrayCardClasses.length]">
+                <mat-icon>{{arrayIcons6[i]}}</mat-icon>
+                <h2>{{arraySeries6![i]}}</h2>
+                <p>{{et}}</p>
+            </mat-card>
+        </div>
+        <!--div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
             <mat-card class="gradient-orange tile p-2">
                 <mat-icon>group</mat-icon>
                 <h2>2400</h2>
@@ -34,7 +41,7 @@
                 <h2>2229</h2>
                 <p>Otros 2</p>
             </mat-card>
-        </div>
+        </div-->
 
 
     </div>
@@ -42,34 +49,30 @@
     <mat-divider></mat-divider>
 
     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha Inicio</mat-label>
+                <input matInput [matDatepicker]="fechaInicio" [max]="$fechaMax" placeholder="dd/mm/yyyy" [max]="fechaInicio" 
+                [(ngModel)]="$fechaInicio" (dateChange)="onDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                <mat-datepicker #fechaInicio></mat-datepicker>
+                </mat-form-field>
+        </div>
 
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha Fin</mat-label>
+                <input matInput [matDatepicker]="fechaFin" [max]="$fechaMax" placeholder="dd/mm/yyyy" [max]="fechaFin" 
+                [(ngModel)]="$fechaFin" (dateChange)="onDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                <mat-datepicker #fechaFin></mat-datepicker>
+                </mat-form-field>
+        </div>
         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles">POSTULANTES SEGÚN ESTADO</mat-card-title>
-                    </div>
-                    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
-
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Inicio</mat-label>
-                                <input matInput [matDatepicker]="fechaInicio1" placeholder="dd/mm/yyyy" [max]="fechaInicio1" 
-                                [(ngModel)]="fechaSelectInicio1"  (dateChange)="onDateChange(1)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaInicio1"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaInicio1></mat-datepicker>
-                              </mat-form-field>
-                        </div>
-                
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Fin</mat-label>
-                                <input matInput [matDatepicker]="fechaFin1" placeholder="dd/mm/yyyy" [max]="fechaFin1" 
-                                [(ngModel)]="fechaSelectFin1" (dateChange)="onDateChange(1)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaFin1"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaFin1></mat-datepicker>
-                              </mat-form-field>
-                        </div>                
+                        <mat-card-title class="cardtitles">{{title1}}</mat-card-title>
                     </div>
                     <div id="chart" *ngIf="registro1">
                         <apx-chart
@@ -80,7 +83,7 @@
                         ></apx-chart>
                     </div>
                     <div *ngIf="!registro1">
-                        <p class="chartvacio1">NO EXISTE REGISTRO PARA MOSTRAR EL GRAFICO</p>
+                        <p class="chartvacio1">{{msgVacio}}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -90,29 +93,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles">POSTULANTES SEGÚN TIPO DONACIÓN</mat-card-title>
-                    </div>
-                    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
-
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Inicio</mat-label>
-                                <input matInput [matDatepicker]="fechaInicio2" placeholder="dd/mm/yyyy" [max]="fechaInicio2" 
-                                [(ngModel)]="fechaSelectInicio2"  (dateChange)="onDateChange(2)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaInicio2"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaInicio2></mat-datepicker>
-                              </mat-form-field>
-                        </div>
-                
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Fin</mat-label>
-                                <input matInput [matDatepicker]="fechaFin2" placeholder="dd/mm/yyyy" [max]="fechaFin2" 
-                                [(ngModel)]="fechaSelectFin2" (dateChange)="onDateChange(2)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaFin2"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaFin2></mat-datepicker>
-                              </mat-form-field>
-                        </div>                
+                        <mat-card-title class="cardtitles">{{title2}}</mat-card-title>
                     </div>
                     <div id="chart" *ngIf="registro2">
                         <apx-chart
@@ -123,7 +104,7 @@
                         ></apx-chart>
                     </div>
                     <div *ngIf="!registro2">
-                        <p class="chartvacio1">NO EXISTE REGISTRO PARA MOSTRAR EL GRAFICO</p>
+                        <p class="chartvacio1">{{msgVacio}}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -133,29 +114,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles">POSTULANTES SEGÚN TIPO DE DONACIÓN Y ESTADO</mat-card-title>
-                    </div>
-                    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
-
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Inicio</mat-label>
-                                <input matInput [matDatepicker]="fechaInicio3" placeholder="dd/mm/yyyy" [max]="fechaInicio3" 
-                                [(ngModel)]="fechaSelectInicio3"  (dateChange)="onDateChange(3)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaInicio3"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaInicio3></mat-datepicker>
-                              </mat-form-field>
-                        </div>
-                
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Fin</mat-label>
-                                <input matInput [matDatepicker]="fechaFin3" placeholder="dd/mm/yyyy" [max]="fechaFin3" 
-                                [(ngModel)]="fechaSelectFin3" (dateChange)="onDateChange(3)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaFin3"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaFin3></mat-datepicker>
-                              </mat-form-field>
-                        </div>                
+                        <mat-card-title class="cardtitles">{{title3}}</mat-card-title>
                     </div>
                     <div id="chart" *ngIf="registro3">
                         <apx-chart
@@ -172,7 +131,7 @@
                     ></apx-chart>
                     </div>
                     <div *ngIf="!registro3">
-                        <p class="chartvacio2">NO EXISTE REGISTRO PARA MOSTRAR EL GRAFICO</p>
+                        <p class="chartvacio2">{{msgVacio}}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -182,29 +141,7 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles">UNIDADES EN MOVIMIENTO (Lotes)</mat-card-title>
-                    </div>
-                    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
-
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Inicio</mat-label>
-                                <input matInput [matDatepicker]="fechaInicio4" placeholder="dd/mm/yyyy" [max]="fechaInicio4" 
-                                [(ngModel)]="fechaSelectInicio4"  (dateChange)="onDateChange(4)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaInicio4"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaInicio4></mat-datepicker>
-                              </mat-form-field>
-                        </div>
-                
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Fin</mat-label>
-                                <input matInput [matDatepicker]="fechaFin4" placeholder="dd/mm/yyyy" [max]="fechaFin4" 
-                                [(ngModel)]="fechaSelectFin4" (dateChange)="onDateChange(4)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaFin4"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaFin4></mat-datepicker>
-                              </mat-form-field>
-                        </div>                
+                        <mat-card-title class="cardtitles">{{title4}}</mat-card-title>
                     </div>
                     <div id="chart2" *ngIf="registro4">
                         <apx-chart
@@ -215,7 +152,7 @@
                         ></apx-chart>
                     </div>
                     <div *ngIf="!registro4">
-                        <p class="chartvacio2">NO EXISTE REGISTRO PARA MOSTRAR EL GRAFICO</p>
+                        <p class="chartvacio2">{{msgVacio}}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -225,41 +162,40 @@
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
-                        <mat-card-title class="cardtitles">UNIDADES EN STOCK</mat-card-title>
+                        <mat-card-title class="cardtitles">{{title5}}</mat-card-title>
                     </div>
-                    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
-
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Inicio</mat-label>
-                                <input matInput [matDatepicker]="fechaInicio5" placeholder="dd/mm/yyyy" [max]="fechaInicio5" 
-                                [(ngModel)]="fechaSelectInicio5"  (dateChange)="onDateChange(5)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaInicio5"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaInicio5></mat-datepicker>
-                              </mat-form-field>
+                    <div *ngIf="registro5_1 || registro5_2 || registro5_3">
+                        <div *ngIf="registro5_1">
+                            <apx-chart
+                            [series]="reportesgrafico5[0].series"
+                            [chart]="reportesgrafico5[0].chart"
+                            [plotOptions]="reportesgrafico5[0].plotOptions"
+                            [legend]="reportesgrafico5[0].legend"
+                            [labels]="reportesgrafico5[0].labels"
+                            [responsive]="reportesgrafico5[0].responsive"
+                            ></apx-chart>
                         </div>
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Fecha Fin</mat-label>
-                                <input matInput [matDatepicker]="fechaFin5" placeholder="dd/mm/yyyy" [max]="fechaFin5" 
-                                [(ngModel)]="fechaSelectFin5" (dateChange)="onDateChange(5)">
-                                <mat-datepicker-toggle matSuffix [for]="fechaFin5"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaFin5></mat-datepicker>
-                              </mat-form-field>
+                        <div *ngIf="registro5_2">
+                            <apx-chart
+                            [series]="reportesgrafico5[1].series"
+                            [chart]="reportesgrafico5[1].chart"
+                            [plotOptions]="reportesgrafico5[1].plotOptions"
+                            [legend]="reportesgrafico5[1].legend"
+                            [labels]="reportesgrafico5[1].labels"
+                            [responsive]="reportesgrafico5[1].responsive"
+                            ></apx-chart>
                         </div>
-                        <div>
-                            <mat-form-field appearance="fill">
-                                <mat-label>Tipo de Stock</mat-label>
-                                <mat-select [(ngModel)]="curTipoStock" (selectionChange)="updateTipoStock($event.value)" name="food">
-                                  <mat-option *ngFor="let tipo of cboTipoStock" [value]="tipo.ideGrafico">
-                                    {{tipo.descripcion}}
-                                  </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div> 
-                    </div>
-                    <div *ngIf="registro5">
-                        <table class="tabla-stock" rules="all">
+                        <div *ngIf="registro5_3">
+                            <apx-chart
+                            [series]="reportesgrafico5[2].series"
+                            [chart]="reportesgrafico5[2].chart"
+                            [plotOptions]="reportesgrafico5[2].plotOptions"
+                            [legend]="reportesgrafico5[2].legend"
+                            [labels]="reportesgrafico5[2].labels"
+                            [responsive]="reportesgrafico5[2].responsive"
+                            ></apx-chart>
+                        </div>
+                        <!--table class="tabla-stock" rules="all">
                             <tr>                          
                               <th class="celda-stock" scope="row">\</th>                          
                               <th class="celda-stock" *ngFor="let tipo of tiposSangre">{{tipo}}</th>                          
@@ -268,49 +204,14 @@
                               <th class="celda-stock">{{label}}</th>                          
                               <td class="celda-stock" *ngFor="let cant of arraySeries5![i]">{{cant}}</td>                          
                             </tr>                          
-                          </table>
+                          </table-->
                     </div>
-                    <div *ngIf="!registro5">
-                        <p class="chartvacio2">NO EXISTE REGISTRO PARA MOSTRAR LA TABLA</p>
+                    <div *ngIf="!(registro5_1 || registro5_2 || registro5_3)">
+                        <p class="chartvacio2">{{msgVacio}}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
         </div>
         
-    </div>
-
-    <mat-divider></mat-divider>
-
-    <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
-        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-            <mat-card class="cardborde">   
-                <mat-toolbar class="cardtitle1">
-                    <h3 class="title-label"> LISTA POSTULANTES </h3>
-                </mat-toolbar>
-                <form>     
-
-                  <div class="example-container mat-elevation-z0">
-                    
-                  </div>
-            
-                </form>    
-              </mat-card>
-        </div>
-
-        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-            <mat-card class="cardborde">   
-                <mat-toolbar class="cardtitle2">
-                    <h3 class="title-label"> LISTA POSTULANTES LIGTH</h3>
-                </mat-toolbar>
-                <form>     
-
-                  <div class="example-container mat-elevation-z0">
-                    
-                  </div>
-            
-                </form>    
-              </mat-card>
-        </div>
-
     </div>
 </div>
