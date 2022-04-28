@@ -201,91 +201,101 @@ export class HomeComponent implements OnInit {
 
         this.tiposSangre = [];
 
-        //debugger;
+        //debugger;123
 
         /* GRAFICO 1 */
-        this.title1 = $grafico1.filter(y=>y.titulo)[0].titulo;
-        $grafico1.forEach(x=>{
+        if($grafico2.length > 0){
+          this.title1 = $grafico1.filter(y=>y.titulo)[0].titulo;
+          $grafico1.forEach(x=>{
 
-          this.arrayLabel1.push(x.etiqueta!);
-          let split = x.cantidades?.split('|');
-
-          split!.forEach(y=>{
-            count1 = parseInt(y) + count1;
-            this.arraySeries1?.push(parseInt(y))
-          });
-
-        });
-
-        /* GRAFICO 2 */
-        this.title2 = $grafico2.filter(y=>y.titulo)[0].titulo;
-        $grafico2.forEach(x=>{
-
-            this.arrayLabel2.push(x.etiqueta!);
+            this.arrayLabel1.push(x.etiqueta!);
             let split = x.cantidades?.split('|');
 
             split!.forEach(y=>{
-              count2 = parseInt(y) + count2;
-              this.arraySeries2?.push(parseInt(y))
+              count1 = parseInt(y) + count1;
+              this.arraySeries1?.push(parseInt(y))
             });
 
-        });
+          });
+        }        
+
+        /* GRAFICO 2 */
+        if($grafico2.length > 0){
+          this.title2 = $grafico2.filter(y=>y.titulo)[0].titulo;
+          $grafico2.forEach(x=>{
+
+              this.arrayLabel2.push(x.etiqueta!);
+              let split = x.cantidades?.split('|');
+
+              split!.forEach(y=>{
+                count2 = parseInt(y) + count2;
+                this.arraySeries2?.push(parseInt(y))
+              });
+
+          });
+        }        
 
         /* GRAFICO 3 */
-        this.title3 = $grafico3.filter(y=>y.titulo)[0].titulo;
-        let subEtiqueta = $grafico3.filter(y=>y.subEtiquetas)[0].subEtiquetas;
+        if($grafico3.length > 0){
+          this.title3 = $grafico3.filter(y=>y.titulo)[0].titulo;
+          let subEtiqueta = $grafico3.filter(y=>y.subEtiquetas)[0].subEtiquetas;
 
-        if(subEtiqueta!=""){
-          let splitEtiqueta = subEtiqueta?.split('|');
-          
-          splitEtiqueta?.forEach(x=>{
-            this.arrayEtiqueta = new Serie();
-            this.arrayEtiqueta.name= x;
-            this.arrayEtiqueta.data= [];
+          if(subEtiqueta!=""){
+            let splitEtiqueta = subEtiqueta?.split('|');
+            
+            splitEtiqueta?.forEach(x=>{
+              this.arrayEtiqueta = new Serie();
+              this.arrayEtiqueta.name= x;
+              this.arrayEtiqueta.data= [];
 
-            this.arrayListSerie.push(this.arrayEtiqueta);
-          });         
-        }
-
-        $grafico3.forEach(x=>{
-          this.arrayLabel3.push(x.etiqueta!);   
-
-          let splitData1 = x.cantidades?.split('|')[0];
-          let splitData2 = x.cantidades?.split('|')[1];
-          let splitData3 = x.cantidades?.split('|')[2];       
-
-          arraypendiente.push(parseInt(splitData1!));
-          arraydono.push(parseInt(splitData2!));
-          arraynodono.push(parseInt(splitData3!));
-
-          count3 = parseInt(splitData1!) + parseInt(splitData2!) + parseInt(splitData3!) + count3;
-        });
-
-        let counts =1;
-        this.arrayListSerie.forEach(x=>{
-          if(counts==1){
-            x.data=arraypendiente;
-          }else if(counts==2){
-            x.data=arraydono;
-          }else if(counts==3){
-            x.data=arraynodono;
+              this.arrayListSerie.push(this.arrayEtiqueta);
+            });         
           }
-          counts++;
-        });
 
-        /* GRAFICO 4 */
-        this.title4 = $grafico4.filter(y=>y.titulo)[0].titulo;
-        $grafico4.forEach(x=>{
+          $grafico3.forEach(x=>{
+            this.arrayLabel3.push(x.etiqueta!);   
 
-          this.arrayLabel4.push(x.etiqueta!);
-          let split = x.cantidades?.split('|');
+            let splitData1 = x.cantidades?.split('|')[0];
+            let splitData2 = x.cantidades?.split('|')[1];
+            let splitData3 = x.cantidades?.split('|')[2];       
 
-          split!.forEach(y=>{
-            count4 = parseInt(y) + count4;
-            this.arraySeries4?.push(parseInt(y))
+            arraypendiente.push(parseInt(splitData1!));
+            arraydono.push(parseInt(splitData2!));
+            arraynodono.push(parseInt(splitData3!));
+
+            count3 = parseInt(splitData1!) + parseInt(splitData2!) + parseInt(splitData3!) + count3;
           });
 
-        });
+          
+          let counts =1;
+          this.arrayListSerie.forEach(x=>{
+            if(counts==1){
+              x.data=arraypendiente;
+            }else if(counts==2){
+              x.data=arraydono;
+            }else if(counts==3){
+              x.data=arraynodono;
+            }
+            counts++;
+          });
+        }
+
+        /* GRAFICO 4 */
+        if($grafico4.length > 0){
+          this.title4 = $grafico4.filter(y=>y.titulo)[0].titulo;
+          $grafico4.forEach(x=>{
+
+            this.arrayLabel4.push(x.etiqueta!);
+            let split = x.cantidades?.split('|');
+
+            split!.forEach(y=>{
+              count4 = parseInt(y) + count4;
+              this.arraySeries4?.push(parseInt(y))
+            });
+
+          });
+        }
+        
 
         /* GRAFICO 5 */
         if($grafico5.length > 0){
@@ -355,14 +365,16 @@ export class HomeComponent implements OnInit {
         }
 
         /* GRAFICO 6 */
-        this.title6 = $grafico6.filter(y=>y.titulo)[0].titulo;
-        $grafico6.forEach(x=>{
+        if($grafico6.length > 0){
+          this.title6 = $grafico6.filter(y=>y.titulo)[0].titulo;
+          $grafico6.forEach(x=>{
 
-          this.arrayLabel6.push(x.etiqueta!);
-          this.arrayIcons6.push(x.icono!);
-          this.arraySeries6?.push(parseInt(x.cantidades!));
+            this.arrayLabel6.push(x.etiqueta!);
+            this.arrayIcons6.push(x.icono!);
+            this.arraySeries6?.push(parseInt(x.cantidades!));
 
-        });
+          });
+        }        
         
          /* VALIDADO REGISTRO PARA MOSTRAR EL GRAFICO */
         this.registro1 = (count1>0)? true: false;
