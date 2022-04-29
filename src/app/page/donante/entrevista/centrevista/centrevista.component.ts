@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import forms from 'src/assets/json/formulario.json';
@@ -14,6 +14,8 @@ import { Pregunta } from 'src/app/_model/donante/pregunta';
 import { Entrevista } from 'src/app/_model/donante/entrevista';
 import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
+import { ReporteService } from 'src/app/_service/reporte/reporte.service';
+import { RptfichaComponent } from 'src/app/page/reporte/rptficha/rptficha.component';
 
 // import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
@@ -24,6 +26,8 @@ import { Permiso } from 'src/app/_model/permiso';
 })
 export class CentrevistaComponent implements OnInit {
 
+  @ViewChild(RptfichaComponent) rptficha!: RptfichaComponent;
+  
   form: FormGroup = new FormGroup({});
   permiso: Permiso = {};
 
@@ -52,7 +56,8 @@ export class CentrevistaComponent implements OnInit {
     private notifierService : NotifierService,
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
-    private entrevistaService: EntrevistaService
+    private entrevistaService: EntrevistaService,
+    private reporteService: ReporteService
   ) {
     // pdfDefaultOptions.assetsFolder = 'bleeding-edge';
   }
@@ -242,5 +247,62 @@ export class CentrevistaComponent implements OnInit {
 
   limpiar(){
     this.inicializar();
+  }
+
+  imprimir(){
+   
+    let idepredonante = this.form.value['idePreDonante'];
+
+    this.spinner.showLoading();
+    this.reporteService.rptficha(idepredonante).subscribe(data=>{
+      console.log(data);
+   /*
+      // this.rptetiqueta.
+      this.rptetiqueta.nombres = data.nombres;
+      this.rptetiqueta.documento = data.documento!;
+      this.rptetiqueta.sexo = data.sexo;
+      this.rptetiqueta.hematocritos = data.hematocrito;
+      this.rptetiqueta.vFecNacimiento = data.vFecNacimiento;
+      this.rptetiqueta.edad = data.edad;
+      this.rptetiqueta.grupo = data.grupo;
+      this.rptetiqueta.mostrarRh = data.mostrarRh;
+      this.rptetiqueta.codMuestra = data.codMuestra;
+      this.rptetiqueta.vFecha = data.vFecha;
+
+      let code =(this.rptetiqueta.codMuestra==null || this.rptetiqueta.codMuestra=="")? "" : this.rptetiqueta.codMuestra!.toString();
+      if(code!=""){
+        JsBarcode("#barcode", code, {        
+          lineColor: "#000",
+          width: 2,
+          height: 40,
+          displayValue: false
+        });
+
+        setTimeout(function(){
+          const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
+              const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
+              popupWin.document.open();
+              popupWin.document.write(`
+                  <html>
+                      <head>
+                          <title>Print tab</title>
+                        
+                      </head>
+                      <body onload="window.print(); window.close()">
+                          ${printContents}
+                      </body>
+                  </html>
+                  `
+              );
+            popupWin.document.close();
+        },200);
+      }else{
+        this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
+      }
+
+      this.spinner.hideLoading();
+      
+   */
+    });
   }
 }
