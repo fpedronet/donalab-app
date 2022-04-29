@@ -206,6 +206,7 @@ export class CdonacionComponent implements OnInit {
     let ideGrupo = this.form.value['ideGrupo'];
     let hemoglobina = this.form.value['hemoglobina'];
     let hematocrito = this.form.value['hematocrito'];
+    let rendimiento = this.form.value['rendimiento'];
     let fechaextracc = this.form.value['fechaExtraccion'];
     let submit = true;
     let validatehemo = 0;
@@ -218,6 +219,14 @@ export class CdonacionComponent implements OnInit {
       submit = false;
       this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione el grupo ABO');
     }
+    else if(hemoglobina<0){
+      submit = false;
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','La hemoglobina no puede ser menor a 0');
+    }
+    else if(hematocrito<0){
+      submit = false;
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','El hematocrito no puede ser menor a 0');
+    }
     else if (iddonacion > 0){
       let $countUnidades = this.listaUnidade?.filter(y=>y.volumen!>0).length;
 
@@ -229,15 +238,20 @@ export class CdonacionComponent implements OnInit {
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese el volumen unos de los hemocomponente');
       }  
+      else if(rendimiento<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','El rendimiento no puede ser menor a 0');
+      }
     }
 
 
     if(submit){
+
       hemoglobina = (hemoglobina==0 || hemoglobina==null)? 0 :hemoglobina;
       hematocrito = (hematocrito==0 || hematocrito==null)? 0 :hematocrito;
-  
+    
       validatehemo= hemoglobina + hematocrito;
-  
+    
       if(validatehemo==0){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese Hemoglobina o Hematocrito');
