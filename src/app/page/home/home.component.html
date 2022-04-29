@@ -132,48 +132,43 @@
                     <div>
                         <mat-card-title class="cardtitles">{{title5}}</mat-card-title>
                     </div>
-                    <div *ngIf="registro5_1 || registro5_2">
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" *ngIf="registro5_1">
-                            <apx-chart
-                            [series]="reportesgrafico5[0].series"
-                            [chart]="reportesgrafico5[0].chart"
-                            [plotOptions]="reportesgrafico5[0].plotOptions"
-                            [legend]="reportesgrafico5[0].legend"
-                            [labels]="reportesgrafico5[0].labels"
-                            [responsive]="reportesgrafico5[0].responsive"
-                            ></apx-chart>
+                    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" *ngIf="registro5_1 || registro5_2">
+                            <mat-grid-list cols="12" rowHeight="310px" gutterSize="15px" *ngIf="registro5_1">
+                                <apx-chart
+                                [series]="reportesgrafico5[0].series"
+                                [chart]="reportesgrafico5[0].chart"
+                                [plotOptions]="reportesgrafico5[0].plotOptions"
+                                [legend]="reportesgrafico5[0].legend"
+                                [labels]="reportesgrafico5[0].labels"
+                                [responsive]="reportesgrafico5[0].responsive"
+                                ></apx-chart>
+                            </mat-grid-list>
+                            <mat-grid-list cols="12" rowHeight="310px" gutterSize="15px" *ngIf="registro5_2">
+                                <apx-chart
+                                [series]="reportesgrafico5[1].series"
+                                [chart]="reportesgrafico5[1].chart"
+                                [plotOptions]="reportesgrafico5[1].plotOptions"
+                                [legend]="reportesgrafico5[1].legend"
+                                [labels]="reportesgrafico5[1].labels"
+                                [responsive]="reportesgrafico5[1].responsive"
+                                ></apx-chart>
+                            </mat-grid-list>
                         </div>
-                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" *ngIf="registro5_2">
-                            <apx-chart
-                            [series]="reportesgrafico5[1].series"
-                            [chart]="reportesgrafico5[1].chart"
-                            [plotOptions]="reportesgrafico5[1].plotOptions"
-                            [legend]="reportesgrafico5[1].legend"
-                            [labels]="reportesgrafico5[1].labels"
-                            [responsive]="reportesgrafico5[1].responsive"
-                            ></apx-chart>
-                        </div>
-                        <!--table class="tabla-stock" rules="all">
-                            <tr>                          
-                              <th class="celda-stock" scope="row">\</th>                          
-                              <th class="celda-stock" *ngFor="let tipo of tiposSangre">{{tipo}}</th>                          
-                            </tr>                          
-                            <tr *ngFor="let label of arrayLabel5; let i = index">                          
-                              <th class="celda-stock">{{label}}</th>                          
-                              <td class="celda-stock" *ngFor="let cant of arraySeries5![i]">{{cant}}</td>                          
-                            </tr>                          
-                          </table-->
-                    </div>
-                    <div *ngIf="registro5_3">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" *ngIf="registro5_3">
-                            <apx-chart
-                            [series]="reportesgrafico5[2].series"
-                            [chart]="reportesgrafico5[2].chart"
-                            [plotOptions]="reportesgrafico5[2].plotOptions"
-                            [legend]="reportesgrafico5[2].legend"
-                            [labels]="reportesgrafico5[2].labels"
-                            [responsive]="reportesgrafico5[2].responsive"
-                            ></apx-chart>
+                            <mat-grid-list cols="12" rowHeight="300px" gutterSize="15px" *ngIf="registro5_3">
+                                <apx-chart
+                                [series]="reportesgrafico5[2].series"
+                                [chart]="reportesgrafico5[2].chart"
+                                [plotOptions]="reportesgrafico5[2].plotOptions"
+                                [legend]="reportesgrafico5[2].legend"
+                                [labels]="reportesgrafico5[2].labels"
+                                [responsive]="reportesgrafico5[2].responsive"
+                                ></apx-chart>
+                            </mat-grid-list>
+                            <!-- <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                B-2
+                            </mat-grid-list> -->
                         </div>
                     </div>
                     <div *ngIf="!(registro5_1 || registro5_2 || registro5_3)">
