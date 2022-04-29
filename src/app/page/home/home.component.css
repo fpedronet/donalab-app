@@ -35,6 +35,9 @@
     margin-bottom:180px;
   }
 
+  /* .apexcharts-legend apexcharts-align-center apx-legend-position-bottom{
+      inset: auto -30px -3px 10px;
+  } */
 .p-2 {
     padding: 0.5rem!important;
 }

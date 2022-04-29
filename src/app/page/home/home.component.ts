@@ -596,7 +596,7 @@ export class HomeComponent implements OnInit {
           },
           dataLabels: {
             name: {
-              fontSize: '25px',
+              fontSize: '16px',
             },
             value: {
               fontSize: '16px',
@@ -620,16 +620,16 @@ export class HomeComponent implements OnInit {
       legend: {
         show: true,
         floating: true,
-        fontSize: '16px',
+        fontSize: '12px',
         position: 'left',
-        offsetX: 45,
-        offsetY: 30,
+        offsetX: 50,
+        offsetY: 10,
         labels: {
           useSeriesColors: true,
         },
-        markers: {
-          size: 0
-        },
+        // markers: {
+        //   size: 0
+        // },
         formatter: function(seriesName: string, opts: { w: { globals: { series: { [x: string]: string; }; }; }; seriesIndex: string | number; }) {
           return seriesName + ":  " + Math.round(parseFloat(opts.w.globals.series[opts.seriesIndex])*graf.max!/100);
         },
@@ -640,13 +640,13 @@ export class HomeComponent implements OnInit {
       responsive: [{
         breakpoint: 450,
         options: {
-          chart: {
-            width: 275
-          },
+          // chart: {
+          //   width: 270
+          // },
           legend: {
             position: 'bottom',
             offsetX: 0,
-            offsetY: 15
+            offsetY: 0
           }
         }
       }]
