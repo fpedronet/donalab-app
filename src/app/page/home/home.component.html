@@ -4,45 +4,13 @@
 
     <div style="flex-flow: row wrap; box-sizing: border-box; display: flex;">
 
-        <div *ngFor="let et of arrayLabel6; let i = index" fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+        <div *ngFor="let et of arrayLabel6; let i = index" fxFlex="{{valorMaximo(100/arrayLabel6.length,100/5)}}%" fxFlex.xs="100%" fxFlex.sm="{{valorMaximo(100/arrayLabel6.length,100/3)}}%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
             <mat-card [class]="arrayCardClasses[i % arrayCardClasses.length]">
                 <mat-icon>{{arrayIcons6[i]}}</mat-icon>
                 <h2>{{arraySeries6![i]}}</h2>
                 <p>{{et}}</p>
             </mat-card>
         </div>
-        <!--div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-            <mat-card class="gradient-orange tile p-2">
-                <mat-icon>group</mat-icon>
-                <h2>2400</h2>
-                <p>Postulante</p>
-            </mat-card>
-        </div>
-
-        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-            <mat-card class="gradient-red tile p-2">
-                <mat-icon>pregnant_woman</mat-icon>
-                <h2>2300</h2>
-                <p>Tamisaje</p>
-            </mat-card>
-        </div>
-
-        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-            <mat-card class="gradient-green tile p-2">
-                <mat-icon>pie_chart</mat-icon>
-                <h2>1200</h2>
-                <p>Producción</p>
-            </mat-card>
-        </div>
-
-        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
-            <mat-card class="gradient-brown tile p-2">
-                <mat-icon>save_alt</mat-icon>
-                <h2>2229</h2>
-                <p>Otros 2</p>
-            </mat-card>
-        </div-->
-
 
     </div>
 
@@ -158,14 +126,14 @@
             </mat-card>
         </div>
 
-        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+        <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
                         <mat-card-title class="cardtitles">{{title5}}</mat-card-title>
                     </div>
-                    <div *ngIf="registro5_1 || registro5_2 || registro5_3">
-                        <div *ngIf="registro5_1">
+                    <div *ngIf="registro5_1 || registro5_2">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" *ngIf="registro5_1">
                             <apx-chart
                             [series]="reportesgrafico5[0].series"
                             [chart]="reportesgrafico5[0].chart"
@@ -175,7 +143,7 @@
                             [responsive]="reportesgrafico5[0].responsive"
                             ></apx-chart>
                         </div>
-                        <div *ngIf="registro5_2">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" *ngIf="registro5_2">
                             <apx-chart
                             [series]="reportesgrafico5[1].series"
                             [chart]="reportesgrafico5[1].chart"
@@ -183,16 +151,6 @@
                             [legend]="reportesgrafico5[1].legend"
                             [labels]="reportesgrafico5[1].labels"
                             [responsive]="reportesgrafico5[1].responsive"
-                            ></apx-chart>
-                        </div>
-                        <div *ngIf="registro5_3">
-                            <apx-chart
-                            [series]="reportesgrafico5[2].series"
-                            [chart]="reportesgrafico5[2].chart"
-                            [plotOptions]="reportesgrafico5[2].plotOptions"
-                            [legend]="reportesgrafico5[2].legend"
-                            [labels]="reportesgrafico5[2].labels"
-                            [responsive]="reportesgrafico5[2].responsive"
                             ></apx-chart>
                         </div>
                         <!--table class="tabla-stock" rules="all">
@@ -205,6 +163,18 @@
                               <td class="celda-stock" *ngFor="let cant of arraySeries5![i]">{{cant}}</td>                          
                             </tr>                          
                           </table-->
+                    </div>
+                    <div *ngIf="registro5_3">
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" *ngIf="registro5_3">
+                            <apx-chart
+                            [series]="reportesgrafico5[2].series"
+                            [chart]="reportesgrafico5[2].chart"
+                            [plotOptions]="reportesgrafico5[2].plotOptions"
+                            [legend]="reportesgrafico5[2].legend"
+                            [labels]="reportesgrafico5[2].labels"
+                            [responsive]="reportesgrafico5[2].responsive"
+                            ></apx-chart>
+                        </div>
                     </div>
                     <div *ngIf="!(registro5_1 || registro5_2 || registro5_3)">
                         <p class="chartvacio2">{{msgVacio}}</p>

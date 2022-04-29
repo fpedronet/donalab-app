@@ -306,7 +306,7 @@ export class HomeComponent implements OnInit {
             this.tiposSangre = etiqsangre!.split('|');
             let vacio = this.tiposSangre.indexOf(' ');
             if(vacio >= 0)
-              this.tiposSangre[vacio] = 'ning.';
+              this.tiposSangre[vacio] = 'Ning.';
           }
 
           $grafico5.forEach(x=>{
@@ -653,5 +653,9 @@ export class HomeComponent implements OnInit {
       };
     }    
     this.reportesgrafico5!.push(reportegrafico5);
+  }
+
+  valorMaximo(num1: number, num2: number){
+    return num1>num2?num1:num2;
   }
 }
