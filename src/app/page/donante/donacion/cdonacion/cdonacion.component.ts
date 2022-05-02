@@ -51,8 +51,9 @@ export class CdonacionComponent implements OnInit {
   existExtraccion: boolean = false;
   descextrac?: boolean = false;
   existapto?: string = "0";
-
+  tipoExtraccion?: number;
   window?: any;
+  currentTab: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -164,7 +165,7 @@ export class CdonacionComponent implements OnInit {
           'vHoraIni': new FormControl({ value: this.vHoraIni, disabled: !this.edit}),//ok
           'vHoraFin': new FormControl({ value: this.vHoraFin, disabled: !this.edit}),//ok
           'fechaExtraccion': new FormControl({ value: $fechaExtr, disabled: !this.edit}),//ok
-          'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: !this.edit}),//ok
+          'tipoExtraccion': new FormControl({ value: 0, disabled: !this.edit}),//ok
           'ideTipoBolsa': new FormControl({ value: data.ideTipoBolsa, disabled: !this.edit}),//ok
           'brazo': new FormControl({ value: data.brazo, disabled: !this.edit}),         //ok 
           'dificultad': new FormControl({ value: data.dificultad, disabled: !this.edit}),//ok
@@ -174,11 +175,18 @@ export class CdonacionComponent implements OnInit {
         });
 
         this.existapto = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
-        this.existExtraccion = (data.ideDonacion==0 || data.ideDonacion==null)? false: true;
         this.descextrac =  (data.ideMotivoRechazo?.toString()!="0")? true : false;
         this.donante = data.donante!;
         this.documento = data.documento!;
-       
+   
+        if(data.ideDonacion==0 || data.ideDonacion==null){
+          this.existExtraccion =false;
+          this.currentTab = 0;
+        }else{
+          this.existExtraccion =true;
+          this.currentTab = 1;
+        }
+
         if(data.idePreDonante==0 || data.idePreDonante==null){
           this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
         }        
@@ -206,8 +214,6 @@ export class CdonacionComponent implements OnInit {
     let ideGrupo = this.form.value['ideGrupo'];
     let hemoglobina = this.form.value['hemoglobina'];
     let hematocrito = this.form.value['hematocrito'];
-    let rendimiento = this.form.value['rendimiento'];
-    let fechaextracc = this.form.value['fechaExtraccion'];
     let submit = true;
     let validatehemo = 0;
 
@@ -228,6 +234,11 @@ export class CdonacionComponent implements OnInit {
       this.notifierService.showNotification(environment.ALERT,'Mensaje','El hematocrito no puede ser menor a 0');
     }
     else if (iddonacion > 0){
+
+      let rendimiento = this.form.value['rendimiento'];
+      let fechaextracc = this.form.value['fechaExtraccion'];
+      let timeHoraInicio = this.form.value['vHoraIni'];
+      let timeHoraFin = this.form.value['vHoraFin'];
       let $countUnidades = this.listaUnidade?.filter(y=>y.volumen!>0).length;
 
       if(fechaextracc==null){
@@ -237,13 +248,20 @@ export class CdonacionComponent implements OnInit {
       else if($countUnidades==0){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese el volumen unos de los hemocomponente');
+      } 
+      else if(timeHoraInicio==""){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese la hora inicio');
+      } 
+      else if(timeHoraFin==""){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese la hora fin');
       }  
       else if(rendimiento<0){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','El rendimiento no puede ser menor a 0');
       }
     }
-
 
     if(submit){
 
@@ -315,7 +333,7 @@ export class CdonacionComponent implements OnInit {
   }
 
   imprimir(){
-   
+
     let idedonacion = this.form.value['ideDonacion'];
     let idepredonante = this.form.value['idePreDonante'];
 
@@ -327,7 +345,7 @@ export class CdonacionComponent implements OnInit {
       this.rptetiqueta.documento = data.documento!;
       this.rptetiqueta.sexo = data.sexo;
       this.rptetiqueta.hematocritos = data.hematocrito;
-      this.rptetiqueta.vFecNacimiento = data.vFecNacimiento;
+      this.rptetiqueta.fecNacimiento = data.fecNacimiento;
       this.rptetiqueta.edad = data.edad;
       this.rptetiqueta.grupo = data.grupo;
       this.rptetiqueta.mostrarRh = data.mostrarRh;
@@ -371,45 +389,67 @@ export class CdonacionComponent implements OnInit {
     });
   }
 
-  calcularhora(){
- 
-    let $fechaextraccion = this.form.value['fechaExtraccion'];
-    $fechaextraccion = new Date($fechaextraccion);
+  calcularhora(tipo: number){
 
-    let $horactual = this.form.value['vHoraIni'];
+    let $fechaextraccion =this.form.value['fechaExtraccion'];
+    let $horainicial = this.form.value['vHoraIni'];
+    let $horafinal = this.form.value['vHoraFin'];
     let $addminuto = this.form.value['tipoExtraccion'];
 
-    if($horactual!="" && $addminuto==undefined){
+    if(tipo == 1){
+      if($fechaextraccion!="" && $fechaextraccion!=null && $fechaextraccion!=undefined){
 
-      $horactual = $horactual.split(':');
+        $addminuto = ($addminuto ==null || $addminuto =="")? 0: $addminuto ;
+        $fechaextraccion= new Date($fechaextraccion);
 
-      let $hora =$horactual[0];
-      let $minuto = $horactual[1];
-
-      $fechaextraccion = $fechaextraccion.getFullYear() + "-" + ($fechaextraccion.getMonth() + 1) + "-" + $fechaextraccion.getDate() + " " + $hora + ":" + $minuto + ":" + 0;
-      
-      let $fecha = new Date( $fechaextraccion);
-
-      this.vHoraFin= `${($fecha.getHours()<10?'0':'') + $fecha.getHours()}:${($fecha.getMinutes()<10?'0':'') + $fecha.getMinutes()}`;      
-
+        this.$calcularhora($fechaextraccion,$horainicial, $horafinal, $addminuto, tipo)
+      }else{
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese la fecha de extracción');
+      }      
     }
-    else if($horactual!=""){
+    else if(tipo == 2){
+      if($horainicial=="" || $horafinal=="" || $fechaextraccion=="" || $fechaextraccion==null){
 
-       $horactual = $horactual.split(':');
+        this.vHoraIni= ($horainicial=="")? "" : $horainicial;
+        this.vHoraFin = ($horafinal=="")? "" : $horafinal;
+        this.tipoExtraccion = 0
+  
+        if($fechaextraccion=="" || $fechaextraccion==null){
+          this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese la fecha de extracción');
+        }
+      }else{
+        $fechaextraccion= new Date($fechaextraccion);
+        this.$calcularhora($fechaextraccion,$horainicial, $horafinal, $addminuto, tipo)
+      }
+    }
+  }
 
-      let $hora =$horactual[0];
-      let $minuto = $horactual[1];
+  $calcularhora($fechaextraccion: Date,$horainicial: string, $horafinal: string, $addminuto: number, tipo: number){
 
-      $fechaextraccion = $fechaextraccion.getFullYear() + "-" + ($fechaextraccion.getMonth() + 1) + "-" + $fechaextraccion.getDate() + " " + $hora + ":" + $minuto + ":" + 0;
-      
-      let $fecha = new Date( $fechaextraccion);
+    let $horainicials = $horainicial.split(':');
+    let horainicial =$horainicials[0];
+    let minutoinicial = $horainicials[1];
 
-      $fecha.setMinutes($fecha.getMinutes() + $addminuto);
+    let $horafinals = $horafinal.split(':');
+    let horafinal =$horafinals[0];
+    let minutofinal = $horafinals[1];
 
-      this.vHoraFin= `${($fecha.getHours()<10?'0':'') + $fecha.getHours()}:${($fecha.getMinutes()<10?'0':'') + $fecha.getMinutes()}`;      
+    let $fechaextraccion1 = $fechaextraccion.getFullYear() + "-" + ($fechaextraccion.getMonth() + 1) + "-" + $fechaextraccion.getDate() + " " + horainicial + ":" + minutoinicial + ":" + 0;
+    let $fechaextraccion2 = $fechaextraccion.getFullYear() + "-" + ($fechaextraccion.getMonth() + 1) + "-" + $fechaextraccion.getDate() + " " + horafinal + ":" + minutofinal + ":" + 0;
 
-    }else{
-      this.vHoraFin = "";
+    let $fecha1 = new Date( $fechaextraccion1);
+    let $fecha2 = new Date( $fechaextraccion2);
+
+    if(tipo == 1){
+      $fecha1.setMinutes($fecha1.getMinutes() + $addminuto);
+
+      this.vHoraFin = `${($fecha1.getHours()<10?'0':'') + $fecha1.getHours()}:${($fecha1.getMinutes()<10?'0':'') + $fecha1.getMinutes()}`;  
+    }
+    else if(tipo == 2){
+      let timeHora = $fecha2.getHours() - $fecha1.getHours();
+      let timeMin = $fecha2.getMinutes() - $fecha1.getMinutes();
+
+      this.tipoExtraccion = (timeHora == 0)? timeMin: ((timeHora * 60) + timeMin)
     }
   }
 
@@ -424,8 +464,11 @@ export class CdonacionComponent implements OnInit {
   }
 
   changeestado(estado: boolean){
-    debugger;
     this.descextrac = estado;
+  }
+
+  changestepper(stepper: any){
+    this.currentTab = stepper._selectedIndex;
   }
 
   focus(name:any){

@@ -27,7 +27,7 @@ import { environment } from 'src/environments/environment';
 export class LaspiranteComponent implements OnInit {
 
   dataSource: Predonante[] = [];
-  displayedColumns: string[] = ['codigo', 'nombres', 'estado','pd','ch','en','do'];
+  displayedColumns: string[] = ['codigo', 'nombres', 'estado','pd','ch','en','do','mo'];
   loading = true;
   existRegistro = false;
   countRegistro = 0;

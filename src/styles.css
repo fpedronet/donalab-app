@@ -216,8 +216,8 @@ form{
 }
 
 .circulo {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -237,6 +237,14 @@ form{
   z-index:200;
   position:fixed;
 }
+
+.mat-header-cell.mobil{
+  display: none;
+}
+.mat-table .mat-cell.mobil{
+  display: none;
+}
+
 
 @media (max-width:1200px){
   .example-button-row{
@@ -260,6 +268,14 @@ form{
   }
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  }
+  .mat-table .mat-cell.web{
+    display: none;
+  }
+  .mat-table .mat-cell.mobil{
+    display: flex;
+    color: #ffffff;
+    text-align: center;
   }
 }
 
@@ -347,6 +363,14 @@ form{
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
   }
+  .mat-table .mat-cell.web{
+    display: none;
+  }
+  .mat-table .mat-cell.mobil{
+    display: flex;
+    color: #ffffff;
+    text-align: center;
+  }
 }
 
 @media (max-width:768px){
@@ -369,6 +393,14 @@ form{
   }
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  }
+  .mat-table .mat-cell.web{
+    display: none;
+  }
+  .mat-table .mat-cell.mobil{
+    display: flex;
+    color: #ffffff;
+    text-align: center;
   }
 }
 
@@ -396,6 +428,14 @@ form{
   }
   .mat-toolbar.mat-primary{
     background: #95081b;
+  }
+  .mat-table .mat-cell.web{
+    display: none;
+  }
+  .mat-table .mat-cell.mobil{
+    display: flex;
+    color: #ffffff;
+    text-align: center;
   }
 }
 
@@ -432,6 +472,15 @@ form{
 
   .mat-toolbar.mat-primary{
     background: #95081b;
+  }
+
+  .mat-table .mat-cell.web{
+    display: none;
+  }
+  .mat-table .mat-cell.mobil{
+    display: flex;
+    color: #ffffff;
+    text-align: center;
   }
 }
 

@@ -5,7 +5,7 @@ export class Etiqueta{
     codTipoEtraccion?: string;
     nombres?: string;
     documento?: string;
-    vFecNacimiento?: string;
+    fecNacimiento?: string;
     edad?: string;
     sexo?: string;
     grupo?: string;

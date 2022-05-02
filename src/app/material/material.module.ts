@@ -37,6 +37,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTreeModule} from '@angular/material/tree';
 import {WebcamModule} from 'ngx-webcam';
 import {NgxPrintModule} from 'ngx-print' ;
+// import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
@@ -81,6 +82,7 @@ import {NgxPrintModule} from 'ngx-print' ;
     MatTreeModule,
     WebcamModule,
     NgxPrintModule,
+    // PdfViewerModule
     // NgxExtendedPdfViewerModule
   ],
   providers: [
