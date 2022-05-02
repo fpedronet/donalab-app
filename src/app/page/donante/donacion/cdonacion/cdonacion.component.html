@@ -9,6 +9,7 @@
       <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader" type="button" (click)="imprimir()" >
         <mat-icon class="maticon">print</mat-icon>
       </button>
+
     </div>
   </mat-toolbar>
   
@@ -32,7 +33,7 @@
     <br style="clear:both;"/>
   
     <form onkeydown="return event.key != 'Enter';" class="forms" id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()">
-      <mat-stepper labelPosition="bottom" #stepper>
+      <mat-stepper #stepper id="stepper" [selectedIndex]="currentTab" (click)="changestepper(stepper)" labelPosition="bottom">
         <mat-step>
           <ng-template matStepLabel>Donación</ng-template>        
           <div class="content">
@@ -162,7 +163,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Inicio</mat-label>
-                      <input matInput type="time" [(ngModel)]="vHoraIni" formControlName="vHoraIni" (change)="calcularhora()">
+                      <input matInput type="time" [(ngModel)]="vHoraIni" formControlName="vHoraIni" (keyup.enter)="calcularhora(2)" (change)="calcularhora(2)">
                     </mat-form-field>
                   </mat-grid-tile>                
                 </mat-grid-list>
@@ -171,7 +172,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Fin</mat-label>
-                      <input matInput type="time" [(ngModel)]="vHoraFin" formControlName="vHoraFin">
+                      <input matInput type="time" [(ngModel)]="vHoraFin" formControlName="vHoraFin" (keyup.enter)="calcularhora(2)" (change)="calcularhora(2)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -193,7 +194,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Tiempo Extracción</mat-label>
-                      <input matInput type="number" class="example-right-align" placeholder="0.00" formControlName="tipoExtraccion" (keyup.enter)="calcularhora()">
+                      <input matInput type="number" class="example-right-align" placeholder="0.00" [(ngModel)]="tipoExtraccion" formControlName="tipoExtraccion" (change)="calcularhora(1)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -289,6 +290,7 @@
 
              <br> 
              <br>
+
             <mat-divider></mat-divider>
 
             <div style="padding-top: 15px;" fxLayout="row wrap" fxLayoutGap="16px grid">
@@ -339,11 +341,9 @@
             </div>
 
           </div>
-
           <div style="padding-top: 10px">
             <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>
-          </div>
-          
+          </div>          
         </mat-step>
       </mat-stepper>
      

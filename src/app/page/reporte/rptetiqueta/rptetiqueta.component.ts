@@ -12,7 +12,7 @@ export class RptetiquetaComponent implements OnInit {
   documento: string ="";
   sexo?: string;
   hematocritos?: string;
-  vFecNacimiento?: string;
+  fecNacimiento?: string;
   edad?: string;
   grupo?: string;
   mostrarRh?: string;
