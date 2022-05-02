@@ -1,7 +1,18 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
+    <div class="example-button-row-resp">
+      <button mat-stroked-button class="btnBack" routerLink="/page/donante/aspirante">
+        <mat-icon class="maticon">subdirectory_arrow_left</mat-icon>
+      </button>
+      <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+        <mat-icon class="maticon">save</mat-icon>
+      </button>
+      <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader" type="button" (click)="imprimir()" >
+        <mat-icon class="maticon">print</mat-icon>
+      </button>
+    </div>  
     <div class="example-button-row">
       <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirante">
-        <mat-icon class="maticon">west</mat-icon>
+        <mat-icon class="maticon">subdirectory_arrow_left</mat-icon>
       </button>
       <button *ngIf="edit && permiso.guardar && existapto=='1'" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>

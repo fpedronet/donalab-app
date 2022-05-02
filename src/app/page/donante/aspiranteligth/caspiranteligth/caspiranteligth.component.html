@@ -1,12 +1,20 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
-    <div class="example-button-row">
-        <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirantelight">
-          <mat-icon class="maticon">west</mat-icon>
-        </button>
-        <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
-          <mat-icon class="maticon">save</mat-icon>
-        </button>
-    </div>
+  <div class="example-button-row-resp" fxShow="true" fxHide.gt-sm="true">
+    <button mat-stroked-button class="btnBack" routerLink="/page/donante/aspirantelight">
+      <mat-icon class="maticon">subdirectory_arrow_left</mat-icon>
+    </button>
+    <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+      <mat-icon class="maticon">save</mat-icon>
+    </button>
+  </div>
+  <div class="example-button-row" fxShow="true" fxHide.lt-md="true">
+      <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirantelight">
+        <mat-icon class="maticon">subdirectory_arrow_left</mat-icon>
+      </button>
+      <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
+        <mat-icon class="maticon">save</mat-icon>
+      </button>
+  </div>
 </mat-toolbar>
 
 

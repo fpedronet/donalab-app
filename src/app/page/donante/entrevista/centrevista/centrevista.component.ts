@@ -253,30 +253,96 @@ export class CentrevistaComponent implements OnInit {
    
     let idepredonante = this.form.value['idePreDonante'];
 
-    this.spinner.showLoading();
-    this.reporteService.rptficha(idepredonante).subscribe(data=>{
-      console.log(data);
-   /*
-      // this.rptetiqueta.
-      this.rptetiqueta.nombres = data.nombres;
-      this.rptetiqueta.documento = data.documento!;
-      this.rptetiqueta.sexo = data.sexo;
-      this.rptetiqueta.hematocritos = data.hematocrito;
-      this.rptetiqueta.vFecNacimiento = data.vFecNacimiento;
-      this.rptetiqueta.edad = data.edad;
-      this.rptetiqueta.grupo = data.grupo;
-      this.rptetiqueta.mostrarRh = data.mostrarRh;
-      this.rptetiqueta.codMuestra = data.codMuestra;
-      this.rptetiqueta.vFecha = data.vFecha;
+    if(idepredonante == ''){
+      this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
+    }
+    else{
+      this.spinner.showLoading();
+      this.reporteService.rptficha(idepredonante).subscribe(data=>{
+        //console.log(data);
 
-      let code =(this.rptetiqueta.codMuestra==null || this.rptetiqueta.codMuestra=="")? "" : this.rptetiqueta.codMuestra!.toString();
-      if(code!=""){
-        JsBarcode("#barcode", code, {        
-          lineColor: "#000",
-          width: 2,
-          height: 40,
-          displayValue: false
-        });
+        this.rptficha.tipDocu = '';
+        this.rptficha.numDocu = data.numDocu;
+        this.rptficha.apPaterno = data.apPaterno;
+        this.rptficha.apMaterno = data.apMaterno;
+        this.rptficha.primerNombre = data.primerNombre;
+        this.rptficha.fecNacimiento = data.vFecNacimiento;
+        this.rptficha.edad = data.edad;
+        this.rptficha.sexo = data.sexo;
+        this.rptficha.estadoCivil = data.estadoCivil;
+        this.rptficha.lugarNacimiento = data.lugarNacimiento;
+        this.rptficha.procedencia = data.procedencia;
+        this.rptficha.direccion = data.direccion;
+        this.rptficha.distrito = data.distrito;
+        this.rptficha.provincia = data.provincia;
+        this.rptficha.departamento = data.departamento;
+        this.rptficha.ocupacion = data.ocupacion;
+        this.rptficha.telefono = data.telefono;
+        this.rptficha.celular = data.celular;
+        this.rptficha.correo = data.correo1;
+        this.rptficha.lugarTrabajo = data.lugarTrabajo;
+        this.rptficha.codigoPre = data.codigoPre;
+        this.rptficha.fechaDona = data.vFechaDona;
+        this.rptficha.tipoDonacion = data.tipoDonacion;
+        this.rptficha.tipoExtraccion = data.tipoExtraccion;
+        this.rptficha.personaRelacion = data.personaRelacion;
+        this.rptficha.grupoABO = data.grupoABO;
+        this.rptficha.hemoglobina = data.hemoglobina;
+        this.rptficha.hematocrito = data.hematocrito;
+        this.rptficha.tallaDonacion = data.tallaDonacion;
+        this.rptficha.pesoDonacion = data.pesoDonacion;
+        this.rptficha.presionArterial = '';
+        this.rptficha.frecuenciaCardiaca = '';
+        this.rptficha.viajes = data.viajes;
+        this.rptficha.permanencia = data.permanencia;
+        this.rptficha.fechaViaje = data.vFechaViaje;
+        this.rptficha.lesionesVenas = data.lesionesVenas;
+        this.rptficha.estadoVenoso = data.estadoVenoso;
+        this.rptficha.campo1A = data.campo1A;
+        this.rptficha.campo2A = data.campo2A;
+        this.rptficha.campo3A = data.campo3A;
+        this.rptficha.campo4A = data.campo4A;
+        this.rptficha.campo4B = '';
+        this.rptficha.campo5A = data.campo5A;
+        this.rptficha.campo5B = '';
+        this.rptficha.campo6A = data.campo6A;
+        this.rptficha.campo6B = '';
+        this.rptficha.campo7A = data.campo7A;
+        this.rptficha.campo8A = data.campo8A;
+        this.rptficha.campo9A = data.campo9A;
+        this.rptficha.campo10A = data.campo10A;
+        this.rptficha.campo10B = '';
+        this.rptficha.campo11A = data.campo11A;
+        this.rptficha.campo12A = data.campo12A;
+        this.rptficha.campo13A = data.campo13A;
+        this.rptficha.campo14A = data.campo14A;
+        this.rptficha.campo14B = '';
+        this.rptficha.campo15A = data.campo15A;
+        this.rptficha.campo16A = data.campo16A;
+        this.rptficha.campo17A = data.campo17A;
+        this.rptficha.campo18A = data.campo18A;
+        this.rptficha.campo19A = data.campo19A;
+        this.rptficha.campo20A = data.campo20A;
+        this.rptficha.campo21A = data.campo21A;
+        this.rptficha.campo22A = data.campo22A;
+        this.rptficha.campo23A = data.campo23A;
+        this.rptficha.campo24A = data.campo24A;
+        this.rptficha.campo25A = data.campo25A;
+        this.rptficha.campo26A = data.campo26A;
+        this.rptficha.campo27A = data.campo27A;
+        this.rptficha.campo28A = data.campo28A;
+        this.rptficha.campo29A = data.campo29A;
+        this.rptficha.campo29B = '';
+        this.rptficha.estado = data.estado;
+        this.rptficha.motivoRec = data.motivoRec;
+        this.rptficha.periodoRechazo = data.periodoRechazo;
+        this.rptficha.observacionesChec = data.observacionesChec;
+        this.rptficha.faseRechazo = data.faseRechazo;
+        this.rptficha.titulo = data.titulo;
+        this.rptficha.subTitulo1 = data.subTitulo1;
+        this.rptficha.subTitulo2 = data.subTitulo2;
+        this.rptficha.logo = data.strLogo;
+        this.rptficha.codDonacion = data.codDonacion;
 
         setTimeout(function(){
           const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
@@ -285,7 +351,7 @@ export class CentrevistaComponent implements OnInit {
               popupWin.document.write(`
                   <html>
                       <head>
-                          <title>Print tab</title>
+                          <title>Pestaña de impresión</title>
                         
                       </head>
                       <body onload="window.print(); window.close()">
@@ -296,13 +362,8 @@ export class CentrevistaComponent implements OnInit {
               );
             popupWin.document.close();
         },200);
-      }else{
-        this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
-      }
-
-      this.spinner.hideLoading();
-      
-   */
-    });
+        this.spinner.hideLoading();
+      });
+    }
   }
 }

@@ -350,7 +350,7 @@ export class CdonacionComponent implements OnInit {
               popupWin.document.write(`
                   <html>
                       <head>
-                          <title>Print tab</title>
+                          <title>Pestaña de impresión</title>
                         
                       </head>
                       <body onload="window.print(); window.close()">
