@@ -6,6 +6,9 @@
     <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
       <mat-icon class="maticon">save</mat-icon>
     </button>
+    <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="button" (click)="imprimir()" >
+      <mat-icon class="maticon">print</mat-icon>
+    </button>
   </div>
 </mat-toolbar>
 
@@ -268,4 +271,7 @@
 </mat-card>
 </div>
 
+<div id="imprimir-seccion" style="display: none;">
+  <app-rptficha></app-rptficha>
+</div>
   

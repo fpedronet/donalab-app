@@ -24,6 +24,7 @@ import { LdonacionComponent } from './donante/donacion/ldonacion/ldonacion.compo
 import { CdonacionComponent } from './donante/donacion/cdonacion/cdonacion.component';
 import { RptetiquetaComponent } from './reporte/rptetiqueta/rptetiqueta.component';
 import { RptdonanteComponent } from './reporte/rptdonante/rptdonante.component';
+import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { RptdonanteComponent } from './reporte/rptdonante/rptdonante.component';
     LdonacionComponent,
     CdonacionComponent,
     RptetiquetaComponent,
-    RptdonanteComponent   
+    RptdonanteComponent,
+    RptfichaComponent
   ],
   imports: [
     MaterialModule,
