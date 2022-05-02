@@ -201,7 +201,7 @@ export class HomeComponent implements OnInit {
 
         this.tiposSangre = [];
 
-        //debugger;123
+        //debugger;
 
         /* GRAFICO 1 */
         if($grafico1.length > 0){
@@ -238,9 +238,9 @@ export class HomeComponent implements OnInit {
         /* GRAFICO 3 */
         if($grafico3.length > 0){
           this.title3 = $grafico3.filter(y=>y.titulo)[0].titulo;
-          let subEtiqueta = $grafico3.filter(y=>y.subEtiquetas)[0].subEtiquetas;
+          let subEtiqueta = $grafico3.filter(y=>y.subEtiquetas)[0]?.subEtiquetas;
 
-          if(subEtiqueta!=""){
+          if(subEtiqueta!=undefined && subEtiqueta!=""){
             let splitEtiqueta = subEtiqueta?.split('|');
             
             splitEtiqueta?.forEach(x=>{
@@ -295,14 +295,14 @@ export class HomeComponent implements OnInit {
 
           });
         }
-        
+        //debugger;
 
         /* GRAFICO 5 */
         if($grafico5.length > 0){
           this.title5 = $grafico5.filter(y=>y.titulo)[0].titulo;
-          let etiqsangre = $grafico5.filter(y=>y.subEtiquetas)[0].subEtiquetas;
+          let etiqsangre = $grafico5.filter(y=>y.subEtiquetas)[0]?.subEtiquetas;
 
-          if(etiqsangre!=""){
+          if(etiqsangre!=undefined && etiqsangre!=""){
             this.tiposSangre = etiqsangre!.split('|');
             let vacio = this.tiposSangre.indexOf(' ');
             if(vacio >= 0)

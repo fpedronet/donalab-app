@@ -55,8 +55,6 @@ export class CaspiranteComponent implements OnInit {
   edit: boolean = true;
   codigo: string = ''
   loading = true;
-  existRegistro = false;
-  countRegistro = 0;
 
   curUser: number = 0;
   curBanco: number = 0;
@@ -1094,6 +1092,45 @@ export class CaspiranteComponent implements OnInit {
     this.fotoUrl = '';
     this.webcamImage = null;
     this.showWebcam = false;
+  }
+
+  limpiar(){
+    this.id = 0;
+    this.codigo = '';
+
+    this.resetImage();
+    this.reiniciaPersona();
+    
+    //Limpia paciente
+    this.reiniciaPersona(true);
+    this.muestraPaciente = false;
+
+    //Busca origen y campaña de caché
+    var ideOri = localStorage.getItem('IdeOrigen');
+    ideOri = ideOri?ideOri:this.curBanco.toString();
+    var ideCam = localStorage.getItem('IdeCampania');
+    ideCam = ideCam?ideCam:'1';
+
+    //Valores por defecto de tipo proc. y extracción
+    this.form.patchValue({
+      CodTipoProcedimiento: this.tbTipoProced[0].codigo
+    });
+    this.changeTipoProced(this.tbTipoProced[0].codigo)
+
+    this.form.patchValue({
+      Codigo: '#######',
+      TipDocu: '1',
+      ViajeSN: 'No',
+      Lugar: '',
+      Permanencia: '',
+      FechaViaje: null,
+      Otros: '',
+      CodTipoDonacion: '',
+      IdeOrigen: ideOri,
+      IdeCampania: ideCam,
+      Fecha: new Date(),
+      CodEstado: 0
+    })
   }
 
 }

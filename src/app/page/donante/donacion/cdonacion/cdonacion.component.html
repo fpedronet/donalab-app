@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="example-toolbar submenu">
-    <div class="example-button-row-resp">
+    <div class="example-button-row-resp" fxShow="true" fxHide.gt-sm="true">
       <button mat-stroked-button class="btnBack" routerLink="/page/donante/aspirante">
         <mat-icon class="maticon">subdirectory_arrow_left</mat-icon>
       </button>
@@ -10,7 +10,7 @@
         <mat-icon class="maticon">print</mat-icon>
       </button>
     </div>  
-    <div class="example-button-row">
+    <div class="example-button-row" fxShow="true" fxHide.lt-md="true">
       <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirante">
         <mat-icon class="maticon">subdirectory_arrow_left</mat-icon>
       </button>

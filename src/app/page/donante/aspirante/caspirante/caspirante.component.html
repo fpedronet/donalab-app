@@ -6,6 +6,9 @@
       <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>
       </button>
+      <button *ngIf="edit && permiso.guardar && id===0" mat-stroked-button class="btnHeader" type="button" (click)="limpiar()">
+        <mat-icon class="maticon">cleaning_services</mat-icon>
+      </button>
     </div>
     <div class="example-button-row" fxShow="true" fxHide.lt-md="true" >
       <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirante">
@@ -13,6 +16,9 @@
       </button>
       <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>
+      </button>
+      <button *ngIf="edit && permiso.guardar && id===0" mat-stroked-button class="btnHeader" type="button" (click)="limpiar()">
+        <mat-icon class="maticon">cleaning_services</mat-icon>
       </button>
     </div>
   </mat-toolbar>
