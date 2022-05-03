@@ -75,7 +75,7 @@
           <ng-container matColumnDef="ficha">
             <mat-header-cell *matHeaderCellDef> Ficha </mat-header-cell>
             <mat-cell *matCellDef="let element" data-label="Imprimir ficha">
-              <button mat-stroked-button class="btnHeader" (click)="imprimirFicha(element.idePreDonante)">
+              <button mat-icon-button class="btnHeader" (click)="imprimirFicha(element.idePreDonante)">
                 <mat-icon class="maticon">print</mat-icon>
               </button>
             </mat-cell>

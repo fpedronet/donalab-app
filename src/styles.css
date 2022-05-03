@@ -207,8 +207,8 @@ form{
 }
 
 .circulo {
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 26px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -295,7 +295,7 @@ form{
   }
  
   .mat-table .mat-row {
-    border-bottom: 7px solid #ddd;
+    border-bottom: 5px solid #ddd;
     display: block;
   }
   
