@@ -52,7 +52,6 @@ export class CdonacionComponent implements OnInit {
   descextrac?: boolean = false;
   existapto?: string = "0";
   tipoExtraccion?: number;
-  window?: any;
   currentTab: number = 0;
 
   constructor(
@@ -65,7 +64,6 @@ export class CdonacionComponent implements OnInit {
     private donacionService: DonacionService,
     private reporteService: ReporteService
   ) { 
-    this.window = window;
   }
 
   ngOnInit(): void {
@@ -356,28 +354,46 @@ export class CdonacionComponent implements OnInit {
       if(code!=""){
         JsBarcode("#barcode", code, {        
           lineColor: "#000",
-          width: 2,
-          height: 40,
+          width: 1,
+          height: 30,
           displayValue: false
         });
 
         setTimeout(function(){
-          const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
-              const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
-              popupWin.document.open();
-              popupWin.document.write(`
+             const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
+            //  const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
+            const popupWin = window.open('top=0,left=0,height=1000,width=1000')!;
+             popupWin.document.open();
+             popupWin.document.write(`
                   <html>
                       <head>
                           <title>Pestaña de impresión</title>
-                        
+                          <style type="text/css" media="print">
+                            @page 
+                            {
+                                size: auto;
+                                margin: 0mm;
+                            }                    
+                            body 
+                            {
+                                background-color:#FFFFFF; 
+                                border: solid 1px black ;
+                                margin: 0px;
+                            }
+                         </style>
                       </head>
-                      <body onload="window.print(); window.close()">
+                      <body onload="window.print();window.close();">
                           ${printContents}
                       </body>
                   </html>
                   `
               );
             popupWin.document.close();
+            popupWin.focus();
+
+            popupWin.print();
+            popupWin.close();
+
         },200);
       }else{
         this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
