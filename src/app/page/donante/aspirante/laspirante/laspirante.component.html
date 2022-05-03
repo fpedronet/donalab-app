@@ -71,6 +71,15 @@
               <div (click)="routeUrl(element.idePreDonante, 'do')" class="circulo" style="background: {{element.do}}"></div>
             </mat-cell>
           </ng-container>
+          
+          <ng-container matColumnDef="ficha">
+            <mat-header-cell *matHeaderCellDef> Ficha </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Imprimir ficha">
+              <button mat-stroked-button class="btnHeader" (click)="imprimirFicha(element.idePreDonante)">
+                <mat-icon class="maticon">print</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
 
           <ng-container matColumnDef="mo">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable mobil'">Mobil</mat-header-cell>
@@ -99,4 +108,8 @@
 
     </form>    
   </mat-card>
+</div>
+
+<div id="imprimir-seccion" style="display: none;">
+  <app-rptficha></app-rptficha>
 </div>

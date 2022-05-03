@@ -20,7 +20,7 @@
         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
             <mat-form-field appearance="outline">
                 <mat-label>Fecha Inicio</mat-label>
-                <input matInput [matDatepicker]="fechaInicio" [max]="$fechaMax" placeholder="dd/mm/yyyy" [max]="fechaInicio" 
+                <input matInput [matDatepicker]="fechaInicio" [max]="$fechaMax" placeholder="dd/mm/yyyy" 
                 [(ngModel)]="$fechaInicio" (dateChange)="onDateChange()">
                 <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
                 <mat-datepicker #fechaInicio></mat-datepicker>
@@ -30,7 +30,7 @@
         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
             <mat-form-field appearance="outline">
                 <mat-label>Fecha Fin</mat-label>
-                <input matInput [matDatepicker]="fechaFin" [max]="$fechaMax" placeholder="dd/mm/yyyy" [max]="fechaFin" 
+                <input matInput [matDatepicker]="fechaFin" [max]="$fechaMax" placeholder="dd/mm/yyyy" 
                 [(ngModel)]="$fechaFin" (dateChange)="onDateChange()">
                 <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
                 <mat-datepicker #fechaFin></mat-datepicker>
