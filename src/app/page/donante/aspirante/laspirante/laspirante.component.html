@@ -28,9 +28,9 @@
 
       <div class="example-container mat-elevation-z0">
         <mat-table [dataSource]="dataSource" matSort>
-          
+         
           <ng-container matColumnDef="codigo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Código </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
             <mat-cell *matCellDef="let element" data-label="Código"> {{element.codigo}} </mat-cell>
           </ng-container>
         
@@ -84,12 +84,12 @@
           <ng-container matColumnDef="mo">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable mobil'">Mobil</mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTable mobil'">
-              <div style="color: rgba(0,0,0,.87);">{{element.estado}}</div>
+              <div style="color: rgba(0,0,0,.87);font-family:monospace;">{{element.estado}}</div>
               
-              <div (click)="routeUrl(element.idePreDonante, 'pd')" class="circulo" style="margin-left:104px; background: {{element.pd}}">PD</div>
-              <div (click)="routeUrl(element.idePreDonante, 'ch')" class="circulo" style="background: {{element.ch}}">CH</div>
-              <div (click)="routeUrl(element.idePreDonante, 'en')" class="circulo" style="background: {{element.en}}">EN</div>
-              <div (click)="routeUrl(element.idePreDonante, 'do')" class="circulo" style="background: {{element.do}}">DO</div>
+              <div (click)="routeUrl(element.idePreDonante, 'pd')" class="circulo" style="font-size:10px; margin-left:104px; background: {{element.pd}}">PD</div>
+              <div (click)="routeUrl(element.idePreDonante, 'ch')" class="circulo" style="font-size:10px; background: {{element.ch}}">CH</div>
+              <div (click)="routeUrl(element.idePreDonante, 'en')" class="circulo" style="font-size:10px; background: {{element.en}}">EN</div>
+              <div (click)="routeUrl(element.idePreDonante, 'do')" class="circulo" style="font-size:10px; background: {{element.do}}">DO</div>
             </mat-cell>
           </ng-container>
           
