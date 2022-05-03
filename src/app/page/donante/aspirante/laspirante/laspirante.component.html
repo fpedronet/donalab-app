@@ -75,7 +75,7 @@
           <ng-container matColumnDef="mo">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable mobil'">Mobil</mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTable mobil'">
-              <div style="color: rgba(0,0,0,.87);font-weight:500">{{element.estado}}</div>
+              <div style="color: rgba(0,0,0,.87);">{{element.estado}}</div>
               
               <div (click)="routeUrl(element.idePreDonante, 'pd')" class="circulo" style="margin-left:104px; background: {{element.pd}}">PD</div>
               <div (click)="routeUrl(element.idePreDonante, 'ch')" class="circulo" style="background: {{element.ch}}">CH</div>
