@@ -133,16 +133,14 @@ form{
   width: 100%;
 }
 
-.example-button-row{
-  margin:44%;
+.example-button{
+  display:flex;
+  justify-content:center;
 }
-.example-button-row-resp{
-  margin:5%;
-}
+
 
 /* botones en la cabezera formulario */
 .example-button-row .mat-button-base {
-  /* margin: 8px 8px 8px 0; */
   margin: 15px 34px -2px -24px;
   min-width: 60px;
   line-height: 33px;
@@ -150,24 +148,14 @@ form{
   box-shadow: 0 0.125rem 0.625rem rgb(127 56 138 / 9%), 0 0.0625rem 0.125rem rgb(127 56 138 / 33%);
   border-color: #7f388a87;
 }
-.example-button-row-resp .mat-button-base {
-  /* margin: 8px 8px 8px 0; */
+
+.example-button-rowR .mat-button-base {
   margin: 15px 34px -2px -24px;
   min-width: 60px;
   line-height: 33px;
   border-radius:11px;
   box-shadow: 0 0.125rem 0.625rem rgb(127 56 138 / 9%), 0 0.0625rem 0.125rem rgb(127 56 138 / 33%);
   border-color: #7f388a87;
-}
-.example-button-row-resp .btnBack {
-  /* margin: 8px 8px 8px 0; */
-  margin: 15px 200px -2px -24px;
-  min-width: 60px;
-  line-height: 33px;
-  border-radius:11px;
-  box-shadow: 0 0.125rem 0.625rem rgb(127 56 138 / 9%), 0 0.0625rem 0.125rem rgb(127 56 138 / 33%);
-  border-color: #7f388a87;
-  color: #681575d9;
 }
 
 /* loading page */
@@ -247,11 +235,12 @@ form{
 
 
 @media (max-width:1200px){
-  .example-button-row{
-    margin:44%;
+  .example-button{
+    display:flex;
+    justify-content:center;
   }
-  .example-button-row-resp{
-    margin:5%;
+  .example-button-row{
+    margin-left:auto;
   }
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
@@ -259,12 +248,14 @@ form{
 }
 
 @media (max-width:991px){
-  
-  .example-button-row{
-    margin:44%;
+  .example-button{
+    justify-content:initial;
   }
-  .example-button-row-resp{
-    margin:5%;
+  .example-button-rowR{
+    padding-left:17px;
+  }
+  .example-button-row{
+    margin-left:auto;
   }
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
@@ -344,15 +335,15 @@ form{
   .mat-cell:last-of-type, .mat-header-cell:last-of-type, .mat-footer-cell:last-of-type{
     padding-right:2px;
   }
-
-  
+  .example-button{
+    justify-content:initial;
+  }
+  .example-button-rowR{
+    padding-left:17px;
+  }
   .example-button-row{
-    margin:44%;
+    margin-left:auto;
   }
-  .example-button-row-resp{
-    margin:5%;
-  }
-
   #closemenu{
     display: none;
   }
@@ -378,11 +369,14 @@ form{
     margin-right: 1em;
     margin-left: 1em;
   }
-  .example-button-row{
-    margin:44%;
+  .example-button{
+    justify-content:initial;
   }
-  .example-button-row-resp{
-    margin:5%;
+  .example-button-rowR{
+    padding-left:17px;
+  }
+  .example-button-row{
+    margin-left:auto;
   }
   #closemenu{
     display: none;
@@ -409,11 +403,14 @@ form{
     margin-right: 0.5em;
     margin-left: 0.5em;
   }
-  .example-button-row{
-    margin:50%;
+  .example-button{
+    justify-content:initial;
   }
-  .example-button-row-resp{
-    margin:5%;
+  .example-button-rowR{
+    padding-left:17px;
+  }
+  .example-button-row{
+    margin-left:auto;
   }
   .mat-header-row{
     min-height:22px;
@@ -444,11 +441,14 @@ form{
     margin-right: 0.5em;
     margin-left: 0.5em;
   }
-  .example-button-row{
-    margin:50%;
+  .example-button{
+    justify-content:initial;
   }
-  .example-button-row-resp{
-    margin:5%;
+  .example-button-rowR{
+    padding-left:17px;
+  }
+  .example-button-row{
+    margin-left:auto;
   }
   .mat-header-row{
     min-height:22px;
