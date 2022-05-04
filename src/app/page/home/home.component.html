@@ -21,7 +21,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>Fecha Inicio</mat-label>
                 <input matInput [matDatepicker]="fechaInicio" [max]="$fechaMax" placeholder="dd/mm/yyyy" 
-                [(ngModel)]="$fechaInicio" (dateChange)="onDateChange()">
+                [(ngModel)]="$fechaInicio" (dateChange)="onDateChange()" onkeydown="return false">
                 <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
                 <mat-datepicker #fechaInicio></mat-datepicker>
                 </mat-form-field>
@@ -31,7 +31,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>Fecha Fin</mat-label>
                 <input matInput [matDatepicker]="fechaFin" [max]="$fechaMax" placeholder="dd/mm/yyyy" 
-                [(ngModel)]="$fechaFin" (dateChange)="onDateChange()">
+                [(ngModel)]="$fechaFin" (dateChange)="onDateChange()" onkeydown="return false">
                 <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
                 <mat-datepicker #fechaFin></mat-datepicker>
                 </mat-form-field>

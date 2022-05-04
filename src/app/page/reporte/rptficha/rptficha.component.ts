@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-rptficha',
@@ -6,13 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rptficha.component.css']
 })
 export class RptfichaComponent implements OnInit {
+  form: FormGroup = new FormGroup({});
 
   window?: any;
   tipDocu?: string;
   numDocu?: string;
   apPaterno?: string;
   apMaterno?: string;
-  primerNombre?: string;
+  primerNombre?: string = 'Nom';
   fecNacimiento?: string;
   edad?: string;
   sexo?: string;
@@ -28,7 +30,7 @@ export class RptfichaComponent implements OnInit {
   celular?: string;
   correo?: string;
   lugarTrabajo?: string;
-  codigoPre?: string;
+  codigoPre?: string = '1234';
   fechaDona?: string;
   tipoDonacion?: string;
   tipoExtraccion?: string;
@@ -91,9 +93,34 @@ export class RptfichaComponent implements OnInit {
   logo?: string;
   codDonacion?: string;
 
-  constructor() { }
+  //Fórmulas
+  xVoluntario?: string;
+  xAutologo?: string;
+  xReposicion?: string;
+  xDirigida?: string;
+  xSangre?: string;
+  xAferesis?: string;
+  xApto?: string;
+  xNoAptoTemp?: string;
+  xNoAptoPerm?: string;
+  apPatFase1?: string;
+  apMatFase1?: string;
+  nombresFase1?: string;
+  apPatFase2?: string;
+  apMatFase2?: string;
+  nombresFase2?: string;
+  motivoTem?: string;
+  motivoPerm?: string;
+  subTitulo?: string;
+
+  constructor() {
+
+  }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      'CodigoPre': new FormControl({ value: '#######', disabled: false})
+    });
   }
 
 }
