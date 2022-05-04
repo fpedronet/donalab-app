@@ -1,0 +1,110 @@
+td {
+    vertical-align: middle;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    height: 22px;
+}
+
+.rpt-img{
+    width: 128px;
+    aspect-ratio: auto 128 / 96;
+    height: 96px;
+}
+
+.rpt-input-1{
+    border-style: solid;
+    border-width: thin;
+    height: 20px;
+}
+
+.rpt-input-2{
+    border-style: solid;
+    border-width: thin;
+    height: 70px;
+}
+
+.rpt-input-3{
+    border-style: solid;
+    border-width: thin;
+    height: 31px;
+}
+
+.rpt-input-b{
+    border-style: solid;
+    border-width: 2px;
+    height: 20px;
+}
+
+.rpt-label{
+    border-style: none;
+    height: 21px;
+    line-height: 0.9;
+}
+
+.rpt-td-1{
+    width: 112px;
+}
+
+.rpt-td-2{
+    width: 248px;
+}
+
+.rpt-td-3{
+    width: 76px;
+}
+
+.rpt-td-4{
+    width: 33px;
+}
+
+.rpt-font-7{
+    font-size: 7pt;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+}
+
+.rpt-font-8{
+    font-size: 8pt;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+}
+
+.rpt-font-9{
+    font-size: 9pt;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+}
+
+.rpt-font-10{
+    font-size: 10pt;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+}
+
+.rpt-font-8-b{
+    font-size: 8pt;
+    color: #000000;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+.rpt-font-9-b{
+    font-size: 9pt;
+    color: #000000;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+.rpt-font-10-b{
+    font-size: 10pt;
+    color: #000000;
+    font-family: Arial;
+    font-weight: bold;
+}

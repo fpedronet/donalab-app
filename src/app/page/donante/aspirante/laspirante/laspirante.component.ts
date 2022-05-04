@@ -188,88 +188,7 @@ export class LaspiranteComponent implements OnInit {
       this.reporteService.rptficha(idepredonante).subscribe(data=>{
         //console.log(data);
 
-        this.rptficha.tipDocu = '';
-        this.rptficha.numDocu = data.numDocu;
-        this.rptficha.apPaterno = data.apPaterno;
-        this.rptficha.apMaterno = data.apMaterno;
-        this.rptficha.primerNombre = data.primerNombre;
-        this.rptficha.fecNacimiento = data.vFecNacimiento;
-        this.rptficha.edad = data.edad;
-        this.rptficha.sexo = data.sexo;
-        this.rptficha.estadoCivil = data.estadoCivil;
-        this.rptficha.lugarNacimiento = data.lugarNacimiento;
-        this.rptficha.procedencia = data.procedencia;
-        this.rptficha.direccion = data.direccion;
-        this.rptficha.distrito = data.distrito;
-        this.rptficha.provincia = data.provincia;
-        this.rptficha.departamento = data.departamento;
-        this.rptficha.ocupacion = data.ocupacion;
-        this.rptficha.telefono = data.telefono;
-        this.rptficha.celular = data.celular;
-        this.rptficha.correo = data.correo1;
-        this.rptficha.lugarTrabajo = data.lugarTrabajo;
-        this.rptficha.codigoPre = data.codigoPre;
-        this.rptficha.fechaDona = data.vFechaDona;
-        this.rptficha.tipoDonacion = data.tipoDonacion;
-        this.rptficha.tipoExtraccion = data.tipoExtraccion;
-        this.rptficha.personaRelacion = data.personaRelacion;
-        this.rptficha.grupoABO = data.grupoABO;
-        this.rptficha.hemoglobina = data.hemoglobina;
-        this.rptficha.hematocrito = data.hematocrito;
-        this.rptficha.tallaDonacion = data.tallaDonacion;
-        this.rptficha.pesoDonacion = data.pesoDonacion;
-        this.rptficha.presionArterial = '';
-        this.rptficha.frecuenciaCardiaca = '';
-        this.rptficha.viajes = data.viajes;
-        this.rptficha.permanencia = data.permanencia;
-        this.rptficha.fechaViaje = data.vFechaViaje;
-        this.rptficha.lesionesVenas = data.lesionesVenas;
-        this.rptficha.estadoVenoso = data.estadoVenoso;
-        this.rptficha.campo1A = data.campo1A;
-        this.rptficha.campo2A = data.campo2A;
-        this.rptficha.campo3A = data.campo3A;
-        this.rptficha.campo4A = data.campo4A;
-        this.rptficha.campo4B = '';
-        this.rptficha.campo5A = data.campo5A;
-        this.rptficha.campo5B = '';
-        this.rptficha.campo6A = data.campo6A;
-        this.rptficha.campo6B = '';
-        this.rptficha.campo7A = data.campo7A;
-        this.rptficha.campo8A = data.campo8A;
-        this.rptficha.campo9A = data.campo9A;
-        this.rptficha.campo10A = data.campo10A;
-        this.rptficha.campo10B = '';
-        this.rptficha.campo11A = data.campo11A;
-        this.rptficha.campo12A = data.campo12A;
-        this.rptficha.campo13A = data.campo13A;
-        this.rptficha.campo14A = data.campo14A;
-        this.rptficha.campo14B = '';
-        this.rptficha.campo15A = data.campo15A;
-        this.rptficha.campo16A = data.campo16A;
-        this.rptficha.campo17A = data.campo17A;
-        this.rptficha.campo18A = data.campo18A;
-        this.rptficha.campo19A = data.campo19A;
-        this.rptficha.campo20A = data.campo20A;
-        this.rptficha.campo21A = data.campo21A;
-        this.rptficha.campo22A = data.campo22A;
-        this.rptficha.campo23A = data.campo23A;
-        this.rptficha.campo24A = data.campo24A;
-        this.rptficha.campo25A = data.campo25A;
-        this.rptficha.campo26A = data.campo26A;
-        this.rptficha.campo27A = data.campo27A;
-        this.rptficha.campo28A = data.campo28A;
-        this.rptficha.campo29A = data.campo29A;
-        this.rptficha.campo29B = '';
-        this.rptficha.estado = data.estado;
-        this.rptficha.motivoRec = data.motivoRec;
-        this.rptficha.periodoRechazo = data.periodoRechazo;
-        this.rptficha.observacionesChec = data.observacionesChec;
-        this.rptficha.faseRechazo = data.faseRechazo;
-        this.rptficha.titulo = data.titulo;
-        this.rptficha.subTitulo1 = data.subTitulo1;
-        this.rptficha.subTitulo2 = data.subTitulo2;
-        this.rptficha.logo = data.strLogo;
-        this.rptficha.codDonacion = data.codDonacion;
+        this.rptficha.setFicha(data);
 
         setTimeout(function(){
           const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
@@ -289,9 +208,108 @@ export class LaspiranteComponent implements OnInit {
                           body 
                           {
                               background-color:#FFFFFF; 
-                              border: solid 1px black ;
-                              margin: 0px;
+                              border: solid 1px white ;
+                              margin: 10px;
                           }
+                          td {
+                            padding-top: 1px;
+                            padding-bottom: 1px;
+                            padding-left: 5px;
+                            padding-right: 5px;
+                        
+                            height: 22px;
+                        }
+                        
+                        .rpt-img{
+                            width: 128px;
+                            aspect-ratio: auto 128 / 96;
+                            height: 96px;
+                        }
+                        
+                        .rpt-input-1{
+                            border-style: solid;
+                            border-width: thin;
+                            height: 20px;
+                        }
+                        
+                        .rpt-input-2{
+                            border-style: solid;
+                            border-width: thin;
+                            height: 70px;
+                        }
+                        
+                        .rpt-input-3{
+                            border-style: solid;
+                            border-width: thin;
+                            height: 31px;
+                        }
+                        
+                        .rpt-label{
+                            border-style: none;
+                            height: 21px;
+                            line-height: 0.9;
+                        }
+                        
+                        .rpt-td-1{
+                            width: 112px;
+                        }
+                        
+                        .rpt-td-2{
+                            width: 248px;
+                        }
+                        
+                        .rpt-td-3{
+                            width: 76px;
+                        }
+                        
+                        .rpt-font-7{
+                            font-size: 7pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: normal;
+                        }
+                        
+                        .rpt-font-8{
+                            font-size: 8pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: normal;
+                        }
+                        
+                        .rpt-font-9{
+                            font-size: 9pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: normal;
+                        }
+                        
+                        .rpt-font-10{
+                            font-size: 10pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: normal;
+                        }
+                        
+                        .rpt-font-8-b{
+                            font-size: 8pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: bold;
+                        }
+                        
+                        .rpt-font-9-b{
+                            font-size: 9pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: bold;
+                        }
+                        
+                        .rpt-font-10-b{
+                            font-size: 10pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: bold;
+                        }
                        </style>
                     </head>
                     <body onload="window.print();window.close();">
