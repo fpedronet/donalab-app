@@ -40,9 +40,9 @@ const routes: Routes = [
   {path:'donante/entrevista/create', component: CentrevistaComponent, canActivate: [GuardService]},
   {path:'donante/entrevista/edit/:id/:edit', component: CentrevistaComponent, canActivate: [GuardService]},
 
-  {path:'donante/donacion', component: LdonacionComponent},
-  {path:'donante/donacion/create', component: CdonacionComponent},
-  {path:'donante/donacion/edit/:id/:edit', component: CdonacionComponent},
+  {path:'donante/donacion', component: LdonacionComponent, canActivate: [GuardService]},
+  {path:'donante/donacion/create', component: CdonacionComponent, canActivate: [GuardService]},
+  {path:'donante/donacion/edit/:id/:edit', component: CdonacionComponent, canActivate: [GuardService]},
 
   {path:'ficha', component: RptfichaComponent},
 
