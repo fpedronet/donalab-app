@@ -343,6 +343,7 @@ export class CdonacionComponent implements OnInit {
       this.rptetiqueta.documento = data.documento!;
       this.rptetiqueta.sexo = data.sexo;
       this.rptetiqueta.hematocritos = data.hematocrito;
+      this.rptetiqueta.hemoglobina = data.hemoglobina;
       this.rptetiqueta.fecNacimiento = data.fecNacimiento;
       this.rptetiqueta.edad = data.edad;
       this.rptetiqueta.grupo = data.grupo;
@@ -354,8 +355,8 @@ export class CdonacionComponent implements OnInit {
       if(code!=""){
         JsBarcode("#barcode", code, {        
           lineColor: "#000",
-          width: 1,
-          height: 30,
+          width: 1.3,
+          height: 35,
           displayValue: false
         });
 
@@ -372,13 +373,11 @@ export class CdonacionComponent implements OnInit {
                             @page 
                             {
                                 size: auto;
-                                margin: 0mm;
+                                margin: 1mm;
                             }                    
                             body 
                             {
-                                background-color:#FFFFFF; 
-                                border: solid 1px black ;
-                                margin: 0px;
+                                margin: 1.5px;
                             }
                          </style>
                       </head>
