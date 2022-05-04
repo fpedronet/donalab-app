@@ -1,31 +1,150 @@
 <div>
   <!--Espacio del menú para pruebas-->
-  <div style="height: 47px;"></div>
-  <div>
-    HOLA
-  </div>
-  <img [src]="logo" style="width: 160px; height: 120px;">
-  <h1 class="center">Título</h1>
-  <input [(ngModel)]="primerNombre">
-
-    <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
-      <div style="width: 50%;">
-        <p style="font-weight: 600; margin: 0 0 0px;">{{tipDocu}}</p>
-      </div>
-    </div>
-    <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
-    <div style="width: 50%;">
-        <p style="font-weight: 600; margin: 0 0 0px;">{{numDocu}}</p>
-    </div>
-    </div>
-    <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
-        <div style="width: 50%;">
-          <p style="font-weight: 600; margin: 0 0 0px;">{{primerNombre}}</p>
-        </div>
-      </div>
-      <div style="display: flex; flex-direction:row; flex-wrap: wrap;">
-        <div style="width: 50%;">
-          <p style="font-weight: 600; margin: 0 0 0px;">{{apPaterno}}</p>
-        </div>
-      </div>
+  <!--div style="height: 47px;"></div-->
+  
+  <table width="756px" border="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td rowspan="4" colspan="2">
+          <img [src]="logo" class="rpt-img">
+        </td>
+        <td colspan="4" align="center">
+          <div class="rpt-label">
+            <span class="center; rpt-font-9-b">{{titulo}}</span>
+          </div>          
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" align="center">
+          <div class="rpt-label">
+            <span class="center; rpt-font-9-b">{{subTitulo}}</span>
+          </div>          
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" align="center">
+          <div class="rpt-label">
+            <span class="center; rpt-font-10-b">FORMATO DE SELECCIÓN DEL DONANTE</span>
+          </div>          
+        </td>
+      </tr>
+      <tr>
+        <td width="20px" rowspan="3">
+          &nbsp;
+        </td>
+        <td class="rpt-td-1">
+          <div class="rpt-label">
+            <span class="rpt-font-8">N° Postulante:</span>
+          </div>
+        </td>
+        <td class="rpt-td-2">
+          <div class="rpt-input-1">
+            <span class="rpt-font-9">{{codigoPre}}</span>
+          </div>
+        </td>
+        <td rowspan="3">
+          <div class="rpt-input-2">
+            <span class="rpt-font-7">Grupo Sanguíneo ABO y Factor Rh</span>
+            <br><br>
+            <span class="rpt-font-10">{{grupoABO}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="rpt-td-3" rowspan="2">
+          <div class="rpt-label">
+            <span class="rpt-font-7">Fecha (Día/mes/año)</span>
+          </div>
+        </td>
+        <td class="rpt-td-1" rowspan="2">
+          <div class="rpt-input-3">
+            <span class="rpt-font-9-b">{{fechaDona}}</span>
+          </div>
+        </td>
+        <td class="rpt-td-1">
+          <div class="rpt-label">
+            <span class="rpt-font-8">Código del Donante:</span>
+          </div>
+        </td>
+        <td class="rpt-td-2">
+          <div class="rpt-input-3">
+            <span class="rpt-font-9-b">{{codDonacion}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="rpt-td-1">
+          <div class="rpt-label">
+            <span class="rpt-font-8">{{tipDocu}}</span>
+          </div>
+        </td>
+        <td class="rpt-td-2">
+          <div class="rpt-input-1">
+            <span class="rpt-font-8">{{numDocu}}</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table width="756px" border="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td colspan="2">
+          <div class="rpt-label">
+            <span class="rpt-font-8">TIPO DE DONANTE</span>
+          </div>
+        </td>
+        <td colspan="2" class="rpt-td-3">
+          <div class="rpt-label">
+            <span class="rpt-font-8">Voluntario:</span>
+          </div>
+        </td>
+        <td class="rpt-td-4">
+          <div class="rpt-input-b">
+            <span class="rpt-font-8-b">{{xVoluntario}}</span>
+          </div>
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td class="rpt-td-3">
+          <div class="rpt-label">
+            <span class="rpt-font-8">Autólogo:</span>
+          </div>
+        </td>
+        <td class="rpt-td-4">
+          <div class="rpt-input-b">
+            <span class="rpt-font-8-b">{{xAutologo}}</span>
+          </div>
+        </td>
+        <td class="rpt-td-3">
+          <div class="rpt-label">
+            <span class="rpt-font-8">Reposición:</span>
+          </div>
+        </td>
+        <td class="rpt-td-4">
+          <div class="rpt-input-b">
+            <span class="rpt-font-8-b">{{xReposicion}}</span>
+          </div>
+        </td>
+        <td class="rpt-td-3">
+          <div class="rpt-label">
+            <span class="rpt-font-8">Dirigida:</span>
+          </div>
+        </td>
+        <td class="rpt-td-4">
+          <div class="rpt-input-b">
+            <span class="rpt-font-8-b">{{xDirigida}}</span>
+          </div>
+        </td>
+        <td rowspan="3">
+          <div class="rpt-input-2">
+            <span class="rpt-font-8">Hb y/o Hto</span>
+            <br><br>
+            <span class="rpt-font-8">{{hemoglobina}}   {{hematocrito}}</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
