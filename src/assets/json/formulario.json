@@ -18,5 +18,10 @@
         "codigo":"0103",
         "nombre":"entrevista",
         "modulo":"donante"
+    },
+    "donantes":{
+        "codigo":"0104",
+        "nombre":"donantes",
+        "modulo":"donante"
     }
 }
