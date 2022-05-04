@@ -16,7 +16,7 @@ import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevis
 
 import { HomeComponent } from './home/home.component';
 
-import { Not403Component } from './not403/not403.component';
+import { Not403Component } from './configuracion/not403/not403.component';
 import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
 
 const routes: Routes = [

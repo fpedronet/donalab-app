@@ -8,8 +8,8 @@ import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/c
 import { HomeComponent } from './home/home.component';
 import { PageRoutingModule } from './page-routing.module';
 import { InterceptorService } from '../_interceptors/interceptor.service';
-import { Not404Component } from './not404/not404.component';
-import { Not403Component } from './not403/not403.component';
+import { Not404Component } from './configuracion/not404/not404.component';
+import { Not403Component } from './configuracion/not403/not403.component';
 import { LaspiranteComponent } from './donante/aspirante/laspirante/laspirante.component';
 import { CaspiranteComponent } from './donante/aspirante/caspirante/caspirante.component';
 import { LaspiranteligthComponent } from './donante/aspiranteligth/laspiranteligth/laspiranteligth.component';
@@ -25,6 +25,7 @@ import { CdonacionComponent } from './donante/donacion/cdonacion/cdonacion.compo
 import { RptetiquetaComponent } from './reporte/rptetiqueta/rptetiqueta.component';
 import { RptdonanteComponent } from './reporte/rptdonante/rptdonante.component';
 import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
+
 
 @NgModule({
   declarations: [

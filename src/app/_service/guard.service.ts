@@ -67,11 +67,11 @@ export class GuardService implements CanActivate {
 
           }
         }
-
+      
         if (cont > 0) {
           return true;
         } else {
-          this.router.navigate(['/pages/not-403']);
+          this.router.navigate(['/page/not-403']);
           return false;
         }
 

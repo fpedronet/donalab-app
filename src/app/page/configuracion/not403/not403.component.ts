@@ -17,7 +17,7 @@ export class Not403Component implements OnInit {
     const helper = new JwtHelperService();
     let token = localStorage.getItem(environment.TOKEN_NAME);
     const decodedToken = helper.decodeToken(token!);
-    this.usuario = decodedToken.descripcion;
+    this.usuario =(decodedToken==null)? "" : decodedToken.descripcion;
   }
 
 }
