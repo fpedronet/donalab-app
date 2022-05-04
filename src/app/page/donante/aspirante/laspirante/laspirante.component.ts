@@ -273,21 +273,38 @@ export class LaspiranteComponent implements OnInit {
 
         setTimeout(function(){
           const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
-              const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
-              popupWin.document.open();
-              popupWin.document.write(`
-                  <html>
-                      <head>
-                          <title>Pestaña de impresión</title>
-                        
-                      </head>
-                      <body onload="window.print(); window.close()">
-                          ${printContents}
-                      </body>
-                  </html>
-                  `
-              );
-            popupWin.document.close();
+          //  const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
+          const popupWin = window.open('top=0,left=0,height=1000,width=1000')!;
+           popupWin.document.open();
+           popupWin.document.write(`
+                <html>
+                    <head>
+                        <title>Pestaña de impresión</title>
+                        <style type="text/css" media="print">
+                          @page 
+                          {
+                              size: auto;
+                              margin: 0mm;
+                          }                    
+                          body 
+                          {
+                              background-color:#FFFFFF; 
+                              border: solid 1px black ;
+                              margin: 0px;
+                          }
+                       </style>
+                    </head>
+                    <body onload="window.print();window.close();">
+                        ${printContents}
+                    </body>
+                </html>
+                `
+            );
+          popupWin.document.close();
+          popupWin.focus();
+
+          popupWin.print();
+          popupWin.close();
         },200);
         this.spinner.hideLoading();
       });

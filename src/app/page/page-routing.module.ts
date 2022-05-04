@@ -17,6 +17,7 @@ import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevis
 import { HomeComponent } from './home/home.component';
 
 import { Not403Component } from './not403/not403.component';
+import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent, canActivate: [GuardService]},
@@ -42,6 +43,8 @@ const routes: Routes = [
   {path:'donante/donacion', component: LdonacionComponent},
   {path:'donante/donacion/create', component: CdonacionComponent},
   {path:'donante/donacion/edit/:id/:edit', component: CdonacionComponent},
+
+  {path:'ficha', component: RptfichaComponent},
 
 ];
 
