@@ -26,6 +26,10 @@ import { RptetiquetaComponent } from './reporte/rptetiqueta/rptetiqueta.componen
 import { RptdonanteComponent } from './reporte/rptdonante/rptdonante.component';
 import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
 
+import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+
+const config: SocketIoConfig = { url: environment.UrlApi, options: {} };
 
 @NgModule({
   declarations: [
@@ -56,7 +60,8 @@ import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    PageRoutingModule
+    PageRoutingModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     {

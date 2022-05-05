@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -37,8 +38,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTreeModule} from '@angular/material/tree';
 import {WebcamModule} from 'ngx-webcam';
 import {NgxPrintModule} from 'ngx-print' ;
-// import { PdfViewerModule } from 'ng2-pdf-viewer';
-// import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 
 @NgModule({
   declarations: [],
@@ -82,8 +82,6 @@ import {NgxPrintModule} from 'ngx-print' ;
     MatTreeModule,
     WebcamModule,
     NgxPrintModule,
-    // PdfViewerModule
-    // NgxExtendedPdfViewerModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+// import { Socket } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { Predonante, PredonanteRequest } from 'src/app/_model/donante/predonante';
 import { Response } from 'src/app/_model/response';
@@ -12,7 +13,10 @@ import { PersonaHistorial } from '../../_model/donante/personahistorial';
 })
 export class PredonanteService {
 
-  constructor(private http: HttpClient) {} 
+  constructor(
+    private http: HttpClient
+    // private socket: Socket,
+    ) {} 
   
   private url: string = `${environment.UrlApi}/predonante`;
 
@@ -27,9 +31,8 @@ export class PredonanteService {
     req.FechaHasta = fechahasta;
     req.Page = page+1;
     req.Pages = pages;
-
+   
     let urls = `${this.url}/GetAllPredonante`;
-
     return this.http.post<dataCollection>(urls,req);
   }
 
