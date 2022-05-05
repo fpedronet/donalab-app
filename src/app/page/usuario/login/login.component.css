@@ -11,13 +11,12 @@ form {
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-    width: 90%;
+    width: 84%;
     max-width: 370px;
-    background-color: #45454587;
+    background-color: #4545456b;
     margin: 0;
     padding: 2.25em;
     box-sizing: border-box;
-    /* border: solid 1px #df5e10; */
     border-radius: 1.5em;
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -104,7 +103,8 @@ form button {
   display: block;
     margin: 0;
     padding: 0.65em 1em 1em;
-    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);;
+    /* background: linear-gradient(90deg, #9b1417 0%, #681575 100%);; */
+    background: #95081b;
     border: none;
     border-radius: 20px;
     box-sizing: border-box;
@@ -117,9 +117,7 @@ form button {
     font-family: inherit;
     transition: background-color .2s ease-out;
 }
-/* form button:hover, form button:active {
-  background-color: #5331ee;
-} */
+
 form .inputGroup1 .helper {
   position: absolute;
   z-index: 1;
