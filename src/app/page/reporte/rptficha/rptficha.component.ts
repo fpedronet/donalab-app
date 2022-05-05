@@ -34,6 +34,7 @@ export class RptfichaComponent implements OnInit {
   tipoDonacion?: string;
   tipoExtraccion?: string;
   personaRelacion?: string;
+  otrosRecepcion?: string;
   grupoABO?: string;
   hemoglobina?: string;
   hematocrito?: string;
@@ -145,6 +146,7 @@ export class RptfichaComponent implements OnInit {
     this.tipoDonacion = data.tipoDonacion;
     this.tipoExtraccion = data.tipoExtraccion;
     this.personaRelacion = data.personaRelacion;
+    this.otrosRecepcion = data.otrosRecepcion;
     this.grupoABO = data.grupoABO;
     this.hemoglobina = data.hemoglobina;
     this.hematocrito = data.hematocrito;
