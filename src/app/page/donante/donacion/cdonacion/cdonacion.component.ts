@@ -470,12 +470,12 @@ export class CdonacionComponent implements OnInit {
 
   changevolumen(event: any, ideHemocomponente?: number){
     var result = this.listaUnidade?.filter(y=>y.ideHemocomponente==ideHemocomponente)[0];
-    result!.volumen= event.target.value;
+    result!.volumen= (event.target.value == "" ||  event.target.value == null)? 0 :  event.target.value;
   } 
 
   changepesototal(event: any, ideHemocomponente?: number){
     var result = this.listaUnidade?.filter(y=>y.ideHemocomponente==ideHemocomponente)[0];
-    result!.pesoTotal= event.target.value;
+    result!.pesoTotal= (event.target.value == "" ||  event.target.value == null)? 0 :  event.target.value;
   }
 
   changeestado(estado: boolean){
