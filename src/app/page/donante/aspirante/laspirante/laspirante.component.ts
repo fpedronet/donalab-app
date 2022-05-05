@@ -41,6 +41,8 @@ export class LaspiranteComponent implements OnInit {
 
   permiso: Permiso = {};
 
+  interval: any;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -79,7 +81,8 @@ export class LaspiranteComponent implements OnInit {
     }    
 
     localStorage.setItem(environment.CODIGO_FILTRO, this.predonante.Nombres +"|"+ this.predonante.Idecampania+"|"+this.predonante.IdeOrigen+"|"+this.predonante.IdeEstado+"|"+this.predonante.FechaDesde+"|"+this.predonante.FechaHasta);
- 
+
+    this.startTimer();
   }
 
   actualizar(){
@@ -88,8 +91,6 @@ export class LaspiranteComponent implements OnInit {
 
   ngAfterViewInit() {
 
-    
-
     this.predonanteService = new PredonanteService(this.http);
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -97,7 +98,7 @@ export class LaspiranteComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.loading = true;
+          // this.loading = true;
           let filtro = this.usuarioService.sessionFiltro();
           let codigobanco = this.usuarioService.sessionUsuario().codigobanco;
           
@@ -356,4 +357,10 @@ export class LaspiranteComponent implements OnInit {
     }
   }
   
+  startTimer() {
+    this.interval = setInterval(() => {
+      this.ngAfterViewInit();
+    },8000)
+  }
+
 }
