@@ -136,6 +136,8 @@ export class CdonacionComponent implements OnInit {
       this.listaUnidade = data.listaExtraccionUnidad;
       this.listaMotivoRechazo = data.listaMotivoRechazo;
 
+      // data.listaMotivoRechazo?.forEach
+
       if(ids!=0 || cod!=""){
 
         let $fecha = new Date();
