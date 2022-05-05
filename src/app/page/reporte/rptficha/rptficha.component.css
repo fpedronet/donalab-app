@@ -53,11 +53,19 @@ td {
 }
 
 .rpt-td-3{
-    width: 76px;
+    width: 60px;
 }
 
 .rpt-td-4{
     width: 33px;
+}
+
+.rpt-td-5{
+    width: 91px;
+}
+
+.rpt-td-6{
+    width: 49px;
 }
 
 .rpt-font-7{
@@ -107,4 +115,12 @@ td {
     color: #000000;
     font-family: Arial;
     font-weight: bold;
+}
+
+.rpt-divider{
+    border-color: black;
+    height: 0px;
+    margin-block-start: 0.2em;
+    width: 756px;
+    display: table-caption;
 }

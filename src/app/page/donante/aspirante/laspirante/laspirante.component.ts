@@ -212,6 +212,7 @@ export class LaspiranteComponent implements OnInit {
                               margin: 10px;
                           }
                           td {
+                            vertical-align: middle;
                             padding-top: 1px;
                             padding-bottom: 1px;
                             padding-left: 5px;
@@ -244,6 +245,12 @@ export class LaspiranteComponent implements OnInit {
                             height: 31px;
                         }
                         
+                        .rpt-input-b{
+                            border-style: solid;
+                            border-width: 2px;
+                            height: 20px;
+                        }
+                        
                         .rpt-label{
                             border-style: none;
                             height: 21px;
@@ -259,7 +266,19 @@ export class LaspiranteComponent implements OnInit {
                         }
                         
                         .rpt-td-3{
-                            width: 76px;
+                            width: 60px;
+                        }
+                        
+                        .rpt-td-4{
+                            width: 33px;
+                        }
+                        
+                        .rpt-td-5{
+                            width: 91px;
+                        }
+                        
+                        .rpt-td-6{
+                            width: 49px;
                         }
                         
                         .rpt-font-7{
@@ -309,6 +328,14 @@ export class LaspiranteComponent implements OnInit {
                             color: #000000;
                             font-family: Arial;
                             font-weight: bold;
+                        }
+                        
+                        .rpt-divider{
+                            border-color: black;
+                            height: 0px;
+                            margin-block-start: 0.2em;
+                            width: 756px;
+                            display: table-caption;
                         }
                        </style>
                     </head>
