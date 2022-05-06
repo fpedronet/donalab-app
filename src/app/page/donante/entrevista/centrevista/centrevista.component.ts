@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
 import { MatDialog } from '@angular/material/dialog';
 import { MdiferidoComponent } from '../mdiferido/mdiferido.component';
+import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 
 @Component({
   selector: 'app-centrevista',
@@ -55,6 +56,7 @@ export class CentrevistaComponent implements OnInit {
     private dialog: MatDialog,
     private spinner: SpinnerService,
     private notifierService : NotifierService,
+    private confirm : ConfimService,
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
     private entrevistaService: EntrevistaService
@@ -205,7 +207,6 @@ export class CentrevistaComponent implements OnInit {
   }
 
   guardar(){
-
     let id = this.form.value['idePreDonante'];
     let submit = true;
     let $estado = this.CodEstado;
@@ -238,26 +239,48 @@ export class CentrevistaComponent implements OnInit {
       model.ideMotivoRec= (this.btnrechazado==false)? 0: this.form.value['ideMotivoRec'];
       model.listaPregunta = this.listaPregunta;
   
-      if(model.ideMotivoRec!=0 && this.confirmado==false){
-        this.abrirModal(model.ideMotivoRec);
-      }else{
+      let $pregunta = this.listaPregunta?.filter(x=>x.respuesta==null);
 
-        model.fechaHasta = (this.btnrechazado==false)? undefined: this.fechaHasta;
-        model.periodo = (this.btnrechazado==false)? "": this.periodo;
+      if($pregunta?.length! > 0 && this.confirmado==false){
+          let $listaPregunta = new Array;
 
-        this.spinner.showLoading();
-        this.entrevistaService.guardar(model).subscribe(data=>{
-    
-          this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-    
-            if(data.typeResponse==environment.EXITO){
-              this.router.navigate(['/page/donante/aspirante']);
-              this.spinner.hideLoading();
-            }else{
-              this.spinner.hideLoading();
+          $pregunta?.forEach(x=>{
+            $listaPregunta.push(x.idePregunta);
+          });
+         
+          let $msg= "Pregunta N° = " + $listaPregunta.join(',');
+          
+          this.confirm.openConfirmDialog(false,"Confirmación", $msg!,".", "Desea finalizar el cuestionario").afterClosed().subscribe(res =>{
+            if(res){
+              this.$guardar(model);
             }
           });
+      }else{
+        this.$guardar(model);
       }
+    }
+  }
+
+  $guardar(model:Entrevista){
+    if(model.ideMotivoRec!=0 && this.confirmado==false){
+      this.abrirModal(model.ideMotivoRec);
+    }else{
+
+      model.fechaHasta = (this.btnrechazado==false)? undefined: this.fechaHasta;
+      model.periodo = (this.btnrechazado==false)? "": this.periodo;
+
+      this.spinner.showLoading();
+      this.entrevistaService.guardar(model).subscribe(data=>{
+  
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+  
+          if(data.typeResponse==environment.EXITO){
+            this.router.navigate(['/page/donante/aspirante']);
+            this.spinner.hideLoading();
+          }else{
+            this.spinner.hideLoading();
+          }
+        });
     }
   }
 
