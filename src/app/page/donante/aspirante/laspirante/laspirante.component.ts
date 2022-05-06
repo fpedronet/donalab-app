@@ -82,7 +82,7 @@ export class LaspiranteComponent implements OnInit {
 
     localStorage.setItem(environment.CODIGO_FILTRO, this.predonante.Nombres +"|"+ this.predonante.Idecampania+"|"+this.predonante.IdeOrigen+"|"+this.predonante.IdeEstado+"|"+this.predonante.FechaDesde+"|"+this.predonante.FechaHasta);
 
-    this.startTimer();
+    // this.startTimer();
   }
 
   actualizar(){
@@ -372,10 +372,10 @@ export class LaspiranteComponent implements OnInit {
     }
   }
   
-  startTimer() {
-    this.interval = setInterval(() => {
-      this.ngAfterViewInit();
-    },8000)
-  }
+  // startTimer() {
+  //   this.interval = setInterval(() => {
+  //     this.ngAfterViewInit();
+  //   },8000)
+  // }
 
 }
