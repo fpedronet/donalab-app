@@ -10,16 +10,16 @@ export class RptfichaComponent implements OnInit {
 
   window?: any;
   tipDocu?: string = 'DNI';
-  numDocu?: string;
-  apPaterno?: string;
-  apMaterno?: string;
-  primerNombre?: string;
-  fecNacimiento?: string;
-  edad?: string;
-  sexo?: string;
-  estadoCivil?: string;
-  lugarNacimiento?: string;
-  procedencia?: string;
+  numDocu?: string = '99999999';
+  apPaterno?: string = 'apPaterno';
+  apMaterno?: string = 'apMaterno';
+  primerNombre?: string = 'nombre';
+  fecNacimiento?: string = '99/99/9999';
+  edad?: string = '00';
+  sexo?: string = 'X';
+  estadoCivil?: string = 'estC';
+  lugarNacimiento?: string = 'lugarNac';
+  procedencia?: string = 'proced';
   direccion?: string;
   distrito?: string;
   provincia?: string;
@@ -29,15 +29,15 @@ export class RptfichaComponent implements OnInit {
   celular?: string;
   correo?: string;
   lugarTrabajo?: string;
-  codigoPre?: string;
-  fechaDona?: string;
+  codigoPre?: string = 'codigoPre';
+  fechaDona?: string = '99/99/9999';
   tipoDonacion?: string;
   tipoExtraccion?: string;
-  personaRelacion?: string;
+  personaRelacion?: string = 'RECEPTOR 1234';
   otrosRecepcion?: string;
-  grupoABO?: string;
-  hemoglobina?: string;
-  hematocrito?: string;
+  grupoABO?: string = 'grupoABO';
+  hemoglobina?: string = '0.00';
+  hematocrito?: string = '0.00';
   tallaDonacion?: string;
   pesoDonacion?: string;
   presionArterial?: string = '';
@@ -87,22 +87,22 @@ export class RptfichaComponent implements OnInit {
   periodoRechazo?: string;
   observacionesChec?: string;
   faseRechazo?: string;
-  titulo?: string;
-  subTitulo1?: string;
-  subTitulo2?: string;
+  titulo?: string = 'titulo';
+  subTitulo1?: string = 'sub1';
+  subTitulo2?: string = 'sub2';
   logo?: string;
-  codDonacion?: string;
+  codDonacion?: string = 'codDonacion';
 
   //Fórmulas
-  xVoluntario?: string;
-  xAutologo?: string;
-  xReposicion?: string;
-  xDirigida?: string;
-  xSangre?: string;
-  xAferesis?: string;
-  xApto?: string;
-  xNoAptoTemp?: string;
-  xNoAptoPerm?: string;
+  xVoluntario?: string = 'V';
+  xAutologo?: string = 'U';
+  xReposicion?: string = 'R';
+  xDirigida?: string = 'D';
+  xSangre?: string = 'S';
+  xAferesis?: string = 'F';
+  xApto?: string = 'A';
+  xNoAptoTemp?: string = 'T';
+  xNoAptoPerm?: string = 'P';
   apPatFase1?: string;
   apMatFase1?: string;
   nombresFase1?: string;
@@ -111,7 +111,7 @@ export class RptfichaComponent implements OnInit {
   nombresFase2?: string;
   motivoTem?: string;
   motivoPerm?: string;
-  subTitulo?: string;
+  subTitulo?: string = this.subTitulo1 + ' ' + this.subTitulo2;;
 
   constructor() {
 

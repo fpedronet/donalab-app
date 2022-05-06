@@ -218,8 +218,11 @@ export class LaspiranteComponent implements OnInit {
                             padding-bottom: 1px;
                             padding-left: 5px;
                             padding-right: 5px;
-                        
                             height: 22px;
+                            /*Para ver como se divide la tabla
+                            border-style: outset;
+                            border-width: 1px;
+                            border-color: blue;*/
                         }
                         
                         .rpt-img{
@@ -232,6 +235,10 @@ export class LaspiranteComponent implements OnInit {
                             border-style: solid;
                             border-width: thin;
                             height: 20px;
+                        }
+                        
+                        .rpt-input-1 .rpt-font-8{
+                            margin-left: 5px;
                         }
                         
                         .rpt-input-2{
@@ -258,6 +265,13 @@ export class LaspiranteComponent implements OnInit {
                             line-height: 0.9;
                         }
                         
+                        .rpt-label-r{
+                            border-style: none;
+                            height: 21px;
+                            line-height: 0.9;
+                            text-align: right;
+                        }
+                        
                         .rpt-td-1{
                             width: 112px;
                         }
@@ -270,8 +284,9 @@ export class LaspiranteComponent implements OnInit {
                             width: 60px;
                         }
                         
-                        .rpt-td-4{
+                        .rpt-td-4{ /*Para X*/
                             width: 33px;
+                            text-align: center;
                         }
                         
                         .rpt-td-5{
