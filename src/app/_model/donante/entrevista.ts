@@ -7,24 +7,25 @@ export class Entrevista{
     codigo?: number;
     ideUsuario?: number;
     codEstado?: string;
-    ideMotivoRec?: number;//ok
-    pesoDonacion?: number;//ok
-    hemoglobina?: number; //ok
+    ideMotivoRec?: number;
+    pesoDonacion?: number;
+    hemoglobina?: number; 
     nIdTipoProceso?: number;
-    tallaDonacion?: number;//ok
-    hematocrito?: number;//ok
-    tipoExtraccion?: string;//ok
-    ideGrupo?: string;//ok
-    estadoVenoso?: string;//ok
-    lesionesVenas?: string;//ok
-    fechaMed?: Date;//ok
-    observacionesMed?: string;//ok
-    nombres?:string;//ok
-    documento?: string;//ok
+    tallaDonacion?: number;
+    hematocrito?: number;
+    tipoExtraccion?: string;
+    ideGrupo?: string;
+    estadoVenoso?: string;
+    lesionesVenas?: string;
+    fechaMed?: Date;
+    observacionesMed?: string;
+    nombres?:string;
+    documento?: string;
     
     listaPregunta?: Pregunta[];
     listaTipoExtraccion?: Combobox[];
     listaLesionesPuncion?: Combobox[];
     listaGrupoSanguineo?: Combobox[];
     listaAspectoVenoso?: Combobox[];
+    listaMotivoRechazo?: Combobox[];
 }

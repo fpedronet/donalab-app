@@ -192,6 +192,8 @@ export class CdonacionComponent implements OnInit {
         }        
         else if(data.codEstado!.toString()!="1"){
           this.notifierService.showNotification(environment.ALERT,'Mensaje','Para la creación de la donacion debe estar APTO');
+        }else{
+          this.calcularhora(2);
         }
 
       }
@@ -239,6 +241,7 @@ export class CdonacionComponent implements OnInit {
       let fechaextracc = this.form.value['fechaExtraccion'];
       let timeHoraInicio = this.form.value['vHoraIni'];
       let timeHoraFin = this.form.value['vHoraFin'];
+      let tiempoextraccion = this.form.value['tipoExtraccion'];
       let $countUnidades = this.listaUnidade?.filter(y=>y.volumen!>0).length;
 
       if(fechaextracc==null){
@@ -260,6 +263,10 @@ export class CdonacionComponent implements OnInit {
       else if(rendimiento<0){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','El rendimiento no puede ser menor a 0');
+      }
+      else if(tiempoextraccion<0){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La hora inicio no puede menor a la hora fin');
       }
     }
 

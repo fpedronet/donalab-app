@@ -34,7 +34,8 @@ export class CentrevistaComponent implements OnInit {
   listaGrupoSanguineo?: Combobox[] = [];
   listaAspectoVenoso?: Combobox[] = [];
   listaPregunta?: Pregunta[] = [];
-  
+  listaMotivoRechazo?: Combobox[];
+
   nombres: string = "";
   documento: string ="";
   CodEstado: string = "0";
@@ -121,6 +122,7 @@ export class CentrevistaComponent implements OnInit {
       this.listaGrupoSanguineo = data.listaGrupoSanguineo;
       this.listaAspectoVenoso = data.listaAspectoVenoso;
       this.listaPregunta = data.listaPregunta;
+      this.listaMotivoRechazo = data.listaMotivoRechazo;
 
       if(ids!=0 || cod!=0){
 

@@ -250,7 +250,7 @@ form{
   }
 }
 
-@media (max-width:991px){
+@media (max-width:990px){
   .example-button{
     justify-content:initial;
   }
@@ -260,13 +260,47 @@ form{
   .mat-toolbar.mat-primary{
     background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
   }
-  .mat-table .mat-cell.web{
-    display: none;
+  .example-button-row{
+    margin-left:auto;
   }
-  .mat-table .mat-cell.mobil{
-    display: flex;
-    color: #ffffff;
-    text-align: center;
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  }
+}
+
+@media (max-width:980px){
+  .example-button{
+    justify-content:initial;
+  }
+  .example-button-row{
+    margin-left:auto;
+  }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  }
+  .example-button-row{
+    margin-left:auto;
+  }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  }
+}
+
+@media (max-width:970px){
+  .example-button{
+    justify-content:initial;
+  }
+  .example-button-row{
+    margin-left:auto;
+  }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
+  }
+  .example-button-row{
+    margin-left:auto;
+  }
+  .mat-toolbar.mat-primary{
+    background: linear-gradient(90deg, #9b1417 0%, #681575 100%);
   }
 }
 

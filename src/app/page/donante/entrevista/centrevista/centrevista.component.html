@@ -159,6 +159,17 @@
                 </mat-grid-list>
               </div>
 
+              <mat-form-field *ngIf="btnrechazado"  appearance="outline">
+                <mat-label>Motivo Rechazo</mat-label>
+                <mat-select
+                  [disabled]="!edit"
+                  formControlName="ideMotivoRechazo">                       
+                  <mat-option *ngFor="let c of listaMotivoRechazo" [value]="c.codigo">
+                    {{c.descripcion}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
               <mat-form-field appearance="outline">
                 <mat-label>Fecha Entrevista</mat-label>
                 <input matInput [matDatepicker]="dFechaIni" placeholder="dd/mm/yyyy" formControlName="fechaMed" required>
@@ -170,15 +181,7 @@
                 <mat-label>Observaciones</mat-label>
                 <input matInput minlength="1" maxlength="5000" formControlName="observacionesMed">
               </mat-form-field>
-              <!-- <ngx-extended-pdf-viewer
-                [src]="'/assets/pdfs/WebService.ListarServicios.pdf'"
-                [height]="'250px'"
-                [useBrowserLocale]="true"
-                [textLayer]="true"
-                [showHandToolButton]="true"
-                [showDownloadButton]="true">
-              >
-              </ngx-extended-pdf-viewer> -->
+
           </div>
         </div>
         <div style="padding-top: 10px">
@@ -218,46 +221,11 @@
                 </td>
                 <td>
                   <input type="text" class="txtrespuesta" [minLength]="1" [maxLength]="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
-
-                  <!-- <mat-form-field style="margin:0;padding-bottom:0;" appearance="outline" style="font-size: 10px;">
-                    <input class="respuesta" matInput minlength="1" maxlength="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
-                  </mat-form-field> -->
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <div fxLayout="row wrap" fxLayoutGap="16px grid">
-            <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="50%">
-
-              <!-- <mat-grid-list cols="12" rowHeight="50px" gutterSize="15px" *ngFor="let c of listaPregunta">
-               
-                  <mat-grid-tile [colspan]="6">
-                    <div style="margin-right:auto;">{{c.pregunta}}</div>
-                  </mat-grid-tile>
-                  <mat-grid-tile  [colspan]="1">
-                    <label class="radio">SI
-                      <input *ngIf="c.respuesta=='SI'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
-                      <input type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
-                      <span class="check"></span>
-                    </label>
-                  </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
-                    <label class="radio">NO
-                      <input *ngIf="c.respuesta=='NO'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
-                      <input  type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
-                      <span class="check"></span>
-                    </label>
-                  </mat-grid-tile>
-                  <mat-grid-tile [colspan]="4">
-                    <mat-form-field appearance="outline" style="font-size: 10px;">
-                      <input class="respuesta" matInput minlength="1" maxlength="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
-                    </mat-form-field>
-                  </mat-grid-tile>
-              </mat-grid-list> -->
-
-            </div>
-          </div>
         </div>
         <div style="padding-top: 10px">
           <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>
