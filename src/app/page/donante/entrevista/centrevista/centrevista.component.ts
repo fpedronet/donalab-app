@@ -129,7 +129,7 @@ export class CentrevistaComponent implements OnInit {
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
           'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
-          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec, disabled: !this.edit}),
+          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec?.toString(), disabled: !this.edit}),
           'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: true}),
           'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: true}),
           'nIdTipoProceso': new FormControl({ value: data.nIdTipoProceso, disabled: !this.edit}),
@@ -202,9 +202,11 @@ export class CentrevistaComponent implements OnInit {
   }
 
   guardar(){
+
     let id = this.form.value['idePreDonante'];
     let submit = true;
     let $estado = this.CodEstado;
+    let $ideMotivoRec= this.form.value['ideMotivoRec'];
 
     if(id==null || id=="" || id==0){
       submit = false;
@@ -216,16 +218,21 @@ export class CentrevistaComponent implements OnInit {
       this.currentTab = 0;
       this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione un estado APTO/NO APTO');
     }
+    else if(this.CodEstado=="2" && ($ideMotivoRec==undefined || $ideMotivoRec=="" )){
+      submit = false;
+      this.notifierService.showNotification(environment.ALERT,'Mensaje', 'Seleccione el motivo del rechazo');
+    }
 
     if(submit){
+
       let model = new Entrevista();
 
       model.idePreDonante= this.form.value['idePreDonante'];
       model.codigo= this.Codigo;
       model.fechaMed= this.form.value['fechaMed'];
       model.observacionesMed= this.form.value['observacionesMed'];
-      model.codEstado= this.CodEstado
-      model.ideMotivoRec= this.form.value['ideMotivoRec'];
+      model.codEstado= this.CodEstado;
+      model.ideMotivoRec= (this.btnrechazado==false)? 0: this.form.value['ideMotivoRec'];
   
       model.listaPregunta = this.listaPregunta;
   
