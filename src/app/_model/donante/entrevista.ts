@@ -23,6 +23,7 @@ export class Entrevista{
     documento?: string;
     fechaHasta?: Date;
     periodo?: string;
+    idePersona?: string
     
     listaPregunta?: Pregunta[];
     listaTipoExtraccion?: Combobox[];

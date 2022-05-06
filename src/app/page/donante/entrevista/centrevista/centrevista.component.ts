@@ -79,6 +79,7 @@ export class CentrevistaComponent implements OnInit {
   inicializar(){
     this.form = new FormGroup({
       'idePreDonante': new FormControl({ value: '', disabled: false}),
+      'idePersona': new FormControl({ value: '', disabled: false}),
       'codigo': new FormControl({ value: '', disabled: false}),
       'ideMotivoRec': new FormControl({ value: '', disabled: false}),
       'pesoDonacion': new FormControl({ value: '', disabled: true}),
@@ -129,6 +130,7 @@ export class CentrevistaComponent implements OnInit {
 
         this.form = new FormGroup({
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
+          'idePersona': new FormControl({ value: data.idePersona, disabled: false}),
           'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
           'ideMotivoRec': new FormControl({ value: data.ideMotivoRec?.toString(), disabled: !this.edit}),
           'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: true}),
@@ -225,10 +227,10 @@ export class CentrevistaComponent implements OnInit {
     }
 
     if(submit){
-
       let model = new Entrevista();
-      debugger;
+
       model.idePreDonante= this.form.value['idePreDonante'];
+      model.idePersona= this.form.value['idePersona'];
       model.codigo= this.Codigo;
       model.fechaMed= this.form.value['fechaMed'];
       model.observacionesMed= this.form.value['observacionesMed'];
