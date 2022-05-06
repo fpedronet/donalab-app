@@ -1,6 +1,6 @@
 <div>
   <!--Espacio del menú para pruebas-->
-  <!--div style="height: 47px;"></div-->
+  <div style="height: 47px;"></div>
   
   <table width="756px" border="0" cellspacing="0">
     <tbody>
@@ -22,7 +22,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4" align="center">
+        <td colspan="4" align="center" style="height: 24px;">
           <div class="rpt-label">
             <span class="center; rpt-font-10-b">FORMATO DE SELECCIÓN DEL DONANTE</span>
           </div>          
@@ -43,8 +43,8 @@
           </div>
         </td>
         <td class="rpt-td-1" rowspan="3">
-          <div class="rpt-input-2">
-            <span class="rpt-font-7">Grupo Sanguíneo ABO y Factor Rh</span>
+          <div class="rpt-input-2" style="line-height: 0.9; text-align: center;">
+            <span class="rpt-font-7">Grupo Sanguíneo ABO<br>y Factor Rh</span>
             <br><br>
             <span class="rpt-font-10">{{grupoABO}}</span>
           </div>
@@ -89,14 +89,14 @@
   <table width="756px" border="0" cellspacing="0">
     <tbody>
       <tr>
-        <td colspan="2">
+        <td colspan="2" style="width: 107px">
           <div class="rpt-label">
             <span class="rpt-font-8">TIPO DE DONANTE</span>
           </div>
         </td>
         <td colspan="2" class="rpt-td-3">
-          <div class="rpt-label">
-            <span class="rpt-font-8">Voluntario:</span>
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Voluntario</span>
           </div>
         </td>
         <td class="rpt-td-4">
@@ -108,8 +108,8 @@
           &nbsp;
         </td>
         <td class="rpt-td-3">
-          <div class="rpt-label">
-            <span class="rpt-font-8">Autólogo:</span>
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Autólogo</span>
           </div>
         </td>
         <td class="rpt-td-4">
@@ -117,9 +117,12 @@
             <span class="rpt-font-8-b">{{xAutologo}}</span>
           </div>
         </td>
-        <td class="rpt-td-3">
-          <div class="rpt-label">
-            <span class="rpt-font-8">Reposición:</span>
+        <td>
+          &nbsp;
+        </td>
+        <td colspan="2" class="rpt-td-3">
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Reposición</span>
           </div>
         </td>
         <td class="rpt-td-4">
@@ -127,9 +130,12 @@
             <span class="rpt-font-8-b">{{xReposicion}}</span>
           </div>
         </td>
-        <td class="rpt-td-3">
-          <div class="rpt-label">
-            <span class="rpt-font-8">Dirigida:</span>
+        <td>
+          &nbsp;
+        </td>
+        <td colspan="2" class="rpt-td-3">
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Dirigida</span>
           </div>
         </td>
         <td class="rpt-td-4">
@@ -138,17 +144,17 @@
           </div>
         </td>
         <td class="rpt-td-1" rowspan="3">
-          <div class="rpt-input-2">
+          <div class="rpt-input-2" style="line-height: 0.9; text-align: center; height: 56px;">
             <span class="rpt-font-8">Hb y/o Hto</span>
             <br><br>
-            <span class="rpt-font-8">{{hemoglobina}}   {{hematocrito}}</span>
+            <span class="rpt-font-8">{{hemoglobina}}&nbsp;&nbsp;&nbsp;&nbsp;{{hematocrito}}</span>
           </div>
         </td>
       </tr>
       <tr>
         <td class="rpt-td-3">
           <div class="rpt-label">
-            <span class="rpt-font-8">Sangre Total:</span>
+            <span class="rpt-font-8">Sangre Total</span>
           </div>
         </td>
         <td class="rpt-td-4">
@@ -156,9 +162,9 @@
             <span class="rpt-font-8-b">{{xSangre}}</span>
           </div>
         </td>
-        <td class="rpt-td-3">
-          <div class="rpt-label">
-            <span class="rpt-font-8">Aféresis:</span>
+        <td class="rpt-td-3" style="width: 45px">
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Aféresis</span>
           </div>
         </td>
         <td class="rpt-td-4">
@@ -167,31 +173,31 @@
           </div>
         </td>
         <td colspan="2">
-          <div class="rpt-label">
-            <span class="rpt-font-8">Tubuladora:</span>
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Tubuladora</span>
           </div>
         </td>
-        <td class="rpt-td-5">
-          <div class="rpt-input-b">
-            <span class="rpt-font-8-b">{{xAferesis}}</span>
-          </div>
-        </td>
-        <td>
-          <div class="rpt-label">
-            <span class="rpt-font-8">Extr. Desde:</span>
-          </div>
-        </td>
-        <td class="rpt-td-6">
+        <td colspan="2" class="rpt-td-5">
           <div class="rpt-input-b">
             &nbsp;
           </div>
         </td>
-        <td>
-          <div class="rpt-label">
-            <span class="rpt-font-8">Extr. Hasta:</span>
+        <td colspan="2">
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Extr. Desde</span>
           </div>
         </td>
-        <td class="rpt-td-6">
+        <td colspan="2" class="rpt-td-6">
+          <div class="rpt-input-b">
+            &nbsp;
+          </div>
+        </td>
+        <td colspan="2">
+          <div class="rpt-label-r">
+            <span class="rpt-font-8">Extr. Hasta</span>
+          </div>
+        </td>
+        <td colspan="2" class="rpt-td-6">
           <div class="rpt-input-b">
             &nbsp;
           </div>
@@ -203,17 +209,17 @@
             <span class="rpt-font-8-b">RECEPTOR</span>
           </div>
         </td>
-        <td colspan="8">
+        <td colspan="11">
           <div class="rpt-label">
             <span class="rpt-font-9">{{personaRelacion}}</span>
           </div>
         </td>
-        <td>
-          <div class="rpt-label">
+        <td colspan="2">
+          <div class="rpt-label-r">
             <span class="rpt-font-8">Volumen:</span>
           </div>
         </td>
-        <td class="rpt-td-6">
+        <td colspan="2" class="rpt-td-6">
           <div class="rpt-input-b">
             &nbsp;
           </div>
@@ -224,12 +230,19 @@
   <hr class="rpt-divider">
   <table width="756px" border="0" cellspacing="0">
     <tr>
+      <td colspan="10">
+        <div class="rpt-label">
+          <span class="rpt-font-8-b">1. DATOS PERSONALES</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
       <td>
         <div class="rpt-label">
           <span class="rpt-font-8">APELLIDO PAT.</span>
         </div>
       </td>
-      <td colspan="2" class="rpt-td-2">
+      <td colspan="2">
         <div class="rpt-input-1">
           <span class="rpt-font-8">{{apPaterno}}</span>
         </div>
@@ -239,13 +252,13 @@
           <span class="rpt-font-8">APELLIDO MAT.</span>
         </div>
       </td>
-      <td colspan="3" class="rpt-td-2">
+      <td colspan="2" class="rpt-td-2">
         <div class="rpt-input-1">
           <span class="rpt-font-8">{{apMaterno}}</span>
         </div>
       </td>
     </tr>
-    <tr>
+    <!--tr>
       <td>
         <div class="rpt-label">
           <span class="rpt-font-8">NOMBRES</span>
@@ -256,14 +269,14 @@
           <span class="rpt-font-8">{{primerNombre}}</span>
         </div>
       </td>
-    </tr>
+    </tr-->
     <tr>
       <td>
         <div class="rpt-label">
           <span class="rpt-font-8">SEXO</span>
         </div>
       </td>
-      <td class="rpt-td-2">
+      <td>
         <div class="rpt-input-1">
           <span class="rpt-font-8">{{sexo}}</span>
         </div>
@@ -276,13 +289,13 @@
           <span class="rpt-font-8">EDAD (Años cumplidos)</span>
         </div>
       </td>
-      <td class="rpt-td-2">
+      <td>
         <div class="rpt-input-1">
           <span class="rpt-font-8">{{edad}}</span>
         </div>
       </td>
     </tr>
-    <tr>
+    <!--tr>
       <td>
         <div colspan="2" class="rpt-label">
           <span class="rpt-font-8">LUGAR DE NACIMIENTO</span>
@@ -331,7 +344,7 @@
           <span class="rpt-font-8">{{estadoCivil}}</span>
         </div>
       </td>
-    </tr>
+    </tr-->
   </table>
   <table width="756px" border="0" cellspacing="0">
     <tr>
@@ -478,4 +491,18 @@
     </tr>
   </table>
   <hr class="rpt-divider">
+  <table width="756px" border="0" cellspacing="0">
+    <tr>
+      <td colspan="2">
+        <div class="rpt-label">
+          <span class="rpt-font-8-b">2. EXAMEN FÍSICO</span>
+        </div>
+      </td>
+      <td colspan="7">
+        <div class="rpt-label">
+          <span class="rpt-font-7">Para ser llenado por el examinador</span>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>

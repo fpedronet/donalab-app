@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit {
   $fechaMin?: Date;
   $fechaMax?: Date;
 
-  tiposSangre?: string[];
+  tiposSangre?: string[] = [];
   //cboTipoStock?: TipoStock[] = [];
 
   msgVacio?: string;
@@ -139,10 +139,12 @@ export class HomeComponent implements OnInit {
 
     //this.curTipoStock = 5;
 
-    this.listargrafico();
+    for (let i = 1; i <= 6; i++) {
+      this.listargrafico(i);
+    }
   }
 
-  listargrafico(){
+  listargrafico(idgrafico: number){
 
     this.msgVacio = 'Cargando datos para mostrar...';
 
@@ -150,56 +152,61 @@ export class HomeComponent implements OnInit {
 
     this.usuario = session.nombre;
 
-    this.spinner.showLoading();
+    //this.spinner.showLoading();
 
-    this.graficoService.listar(session.codigobanco,this.$fechaInicio!,this.$fechaFin!).subscribe(data =>{
+    this.graficoService.listar(session.codigobanco,this.$fechaInicio!,this.$fechaFin!,idgrafico).subscribe(data =>{
       //debugger;
+      switch(idgrafico){
+        case 1:
+          this.arrayLabel1 = [];
+          this.arraySeries1 = [];
+          break;
+        case 2:
+          this.arrayLabel2 = [];
+          this.arraySeries2 = [];
+          break;
+        case 3:
+          this.arrayLabel3 = [];
+          this.arraySeries3 = [];
+          this.arrayListSerie = [] = [];
+          this.arrayEtiqueta = {} = {};
+          break;
+        case 4:
+          this.arrayLabel4 = [];
+          this.arraySeries4 = [];
+          break;
+        case 5:
+          this.registro5_1 = false;
+          this.registro5_2 = false;
+          this.registro5_3 = false;
+          this.arrayLabel5 = [];
+          this.arraySeries5 = [];
+          this.modelGrafico5 = [];
+          this.reportesgrafico5 = [];
+          this.tiposSangre = [];
+          break;
+        case 6:
+          this.arrayLabel6 = [];
+          this.arraySeries6 = [];
+          this.arrayIcons6 = [];
+          break;
+      }
       let count1 = 0;
       let count2 = 0;
       let count3 = 0;
       let count4 = 0;
       let count5 = 0;
       let count6 = 0;
-      let arraypendiente: number[] =  [];
-      let arraydono: number[] =[];
-      let arraynodono: number[] =[];
+      let graf3sub1: number[] =  [];
+      let graf3sub2: number[] =[];
+      let graf3sub3: number[] =[];
  
       let $grafico1 = data.filter(y=>y.ideGrafico==1);
       let $grafico2 = data.filter(y=>y.ideGrafico==2);
       let $grafico3 = data.filter(y=>y.ideGrafico==3);
       let $grafico4 = data.filter(y=>y.ideGrafico==4);
       let $grafico5 = data.filter(y=>y.ideGrafico==5);
-      let $grafico6 = data.filter(y=>y.ideGrafico==6);
-
-        this.registro5_1 = false;
-        this.registro5_2 = false;
-        this.registro5_3 = false;
-
-        this.arrayLabel1 = [];
-        this.arraySeries1 = [];
-  
-        this.arrayLabel2 = [];
-        this.arraySeries2 = [];
-
-        this.arrayLabel3 = [];
-        this.arraySeries3 = [];
-        this.arrayListSerie = [] = [];
-        this.arrayEtiqueta = {} = {};
-
-        this.arrayLabel4 = [];
-        this.arraySeries4 = [];
-
-        this.arrayLabel5 = [];
-        this.arraySeries5 = [];
-
-        this.modelGrafico5 = [];
-        this.reportesgrafico5 = [];
-
-        this.arrayLabel6 = [];
-        this.arraySeries6 = [];
-        this.arrayIcons6 = [];
-
-        this.tiposSangre = [];
+      let $grafico6 = data.filter(y=>y.ideGrafico==6);        
 
         //debugger;
 
@@ -259,9 +266,9 @@ export class HomeComponent implements OnInit {
             let splitData2 = x.cantidades?.split('|')[1];
             let splitData3 = x.cantidades?.split('|')[2];       
 
-            arraypendiente.push(parseInt(splitData1!));
-            arraydono.push(parseInt(splitData2!));
-            arraynodono.push(parseInt(splitData3!));
+            graf3sub1.push(parseInt(splitData1!));
+            graf3sub2.push(parseInt(splitData2!));
+            graf3sub3.push(parseInt(splitData3!));
 
             count3 = parseInt(splitData1!) + parseInt(splitData2!) + parseInt(splitData3!) + count3;
           });
@@ -270,11 +277,11 @@ export class HomeComponent implements OnInit {
           let counts =1;
           this.arrayListSerie.forEach(x=>{
             if(counts==1){
-              x.data=arraypendiente;
+              x.data=graf3sub1;
             }else if(counts==2){
-              x.data=arraydono;
+              x.data=graf3sub2;
             }else if(counts==3){
-              x.data=arraynodono;
+              x.data=graf3sub3;
             }
             counts++;
           });
@@ -331,7 +338,7 @@ export class HomeComponent implements OnInit {
           //Barras circulares
           let arraySeries5_x: number[][] = [];
 
-          arraySeries5_x = this.arraySeries5;
+          arraySeries5_x = this.arraySeries5!;
           /*
           let indexGR = this.arrayLabel5?.indexOf('GR');
           if(indexGR >= 0){
@@ -347,7 +354,7 @@ export class HomeComponent implements OnInit {
           }*/
 
           this.arrayGrafico5_tot = [];
-          for (let j = 0; j < this.tiposSangre.length; j++) {
+          for (let j = 0; j < this.tiposSangre!.length; j++) {
             let totPorSangre = 0;
             for (let i = 0; i < arraySeries5_x.length; i++) {
               totPorSangre = totPorSangre + arraySeries5_x[i][j];
@@ -357,11 +364,11 @@ export class HomeComponent implements OnInit {
           //debugger;
 
           //Busca primer mayor
-          this.creaSubgrafico5(this.tiposSangre, arraySeries5_x, 1);
+          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 1);
           //Busca segundo mayor
-          this.creaSubgrafico5(this.tiposSangre, arraySeries5_x, 2);
+          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 2);
           //Busca otros
-          this.creaSubgrafico5(this.tiposSangre, arraySeries5_x, 3);
+          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 3);
         }
 
         /* GRAFICO 6 */
@@ -377,20 +384,29 @@ export class HomeComponent implements OnInit {
         }        
         
          /* VALIDADO REGISTRO PARA MOSTRAR EL GRAFICO */
-        this.registro1 = (count1>0)? true: false;
-        this.registro2 = (count2>0)? true: false;
-        this.registro3 = (count3>0)? true: false;
-        this.registro4 = (count4>0)? true: false;
-        this.registro5 = false;
-        this.registro6 = (count6>0)? true: false;
-
-        this.chart1();
-        this.chart2();
-        this.chart3();
-        this.chart4();
+        switch (idgrafico){
+          case 1:
+            this.registro1 = (count1>0)? true: false;
+            this.chart1();
+            break;
+          case 2:
+            this.registro2 = (count2>0)? true: false;
+            this.chart2();
+            break;
+          case 3:
+            this.registro3 = (count3>0)? true: false;
+            this.chart3();
+            break;
+          case 4:
+            this.registro4 = (count4>0)? true: false;
+            this.chart4();
+            break;
+          case 6:
+            this.registro6 = (count6>0)? true: false;
+        }
         
       this.msgVacio = 'No se han encontrado datos para mostrar';
-      this.spinner.hideLoading();
+      //this.spinner.hideLoading();
 
     });   
   }
@@ -444,7 +460,9 @@ export class HomeComponent implements OnInit {
       this.notifier.showNotification(environment.ALERT,'Mensaje','Las fechas son obligatorio');
     }
 
-    this.listargrafico();  
+    for (let i = 1; i <= 6; i++) {
+      this.listargrafico(i);
+    }
   }
 
   chart1(){
