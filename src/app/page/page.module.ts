@@ -28,6 +28,7 @@ import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
 
 import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
+import { MdiferidoComponent } from './donante/entrevista/mdiferido/mdiferido.component';
 
 const config: SocketIoConfig = { url: environment.UrlApi, options: {} };
 
@@ -52,7 +53,8 @@ const config: SocketIoConfig = { url: environment.UrlApi, options: {} };
     CdonacionComponent,
     RptetiquetaComponent,
     RptdonanteComponent,
-    RptfichaComponent
+    RptfichaComponent,
+    MdiferidoComponent
   ],
   imports: [
     MaterialModule,

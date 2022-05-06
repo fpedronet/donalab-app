@@ -14,10 +14,8 @@ import { Pregunta } from 'src/app/_model/donante/pregunta';
 import { Entrevista } from 'src/app/_model/donante/entrevista';
 import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
-import { ReporteService } from 'src/app/_service/reporte/reporte.service';
-import { RptfichaComponent } from 'src/app/page/reporte/rptficha/rptficha.component';
-
-// import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
+import { MatDialog } from '@angular/material/dialog';
+import { MdiferidoComponent } from '../mdiferido/mdiferido.component';
 
 @Component({
   selector: 'app-centrevista',
@@ -47,17 +45,20 @@ export class CentrevistaComponent implements OnInit {
   btnrechazado: boolean = false;
   btndisable: boolean = false;
   currentTab: number = 0;
-  
+  confirmado: boolean = false;
+  fechaHasta?: Date;
+  periodo: string = "";
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private spinner: SpinnerService,
     private notifierService : NotifierService,
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
     private entrevistaService: EntrevistaService
   ) {
-    // pdfDefaultOptions.assetsFolder = 'bleeding-edge';
   }
 
   ngOnInit(): void {
@@ -226,32 +227,62 @@ export class CentrevistaComponent implements OnInit {
     if(submit){
 
       let model = new Entrevista();
-
+      debugger;
       model.idePreDonante= this.form.value['idePreDonante'];
       model.codigo= this.Codigo;
       model.fechaMed= this.form.value['fechaMed'];
       model.observacionesMed= this.form.value['observacionesMed'];
       model.codEstado= this.CodEstado;
       model.ideMotivoRec= (this.btnrechazado==false)? 0: this.form.value['ideMotivoRec'];
-  
       model.listaPregunta = this.listaPregunta;
   
-      this.spinner.showLoading();
-      this.entrevistaService.guardar(model).subscribe(data=>{
-  
-        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-  
-          if(data.typeResponse==environment.EXITO){
-            this.router.navigate(['/page/donante/aspirante']);
-            this.spinner.hideLoading();
-          }else{
-            this.spinner.hideLoading();
-          }
-        });
+      if(model.ideMotivoRec!=0 && this.confirmado==false){
+        this.abrirModal(model.ideMotivoRec);
+      }else{
+
+        model.fechaHasta = (this.btnrechazado==false)? undefined: this.fechaHasta;
+        model.periodo = (this.btnrechazado==false)? "": this.periodo;
+
+        this.spinner.showLoading();
+        this.entrevistaService.guardar(model).subscribe(data=>{
+    
+          this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+    
+            if(data.typeResponse==environment.EXITO){
+              this.router.navigate(['/page/donante/aspirante']);
+              this.spinner.hideLoading();
+            }else{
+              this.spinner.hideLoading();
+            }
+          });
+      }
     }
   }
 
   limpiar(){
     this.inicializar();
   }
+
+  abrirModal(ideMotivoRec?: number){
+    let $id = ideMotivoRec?.toString();
+    let $motivo = this.listaMotivoRechazo?.filter(x=>x.codigo==$id)[0];
+
+    const dialogRef =this.dialog.open(MdiferidoComponent, {
+      panelClass: 'full-screen-modal',
+      data: {
+        periodo: $motivo!.codAsocia!, 
+        dias: $motivo!.dias!
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res!=""){
+        this.confirmado= res.confirmado;
+        this.fechaHasta= res.fechaHasta;
+        this.periodo= res.periodo;
+        this.guardar();
+      }
+    });
+  }
+
 }
