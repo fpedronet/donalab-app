@@ -21,6 +21,9 @@ export class Entrevista{
     observacionesMed?: string;
     nombres?:string;
     documento?: string;
+    fechaHasta?: Date;
+    periodo?: string;
+    idePersona?: string
     
     listaPregunta?: Pregunta[];
     listaTipoExtraccion?: Combobox[];

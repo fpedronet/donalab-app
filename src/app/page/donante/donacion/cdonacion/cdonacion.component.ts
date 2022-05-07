@@ -243,6 +243,7 @@ export class CdonacionComponent implements OnInit {
       let timeHoraFin = this.form.value['vHoraFin'];
       let tiempoextraccion = this.form.value['tipoExtraccion'];
       let $countUnidades = this.listaUnidade?.filter(y=>y.volumen!>0).length;
+      let $ideMotivoRec = this.form.value['ideMotivoRechazo'];  
 
       if(fechaextracc==null){
         submit = false;
@@ -267,6 +268,10 @@ export class CdonacionComponent implements OnInit {
       else if(tiempoextraccion<0){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje','La hora inicio no puede menor a la hora fin');
+      }
+      else if(this.descextrac && ($ideMotivoRec==undefined || $ideMotivoRec=="" || $ideMotivoRec=="0" )){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje', 'Seleccione descartar extracción');
       }
     }
 

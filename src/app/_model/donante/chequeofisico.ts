@@ -3,25 +3,25 @@ import { Combobox } from "../combobox";
 export class ChequeoFisico{
 
     idePreDonante?: number;
-    codigo?: number;//ok
-    fecha?: Date;//ok
-    pesoDonacion?: number; //ok
-    tallaDonacion?: number;//ok
-    hemoglobina?: number;//ok
-    hematocrito?: number;//ok
-    plaquetas?: number;//ok
-    presionArterial1?: string;//ok
-    presionArterial2?: string;//ok
-    presionArterial?: string;//ok
-    frecuenciaCardiaca?: number;//ok
-    ideGrupo?: string;//ok
-    aspectoGeneral?: string;//ok
-    lesionesVenas?: string;//ok
-    estadoVenoso?: string;//ok
-    obsedrvaciones?: string;//ok
-    temperatura?: number;//ok
-    codEstado?: string;//ok
-    ideMotivoRec?: number;//ok
+    codigo?: number;
+    fecha?: Date;
+    pesoDonacion?: number; 
+    tallaDonacion?: number;
+    hemoglobina?: number;
+    hematocrito?: number;
+    plaquetas?: number;
+    presionArterial1?: string;
+    presionArterial2?: string;
+    presionArterial?: string;
+    frecuenciaCardiaca?: number;
+    ideGrupo?: string;
+    aspectoGeneral?: string;
+    lesionesVenas?: string;
+    estadoVenoso?: string;
+    obsedrvaciones?: string;
+    temperatura?: number;
+    codEstado?: string;
+    ideMotivoRec?: number;
     ideUsuario?: number;
     aceptaAlarma?: string;
     cns?: string;

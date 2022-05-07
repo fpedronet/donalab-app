@@ -5,10 +5,12 @@ export class Combobox {
         this.descripcion = '';
         this.orden = 0;
         this.codAsocia = '';
+        this.dias = '';
     }
+    orden?: number;
     codTabla?: string;
     codigo?: string;
     descripcion?: string;
-    orden?: number;
     codAsocia?: string;
+    dias?: string;
 }
