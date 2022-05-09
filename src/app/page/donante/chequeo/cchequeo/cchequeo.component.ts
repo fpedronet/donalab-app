@@ -13,6 +13,7 @@ import { ConfigPermisoService } from 'src/app/_service/configpermiso.service';
 import { Combobox } from 'src/app/_model/combobox';
 import { ChequeoFisico } from 'src/app/_model/donante/chequeofisico';
 import { Permiso } from 'src/app/_model/permiso';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-cchequeo',
@@ -24,12 +25,15 @@ export class CchequeoComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   permiso: Permiso = {};
   
+  motivoRec = new FormControl();
+  listaMotivoRechazo!: Observable<Combobox[]>;
+
   listaTipoExtraccion?: Combobox[] = [];
   listaLesionesPuncion?: Combobox[] = [];
   listaGrupoSanguineo?: Combobox[] = [];
   listaAspectoGeneral?: Combobox[] = [];
   listaAspectoVenoso?: Combobox[] = [];
-  listaMotivoRechazo?: Combobox[] = [];
+  listaMotivoRechazo2?: Combobox[] = [];
 
   nombres: string = "";
   documento: string ="";
@@ -40,6 +44,7 @@ export class CchequeoComponent implements OnInit {
   $disable: boolean =false;
   btndisable: boolean = false;
   btnestado:boolean = false;
+  ideMotivoRec: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +68,11 @@ export class CchequeoComponent implements OnInit {
       this.btndisable = (this.id==0)? false: true;
       this.obtener(0);
     });
+
+    this.listaMotivoRechazo = this.motivoRec.valueChanges.pipe(
+      startWith(''),
+      map(state => (state ? this._filterMotivoRechazo(state) : this._filterMotivoRechazo(""))),
+    );
   }
 
   inicializar(){
@@ -85,8 +95,7 @@ export class CchequeoComponent implements OnInit {
       'lesionesVenas': new FormControl({ value: '', disabled: false}),
       'estadoVenoso': new FormControl({ value: '', disabled: false}),
       'obsedrvaciones': new FormControl({ value: '', disabled: false}),
-      'temperatura': new FormControl({ value: '', disabled: false}),
-      'ideMotivoRec': new FormControl({ value: '', disabled: false})
+      'temperatura': new FormControl({ value: '', disabled: false})
     });
 
     this.CodEstado = "0";
@@ -117,7 +126,7 @@ export class CchequeoComponent implements OnInit {
       this.listaGrupoSanguineo = data.listaGrupoSanguineo;
       this.listaAspectoGeneral = data.listaAspectoGeneral;
       this.listaAspectoVenoso = data.listaAspectoVenoso;
-      this.listaMotivoRechazo = data.listaMotivoRechazo;
+      this.listaMotivoRechazo2 = data.listaMotivoRechazo;
 
       if(ids!=0 || cod!=0){
 
@@ -151,8 +160,7 @@ export class CchequeoComponent implements OnInit {
           'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: !this.edit}),
           'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: !this.edit}),
           'obsedrvaciones': new FormControl({ value: data.obsedrvaciones, disabled: !this.edit}),
-          'temperatura': new FormControl({ value: data.temperatura, disabled: !this.edit}),
-          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec?.toString(), disabled: !this.edit}),
+          'temperatura': new FormControl({ value: data.temperatura, disabled: !this.edit})
         });
 
         this.Codigo = data.codigo;
@@ -160,6 +168,21 @@ export class CchequeoComponent implements OnInit {
         this.btnestado = (this.CodEstado== "2")? true : false;
         this.nombres = data.nombres!;
         this.documento = data.documento!;
+
+        if(!this.edit){
+          this.motivoRec.disable();
+        }else{
+          this.motivoRec.enable();
+        }
+
+        this.ideMotivoRec = (this.CodEstado== '2')? data.ideMotivoRec! : 0;
+
+        if(this.ideMotivoRec!=0){
+          var distFind = this.listaMotivoRechazo2!.find(e => e.codigo === this.ideMotivoRec.toString());
+          let setMotivo: Combobox = distFind!;
+         
+          this.motivoRec.setValue(setMotivo);
+        }
 
         if(data.idePreDonante==0 || data.idePreDonante==null){
           this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
@@ -186,13 +209,12 @@ export class CchequeoComponent implements OnInit {
   }
 
   guardar(){
-
       let $id = this.form.value['idePreDonante'];
       let peso = Number(this.form.value['pesoDonacion']);
       let talla = Number(this.form.value['tallaDonacion']);
       let presion1 = Number(this.form.value['presionArterial1']);
       let presion2 = Number(this.form.value['presionArterial2']);
-      let $ideMotivoRec= this.form.value['ideMotivoRec'];
+      let $ideMotivoRec =  (this.motivoRec.value ==null)? 0 : ((this.motivoRec.value.codigo==undefined || this.motivoRec.value.codigo==null || this.motivoRec.value.codigo=="")? 0 : parseInt(this.motivoRec.value.codigo));
       let hemoglobina = Number(this.form.value['hemoglobina']);
       let hematocrito = Number(this.form.value['hematocrito']);
       let plaqueta =  Number(this.form.value['plaquetas']);
@@ -204,7 +226,7 @@ export class CchequeoComponent implements OnInit {
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje', 'El código al que hace referencia no existe');
       }
-      else if(this.CodEstado=="2" && ($ideMotivoRec==undefined || $ideMotivoRec=="" )){
+      else if(this.CodEstado=="2" && ($ideMotivoRec==undefined || $ideMotivoRec==0 )){
         submit = false;
         this.notifierService.showNotification(environment.ALERT,'Mensaje', 'Seleccione el motivo del rechazo');
       }
@@ -246,7 +268,6 @@ export class CchequeoComponent implements OnInit {
       }
 
       if(submit){
-
         let model = new ChequeoFisico();
 
         model.idePreDonante= this.form.value['idePreDonante'];
@@ -266,7 +287,7 @@ export class CchequeoComponent implements OnInit {
         model.obsedrvaciones= this.form.value['obsedrvaciones'];
         model.temperatura= Number(this.form.value['temperatura']);
         model.codEstado=  this.CodEstado;
-        model.ideMotivoRec= this.form.value['ideMotivoRec'];
+        model.ideMotivoRec= $ideMotivoRec;
         model.aceptaAlarma= "0";
 
         this.spinner.showLoading();
@@ -292,6 +313,25 @@ export class CchequeoComponent implements OnInit {
 
   limpiar(){
     this.inicializar();
+  }
+
+  mostrarMotivoRechazo(d: Combobox): string{
+    var result = '';
+    if(d !== undefined && d !== null && d !== '' && d?.descripcion !== '')
+      result = d?.descripcion!;
+    return result;
+  }
+
+  changeMotivoReachazo(event: any){
+    var value = event.option.value;
+    if(value !== undefined){
+      this.ideMotivoRec = parseInt(value.codigo);
+    }
+  }
+
+  private _filterMotivoRechazo(value: any){
+    let filterValue = value.descripcion == undefined ? value.toLowerCase() : value.descripcion.toLowerCase();
+    return this.listaMotivoRechazo2!.filter(state => state.descripcion!.toLowerCase().includes(filterValue));
   }
 
 }

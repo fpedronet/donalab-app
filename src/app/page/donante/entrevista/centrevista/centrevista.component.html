@@ -160,15 +160,18 @@
                 </mat-grid-list>
               </div>
 
-              <mat-form-field *ngIf="btnrechazado"  appearance="outline">
+              <mat-form-field *ngIf="btnrechazado" class="example-full-width" appearance="outline">
                 <mat-label>Motivo Rechazo</mat-label>
-                <mat-select
-                  [disabled]="!edit"
-                  formControlName="ideMotivoRec">                       
-                  <mat-option *ngFor="let c of listaMotivoRechazo" [value]="c.codigo">
+                <input matInput
+                       aria-label="State"
+                       [matAutocomplete]="auto"
+                       [formControl]="motivoRec"
+                       >
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarMotivoRechazo" (optionSelected)="changeMotivoReachazo($event)">
+                  <mat-option *ngFor="let c of listaMotivoRechazo | async" [value]="c">
                     {{c.descripcion}}
                   </mat-option>
-                </mat-select>
+                </mat-autocomplete>
               </mat-form-field>
 
               <mat-form-field appearance="outline">

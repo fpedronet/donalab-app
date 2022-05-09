@@ -31,6 +31,7 @@ export class MdiferidoComponent implements OnInit {
   }
 
   changediferido(estado: string){
+  
     this.periodo = estado;
     let $dias =  (this.dias=="" ||  this.dias==null)? 0: parseInt(this.dias);
 
