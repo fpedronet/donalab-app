@@ -267,7 +267,7 @@ export class CdonacionComponent implements OnInit {
       }
       else if(tiempoextraccion<0){
         submit = false;
-        this.notifierService.showNotification(environment.ALERT,'Mensaje','La hora inicio no puede menor a la hora fin');
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La hora fin no puede menor a la hora inicio');
       }
       else if(this.descextrac && ($ideMotivoRec==undefined || $ideMotivoRec=="" || $ideMotivoRec=="0" )){
         submit = false;

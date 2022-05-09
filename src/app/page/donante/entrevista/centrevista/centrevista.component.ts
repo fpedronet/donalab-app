@@ -17,6 +17,7 @@ import { Permiso } from 'src/app/_model/permiso';
 import { MatDialog } from '@angular/material/dialog';
 import { MdiferidoComponent } from '../mdiferido/mdiferido.component';
 import { ConfimService } from 'src/app/page/component/confirm/confim.service';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-centrevista',
@@ -28,12 +29,15 @@ export class CentrevistaComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   permiso: Permiso = {};
 
+  motivoRec = new FormControl();
+  listaMotivoRechazo!: Observable<Combobox[]>;
+
   listaTipoExtraccion?: Combobox[] = [];
   listaLesionesPuncion?: Combobox[] = [];
   listaGrupoSanguineo?: Combobox[] = [];
   listaAspectoVenoso?: Combobox[] = [];
   listaPregunta?: Pregunta[] = [];
-  listaMotivoRechazo?: Combobox[];
+  listaMotivoRechazo2?: Combobox[] = [];
 
   nombres: string = "";
   documento: string ="";
@@ -49,6 +53,7 @@ export class CentrevistaComponent implements OnInit {
   confirmado: boolean = false;
   fechaHasta?: Date;
   periodo: string = "";
+  ideMotivoRec: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,6 +81,10 @@ export class CentrevistaComponent implements OnInit {
       this.obtener(0);
     });
 
+    this.listaMotivoRechazo = this.motivoRec.valueChanges.pipe(
+      startWith(''),
+      map(state => (state ? this._filterMotivoRechazo(state) : this._filterMotivoRechazo(""))),
+    );
   }
 
   inicializar(){
@@ -83,7 +92,6 @@ export class CentrevistaComponent implements OnInit {
       'idePreDonante': new FormControl({ value: '', disabled: false}),
       'idePersona': new FormControl({ value: '', disabled: false}),
       'codigo': new FormControl({ value: '', disabled: false}),
-      'ideMotivoRec': new FormControl({ value: '', disabled: false}),
       'pesoDonacion': new FormControl({ value: '', disabled: true}),
       'hemoglobina': new FormControl({ value: '', disabled: true}),
       'nIdTipoProceso': new FormControl({ value: '', disabled: false}),
@@ -126,7 +134,7 @@ export class CentrevistaComponent implements OnInit {
       this.listaGrupoSanguineo = data.listaGrupoSanguineo;
       this.listaAspectoVenoso = data.listaAspectoVenoso;
       this.listaPregunta = data.listaPregunta;
-      this.listaMotivoRechazo = data.listaMotivoRechazo;
+      this.listaMotivoRechazo2 = data.listaMotivoRechazo;
 
       if(ids!=0 || cod!=0){
 
@@ -134,7 +142,6 @@ export class CentrevistaComponent implements OnInit {
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
           'idePersona': new FormControl({ value: data.idePersona, disabled: false}),
           'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
-          'ideMotivoRec': new FormControl({ value: data.ideMotivoRec?.toString(), disabled: !this.edit}),
           'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: true}),
           'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: true}),
           'nIdTipoProceso': new FormControl({ value: data.nIdTipoProceso, disabled: !this.edit}),
@@ -164,6 +171,21 @@ export class CentrevistaComponent implements OnInit {
           this.btnrechazado= false;
         }
 
+        if(!this.edit){
+          this.motivoRec.disable();
+        }else{
+          this.motivoRec.enable();
+        }
+
+        this.ideMotivoRec = (this.btnrechazado==false)? 0: data.ideMotivoRec!;
+
+        if(this.ideMotivoRec!=0){
+          var distFind = this.listaMotivoRechazo2!.find(e => e.codigo === this.ideMotivoRec.toString());
+          let setMotivo: Combobox = distFind!;
+         
+          this.motivoRec.setValue(setMotivo);
+        }
+
         if(data.idePreDonante==0 || data.idePreDonante==null){
           this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
         }
@@ -182,6 +204,7 @@ export class CentrevistaComponent implements OnInit {
 
   changeestado(estado: string, btn: string){
     this.CodEstado= estado;
+    this.confirmado =false;
 
     if(btn=="btn1"){
       this.btnaceptado= true;
@@ -210,7 +233,7 @@ export class CentrevistaComponent implements OnInit {
     let id = this.form.value['idePreDonante'];
     let submit = true;
     let $estado = this.CodEstado;
-    let $ideMotivoRec= this.form.value['ideMotivoRec'];
+    let $ideMotivoRec = (this.motivoRec.value ==null)? 0 : ((this.motivoRec.value.codigo==undefined || this.motivoRec.value.codigo==null || this.motivoRec.value.codigo=="")? 0 : parseInt(this.motivoRec.value.codigo));
 
     if(id==null || id=="" || id==0){
       submit = false;
@@ -222,7 +245,7 @@ export class CentrevistaComponent implements OnInit {
       this.currentTab = 0;
       this.notifierService.showNotification(environment.ALERT,'Mensaje','Seleccione un estado APTO/NO APTO');
     }
-    else if(this.CodEstado=="2" && ($ideMotivoRec==undefined || $ideMotivoRec=="" )){
+    else if(this.CodEstado=="2" && ($ideMotivoRec==undefined || $ideMotivoRec==0 )){
       submit = false;
       this.notifierService.showNotification(environment.ALERT,'Mensaje', 'Seleccione el motivo del rechazo');
     }
@@ -236,7 +259,7 @@ export class CentrevistaComponent implements OnInit {
       model.fechaMed= this.form.value['fechaMed'];
       model.observacionesMed= this.form.value['observacionesMed'];
       model.codEstado= this.CodEstado;
-      model.ideMotivoRec= (this.btnrechazado==false)? 0: this.form.value['ideMotivoRec'];
+      model.ideMotivoRec= (this.btnrechazado==false)? 0: $ideMotivoRec;
       model.listaPregunta = this.listaPregunta;
   
       let $pregunta = this.listaPregunta?.filter(x=>x.respuesta==null);
@@ -248,9 +271,9 @@ export class CentrevistaComponent implements OnInit {
             $listaPregunta.push(x.idePregunta);
           });
          
-          let $msg= "Pregunta N° = " + $listaPregunta.join(',');
+          let $msg= "Preguntas = " + $listaPregunta.join(',');
           
-          this.confirm.openConfirmDialog(false,"Confirmación", $msg!,".", "Desea finalizar el cuestionario").afterClosed().subscribe(res =>{
+          this.confirm.openConfirmDialog(false,"Preguntas sin contestar", $msg!,".", "Desea finalizar el cuestionario").afterClosed().subscribe(res =>{
             if(res){
               this.$guardar(model);
             }
@@ -289,8 +312,9 @@ export class CentrevistaComponent implements OnInit {
   }
 
   abrirModal(ideMotivoRec?: number){
+  
     let $id = ideMotivoRec?.toString();
-    let $motivo = this.listaMotivoRechazo?.filter(x=>x.codigo==$id)[0];
+    let $motivo = this.listaMotivoRechazo2?.filter(x=>x.codigo==$id)[0];
 
     const dialogRef =this.dialog.open(MdiferidoComponent, {
       panelClass: 'full-screen-modal',
@@ -310,4 +334,23 @@ export class CentrevistaComponent implements OnInit {
     });
   }
 
+  mostrarMotivoRechazo(d: Combobox): string{
+    var result = '';
+    if(d !== undefined && d !== null && d !== '' && d?.descripcion !== '')
+      result = d?.descripcion!;
+    return result;
+  }
+
+  changeMotivoReachazo(event: any){
+    var value = event.option.value;
+    if(value !== undefined){
+      this.ideMotivoRec = parseInt(value.codigo);
+    }
+  }
+
+  private _filterMotivoRechazo(value: any){
+    let filterValue = value.descripcion == undefined ? value.toLowerCase() : value.descripcion.toLowerCase();
+    return this.listaMotivoRechazo2!.filter(state => state.descripcion!.toLowerCase().includes(filterValue));
+  }
+  
 }
