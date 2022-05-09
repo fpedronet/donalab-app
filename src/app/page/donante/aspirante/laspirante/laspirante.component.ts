@@ -209,20 +209,20 @@ export class LaspiranteComponent implements OnInit {
                           body 
                           {
                               background-color:#FFFFFF; 
-                              border: solid 1px white ;
-                              margin: 10px;
+                              border: solid 0px white ;
+                              margin: 5px 16px;
                           }
                           td {
                             vertical-align: middle;
                             padding-top: 1px;
                             padding-bottom: 1px;
-                            padding-left: 5px;
-                            padding-right: 5px;
+                            padding-left: 3px;
+                            padding-right: 3px;
                             height: 22px;
-                            /*Para ver como se divide la tabla
+                            /*Para ver como se divide la tabla*/
                             border-style: outset;
-                            border-width: 1px;
-                            border-color: blue;*/
+                            border-width: 0px;
+                            border-color: blue;
                         }
                         
                         .rpt-img{
@@ -231,26 +231,28 @@ export class LaspiranteComponent implements OnInit {
                             height: 96px;
                         }
                         
-                        .rpt-input-1{
+                        .rpt-input-h1{
                             border-style: solid;
                             border-width: thin;
                             height: 20px;
                         }
                         
-                        .rpt-input-1 .rpt-font-8{
-                            margin-left: 5px;
+                        .rpt-input-h2{
+                            border-style: solid;
+                            border-width: thin;
+                            height: 31px;
                         }
                         
-                        .rpt-input-2{
+                        .rpt-input-h3{
                             border-style: solid;
                             border-width: thin;
                             height: 70px;
                         }
                         
-                        .rpt-input-3{
+                        .rpt-input-4{
                             border-style: solid;
                             border-width: thin;
-                            height: 31px;
+                            height: 100px;
                         }
                         
                         .rpt-input-b{
@@ -261,14 +263,64 @@ export class LaspiranteComponent implements OnInit {
                         
                         .rpt-label{
                             border-style: none;
-                            height: 21px;
+                            /*height: 21px;*/
+                            line-height: 0.9;
+                        }
+                        
+                        .rpt-input-firma{
+                            border-style: solid;
+                            border-width: 2px;
+                            height: 72px;
+                        }
+                        
+                        .rpt-input-h1 .rpt-font-8{
+                            margin-left: 5px;
+                        }
+                        
+                        .rpt-input-h1 .rpt-font-9{
+                            margin-left: 5px;
+                        }
+                        
+                        .rpt-input-h3 .rpt-font-7{
+                            margin-left: 0px;
+                            vertical-align: sub;
+                        }
+                        
+                        .rpt-input-h3 .rpt-font-8{
+                            margin-left: 0px;
+                            vertical-align: sub;
+                        }
+                        
+                        .rpt-input-h2 .rpt-font-9-b{
+                            margin-left: 5px;
+                            vertical-align: sub;
+                        }
+                        
+                        .rpt-input-h1 .rpt-font-10{
+                            margin-left: 5px;
+                        }
+                        
+                        .rpt-input-4 .rpt-font-9{
+                            font-size: 9pt;
+                            color: #808080;
+                        }
+                        
+                        .rpt-input-firma .rpt-font-9{
+                            font-size: 9pt;
+                            color: #808080;
+                        }
+                        
+                        .rpt-shadow{
+                            border-style: none;
+                            height: 25px;
+                            background-color: #c0c0c0;
                             line-height: 0.9;
                         }
                         
                         .rpt-label-r{
                             border-style: none;
                             height: 21px;
-                            line-height: 0.9;
+                            /*line-height: 0.9;*/
                             text-align: right;
                         }
                         
@@ -285,16 +337,78 @@ export class LaspiranteComponent implements OnInit {
                         }
                         
                         .rpt-td-4{ /*Para X*/
-                            width: 33px;
+                            width: 36px;
                             text-align: center;
                         }
                         
                         .rpt-td-5{
-                            width: 91px;
+                            width: 85px;
                         }
                         
                         .rpt-td-6{
-                            width: 49px;
+                            width: 53px;
+                        }
+                        
+                        .rpt-td-7{
+                            width: 254px;
+                        }
+                        
+                        .rpt-td-8{
+                            width: 167px;
+                        }
+                        
+                        .rpt-td-9{
+                            width: 290px;
+                        }
+                        
+                        .rpt-td-10{
+                            width: 445px;
+                        }
+                        
+                        .rpt-td-preg-1{
+                            height: 10px;
+                            max-height: 10px;
+                        }
+                        
+                        .rpt-tr-preg-1 td .rpt-label{
+                            height: 12px;
+                            max-height: 12px;
+                        }
+                        
+                        .rpt-tr-preg-1 td{
+                            height: 12px;
+                            max-height: 12px;
+                            border-bottom-width: thin;
+                            border-bottom-color: #000000;
+                        }
+                        
+                        .rpt-tr-preg-2 td .rpt-label{
+                            height: 24px;
+                            max-height: 24px;
+                        }
+                        
+                        .rpt-tr-preg-2 td{
+                            height: 24px;
+                            max-height: 24px;
+                            border-bottom-width: thin;
+                            border-bottom-color: #000000;
+                        }
+                        
+                        .rpt-tr-preg-3 td .rpt-label{
+                            height: 36px;
+                            max-height: 36px;
+                        }
+                        
+                        .rpt-tr-preg-3 td{
+                            height: 36px;
+                            max-height: 36px;
+                            border-bottom-width: thin;
+                            border-bottom-color: #000000;
+                        }
+                        
+                        .rpt-td-preg-1 .rpt-label{
+                            height: 10px;
+                            max-height: 10px;
                         }
                         
                         .rpt-font-7{
@@ -302,6 +416,13 @@ export class LaspiranteComponent implements OnInit {
                             color: #000000;
                             font-family: Arial;
                             font-weight: normal;
+                        }
+                        
+                        .rpt-font-7-b{
+                            font-size: 7pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: bold;
                         }
                         
                         .rpt-font-8{
@@ -349,7 +470,8 @@ export class LaspiranteComponent implements OnInit {
                         .rpt-divider{
                             border-color: black;
                             height: 0px;
-                            margin-block-start: 0.2em;
+                            margin-block-start: 0.0em;
+                            margin-block-end: 0.0em;
                             width: 756px;
                             display: table-caption;
                         }
