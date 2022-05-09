@@ -14,7 +14,7 @@ export class RptfichaComponent implements OnInit {
   apPaterno?: string = 'apPaterno';
   apMaterno?: string = 'apMaterno';
   primerNombre?: string = 'nombre';
-  fecNacimiento?: string = '99/99/9999';
+  fecNacimiento?: string = '99/99/9999(N)';
   edad?: string = '00';
   sexo?: string = 'X';
   estadoCivil?: string = 'estC';
@@ -40,8 +40,8 @@ export class RptfichaComponent implements OnInit {
   hematocrito?: string = '0.00';
   tallaDonacion?: string = 'talla';
   pesoDonacion?: string = 'peso';
-  presionArterial?: string = '';
-  frecuenciaCardiaca?: string = '';
+  presionArterial?: string = 'presionArterial';
+  frecuenciaCardiaca?: string = 'frecuenciaCardiaca';
   viajes?: string = 'viajes';
   permanencia?: string = 'permanencia';
   fechaViaje?: string = '99/99/9999(V)';
@@ -51,26 +51,26 @@ export class RptfichaComponent implements OnInit {
   campo2A?: string = 'campo2A';
   campo3A?: string = 'campo3A';
   campo4A?: string = 'campo4A';
-  campo4B?: string = '';
+  campo4B?: string = 'campo4B';
   campo5A?: string = 'campo5A';
-  campo5B?: string = '';
+  campo5B?: string = 'campo5B';
   campo6A?: string = 'campo6A';
-  campo6B?: string = '';
+  campo6B?: string = 'campo6B';
   campo7A?: string = 'campo7A';
   campo8A?: string = 'campo8A';
   campo9A?: string = 'campo9A';
   campo10A?: string = 'campo10A';
-  campo10B?: string = '';
+  campo10B?: string = 'campo10B';
   campo11A?: string = 'campo11A';
   campo12A?: string = 'campo12A';
   campo13A?: string = 'campo13A';
   campo14A?: string = 'campo14A';
-  campo14B?: string = '';
+  campo14B?: string = 'campo14B';
   campo15A?: string = 'campo15A';
   campo16A?: string = 'campo16A';
   campo17A?: string = 'campo17A';
   campo18A?: string = 'campo18A';
-  campo19A?: string = 'campo19A';
+  campo18B?: string = 'campo18B';
   campo20A?: string = 'campo20A';
   campo21A?: string = 'campo21A';
   campo22A?: string = 'campo22A';
@@ -81,7 +81,7 @@ export class RptfichaComponent implements OnInit {
   campo27A?: string = 'campo27A';
   campo28A?: string = 'campo28A';
   campo29A?: string = 'campo29A';
-  campo29B?: string = '';
+  campo29B?: string = 'campo29B';
   estado?: string;
   motivoRec?: string;
   periodoRechazo?: string;
@@ -106,11 +106,11 @@ export class RptfichaComponent implements OnInit {
   apPatFase1?: string = 'apPatFase1';
   apMatFase1?: string = 'apMatFase1';
   nombresFase1?: string = 'nomFase1';
-  apPatFase2?: string;
-  apMatFase2?: string;
-  nombresFase2?: string;
-  motivoTem?: string;
-  motivoPerm?: string;
+  apPatFase2?: string = 'apPatFase2';
+  apMatFase2?: string = 'apMatFase2';
+  nombresFase2?: string = 'nomFase2';
+  motivoTem?: string = 'motivoTem';
+  motivoPerm?: string = 'motivoPerm';
   subTitulo?: string = this.subTitulo1 + ' ' + this.subTitulo2;;
 
   constructor() {
@@ -121,7 +121,7 @@ export class RptfichaComponent implements OnInit {
   }
 
   setFicha(data: Ficha){
-    this.tipDocu = '';
+    this.tipDocu = data.tipDocu;
     this.numDocu = data.numDocu;
     this.apPaterno = data.apPaterno;
     this.apMaterno = data.apMaterno;
@@ -152,8 +152,8 @@ export class RptfichaComponent implements OnInit {
     this.hematocrito = data.hematocrito;
     this.tallaDonacion = data.tallaDonacion;
     this.pesoDonacion = data.pesoDonacion;
-    this.presionArterial = '';
-    this.frecuenciaCardiaca = '';
+    this.presionArterial = data.presionArterial;
+    this.frecuenciaCardiaca = data.frecuenciaCardiaca;
     this.viajes = data.viajes;
     this.permanencia = data.permanencia;
     this.fechaViaje = data.vFechaViaje;
@@ -163,26 +163,26 @@ export class RptfichaComponent implements OnInit {
     this.campo2A = data.campo2A;
     this.campo3A = data.campo3A;
     this.campo4A = data.campo4A;
-    this.campo4B = '';
+    this.campo4B = data.campo4B;
     this.campo5A = data.campo5A;
-    this.campo5B = '';
+    this.campo5B = data.campo5B;
     this.campo6A = data.campo6A;
-    this.campo6B = '';
+    this.campo6B = data.campo6B;
     this.campo7A = data.campo7A;
     this.campo8A = data.campo8A;
     this.campo9A = data.campo9A;
     this.campo10A = data.campo10A;
-    this.campo10B = '';
+    this.campo10B = data.campo10B;
     this.campo11A = data.campo11A;
     this.campo12A = data.campo12A;
     this.campo13A = data.campo13A;
     this.campo14A = data.campo14A;
-    this.campo14B = '';
+    this.campo14B = data.campo14B;
     this.campo15A = data.campo15A;
     this.campo16A = data.campo16A;
     this.campo17A = data.campo17A;
     this.campo18A = data.campo18A;
-    this.campo19A = data.campo19A;
+    this.campo18B = data.campo18B;
     this.campo20A = data.campo20A;
     this.campo21A = data.campo21A;
     this.campo22A = data.campo22A;
@@ -193,7 +193,7 @@ export class RptfichaComponent implements OnInit {
     this.campo27A = data.campo27A;
     this.campo28A = data.campo28A;
     this.campo29A = data.campo29A;
-    this.campo29B = '';
+    this.campo29B = data.campo29B;
     this.estado = data.estado;
     this.motivoRec = data.motivoRec;
     this.periodoRechazo = data.periodoRechazo;
@@ -222,8 +222,8 @@ export class RptfichaComponent implements OnInit {
     this.apPatFase2 = (this.estado==='NO APTO' && this.faseRechazo=='2')?this.apPaterno:'';
     this.apMatFase2 = (this.estado==='NO APTO' && this.faseRechazo=='2')?this.apMaterno:'';
     this.nombresFase2 = (this.estado==='NO APTO' && this.faseRechazo=='2')?this.primerNombre:'';
-    this.motivoTem = (this.estado==='NO APTO' && this.faseRechazo=='2' && this.periodoRechazo==='T')?this.motivoRec:'';
-    this.motivoPerm = (this.estado==='NO APTO' && this.faseRechazo=='2' && this.periodoRechazo==='D')?this.motivoRec:'';
+    this.motivoTem = (this.estado==='NO APTO' && this.faseRechazo=='2' && this.periodoRechazo==='T')?this.motivoRec:'....................................................................';
+    this.motivoPerm = (this.estado==='NO APTO' && this.faseRechazo=='2' && this.periodoRechazo==='D')?this.motivoRec:'....................................................................';
   }
 
 }
