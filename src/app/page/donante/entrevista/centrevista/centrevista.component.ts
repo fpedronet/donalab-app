@@ -220,9 +220,14 @@ export class CentrevistaComponent implements OnInit {
     result!.respuesta= estado;
   }
 
+  changeestadopregunta2(event: any, idePregunta?: number){
+    var result = this.listaPregunta?.filter(y=>y.idePregunta==idePregunta)[0];
+    result!.respuesta= (event.target.value=="")? null : event.target.value;
+  }
+
   changeobservacion(event: any, idePregunta?: number){
     var result = this.listaPregunta?.filter(y=>y.idePregunta==idePregunta)[0];
-    result!.observacion= event.target.value;
+    result!.observacion= (event.target.value=="")? null : event.target.value;
   }
 
   changestepper(stepper: any){

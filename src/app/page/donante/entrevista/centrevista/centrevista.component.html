@@ -209,19 +209,25 @@
                 <td>
                   {{c.pregunta}}
                 </td>
-                <td>
+                <td *ngIf="c.idePregunta!=15 && c.idePregunta!=18 && c.idePregunta!=19">
                   <label class="radio">SI
                     <input *ngIf="c.respuesta=='SI'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
                     <input type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('SI',c.idePregunta)">
                     <span class="check"></span>
                   </label>
                 </td>
-                <td>
+                <td *ngIf="c.idePregunta!=15 && c.idePregunta!=18 && c.idePregunta!=19">
                   <label class="radio">NO
                     <input *ngIf="c.respuesta=='NO'" checked type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
                     <input  type="radio" name="btn{{c.idePregunta}}" (click)="changeestadopregunta('NO',c.idePregunta)">
                     <span class="check"></span>
                   </label>
+                </td>
+                <td colspan="2" *ngIf="c.idePregunta==15 || c.idePregunta==18">
+                  <input type="date" class="txtrespuesta" style="width: 116px;" (change)="changeestadopregunta2($event,c.idePregunta)" [value]="c.respuesta">
+                </td>
+                <td colspan="2" *ngIf="c.idePregunta==19">
+                  <input type="number" class="txtrespuesta" style="width: 116px;" (change)="changeestadopregunta2($event,c.idePregunta)" [value]="c.respuesta">
                 </td>
                 <td>
                   <input type="text" class="txtrespuesta" [minLength]="1" [maxLength]="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">
