@@ -267,6 +267,13 @@ export class CchequeoComponent implements OnInit {
         this.notifierService.showNotification(environment.ALERT,'Mensaje','La temperatura no puede ser menor a 0');
       }
 
+      let valTalla = this.numeroEntero(this.form.value['tallaDonacion']);
+
+      if(valTalla=="entero"){
+        submit = false;
+        this.notifierService.showNotification(environment.ALERT,'Mensaje', 'La talla ingresada es incorrecta');
+      }
+
       if(submit){
         let model = new ChequeoFisico();
 
@@ -328,6 +335,22 @@ export class CchequeoComponent implements OnInit {
       this.ideMotivoRec = parseInt(value.codigo);
     }
   }
+
+  numeroEntero(numero: any){
+    if (isNaN(numero) || numero==null){
+      // no es un número.
+      return "";
+    } else {
+        if (numero % 1 == 0) {
+          // Es un numero entero
+          return "entero";
+        } else {
+          // Es un numero decimal
+          return "decimal";
+        }
+    }
+
+}
 
   private _filterMotivoRechazo(value: any){
     let filterValue = value.descripcion == undefined ? value.toLowerCase() : value.descripcion.toLowerCase();
