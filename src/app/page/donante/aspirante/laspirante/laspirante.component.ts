@@ -204,13 +204,13 @@ export class LaspiranteComponent implements OnInit {
                           @page 
                           {
                               size: auto;
-                              margin: 0mm;
+                              margin: 3mm 0mm;
                           }                    
                           body 
                           {
                               background-color:#FFFFFF; 
                               border: solid 0px white ;
-                              margin: 5px 16px;
+                              margin: 0px 18px;
                           }
                           td {
                             vertical-align: middle;
@@ -223,6 +223,12 @@ export class LaspiranteComponent implements OnInit {
                             border-style: outset;
                             border-width: 0px;
                             border-color: blue;
+                        }
+                        
+                        .rpt-table-b{
+                            border-width: 1px;
+                            border-color: black;
+                            border-style: solid;
                         }
                         
                         .rpt-img{
@@ -261,6 +267,12 @@ export class LaspiranteComponent implements OnInit {
                             height: 20px;
                         }
                         
+                        .rpt-input-b-2{
+                            border-style: solid;
+                            border-width: 2px;
+                            height: 32px;
+                        }
+                        
                         .rpt-label{
                             border-style: none;
                             /*height: 21px;*/
@@ -270,7 +282,7 @@ export class LaspiranteComponent implements OnInit {
                         .rpt-input-firma{
                             border-style: solid;
                             border-width: 2px;
-                            height: 72px;
+                            height: 62px;
                         }
                         
                         .rpt-input-h1 .rpt-font-8{
@@ -439,6 +451,14 @@ export class LaspiranteComponent implements OnInit {
                             font-weight: normal;
                         }
                         
+                        .rpt-font-9-u{
+                            font-size: 9pt;
+                            color: #000000;
+                            font-family: Arial;
+                            font-weight: normal;
+                            text-decoration: underline;
+                        }
+                        
                         .rpt-font-10{
                             font-size: 10pt;
                             color: #000000;
@@ -472,7 +492,7 @@ export class LaspiranteComponent implements OnInit {
                             height: 0px;
                             margin-block-start: 0.0em;
                             margin-block-end: 0.0em;
-                            width: 756px;
+                            width: 760px;
                             display: table-caption;
                         }
                        </style>

@@ -513,7 +513,7 @@
       </td>
       <td class="rpt-td-6">
         <div class="rpt-input-b">
-          <span class="rpt-font-8">{{pesoDonacion}}</span>
+          <span class="rpt-font-8" style="margin-left: 5px;">{{pesoDonacion}}</span>
         </div>
       </td>
       <td class="rpt-td-6">
@@ -528,7 +528,7 @@
       </td>
       <td class="rpt-td-6">
         <div class="rpt-input-b">
-          <span class="rpt-font-8">{{tallaDonacion}}</span>
+          <span class="rpt-font-8" style="margin-left: 5px;">{{tallaDonacion}}</span>
         </div>
       </td>
       <td class="rpt-td-6">
@@ -543,7 +543,7 @@
       </td>
       <td class="rpt-td-6">
         <div class="rpt-input-b">
-          <span class="rpt-font-8">{{presionArterial}}</span>
+          <span class="rpt-font-8" style="margin-left: 5px;">{{presionArterial}}</span>
         </div>
       </td>
       <td class="rpt-td-6">
@@ -558,7 +558,7 @@
       </td>
       <td class="rpt-td-6">
         <div class="rpt-input-b">
-          <span class="rpt-font-8">{{frecuenciaCardiaca}}</span>
+          <span class="rpt-font-8" style="margin-left: 5px;">{{frecuenciaCardiaca}}</span>
         </div>
       </td>
       <td class="rpt-td-6">
@@ -961,7 +961,7 @@
       </td>
       <td>
         <div class="rpt-label">
-          <span class="rpt-font-8">{{campo19A}}</span>
+          <span class="rpt-font-8">{{campo18B}}</span>
         </div>
       </td>
     </tr>
@@ -1078,7 +1078,7 @@
   <hr class="rpt-divider">
   <table width="756px" border="0" cellspacing="0">
     <tr>
-      <td>
+      <td colspan="10">
         <div class="rpt-label">
           <span class="rpt-font-8-b">PRE-CALIFICACIÓN</span>
         </div>
@@ -1090,38 +1090,356 @@
           <span class="rpt-font-8">Marcar con una aspa (x):</span>
         </div>
       </td>
-      <td colspan="2" class="rpt-td-6">
-        <div class="rpt-input-b">
-          &nbsp;
+      <td>
+        &nbsp;
+      </td>
+      <td class="rpt-td-4">
+        <div class="rpt-input-b-2">
+          <span class="rpt-font-8-b">{{xNoAptoTemp}}</span>
+        </div>
+      </td>
+      <td>
+        &nbsp;
+      </td>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-8">Motivo:</span>
         </div>
       </td>
       <td>
         <div class="rpt-label">
-          <span class="rpt-font-8">:</span>
+          <!--span class="rpt-font-8">....................................................................</span-->
+          <span class="rpt-font-8">{{motivoTem}}</span>
         </div>
       </td>
-      <td rowspan="4" class="rpt-td-2">
+      <td rowspan="4" class="rpt-td-8">
         <div class="rpt-input-4">
           &nbsp;
         </div>
       </td>
     </tr>
-      <td>
+      <td rowspan="2" style="width: 90px;">
         &nbsp;
       </td>
-      <td colspan="2" class="rpt-td-6">
-        <div class="rpt-input-b">
+      <td colspan="2" class="rpt-td-4">
+        <div class="rpt-input-b-2">
           &nbsp;
         </div>
       </td>
-      <td>
-        <div class="rpt-label">
+      <td colspan="3" style="vertical-align: top; width: 163px;">
+        <div class="rpt-label" style="text-align: center;">
           <span class="rpt-font-8">NO APTO TEMPORALMENTE</span>
         </div>
       </td>
+      <td colspan="2" style="vertical-align: top">
+        <div class="rpt-label">
+          <span class="rpt-font-8">Tiempo:<br>Fecha que puede retornar:</span>
+        </div>
+      </td>
     <tr>
+      <td colspan="2" style="vertical-align: top">
+        <div class="rpt-label" style="text-align: center;">
+          <span class="rpt-font-8">APTO</span>
+        </div>
+      </td>
+      <td>
+        &nbsp;
+      </td>
+      <td class="rpt-td-4">
+        <div class="rpt-input-b-2">
+          <span class="rpt-font-8-b">{{xNoAptoPerm}}</span>
+        </div>
+      </td>
+      <td>
+        &nbsp;
+      </td>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-8">Motivo:</span>
+        </div>
+      </td>
+      <td style="width: 210px;">
+        <div class="rpt-label">
+          <!--span class="rpt-font-8">....................................................................</span-->
+          <span class="rpt-font-8">{{motivoPerm}}</span>
+        </div>
+      </td>
     </tr>
     <tr>
+      <td colspan="3">
+        &nbsp;
+      </td>
+      <td colspan="3" style="vertical-align: top">
+        <div class="rpt-label" style="text-align: center;">
+          <span class="rpt-font-8">NO APTO PERMANENTEMENTE</span>
+        </div>
+      </td>
+      <td colspan="2">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <div class="rpt-shadow">
+          <span class="rpt-font-9">En caso se determine que el postulante hasta este punto no califica para continuar el proceso, se da por finalizado este.</span>
+          <br>
+          <span class="rpt-font-9">Firmando el postulante en señal de aceptación.</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <hr class="rpt-divider">
+  <table width="756px" border="0" cellspacing="0">
+    <tr>
+      <td colspan="10">
+        <div class="rpt-label">
+          <span class="rpt-font-7-b">Datos del Postulante (Pre extracción)</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 120px">
+        <div class="rpt-label">
+          <span class="rpt-font-9">Apellido Paterno:</span>
+        </div>
+      </td>
+      <td colspan="3" class="rpt-td-10">
+        <div class="rpt-input-h1">
+          <span class="rpt-font-8">{{apPatFase2}}</span>
+        </div>
+      </td>
+      <td rowspan="5">
+        &nbsp;
+      </td>
+      <td rowspan="5" class="rpt-td-1">
+        <div class="rpt-input-4" style="text-align: center;">
+          <span class="rpt-font-9">Huella dactilar</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-9">Apellido Materno:</span>
+        </div>
+      </td>
+      <td colspan="3" class="rpt-td-10">
+        <div class="rpt-input-h1">
+          <span class="rpt-font-8">{{apMatFase2}}</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-9">Nombres:</span>
+        </div>
+      </td>
+      <td colspan="3" class="rpt-td-10">
+        <div class="rpt-input-h1">
+          <span class="rpt-font-8">{{nombresFase2}}</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" rowspan="2" style="width: 175px">
+        <div class="rpt-input-firma" style="text-align: center;">
+          <span class="rpt-font-9">Firma y Sello del Entrevistador</span>
+        </div>
+      </td>
+      <td rowspan="2" style="width: 170px;">
+        &nbsp;
+      </td>
+      <td style="height: 35px;">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td style="border-top-style: solid; border-top-width: 1px; border-top-color: #000000;">
+        <div class="rpt-label" style="text-align: center">
+          <span class="rpt-font-7">FIRMA DEL POSTULANTE</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-9">Observaciones</span>
+        </div>
+      </td>
+      <td colspan="3">
+        <span class="rpt-font-9">_________________________________________________________________________</span>
+      </td>
+      <td rowspan="2" colspan="2">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>
+        &nbsp;
+      </td>
+      <td colspan="3">
+        <span class="rpt-font-9">_________________________________________________________________________</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" style="width: 340px;">
+        <div class="rpt-label">
+          <span class="rpt-font-8-b">5. CONSENTIMIENTO INFORMADO DEL POSTULANTE</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <table class="rpt-table-b" width="756px" border="0" cellspacing="0">
+    <tr>
+      <td colspan="6">
+        <div class="rpt-label">
+          <span class="rpt-font-8">Yo , voluntariamente dono mi sangre y derivados a esta institucion. Concedo autorizacion para que se obtenga la cantidad de 450 
+            ml  de sangre y sea examinada con los 7 marcadores de tamizaje para (Hepatitis B, Hepatitis C, Chagas, HTLV I-II, Sifilis, HIV) y 
+            utilizada en la transfusion sanguinea. He tenido la  oportunidad de preguntar sobre este procedimiento, y entendido lo que es y 
+            cuales son los riesgos y tambien he tenido oportunidad de rechazar que lo realicen. He revisado y entendido la informacion que me 
+            dieron referente a la propagacion del virus del SIDA a traves  de  donaciones de sangre, plaquetas o plasma, por lo tanto yo 
+            considero que mi sangre debe ser examinada para los anticuerpos del SIDA y otras enfermedades infecciosas. En mi 
+            consentimiento yo certifico que he contestado con toda la veracidad las preguntas que me realizaron. Yo por medio de la presente 
+            eximo de toda responsabilidad a esta institucion y a sus miembros de cualquier reclamo o demanda que yo, mis herederos, 
+            ejecutores o administradores tengan o puedan tener en contra de cualquiera de llos en lo que se refiere a esta donacion y 
+            cualquier consecuencia como resultado directo o indirecto de ella.</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <div class="rpt-label">
+          <span class="rpt-font-7-b">Datos del Postulante</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 120px">
+        <div class="rpt-label">
+          <span class="rpt-font-9">Apellido Paterno:</span>
+        </div>
+      </td>
+      <td colspan="3" class="rpt-td-10">
+        <div class="rpt-input-h1">
+          <span class="rpt-font-8">&nbsp;</span>
+        </div>
+      </td>
+      <td rowspan="5">
+        &nbsp;
+      </td>
+      <td rowspan="5" class="rpt-td-1">
+        <div class="rpt-input-4" style="text-align: center;">
+          <span class="rpt-font-9">Huella dactilar</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-9">Apellido Materno:</span>
+        </div>
+      </td>
+      <td colspan="3" class="rpt-td-10">
+        <div class="rpt-input-h1">
+          <span class="rpt-font-8">&nbsp;</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-9">Nombres:</span>
+        </div>
+      </td>
+      <td colspan="3" class="rpt-td-10">
+        <div class="rpt-input-h1">
+          <span class="rpt-font-8">&nbsp;</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" rowspan="2" style="width: 175px">
+        &nbsp;
+      </td>
+      <td style="height: 35px;">
+        &nbsp;
+      </td>
+      <td rowspan="2" style="width: 170px;">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td style="border-top-style: solid; border-top-width: 1px; border-top-color: #000000;">
+        <div class="rpt-label" style="text-align: center">
+          <span class="rpt-font-7">FIRMA DEL DONANTE</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <table width="756px" border="0" cellspacing="0">
+    <tr>
+      <td colspan="6" style="width: 340px;">
+        <div class="rpt-label">
+          <span class="rpt-font-8-b">6. REVOCATORIA DE CONSENTIMIENTO INFORMADO</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6">
+        <div class="rpt-label">
+          <span class="rpt-font-8">Yo , ....................................................................................................................................... Con DNI N° ................................................
+            hago uso de mi derecho de revocatoria al Consentimiento Informado que suscribiera anteriormente, y EXPRESO MI DECISION DE 
+            NO DONAR SANGRE.
+            <br>
+            (&nbsp;&nbsp;&nbsp;) Debido a ..............................................................................................................................................................................................
+            <br>
+            (&nbsp;&nbsp;&nbsp;) No deseo manifestar la causa</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="rpt-label">
+          <span class="rpt-font-8">Fecha y Hora .........................................................</span>
+        </div>
+      </td>
+      <td colspan="3" style="width: 145px">
+        &nbsp;
+      </td>
+      <td rowspan="4">
+        &nbsp;
+      </td>
+      <td rowspan="4" class="rpt-td-1">
+        <div class="rpt-input-4" style="text-align: center;">
+          <span class="rpt-font-9">Huella dactilar</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td style="border-top-style: solid; border-top-width: 1px; border-top-color: #000000;">
+        <div class="rpt-label" style="text-align: center">
+          <span class="rpt-font-7">FIRMA DEL DONANTE</span>
+        </div>
+      </td>
+      <td colspan="2" style="width: 145px">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="width: 145px">
+        &nbsp;
+      </td>
+      <td style="border-top-style: solid; border-top-width: 1px; border-top-color: #000000;">
+        <div class="rpt-label" style="text-align: center">
+          <span class="rpt-font-7">Firma y Sello del Responsable del Banco de Sangre</span>
+        </div>
+      </td>
     </tr>
   </table>
 </div>
