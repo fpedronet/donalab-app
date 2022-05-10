@@ -418,6 +418,28 @@ export class CdonacionComponent implements OnInit {
     });
   }
 
+  imprimir2() {
+
+    let idedonacion = this.form.value['ideDonacion'];
+    let idepredonante = this.form.value['idePreDonante'];
+
+    this.reporteService
+      .rptetiqueta2(idedonacion,idepredonante)
+      .subscribe(
+        data => {
+          let byteChar = atob(data);
+          let byteArray = new Array(byteChar.length);
+          for(let i = 0; i < byteChar.length; i++){
+            byteArray[i] = byteChar.charCodeAt(i);
+          }
+          let uIntArray = new Uint8Array(byteArray);
+          let blob = new Blob([uIntArray], {type : 'application/pdf'});
+          const fileURL = URL.createObjectURL(blob);
+          window.open(fileURL, `${"etiqueta"}.pdf`);
+        }
+      );
+  }
+
   calcularhora(tipo: number){
 
     let $fechaextraccion =this.form.value['fechaExtraccion'];
