@@ -227,7 +227,7 @@
                   <input type="date" class="txtrespuesta" style="width: 104px;" (change)="changeestadopregunta2($event,c.idePregunta)" [value]="c.respuesta">
                 </td>
                 <td colspan="2" *ngIf="c.idePregunta==19">
-                  <input type="number" class="txtrespuesta" style="width: 104px;" (change)="changeestadopregunta2($event,c.idePregunta)" [value]="c.respuesta">
+                  <input type="number" class="txtrespuesta" style="width: 104px;" (change)="changeestadopregunta2($event,c.idePregunta)" [value]="c.respuesta" oninput="if(this.value.length>=2) { this.value = this.value.slice(0,2); }" onkeypress="return /[0-9]/i.test(event.key)">
                 </td>
                 <td>
                   <input type="text" class="txtrespuesta" [minLength]="1" [maxLength]="500" (keyup)="changeobservacion($event,c.idePregunta)" [value]="c.observacion">

@@ -62,13 +62,14 @@
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
-                      <mat-label>Peso</mat-label>
+                      <mat-label>Peso (Kg)</mat-label>
                       <input matInput 
                         type="number" 
                         oninput="if(this.value.length>=6) { this.value = this.value.slice(0,6); }"
                         class="example-right-align" 
                         formControlName="pesoDonacion" 
-                        placeholder="0.00" 
+                        placeholder="0.00"
+                        onkeypress="return /[0-9|.]/i.test(event.key)"
                         (keyup.enter)="focus(tallaDonacion)">
                     </mat-form-field>
                   </mat-grid-tile>
@@ -76,14 +77,15 @@
                 <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
-                      <mat-label>Talla</mat-label>
+                      <mat-label>Talla (m)</mat-label>
                       <input matInput 
                       type="number" 
                       oninput="if(this.value.length>=4) { this.value = this.value.slice(0,4); }"
                       #tallaDonacion 
                       class="example-right-align" 
                       formControlName="tallaDonacion" 
-                      placeholder="0.00" 
+                      placeholder="0.00"
+                      onkeypress="return /[0-9|.]/i.test(event.key)"
                       (keyup.enter)="focus(presion1)">
                     </mat-form-field>
                   </mat-grid-tile>
@@ -97,7 +99,8 @@
                         oninput="if(this.value.length>=3) { this.value = this.value.slice(0,3); }"
                         #presion1 class="example-right-align" 
                         formControlName="presionArterial1" 
-                        placeholder="0" 
+                        placeholder="0"
+                        onkeypress="return /[0-9|.]/i.test(event.key)"
                         (keyup.enter)="focus(presion2)">
                     </mat-form-field>
                     <div style="font-size:37px;color:#921528;font-weight:500;"> /</div>
@@ -109,7 +112,8 @@
                         #presion2 
                         class="example-right-align" 
                         formControlName="presionArterial2" 
-                        placeholder="0" 
+                        placeholder="0"
+                        onkeypress="return /[0-9|.]/i.test(event.key)"
                         (keyup.enter)="focus(hemoglobina)">
                     </mat-form-field>                   
                   </mat-grid-tile>
@@ -121,7 +125,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Hemoglobina</mat-label>
-                      <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #hemoglobina class="example-right-align" formControlName="hemoglobina" placeholder="0.00" (keyup.enter)="focus(hematocrito)">
+                      <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #hemoglobina class="example-right-align" formControlName="hemoglobina" placeholder="0.00" onkeypress="return /[0-9|.]/i.test(event.key)" (keyup.enter)="focus(hematocrito)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -129,7 +133,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Hematocrito</mat-label>
-                      <input matInput  type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #hematocrito class="example-right-align" formControlName="hematocrito" placeholder="0.00" (keyup.enter)="focus(plaquetas)">
+                      <input matInput  type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #hematocrito class="example-right-align" formControlName="hematocrito" placeholder="0.00" onkeypress="return /[0-9|.]/i.test(event.key)" (keyup.enter)="focus(plaquetas)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -140,7 +144,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Plaquetas</mat-label>
-                      <input matInput  type="number" oninput="if(this.value.length>=6) { this.value = this.value.slice(0,6); }" #plaquetas class="example-right-align" formControlName="plaquetas" placeholder="0" (keyup.enter)="focus(frecuenciaCardiaca)">
+                      <input matInput  type="number" oninput="if(this.value.length>=6) { this.value = this.value.slice(0,6); }" #plaquetas class="example-right-align" formControlName="plaquetas" placeholder="0" onkeypress="return /[0-9|.]/i.test(event.key)" (keyup.enter)="focus(frecuenciaCardiaca)">
                     </mat-form-field>
                   </mat-grid-tile> 
                 </mat-grid-list> 
@@ -148,7 +152,7 @@
                   <mat-grid-tile [colspan]="12">
                     <mat-form-field appearance="outline">
                       <mat-label>Frec. Cardiaca</mat-label>
-                      <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #frecuenciaCardiaca class="example-right-align" formControlName="frecuenciaCardiaca" placeholder="0">
+                      <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #frecuenciaCardiaca class="example-right-align" formControlName="frecuenciaCardiaca" placeholder="0" onkeypress="return /[0-9|.]/i.test(event.key)">
                     </mat-form-field>
                   </mat-grid-tile>
                 </mat-grid-list>  
@@ -213,7 +217,7 @@
                 <mat-grid-tile [colspan]="6">
                   <mat-form-field appearance="outline">
                     <mat-label>Temperatura °C</mat-label>
-                    <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #temperatura class="example-right-align" formControlName="temperatura" placeholder="0.00" (keyup.enter)="focus(dFechaInicio)">
+                    <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" #temperatura class="example-right-align" formControlName="temperatura" placeholder="0.00" onkeypress="return /[0-9|.]/i.test(event.key)" (keyup.enter)="focus(dFechaInicio)">
                   </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6" style="top: -6px;">

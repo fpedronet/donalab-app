@@ -70,7 +70,7 @@ export class RptfichaComponent implements OnInit {
   campo16A?: string = 'campo16A';
   campo17A?: string = 'campo17A';
   campo18A?: string = 'campo18A';
-  campo18B?: string = 'campo18B';
+  campo19A?: string = 'campo19A';
   campo20A?: string = 'campo20A';
   campo21A?: string = 'campo21A';
   campo22A?: string = 'campo22A';
@@ -182,7 +182,7 @@ export class RptfichaComponent implements OnInit {
     this.campo16A = data.campo16A;
     this.campo17A = data.campo17A;
     this.campo18A = data.campo18A;
-    this.campo18B = data.campo18B;
+    this.campo19A = data.campo19A;
     this.campo20A = data.campo20A;
     this.campo21A = data.campo21A;
     this.campo22A = data.campo22A;
