@@ -204,7 +204,7 @@ export class LaspiranteComponent implements OnInit {
                           @page 
                           {
                               size: auto;
-                              margin: 3mm 0mm;
+                              margin: 2mm 0mm;
                           }                    
                           body 
                           {
@@ -255,10 +255,10 @@ export class LaspiranteComponent implements OnInit {
                             height: 70px;
                         }
                         
-                        .rpt-input-4{
+                        .rpt-input-h4{
                             border-style: solid;
                             border-width: thin;
-                            height: 100px;
+                            height: 120px;
                         }
                         
                         .rpt-input-b{
@@ -276,7 +276,7 @@ export class LaspiranteComponent implements OnInit {
                         .rpt-label{
                             border-style: none;
                             /*height: 21px;*/
-                            line-height: 0.9;
+                            line-height: 1;
                         }
                         
                         .rpt-input-firma{
@@ -312,7 +312,7 @@ export class LaspiranteComponent implements OnInit {
                             margin-left: 5px;
                         }
                         
-                        .rpt-input-4 .rpt-font-9{
+                        .rpt-input-h4 .rpt-font-9{
                             font-size: 9pt;
                             color: #808080;
                         }
@@ -326,7 +326,7 @@ export class LaspiranteComponent implements OnInit {
                             border-style: none;
                             height: 25px;
                             background-color: #c0c0c0;
-                            line-height: 0.9;
+                            line-height: 1;
                         }
                         
                         .rpt-label-r{
@@ -336,44 +336,44 @@ export class LaspiranteComponent implements OnInit {
                             text-align: right;
                         }
                         
-                        .rpt-td-1{
-                            width: 112px;
-                        }
-                        
-                        .rpt-td-2{
-                            width: 248px;
-                        }
-                        
-                        .rpt-td-3{
-                            width: 60px;
-                        }
-                        
-                        .rpt-td-4{ /*Para X*/
+                        .rpt-td-w1{ /*Para X*/
                             width: 36px;
                             text-align: center;
                         }
                         
-                        .rpt-td-5{
-                            width: 85px;
-                        }
-                        
-                        .rpt-td-6{
+                        .rpt-td-w2{
                             width: 53px;
                         }
                         
-                        .rpt-td-7{
-                            width: 254px;
+                        .rpt-td-w3{
+                            width: 60px;
                         }
                         
-                        .rpt-td-8{
+                        .rpt-td-w4{
+                            width: 85px;
+                        }
+                        
+                        .rpt-td-w5{
+                            width: 112px;
+                        }
+                        
+                        .rpt-td-w6{
                             width: 167px;
                         }
                         
-                        .rpt-td-9{
+                        .rpt-td-w7{
+                            width: 248px;
+                        }
+                        
+                        .rpt-td-w8{
+                            width: 254px;
+                        }
+                        
+                        .rpt-td-w9{
                             width: 290px;
                         }
                         
-                        .rpt-td-10{
+                        .rpt-td-w50{
                             width: 445px;
                         }
                         

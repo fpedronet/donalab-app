@@ -56,6 +56,8 @@ export class HomeComponent implements OnInit {
     private notifier: NotifierService,
   ) { }
 
+  cantGraficos: number = 6;
+
   arrayCardClasses: string[] = ['gradient-orange tile p-2', 'gradient-red tile p-2', 'gradient-green tile p-2', 'gradient-brown tile p-2'];
 
   arrayListSerie: Serie[] = [];
@@ -139,7 +141,7 @@ export class HomeComponent implements OnInit {
 
     //this.curTipoStock = 5;
 
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= this.cantGraficos; i++) {
       this.listargrafico(i);
     }
   }
@@ -460,7 +462,7 @@ export class HomeComponent implements OnInit {
       this.notifier.showNotification(environment.ALERT,'Mensaje','Las fechas son obligatorio');
     }
 
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= this.cantGraficos; i++) {
       this.listargrafico(i);
     }
   }
@@ -675,5 +677,17 @@ export class HomeComponent implements OnInit {
 
   valorMaximo(num1: number, num2: number){
     return num1>num2?num1:num2;
+  }
+
+  reiniciaFechas(){
+    let $fecha = new Date();
+
+    this.$fechaInicio = new Date($fecha.getFullYear(),$fecha.getMonth(), 1 );
+    //this.$fechaInicio = new Date($fecha.getFullYear()-2,$fecha.getMonth(), 1 );
+    this.$fechaFin = new Date();
+
+    for (let i = 1; i <= this.cantGraficos; i++) {
+      this.listargrafico(i);
+    }
   }
 }
