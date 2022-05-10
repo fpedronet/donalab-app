@@ -43,7 +43,7 @@
                   </mat-form-field>
                 </div> 
                 <mat-form-field appearance="outline">
-                    <mat-label>Codigo</mat-label>
+                    <mat-label>Código</mat-label>
                     <input matInput formControlName="codigo" minlength="1" maxlength="15" (keyup.enter)="obtener($event)" required>
                     <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Limpiar" (click)="limpiar()">
                       <mat-icon>close</mat-icon>
