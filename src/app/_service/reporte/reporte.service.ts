@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Etiqueta } from 'src/app/_model/reporte/etiqueta';
 import { Ficha } from 'src/app/_model/reporte/ficha';
 import { environment } from 'src/environments/environment';
@@ -20,6 +21,12 @@ export class ReporteService {
 
     return this.http.get<Etiqueta>(urls);
   }
+
+  rptetiqueta2(idedonacion: Number,idepredonante:number) {
+    let urls = `${this.url}/GetPrintPrueba2?idedonacion=${idedonacion}&idepredonante=${idepredonante}`;
+
+    return this.http.get<string>(urls);
+  }  
 
   rptficha(idepredonante:number ){
     let urls = `${this.url}/GetPrintFicha?idepredonante=${idepredonante}`;
