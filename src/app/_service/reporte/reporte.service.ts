@@ -23,7 +23,7 @@ export class ReporteService {
   }
 
   rptetiqueta2(idedonacion: Number,idepredonante:number) {
-    let urls = `${this.url}/GetPrintPrueba2?idedonacion=${idedonacion}&idepredonante=${idepredonante}`;
+    let urls = `${this.url}/GetPrintPrueba?idedonacion=${idedonacion}&idepredonante=${idepredonante}`;
 
     return this.http.get<string>(urls);
   }  
