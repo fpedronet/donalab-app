@@ -20,7 +20,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>Fecha Hasta</mat-label>
                 <input matInput [matDatepicker]="fechaHasta" placeholder="dd/mm/yyyy" [max]="fechaHasta" 
-                [(ngModel)]="fechaSelectHasta"  (dateChange)="onDateChange()">
+                [(ngModel)]="fechaSelectHasta"  (dateChange)="onDateChange()" [min]="fechaMin">
                 <mat-datepicker-toggle matSuffix [for]="fechaHasta"></mat-datepicker-toggle>
                 <mat-datepicker #fechaHasta></mat-datepicker>
               </mat-form-field>

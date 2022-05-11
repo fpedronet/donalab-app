@@ -457,28 +457,36 @@
                               </mat-grid-tile>
                           </mat-grid-list>
 
-                            <mat-form-field appearance="outline">
-                              <mat-select placeholder="Eje - Procede" formControlName="CodEje">
-                                <mat-option *ngFor="let el of tbEje" [value]="el.codigo">
-                                  {{el.descripcion}}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field> 
-                            <mat-form-field appearance="outline">
-                              <mat-select placeholder="Vínculo" formControlName="CodParentesco" [required]="muestraPaciente">
-                                <mat-option *ngFor="let el of tbVinculo" [value]="el.codigo">
-                                  {{el.descripcion}}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>  
-                            <mat-form-field appearance="outline">
-                              <mat-select placeholder="Tipo" formControlName="TipRecep">
-                                <mat-option *ngFor="let el of tbTipoRecep" [value]="el.codigo">
-                                  {{el.descripcion}}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>  
-
+                          <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                            <mat-grid-tile [colspan]="12">
+                              <mat-form-field appearance="outline">
+                                <mat-select placeholder="Eje - Procede" formControlName="CodEje">
+                                  <mat-option *ngFor="let el of tbEje" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field> 
+                            </mat-grid-tile>
+                            <mat-grid-tile [colspan]="12">
+                              <mat-form-field appearance="outline">
+                                <mat-select placeholder="Vínculo" formControlName="CodParentesco" [required]="muestraPaciente">
+                                  <mat-option *ngFor="let el of tbVinculo" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>  
+                            </mat-grid-tile>
+                            <mat-grid-tile [colspan]="12">
+                              <mat-form-field appearance="outline">
+                                <mat-select placeholder="Tipo" formControlName="TipRecep">
+                                  <mat-option *ngFor="let el of tbTipoRecep" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>  
+                            </mat-grid-tile>
+                            
+                          </mat-grid-list>
                             
                         </div>
 
