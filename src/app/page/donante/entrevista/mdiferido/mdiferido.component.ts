@@ -15,6 +15,7 @@ export class MdiferidoComponent implements OnInit {
   dias: string = '';
   fechaHasta?: Date;
   fechaSelectHasta?: Date;
+  fechaMin?: Date;
 
   constructor(
     private dialogRef: MatDialogRef<MdiferidoComponent>,
@@ -27,7 +28,7 @@ export class MdiferidoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.fechaMin = new Date();
   }
 
   changediferido(estado: string){

@@ -112,7 +112,13 @@ export class CchequeoComponent implements OnInit {
 
     if(codigo!=0){
       cod = (codigo.target.value==0)? this.id: codigo.target.value;
-      cod = (cod==undefined)? this.form.value['codigo']: cod; 
+      cod = (cod==undefined)? this.form.value['codigo']: cod;
+      //debugger;
+      if(isNaN(parseInt(cod.toString()))){
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','El código ingresado no es válido');
+        this.spinner.hideLoading();
+        return;
+      }
       this.$disable = false;
     }else{
       ids=  this.id;

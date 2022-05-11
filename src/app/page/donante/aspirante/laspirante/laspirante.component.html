@@ -86,12 +86,12 @@
           <ng-container matColumnDef="mo">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable mobil'">Mobil</mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTable mobil'">
-              <div style="color: rgba(0,0,0,.87);font-family:monospace;">{{element.estado}}</div>
+              <div class="responsive-estado">{{element.estado}}</div>
               
-              <div (click)="routeUrl(element.idePreDonante, 'pd')" class="circulo" style="font-size:10px; margin-left:104px; background: {{element.pd}}">PD</div>
-              <div (click)="routeUrl(element.idePreDonante, 'ch')" class="circulo" style="font-size:10px; background: {{element.ch}}">CH</div>
-              <div (click)="routeUrl(element.idePreDonante, 'en')" class="circulo" style="font-size:10px; background: {{element.en}}">EN</div>
-              <div (click)="routeUrl(element.idePreDonante, 'do')" class="circulo" style="font-size:10px; background: {{element.do}}">DO</div>
+              <div (click)="routeUrl(element.idePreDonante, 'pd')" class="circulo" style="font-size:12px; line-height: 27px; margin-left:100px; background: {{element.pd}}">PD</div>
+              <div (click)="routeUrl(element.idePreDonante, 'ch')" class="circulo" style="font-size:12px; line-height: 27px; background: {{element.ch}}">CH</div>
+              <div (click)="routeUrl(element.idePreDonante, 'en')" class="circulo" style="font-size:12px; line-height: 27px; background: {{element.en}}">EN</div>
+              <div (click)="routeUrl(element.idePreDonante, 'do')" class="circulo" style="font-size:12px; line-height: 27px; background: {{element.do}}">DO</div>
             </mat-cell>
           </ng-container>
           

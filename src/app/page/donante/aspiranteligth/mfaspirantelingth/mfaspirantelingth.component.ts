@@ -41,7 +41,10 @@ export class MfaspirantelingthComponent implements OnInit {
   fechaFin?: Date;
   fechaSelectFin?: Date;
 
+  fechaMax?: Date;
+
   ngOnInit(): void {
+    this.fechaMax = new Date();
     this.obtener();
   }
 
