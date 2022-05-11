@@ -344,87 +344,13 @@ export class CdonacionComponent implements OnInit {
     }
   }
 
-  imprimir(){
-
-    let idedonacion = this.form.value['ideDonacion'];
-    let idepredonante = this.form.value['idePreDonante'];
-
-    this.spinner.showLoading();
-    this.reporteService.rptetiqueta(idedonacion,idepredonante).subscribe(data=>{
-   
-      // this.rptetiqueta.
-      this.rptetiqueta.nombres = data.nombres;
-      this.rptetiqueta.documento = data.documento!;
-      this.rptetiqueta.sexo = data.sexo;
-      this.rptetiqueta.hematocritos = data.hematocrito;
-      this.rptetiqueta.hemoglobina = data.hemoglobina;
-      this.rptetiqueta.fecNacimiento = data.fecNacimiento;
-      this.rptetiqueta.edad = data.edad;
-      this.rptetiqueta.grupo = data.grupo;
-      this.rptetiqueta.mostrarRh = data.mostrarRh;
-      this.rptetiqueta.codMuestra = data.codMuestra;
-      this.rptetiqueta.vFecha = data.vFecha;
-
-      let code =(this.rptetiqueta.codMuestra==null || this.rptetiqueta.codMuestra=="")? "" : this.rptetiqueta.codMuestra!.toString();
-      if(code!=""){
-        JsBarcode("#barcode", code, {        
-          lineColor: "#000",
-          width: 1.3,
-          height: 35,
-          displayValue: false
-        });
-
-        setTimeout(function(){
-             const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
-            //  const popupWin = window.open('', '_blank', 'top=0,left=0,height=1000,width=1000')!;
-            const popupWin = window.open('top=0,left=0,height=1000,width=1000')!;
-             popupWin.document.open();
-             popupWin.document.write(`
-                  <html>
-                      <head>
-                          <title>Pestaña de impresión</title>
-                          <style type="text/css" media="print">
-                            @page 
-                            {
-                                size: auto;
-                                margin: 1mm;
-                            }                    
-                            body 
-                            {
-                                margin: 1.5px;
-                            }
-                         </style>
-                      </head>
-                      <body onload="window.print();window.close();">
-                          ${printContents}
-                      </body>
-                  </html>
-                  `
-              );
-            popupWin.document.close();
-            popupWin.focus();
-
-            popupWin.print();
-            popupWin.close();
-
-        },200);
-      }else{
-        this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
-      }
-
-      this.spinner.hideLoading();
-      
-   
-    });
-  }
-
-  imprimir2() {
+  imprimir() {
 
     let idedonacion = this.form.value['ideDonacion'];
     let idepredonante = this.form.value['idePreDonante'];
 
     this.reporteService
-      .rptetiqueta2(idedonacion,idepredonante)
+      .rptetiqueta(idedonacion,idepredonante)
       .subscribe(
         data => {
           let byteChar = atob(data);

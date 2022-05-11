@@ -19,14 +19,8 @@ export class ReporteService {
   rptetiqueta(idedonacion: Number,idepredonante:number ){
     let urls = `${this.url}/GetPrintEtiqueta?idedonacion=${idedonacion}&idepredonante=${idepredonante}`;
 
-    return this.http.get<Etiqueta>(urls);
-  }
-
-  rptetiqueta2(idedonacion: Number,idepredonante:number) {
-    let urls = `${this.url}/GetPrintPrueba?idedonacion=${idedonacion}&idepredonante=${idepredonante}`;
-
     return this.http.get<string>(urls);
-  }  
+  }
 
   rptficha(idepredonante:number ){
     let urls = `${this.url}/GetPrintFicha?idepredonante=${idepredonante}`;
