@@ -44,8 +44,9 @@
       </nav>
     </div>
 
-    <a id="closemenu" class="close" mat-mini-fab color="red" (click)="closeLogin()">
-      <mat-icon>highlight_off</mat-icon>    
+    <a id="closemenu" style="cursor: pointer;" (click)="closeLogin()">
+      <div style="padding-top: 11px;margin: 0 0 -21px 0;text-align: center;"><mat-icon>logout</mat-icon></div> 
+      <span style="font-size: 9px;">Cerrar sesión</span>
     </a>    
      
   </mat-toolbar>
@@ -101,7 +102,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <a style="font-size: 17px;font-weight: 400;color: #464242;" routerLink="" (click)="closeLogin()">
-                    <mat-icon>cancelpresentation</mat-icon>
+                    <mat-icon>logout</mat-icon>
                     {{m.modulo}}
                   </a>
                 </mat-panel-title>

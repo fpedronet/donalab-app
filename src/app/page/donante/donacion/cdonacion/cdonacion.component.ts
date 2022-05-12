@@ -349,10 +349,12 @@ export class CdonacionComponent implements OnInit {
     let idedonacion = this.form.value['ideDonacion'];
     let idepredonante = this.form.value['idePreDonante'];
 
+    this.spinner.showLoading();
     this.reporteService
       .rptetiqueta(idedonacion,idepredonante)
       .subscribe(
         data => {
+          this.spinner.hideLoading();
           let byteChar = atob(data);
           let byteArray = new Array(byteChar.length);
           for(let i = 0; i < byteChar.length; i++){

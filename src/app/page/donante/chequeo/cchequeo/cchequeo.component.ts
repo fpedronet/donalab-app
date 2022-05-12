@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -21,7 +21,6 @@ import { map, Observable, startWith } from 'rxjs';
   styleUrls: ['./cchequeo.component.css']
 })
 export class CchequeoComponent implements OnInit {
-
   form: FormGroup = new FormGroup({});
   permiso: Permiso = {};
   
@@ -45,6 +44,7 @@ export class CchequeoComponent implements OnInit {
   btndisable: boolean = false;
   btnestado:boolean = false;
   ideMotivoRec: number = 0;
+  InputValue: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -362,5 +362,4 @@ export class CchequeoComponent implements OnInit {
     let filterValue = value.descripcion == undefined ? value.toLowerCase() : value.descripcion.toLowerCase();
     return this.listaMotivoRechazo2!.filter(state => state.descripcion!.toLowerCase().includes(filterValue));
   }
-
 }
