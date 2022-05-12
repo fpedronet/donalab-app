@@ -191,7 +191,7 @@ export class CdonacionComponent implements OnInit {
           this.notifierService.showNotification(environment.ALERT,'Mensaje','El código al que hace referencia no existe');
         }        
         else if(data.codEstado!.toString()!="1"){
-          this.notifierService.showNotification(environment.ALERT,'Mensaje','Para la creación de la donacion debe estar APTO');
+          this.notifierService.showNotification(environment.ALERT,'Mensaje','Para la creación de la donación debe estar APTO');
         }else{
           this.calcularhora(2);
         }

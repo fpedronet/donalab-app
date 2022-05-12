@@ -30,19 +30,19 @@
         <mat-table [dataSource]="dataSource" matSort>
          
           <ng-container matColumnDef="codigo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Código</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
             <mat-cell *matCellDef="let element" data-label="Código"> 
               <div style="font-weight:600;color: #7f388a;">{{element.codigo}}</div>     
             </mat-cell>
           </ng-container>
         
           <ng-container matColumnDef="nombres">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
             <mat-cell *matCellDef="let element" data-label="Nombres"> {{element.nombres}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef [ngClass]="'web'" mat-sort-header> Estado </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef [ngClass]="'web'"> Estado </mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'web'" data-label="Estado"> {{element.estado}} </mat-cell>
           </ng-container>
 

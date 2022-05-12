@@ -31,12 +31,12 @@
         <mat-table [dataSource]="dataSource" matSort>
           
           <ng-container matColumnDef="codigo">
-            <mat-header-cell *matHeaderCellDef [ngClass]="'widthTableCod'" mat-sort-header> Código </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef [ngClass]="'widthTableCod'"> Código </mat-header-cell>
             <mat-cell *matCellDef="let element" [ngClass]="'widthTableCod'" data-label="Código"> {{element.codigo}} </mat-cell>
           </ng-container>
         
           <ng-container matColumnDef="nombres">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
             <mat-cell *matCellDef="let element" data-label="Nombres"> {{element.nombres}} </mat-cell>
           </ng-container>
 
