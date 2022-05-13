@@ -345,10 +345,12 @@ export class CdonacionComponent implements OnInit {
   }
 
   imprimir() {
-
     let idedonacion = this.form.value['ideDonacion'];
     let idepredonante = this.form.value['idePreDonante'];
 
+    if(idedonacion==0 ||idedonacion==null){
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','Para imprimir la etiqueta debe generar la donación');
+    }else{
     this.spinner.showLoading();
     this.reporteService
       .rptetiqueta(idedonacion,idepredonante)
@@ -366,6 +368,7 @@ export class CdonacionComponent implements OnInit {
           window.open(fileURL, `${"etiqueta"}.pdf`);
         }
       );
+    }
   }
 
   calcularhora(tipo: number){

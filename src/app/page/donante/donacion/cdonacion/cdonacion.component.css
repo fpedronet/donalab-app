@@ -17,7 +17,7 @@
       text-transform: uppercase;
       color: #4d41a8;
       font-weight:500;
-      font-size:13px;
+      font-size:11px;
    }
    
    
@@ -48,7 +48,7 @@
     background: #FFFFFF;
     background: -moz-linear-gradient(left, #FFFFFF, #F7F9FA);
     color: #2E3133;
-    width: 60px;
+    width: 55px;
     }
     
     .txtrespuesta:focus

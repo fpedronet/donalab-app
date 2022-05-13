@@ -179,7 +179,7 @@ export class CentrevistaComponent implements OnInit {
 
         this.ideMotivoRec = (this.btnrechazado==false)? 0: data.ideMotivoRec!;
 
-        if(this.ideMotivoRec!=0){
+        if(this.ideMotivoRec!=0 && this.ideMotivoRec!=null){
           var distFind = this.listaMotivoRechazo2!.find(e => e.codigo === this.ideMotivoRec.toString());
           let setMotivo: Combobox = distFind!;
          
