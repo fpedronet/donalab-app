@@ -189,7 +189,7 @@ export class LaspiranteComponent implements OnInit {
       this.reporteService.rptficha(idepredonante).subscribe(data=>{
         //console.log(data);
 
-        this.rptficha.setFicha(data);
+        //this.rptficha.setFicha(data);
 
         setTimeout(function(){
           const printContents = document.getElementById('imprimir-seccion')!.innerHTML;
@@ -513,11 +513,29 @@ export class LaspiranteComponent implements OnInit {
       });
     }
   }
-  
-  // startTimer() {
-  //   this.interval = setInterval(() => {
-  //     this.ngAfterViewInit();
-  //   },8000)
-  // }
 
+  imprimir(idepredonante: number){
+    if(idepredonante == 0){
+      this.notifierService.showNotification(2,'Mensaje',"No se encontro la donación");
+    }
+    else{
+    this.spinner.showLoading();
+    this.reporteService
+      .rptficha(idepredonante)
+      .subscribe(
+        data => {
+          this.spinner.hideLoading();
+          let byteChar = atob(data);
+          let byteArray = new Array(byteChar.length);
+          for(let i = 0; i < byteChar.length; i++){
+            byteArray[i] = byteChar.charCodeAt(i);
+          }
+          let uIntArray = new Uint8Array(byteArray);
+          let blob = new Blob([uIntArray], {type : 'application/pdf'});
+          const fileURL = URL.createObjectURL(blob);
+          window.open(fileURL, `${"ficha"}.pdf`);
+        }
+      );
+    }
+  }
 }

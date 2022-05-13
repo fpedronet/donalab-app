@@ -25,7 +25,7 @@ export class ReporteService {
   rptficha(idepredonante:number ){
     let urls = `${this.url}/GetPrintFicha?idepredonante=${idepredonante}`;
 
-    return this.http.get<Ficha>(urls);
+    return this.http.get<string>(urls);
   }
   
 }
