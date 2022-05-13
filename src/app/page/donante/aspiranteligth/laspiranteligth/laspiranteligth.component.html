@@ -32,7 +32,9 @@
           
           <ng-container matColumnDef="codigo">
             <mat-header-cell *matHeaderCellDef [ngClass]="'widthTableCod'"> Código </mat-header-cell>
-            <mat-cell *matCellDef="let element" [ngClass]="'widthTableCod'" data-label="Código"> {{element.codigo}} </mat-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'widthTableCod'" data-label="Código"> 
+              <div style="font-weight:600;color: #7f388a;">{{element.codigo}}</div>     
+            </mat-cell>
           </ng-container>
         
           <ng-container matColumnDef="nombres">
