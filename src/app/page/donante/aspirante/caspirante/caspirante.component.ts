@@ -250,6 +250,7 @@ export class CaspiranteComponent implements OnInit {
         this.tbNacion = this.obtenerSubtabla(tbCombobox,'NCN');
         this.tbProced = this.obtenerSubtabla(tbCombobox,'PRDO');
         this.tbOcupa = this.obtenerSubtabla(tbCombobox,'OCUPA');
+        //debugger;
         this.tbGraIns = this.obtenerSubtabla(tbCombobox,'GINS');
         this.tbOrigen = this.obtenerSubtabla(tbCombobox,'ORI');
         this.tbCampana = this.obtenerSubtabla(tbCombobox,'CAMP');
@@ -606,13 +607,23 @@ export class CaspiranteComponent implements OnInit {
     if(tipoDocu === '' || numDocu === '')
       return 'El tipo de documento y el documento no pueden estar vacíos';
 
+    var noEsNro = !this.esEntero(numDocu);
+    
     //DNI
-    if(tipoDocu === '1' && numDocu.length !== 8)
-      return 'El DNI debe tener 8 dígitos';
+    if(tipoDocu === '1'){
+      if(numDocu.length !== 8)
+        return 'El DNI debe tener 8 dígitos';
+      if(noEsNro)
+        return 'El DNI debe debe contener solo números';
+    }
 
     //RUC
-    if(tipoDocu === '6' && numDocu.length !== 11)
-      return 'El RUC debe tener 11 dígitos';
+    if(tipoDocu === '6'){
+      if(numDocu.length !== 11)
+        return 'El RUC debe tener 11 dígitos';
+      if(noEsNro)
+        return 'El RUC debe debe contener solo números';
+    }
 
     //CEXT
     if(tipoDocu === '4' && numDocu.length > 12)
@@ -632,6 +643,11 @@ export class CaspiranteComponent implements OnInit {
     }
     
     return '';
+  }
+
+  esEntero(cadena: string){
+    const regex = /^[0-9]+$/;
+    return regex.test(cadena);
   }
 
   cambiaFechaNac(dateStr: string){
@@ -810,7 +826,7 @@ export class CaspiranteComponent implements OnInit {
             LugarNacimiento: p.lugarNacimiento,
             Procedencia: p.procedencia,
             CodGradoInstruccion: p.codGradoInstruccion,
-            CodOcupacion: p.codOcupacion,
+            CodOcupacion: p.codOcupacion?.toString(),
             Direccion: p.direccion,
             LugarTrabajo: p.lugarTrabajo,
             CodEstado: data.codEstado,

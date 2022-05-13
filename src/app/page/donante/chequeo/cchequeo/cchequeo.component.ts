@@ -114,7 +114,7 @@ export class CchequeoComponent implements OnInit {
       cod = (codigo.target.value==0)? this.id: codigo.target.value;
       cod = (cod==undefined)? this.form.value['codigo']: cod;
       //debugger;
-      if(isNaN(parseInt(cod.toString()))){
+      if(!this.esEntero(cod.toString())){
         this.notifierService.showNotification(environment.ALERT,'Mensaje','El código ingresado no es válido');
         this.spinner.hideLoading();
         return;
@@ -198,6 +198,11 @@ export class CchequeoComponent implements OnInit {
 
       this.spinner.hideLoading();
     });      
+  }
+
+  esEntero(cadena: string){
+    const regex = /^[0-9]+$/;
+    return regex.test(cadena);
   }
 
   obtenerpermiso(){
