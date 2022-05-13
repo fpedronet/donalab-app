@@ -8,8 +8,8 @@ export const environment = {
   // UrlApi:'https://service.poclab.pe/donalab/api',  
   // UrlImage:'assets/',
 
-   //UrlApi:'https://sitedev.poclab.pe/donalabdev/api',  
-   //UrlImage:'assets/',
+  //  UrlApi:'https://sitedev.poclab.pe/donalabdev/api',  
+  //  UrlImage:'assets/',
 
    UrlApi:'http://localhost:48394/api',
    UrlImage:'../../../../assets/',
