@@ -136,16 +136,25 @@ table {
     td {
       white-space: initial;
     }
+    .contentTable{
+      margin: 0 -22px 0 -21px;
+    }
   }
 
   @media (max-width:599px){
     td {
       white-space: initial;
     }
+    .contentTable{
+      margin: 0 -22px 0 -21px;
+    }
   }
   
   @media (max-width:450px){
     td {
       white-space: initial;
+    }
+    .contentTable{
+      margin: 0 -22px 0 -21px;
     }
   }
