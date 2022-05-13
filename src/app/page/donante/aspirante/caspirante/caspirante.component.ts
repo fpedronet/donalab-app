@@ -1129,7 +1129,10 @@ export class CaspiranteComponent implements OnInit {
       IdeOrigen: ideOri,
       IdeCampania: ideCam,
       Fecha: new Date(),
-      CodEstado: 0
+      CodEstado: 0,
+      CodEje: '',
+      CodParentesco: '',
+      TipRecep: ''
     })
   }
 
