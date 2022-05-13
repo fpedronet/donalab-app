@@ -90,7 +90,6 @@ export class LaspiranteComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
     this.predonanteService = new PredonanteService(this.http);
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -149,6 +148,9 @@ export class LaspiranteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if(res!=""){
+
+        this.paginator.pageIndex = 0,
+        this.paginator.pageSize = 5
         this.ngAfterViewInit();
         }
     })

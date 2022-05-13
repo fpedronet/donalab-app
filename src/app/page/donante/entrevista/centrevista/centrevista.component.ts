@@ -154,7 +154,7 @@ export class CentrevistaComponent implements OnInit {
           'fechaMed': new FormControl({ value: new Date(), disabled: !this.edit}),
           'observacionesMed': new FormControl({ value: data.observacionesMed, disabled: !this.edit}),
         });
-
+      
         this.Codigo = data.codigo;
         this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
         this.nombres = data.nombres!;
@@ -257,7 +257,7 @@ export class CentrevistaComponent implements OnInit {
 
     if(submit){
       let model = new Entrevista();
-
+     
       model.idePreDonante= this.form.value['idePreDonante'];
       model.idePersona= this.form.value['idePersona'];
       model.codigo= this.Codigo;
@@ -284,7 +284,7 @@ export class CentrevistaComponent implements OnInit {
             }
           });
       }else{
-        this.$guardar(model);
+            this.$guardar(model);
       }
     }
   }

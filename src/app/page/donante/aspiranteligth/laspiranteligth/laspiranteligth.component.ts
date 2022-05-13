@@ -138,6 +138,8 @@ export class LaspiranteligthComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if(res!=""){
+        this.paginator.pageIndex = 0,
+        this.paginator.pageSize = 5
         this.ngAfterViewInit();
         }
     })
