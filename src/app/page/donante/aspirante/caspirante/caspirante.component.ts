@@ -68,7 +68,12 @@ export class CaspiranteComponent implements OnInit {
   tbGraIns: Combobox[] = [];
   tbNacion: Combobox[] = [];
   tbProced: Combobox[] = [];
+  //Autocompletar ocupación
+  ideOcupacion: number = 0;
   tbOcupa: Combobox[] = [];
+  frmOcupacion = new FormControl();
+  listaOcupacion!: Observable<Combobox[]>;
+  //
   tbViajes: string[] = ['Sí', 'No']
   tbOrigen: Combobox[] = [];
   tbCampana: Combobox[] = [];
@@ -190,7 +195,7 @@ export class CaspiranteComponent implements OnInit {
       'LugarNacimiento': new FormControl({ value: '', disabled: !this.edit}),
       'Procedencia': new FormControl({ value: '', disabled: !this.edit}),
       'CodGradoInstruccion': new FormControl({ value: '', disabled: !this.edit}),
-      'CodOcupacion': new FormControl({ value: 0, disabled: !this.edit}),
+      //'CodOcupacion': new FormControl({ value: 0, disabled: !this.edit}),
       'Direccion': new FormControl({ value: '', disabled: !this.edit}),
       'CodPais': new FormControl({ value: '', disabled: !this.edit}),
       'Celular': new FormControl({ value: '', disabled: !this.edit}),
@@ -220,7 +225,12 @@ export class CaspiranteComponent implements OnInit {
       'IdeCampania': new FormControl({ value: ideCam, disabled: !this.edit}),      
       'Fecha': new FormControl({ value: new Date(), disabled: !this.edit}),
       'CodEstado': new FormControl({ value: 0, disabled: !this.edit}),
-    }); 
+    });
+
+    this.listaOcupacion = this.frmOcupacion.valueChanges.pipe(
+      startWith(''),
+      map(state => (state ? this._filterOcupacion(state) : this._filterOcupacion(""))),
+    );
   }
 
   ngAfterViewInit(){
@@ -376,6 +386,20 @@ export class CaspiranteComponent implements OnInit {
     //debugger;
   }
 
+  mostrarOcupacion(d: Combobox): string{
+    var result = '';
+    if(d !== undefined && d !== null && d !== '' && d?.descripcion !== '')
+      result = d?.descripcion!;
+    return result;
+  }
+
+  changeOcupacion(event: any){
+    var value = event.option.value;
+    if(value !== undefined){
+      this.ideOcupacion = parseInt(value.codigo);
+    }
+  }
+
   changeEstado(index: number){
     //Si el que aprieto está apagado
     if(!this.btnEstadoSel[index]){
@@ -493,7 +517,7 @@ export class CaspiranteComponent implements OnInit {
     //debugger;
     //Ocupación por defecto
     if(data.codOcupacion === undefined || !this.tbOcupa.find(e => e.codigo === data.codOcupacion?.toString()))
-      data.codOcupacion = 111;
+      this.ideOcupacion = 111;
 
     //debugger
     var edadStr: string = data.edad?.toString()!;
@@ -541,7 +565,7 @@ export class CaspiranteComponent implements OnInit {
         LugarNacimiento: data.lugarNacimiento,
         Procedencia: data.procedencia,
         CodGradoInstruccion: data.codGradoInstruccion,
-        CodOcupacion: data.codOcupacion,
+        CodOcupacion: this.ideOcupacion,
         Direccion: data.direccion,
         LugarTrabajo: data.lugarTrabajo
       });
@@ -756,11 +780,13 @@ export class CaspiranteComponent implements OnInit {
         LugarNacimiento: '',
         Procedencia: '',
         CodGradoInstruccion: '',
-        CodOcupacion: 0,
+        //CodOcupacion: 0,
         Direccion: '',
         LugarTrabajo: ''
       });
       this.fechaNac = null;
+      this.ideOcupacion = 0;
+      this.frmOcupacion.setValue(null);
     }    
   }
 
@@ -826,7 +852,7 @@ export class CaspiranteComponent implements OnInit {
             LugarNacimiento: p.lugarNacimiento,
             Procedencia: p.procedencia,
             CodGradoInstruccion: p.codGradoInstruccion,
-            CodOcupacion: p.codOcupacion?.toString(),
+            //CodOcupacion: p.codOcupacion?.toString(),
             Direccion: p.direccion,
             LugarTrabajo: p.lugarTrabajo,
             CodEstado: data.codEstado,
@@ -840,6 +866,16 @@ export class CaspiranteComponent implements OnInit {
             this.fechaNac = p.fecNacimiento;
           else
             this.fechaNac = null;
+
+          if(p.codOcupacion !== undefined && p.codOcupacion !== null)
+            this.ideOcupacion = p.codOcupacion;
+
+          if(this.ideOcupacion!=0){
+            var ocupaFind = this.tbOcupa!.find(e => e.codigo === this.ideOcupacion.toString());
+            let setOcupa: Combobox = ocupaFind!;
+            
+            this.frmOcupacion.setValue(setOcupa);
+          }
           
           if(data.ideTipProc !== undefined){
             this.changeTipoProced(data.ideTipProc);
@@ -904,7 +940,9 @@ export class CaspiranteComponent implements OnInit {
 
     //debugger;
     model.idePreDonante = this.id
-    model.codigo = this.form.value['Codigo'];;
+    model.codigo = this.form.value['Codigo'];
+
+    let $ideOcupacion = (this.frmOcupacion.value ==null)? 0 : ((this.frmOcupacion.value.codigo==undefined || this.frmOcupacion.value.codigo==null || this.frmOcupacion.value.codigo=="")? 0 : parseInt(this.frmOcupacion.value.codigo));
 
     let p = new Persona();
     p.idePersona = this.form.value['IdePersona'];;
@@ -933,9 +971,9 @@ export class CaspiranteComponent implements OnInit {
     p.lugarNacimiento = this.form.value['LugarNacimiento'];
     p.procedencia = this.form.value['Procedencia'];
     p.codGradoInstruccion = this.form.value['CodGradoInstruccion'];
-    var ocupacion = 0;
-    if(this.form.value['CodOcupacion'] !== '') ocupacion = parseInt(this.form.value['CodOcupacion']);
-    p.codOcupacion = ocupacion;
+    /*var ocupacion = 0;
+    if(this.form.value['CodOcupacion'] !== '') ocupacion = parseInt(this.form.value['CodOcupacion']);*/
+    p.codOcupacion = $ideOcupacion;
     p.direccion = this.form.value['Direccion'];
     p.lugarTrabajo = this.form.value['LugarTrabajo'];
 
@@ -1052,6 +1090,11 @@ export class CaspiranteComponent implements OnInit {
     var codigo = this.form.value['Codigo'];
     codigo = codigo===undefined?'#######':codigo;
     return codigo.toString();
+  }
+
+  private _filterOcupacion(value: any){
+    let filterValue = value.descripcion == undefined ? value.toLowerCase() : value.descripcion.toLowerCase();
+    return this.tbOcupa!.filter(state => state.descripcion!.toLowerCase().includes(filterValue));
   }
 
   subirFoto(fileInput: any) {

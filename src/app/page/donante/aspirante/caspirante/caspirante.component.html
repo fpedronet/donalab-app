@@ -198,12 +198,18 @@
                               </mat-option>              
                             </mat-select>
                           </mat-form-field>
-                          <mat-form-field>
-                            <mat-select placeholder="Ocupación" formControlName="CodOcupacion">
-                              <mat-option *ngFor="let el of tbOcupa" [value]="el.codigo">
-                                {{el.descripcion}}
-                              </mat-option>              
-                            </mat-select>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Ocupación</mat-label>
+                            <input matInput
+                                   aria-label="State"
+                                   [matAutocomplete]="auto"
+                                   [formControl]="frmOcupacion"
+                                   >
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarOcupacion" (optionSelected)="changeOcupacion($event)">
+                              <mat-option *ngFor="let c of listaOcupacion | async" [value]="c">
+                                {{c.descripcion}}
+                              </mat-option>
+                            </mat-autocomplete>
                           </mat-form-field>
                             <mat-form-field>
                                 <mat-select placeholder="Nacionalidad" formControlName="Nacionalidad">
