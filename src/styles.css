@@ -573,6 +573,7 @@ form{
   margin-left: 1px;
   margin-right: 1px;
   align-items: center;
+  white-space: pre;
 }
 
 input[type=number]::-webkit-inner-spin-button,
