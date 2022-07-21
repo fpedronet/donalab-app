@@ -14,9 +14,9 @@ import { environment } from 'src/environments/environment';
 import { Permiso } from 'src/app/_model/permiso';
 import { DonacionService } from 'src/app/_service/donante/donacion.service';
 import { Unidade } from 'src/app/_model/donante/unidade';
-import * as JsBarcode from 'jsbarcode';
 import { RptetiquetaComponent } from 'src/app/page/reporte/rptetiqueta/rptetiqueta.component';
 import { ReporteService } from 'src/app/_service/reporte/reporte.service';
+
 
 @Component({
   selector: 'app-cdonacion',
