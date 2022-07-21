@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Html5Qrcode } from 'html5-qrcode';
 
 @Component({
@@ -16,7 +17,9 @@ export class McodigobarraComponent implements OnInit {
   private cameraId! : any;
   public output!: string;
 
-  constructor() { }
+  constructor(
+    private dialogRef: MatDialogRef<McodigobarraComponent>
+  ) { }
 
   ngOnInit(): void {
     this.getCameras();
@@ -47,7 +50,6 @@ export class McodigobarraComponent implements OnInit {
     const html5QrCode = new Html5Qrcode("reader", true);
 
     this.html5QrCodes = html5QrCode;
-    this.scannerEnabled = true;
 
     html5QrCode.start(
       this.cameraId, 
@@ -66,20 +68,20 @@ export class McodigobarraComponent implements OnInit {
   }
 
   setearValores($event : string){
-    debugger;
-
-    console.log($event);
     this.closeModal($event);
   }
 
   closeModal($event : string){
-    // this.dialogRef.close();
+    if($event!="" && $event!=null && $event!=undefined){
+      this.dialogRef.close({data: $event});
+    }else{
+      this.dialogRef.close();
+    }
+
     this.disableScanner();
   }
 
   disableScanner() {
-    this.scannerEnabled = false;
-
     if(this.html5QrCodes!=undefined){
       this.html5QrCodes.stop().then(() => {
       }).catch(() => {

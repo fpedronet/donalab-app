@@ -16,6 +16,9 @@ import { DonacionService } from 'src/app/_service/donante/donacion.service';
 import { Unidade } from 'src/app/_model/donante/unidade';
 import { RptetiquetaComponent } from 'src/app/page/reporte/rptetiqueta/rptetiqueta.component';
 import { ReporteService } from 'src/app/_service/reporte/reporte.service';
+import { McodigobarraComponent } from '../mcodigobarra/mcodigobarra.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 
 
 @Component({
@@ -53,12 +56,19 @@ export class CdonacionComponent implements OnInit {
   existapto?: string = "0";
   tipoExtraccion?: number;
   currentTab: number = 0;
+  escanear1: boolean = true;
+  escanear2: boolean = false;
+  logoescanear1?: string =environment.UrlImage + "codigodebarras1.png";
+  logoescanear2?: string =environment.UrlImage + "codigodebarras2.png";
+  codMuestra?: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private spinner: SpinnerService,
     private notifierService : NotifierService,
+    private confirm : ConfimService,
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
     private donacionService: DonacionService,
@@ -104,7 +114,8 @@ export class CdonacionComponent implements OnInit {
       'dificultad': new FormControl({ value: '', disabled: false}),//ok
       'operador': new FormControl({ value: '', disabled: false}),//ok
       'rendimiento': new FormControl({ value: '', disabled: false}),//ok
-      'ideMotivoRechazo': new FormControl({ value: '', disabled: false})//ok
+      'ideMotivoRechazo': new FormControl({ value: '', disabled: false}),//ok
+      'codMuestra': new FormControl({ value: '', disabled: true})//ok
     });
   }
 
@@ -137,7 +148,6 @@ export class CdonacionComponent implements OnInit {
       this.listaMotivoRechazo = data.listaMotivoRechazo;
 
       // data.listaMotivoRechazo?.forEach
-
       if(ids!=0 || cod!=""){
 
         let $fecha = new Date();
@@ -171,20 +181,26 @@ export class CdonacionComponent implements OnInit {
           'dificultad': new FormControl({ value: data.dificultad, disabled: !this.edit}),//ok
           'operador': new FormControl({ value: data.operador, disabled: !this.edit}),//ok
           'rendimiento': new FormControl({ value: data.rendimiento, disabled: !this.edit}),//ok
-          'ideMotivoRechazo': new FormControl({ value: data.ideMotivoRechazo?.toString(), disabled: !this.edit})//ok          
+          'ideMotivoRechazo': new FormControl({ value: data.ideMotivoRechazo?.toString(), disabled: !this.edit}),//ok   
+          'codMuestra': new FormControl({ value: data.codMuestra, disabled: true})//ok       
         });
 
         this.existapto = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
         this.descextrac =  (data.ideMotivoRechazo?.toString()!="0")? true : false;
         this.donante = data.donante!;
         this.documento = data.documento!;
-   
+        this.codMuestra = data.codMuestra;
+
         if(data.ideDonacion==0 || data.ideDonacion==null){
           this.existExtraccion =false;
           this.currentTab = 0;
+          this.escanear1 = true;
+          this.escanear2 = false;
         }else{
           this.existExtraccion =true;
           this.currentTab = 1;
+          this.escanear1 = false;
+          this.escanear2 = true;
         }
 
         if(data.idePreDonante==0 || data.idePreDonante==null){
@@ -291,13 +307,14 @@ export class CdonacionComponent implements OnInit {
     
     if(submit){
       let model = new Donacion();
-
+      
       /*Insertar Donacion */
       model.ideDonacion= this.form.value['ideDonacion'];
       model.idePreDonante= this.form.value['idePreDonante'];
       model.fecha= this.form.value['fecha'];
       model.codTipoExtraccion= this.form.value['codTipoExtraccion'];
       model.selloCalidad= this.form.value['selloCalidad'];
+      model.codMuestra= this.codMuestra;
       model.existExtraccion = this.existExtraccion;
 
       /*Insertar Chequeo */
@@ -324,25 +341,42 @@ export class CdonacionComponent implements OnInit {
            /*Insertar Unidades */
           model.listaExtraccionUnidad= this.listaUnidade?.filter(y=>y.volumen!>0);
       }
-     
-      this.spinner.showLoading();
-      this.donacionService.guardar(model).subscribe(data=>{
- 
-        this.notifierService.showNotification(data.swt!,'Mensaje',data.mensaje!);
-      
-          if(data.swt==environment.EXITO){
-              if(!this.existExtraccion){
-                this.obtener(0);                   
-              }else{
-                this.router.navigate(['/page/donante/aspirante']);                
-              }
-              this.spinner.hideLoading();
-            }else{
-              this.spinner.hideLoading();
+      debugger;
+      if(model.ideDonacion !=0 && model.ideDonacion !=null && model.ideDonacion !=undefined){
+        this.$guardar(model);
+      }else{
+        if(model.codMuestra=="" || model.codMuestra==null || model.codMuestra==undefined){
+          this.confirm.openConfirmDialog(false,"Validación", "El codigo de la muestra esta vacio",".", "Desea continuar").afterClosed().subscribe(res =>{
+            if(res){
+              this.$guardar(model);
             }
-        });
+          });
+        }else{
+          this.$guardar(model)
+        }
+      }    
     }
   }
+
+  $guardar(model: Donacion){
+    this.spinner.showLoading();
+    this.donacionService.guardar(model).subscribe(data=>{
+
+      this.notifierService.showNotification(data.swt!,'Mensaje',data.mensaje!);
+    
+        if(data.swt==environment.EXITO){
+            if(!this.existExtraccion){
+              this.obtener(0);                   
+            }else{
+              this.router.navigate(['/page/donante/aspirante']);                
+            }
+            this.spinner.hideLoading();
+          }else{
+            this.spinner.hideLoading();
+          }
+      });
+  }
+
 
   imprimir() {
     let idedonacion = this.form.value['ideDonacion'];
@@ -460,6 +494,29 @@ export class CdonacionComponent implements OnInit {
 
   limpiar(){
    this.inicializar();
+  }
+
+  abrirescaner(){
+    const dialogRef = this.dialog.open(McodigobarraComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      width: '850px',
+      panelClass: 'full-screen-modal',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res!="" && res!=null && res!=undefined){
+        this.escanear1 = false;
+        this.escanear2 = true;
+
+        this.codMuestra = res.data;
+
+        this.form.patchValue({
+          codMuestra: res.data
+        });
+      }
+    })
   }
 
 }
