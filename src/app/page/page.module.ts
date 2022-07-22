@@ -30,6 +30,7 @@ import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { MdiferidoComponent } from './donante/entrevista/mdiferido/mdiferido.component';
 import { McodigobarraComponent } from './donante/donacion/mcodigobarra/mcodigobarra.component';
+import { MchequeoComponent } from './donante/chequeo/mchequeo/mchequeo.component';
 
 const config: SocketIoConfig = { url: environment.UrlApi, options: {} };
 
@@ -56,7 +57,8 @@ const config: SocketIoConfig = { url: environment.UrlApi, options: {} };
     RptdonanteComponent,
     RptfichaComponent,
     MdiferidoComponent,
-    McodigobarraComponent
+    McodigobarraComponent,
+    MchequeoComponent
   ],
   imports: [
     MaterialModule,

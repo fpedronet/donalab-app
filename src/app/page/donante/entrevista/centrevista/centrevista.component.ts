@@ -18,6 +18,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MdiferidoComponent } from '../mdiferido/mdiferido.component';
 import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 import { map, Observable, startWith } from 'rxjs';
+import { ChequeoFisico } from 'src/app/_model/donante/chequeofisico';
+import { MchequeoComponent } from '../../chequeo/mchequeo/mchequeo.component';
 
 @Component({
   selector: 'app-centrevista',
@@ -54,6 +56,8 @@ export class CentrevistaComponent implements OnInit {
   fechaHasta?: Date;
   periodo: string = "";
   ideMotivoRec: number = 0;
+
+  detalleChequeo: ChequeoFisico = new ChequeoFisico();
 
   constructor(
     private route: ActivatedRoute,
@@ -92,15 +96,6 @@ export class CentrevistaComponent implements OnInit {
       'idePreDonante': new FormControl({ value: '', disabled: false}),
       'idePersona': new FormControl({ value: '', disabled: false}),
       'codigo': new FormControl({ value: '', disabled: false}),
-      'pesoDonacion': new FormControl({ value: '', disabled: true}),
-      'hemoglobina': new FormControl({ value: '', disabled: true}),
-      'nIdTipoProceso': new FormControl({ value: '', disabled: false}),
-      'tallaDonacion': new FormControl({ value: '', disabled: true}),
-      'hematocrito': new FormControl({ value: '', disabled: true}),
-      'tipoExtraccion': new FormControl({ value: '', disabled: true}),
-      'ideGrupo': new FormControl({ value: '', disabled: true}),
-      'estadoVenoso': new FormControl({ value: '', disabled: true}),
-      'lesionesVenas': new FormControl({ value: '', disabled: true}),
       'fechaMed': new FormControl({ value: new Date(), disabled: false}),
       'observacionesMed': new FormControl({ value: '', disabled: false}),
     });
@@ -142,18 +137,19 @@ export class CentrevistaComponent implements OnInit {
           'idePreDonante': new FormControl({ value: data.idePreDonante, disabled: false}),
           'idePersona': new FormControl({ value: data.idePersona, disabled: false}),
           'codigo': new FormControl({ value: data.codigo, disabled: this.$disable}),
-          'pesoDonacion': new FormControl({ value: data.pesoDonacion, disabled: true}),
-          'hemoglobina': new FormControl({ value: data.hemoglobina, disabled: true}),
-          'nIdTipoProceso': new FormControl({ value: data.nIdTipoProceso, disabled: !this.edit}),
-          'tallaDonacion': new FormControl({ value: data.tallaDonacion, disabled: true}),
-          'hematocrito': new FormControl({ value: data.hematocrito, disabled: true}),
-          'tipoExtraccion': new FormControl({ value: data.tipoExtraccion, disabled: true}),
-          'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: true}),
-          'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: true}),
-          'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: true}),
           'fechaMed': new FormControl({ value: new Date(), disabled: !this.edit}),
           'observacionesMed': new FormControl({ value: data.observacionesMed, disabled: !this.edit}),
         });
+        
+        //Guardar detalle de chequeo
+        this.detalleChequeo.pesoDonacion = data.pesoDonacion;
+        this.detalleChequeo.hemoglobina = data.hemoglobina;
+        this.detalleChequeo.tallaDonacion = data.tallaDonacion;
+        this.detalleChequeo.hematocrito = data.hematocrito;
+        this.detalleChequeo.tipoExtraccion = data.tipoExtraccion;
+        this.detalleChequeo.ideGrupo = data.ideGrupo;
+        this.detalleChequeo.estadoVenoso = data.estadoVenoso;
+        this.detalleChequeo.lesionesVenas = data.lesionesVenas;
       
         this.Codigo = data.codigo;
         this.CodEstado = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
@@ -314,6 +310,24 @@ export class CentrevistaComponent implements OnInit {
 
   limpiar(){
     this.inicializar();
+  }
+
+  abrirDetalle(){
+
+    const dialogRef = this.dialog.open(MchequeoComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      width: '850px',
+      panelClass: 'full-screen-modal',
+      disableClose: true,
+      data: {
+        listaTipoExtraccion: this.listaTipoExtraccion,
+        listaLesionesPuncion: this.listaLesionesPuncion,
+        listaGrupoSanguineo: this.listaGrupoSanguineo,
+        listaAspectoVenoso: this.listaAspectoVenoso,
+        detalleChequeo: this.detalleChequeo
+      }
+    });
   }
 
   abrirModal(ideMotivoRec?: number){
