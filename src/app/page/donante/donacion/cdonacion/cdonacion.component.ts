@@ -341,7 +341,6 @@ export class CdonacionComponent implements OnInit {
            /*Insertar Unidades */
           model.listaExtraccionUnidad= this.listaUnidade?.filter(y=>y.volumen!>0);
       }
-      debugger;
       if(model.ideDonacion !=0 && model.ideDonacion !=null && model.ideDonacion !=undefined){
         this.$guardar(model);
       }else{
@@ -376,7 +375,6 @@ export class CdonacionComponent implements OnInit {
           }
       });
   }
-
 
   imprimir() {
     let idedonacion = this.form.value['ideDonacion'];
