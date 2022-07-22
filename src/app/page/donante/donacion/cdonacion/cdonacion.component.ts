@@ -56,6 +56,7 @@ export class CdonacionComponent implements OnInit {
   existapto?: string = "0";
   tipoExtraccion?: number;
   currentTab: number = 0;
+  existcampania: boolean = true;
   escanear1: boolean = true;
   escanear2: boolean = false;
   logoescanear1?: string =environment.UrlImage + "codigodebarras1.png";
@@ -190,6 +191,10 @@ export class CdonacionComponent implements OnInit {
         this.donante = data.donante!;
         this.documento = data.documento!;
         this.codMuestra = data.codMuestra;
+
+        if(data.ideCampania == 1){
+          this.existcampania = false;
+        }
 
         if(data.ideDonacion==0 || data.ideDonacion==null){
           this.existExtraccion =false;

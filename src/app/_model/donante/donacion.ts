@@ -36,6 +36,7 @@ export class Donacion{
     codReaccionAdversa?: string;
     documento?: string;
 
+    ideCampania?: number;
 
     listaTipoExtraccion?: Combobox[];
     listaGrupoSanguineo?: Combobox[];
