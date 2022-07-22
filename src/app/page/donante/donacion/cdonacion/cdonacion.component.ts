@@ -511,8 +511,6 @@ export class CdonacionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       
       if(res!="" && res!=null && res!=undefined){
-        this.escanear1 = false;
-        this.escanear2 = true;
 
         this.spinner.showLoading();
         this.donacionService.escanear(res.data).subscribe(data=>{
@@ -525,6 +523,8 @@ export class CdonacionComponent implements OnInit {
           });
 
           if(data.typeResponse == environment.EXITO){
+            this.escanear1 = false;
+            this.escanear2 = true;
             this.codMuestra = res.data;
             this.form.patchValue({
               codMuestra: res.data
