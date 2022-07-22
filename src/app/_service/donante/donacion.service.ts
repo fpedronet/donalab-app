@@ -21,6 +21,12 @@ export class DonacionService {
     return this.http.get<Donacion>(urls);
   }
 
+ escanear(codigo: string){
+    let urls = `${this.url}/GetEscanearCodigo?codigo=${codigo}`;
+
+    return this.http.get<Response>(urls);
+  }
+
   guardar(model: Donacion){
     let urls = `${this.url}/PostSaveDonacion`;
     return this.http.post<Response>(urls, model);

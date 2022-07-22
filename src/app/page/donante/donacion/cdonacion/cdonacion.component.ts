@@ -509,16 +509,30 @@ export class CdonacionComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
+      
       if(res!="" && res!=null && res!=undefined){
         this.escanear1 = false;
         this.escanear2 = true;
 
-        this.codMuestra = res.data;
+        this.spinner.showLoading();
+        this.donacionService.escanear(res.data).subscribe(data=>{
+        
+          this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+    
+          this.codMuestra = "";
+          this.form.patchValue({
+            codMuestra: res.data
+          });
 
-        this.form.patchValue({
-          codMuestra: res.data
+          if(data.typeResponse == environment.EXITO){
+            this.codMuestra = res.data;
+          }
+
+          this.spinner.hideLoading();
+
         });
       }
+
     })
   }
 
