@@ -521,11 +521,14 @@ export class CdonacionComponent implements OnInit {
     
           this.codMuestra = "";
           this.form.patchValue({
-            codMuestra: res.data
+            codMuestra: ""
           });
 
           if(data.typeResponse == environment.EXITO){
             this.codMuestra = res.data;
+            this.form.patchValue({
+              codMuestra: res.data
+            });
           }
 
           this.spinner.hideLoading();
