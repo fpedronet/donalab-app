@@ -68,7 +68,8 @@
                                       <input class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
                                       <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="triggerSnapshot()">Tomar foto</button>
                                       <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="toggleWebcam()">Nueva foto</button>
-                                      <button class="photo-btn" type="button" (click)="resetImage()">Limpiar</button>
+                                      <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="resetImage()">Apagar</button>
+                                      <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="resetImage()">Limpiar</button>
                                     </div>
                                   </div>  
                                   
@@ -99,7 +100,8 @@
                                       <input class="file-select" type="file" accept="image/*" (change)="subirFoto($event)">
                                       <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="triggerSnapshot()">Tomar foto</button>
                                       <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="toggleWebcam()">Nueva foto</button>
-                                      <button class="photo-btn" type="button" (click)="resetImage()">Limpiar</button>
+                                      <button *ngIf="showWebcam" class="photo-btn" type="button" (click)="resetImage()">Apagar</button>
+                                      <button *ngIf="!showWebcam" class="photo-btn" type="button" (click)="resetImage()">Limpiar</button>
                                     </div>
                                   </div>  
                                      
@@ -113,46 +115,71 @@
                                 <mat-label>Código</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
                               </mat-form-field>
-                            <mat-form-field appearance="outline">
-                                <mat-select [disabled]="id>0" placeholder="Tipo de documento" formControlName="TipDocu" required>
-                                  <mat-option *ngFor="let el of tbTipoDocu" [value]="el.codigo">
-                                    {{el.descripcion}}
-                                  </mat-option>              
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Documento</mat-label>
-                                <input #DOCUMENTO type="text" [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)" (keydown)="obtenerPersonaEnter($event.keyCode)" >
-                                <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
-                                  <mat-icon>close</mat-icon>
-                                </button>
-                                <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event)">
-                                  <mat-icon>search</mat-icon>
-                                </button>
-                                <!--button type="button" matSuffix mat-icon-button aria-label="Buscar">
-                                    <img style="width: 70px; margin-top: -16px;" src="{{lector}}" />
-                                </button-->
+                            <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
+                              <mat-grid-tile  [colspan]="4">
+                                <mat-form-field appearance="outline">
+                                  <mat-select [disabled]="id>0" placeholder="Tipo de documento" formControlName="TipDocu" required>
+                                    <mat-option *ngFor="let el of tbTipoDocu" [value]="el.codigo">
+                                      {{el.descripcion}}
+                                    </mat-option>              
+                                  </mat-select>
                               </mat-form-field>
-                              <mat-form-field appearance="outline">
-                                <mat-label>Apellido Paterno</mat-label>
-                                <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
-                              </mat-form-field>
-                              <mat-form-field appearance="outline">
-                                <mat-label>Apellido Materno</mat-label>
-                                <input matInput placeholder="Apellido Materno" formControlName="ApMaterno" minlength="1" maxlength="100" required>
-                              </mat-form-field>
+                              </mat-grid-tile>
+                              <mat-grid-tile  [colspan]="8">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Documento</mat-label>
+                                  <input #DOCUMENTO type="text" [readonly]="id>0" matInput placeholder="Documento" formControlName="NumDocu" minlength="1" maxlength="15" required (blur)="obtenerPersona($event)" (keydown)="obtenerPersonaEnter($event.keyCode)" >
+                                  <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Limpiar" (mouseup)="DOCUMENTO.value='';reiniciaPersona()">
+                                    <mat-icon>close</mat-icon>
+                                  </button>
+                                  <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event)">
+                                    <mat-icon>search</mat-icon>
+                                  </button>
+                                  <!--button type="button" matSuffix mat-icon-button aria-label="Buscar">
+                                      <img style="width: 70px; margin-top: -16px;" src="{{lector}}" />
+                                  </button-->
+                                </mat-form-field>
+                              </mat-grid-tile>
+                            </mat-grid-list>
+                              <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Apellido Paterno</mat-label>
+                                    <input matInput placeholder="Apellido Paterno" formControlName="ApPaterno" minlength="1" maxlength="100" required>
+                                  </mat-form-field>
+                                </mat-grid-tile>
+                                <mat-grid-tile  [colspan]="6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Apellido Materno</mat-label>
+                                    <input matInput placeholder="Apellido Materno" formControlName="ApMaterno" minlength="1" maxlength="100" required>
+                                  </mat-form-field>
+                                </mat-grid-tile>
+                              </mat-grid-list>
                               <mat-form-field appearance="outline">
                                 <mat-label>Nombres</mat-label>
                                 <input matInput placeholder="Nombres" formControlName="Nombres" minlength="1" maxlength="100" required>
                               </mat-form-field>
-                              <mat-form-field>
-                                <mat-select placeholder="Género" formControlName="Sexo" required>
-                                  <mat-option *ngFor="let el of tbGenero" [value]="el.codigo">
-                                    {{el.descripcion}}
-                                  </mat-option>              
-                                </mat-select>
-                              </mat-form-field>
-                            <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
+                              <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                  <mat-form-field>
+                                    <mat-select placeholder="Género" formControlName="Sexo" required>
+                                      <mat-option *ngFor="let el of tbGenero" [value]="el.codigo">
+                                        {{el.descripcion}}
+                                      </mat-option>              
+                                    </mat-select>
+                                  </mat-form-field>
+                                </mat-grid-tile>
+                                <mat-grid-tile  [colspan]="6">
+                                  <mat-form-field>
+                                    <mat-select placeholder="Estado Civil" formControlName="EstadoCivil">
+                                      <mat-option *ngFor="let el of tbEstCivil" [value]="el.codigo">
+                                        {{el.descripcion}}
+                                      </mat-option>              
+                                    </mat-select>
+                                  </mat-form-field>
+                                </mat-grid-tile>
+                              </mat-grid-list>                              
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                                 <mat-grid-tile  [colspan]="7">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Fecha de nacimiento</mat-label>
@@ -168,21 +195,13 @@
                                     </mat-form-field>                                
                                 </mat-grid-tile>
                             </mat-grid-list>
-                            <mat-form-field>
-                                <mat-select placeholder="Estado Civil" formControlName="EstadoCivil">
-                                  <mat-option *ngFor="let el of tbEstCivil" [value]="el.codigo">
-                                    {{el.descripcion}}
-                                  </mat-option>              
-                                </mat-select>
-                              </mat-form-field>
                         </div>
                         
                     </div>
                 </div>
                 <div style="padding-top: 10px">
-                    <!--button style="float: left" mat-button matStepperPrevious type="button">Atrás</button-->
-                    <button style="float: right" mat-button matStepperNext type="button">Siguiente</button>
-                  </div>
+                  <button class="btnnext" mat-button matStepperNext type="button">Siguiente</button>
+                </div>
             </mat-step>
 
             <mat-step>
@@ -191,37 +210,49 @@
                 <div class="content">
                     <div fxLayout="row wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-                          <mat-form-field>
-                            <mat-select placeholder="Grado de Instrucción" formControlName="CodGradoInstruccion">
-                              <mat-option *ngFor="let el of tbGraIns" [value]="el.codigo">
-                                {{el.descripcion}}
-                              </mat-option>              
-                            </mat-select>
-                          </mat-form-field>
-                          <mat-form-field appearance="outline">
-                            <mat-label>Ocupación</mat-label>
-                            <input matInput
-                                   aria-label="State"
-                                   [matAutocomplete]="auto"
-                                   [formControl]="frmOcupacion"
-                                   >
-                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarOcupacion" (optionSelected)="changeOcupacion($event)">
-                              <mat-option *ngFor="let c of listaOcupacion | async" [value]="c">
-                                {{c.descripcion}}
-                              </mat-option>
-                            </mat-autocomplete>
-                          </mat-form-field>
-                            <mat-form-field>
+                          <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
+                            <mat-grid-tile  [colspan]="4">
+                              <mat-form-field>
+                                <mat-select placeholder="Grado de Instrucción" formControlName="CodGradoInstruccion">
+                                  <mat-option *ngFor="let el of tbGraIns" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="8">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Ocupación</mat-label>
+                                <input matInput
+                                       aria-label="State"
+                                       [matAutocomplete]="auto"
+                                       [formControl]="frmOcupacion"
+                                       >
+                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarOcupacion" (optionSelected)="changeOcupacion($event)">
+                                  <mat-option *ngFor="let c of listaOcupacion | async" [value]="c">
+                                    {{c.descripcion}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
+                          <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                            <mat-grid-tile  [colspan]="4">
+                              <mat-form-field>
                                 <mat-select placeholder="Nacionalidad" formControlName="Nacionalidad">
                                   <mat-option *ngFor="let el of tbNacion" [value]="el.codigo">
                                     {{el.descripcion}}
                                   </mat-option>              
                                 </mat-select>
                               </mat-form-field>
-                            <mat-form-field appearance="outline">
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="8">
+                              <mat-form-field appearance="outline">
                                 <mat-label>Lugar de Nacimiento</mat-label>
                                 <input matInput placeholder="Lugar de Nacimiento" formControlName="LugarNacimiento">
-                            </mat-form-field>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
                               <mat-form-field>
                                 <mat-select placeholder="Procedencia" formControlName="Procedencia">
                                   <mat-option *ngFor="let el of tbProced" [value]="el.codigo">
@@ -255,14 +286,20 @@
                         </div>
 
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
-                          <mat-form-field appearance="outline" minlength="1" maxlength="50">
-                            <mat-label>Celular</mat-label>
-                            <input matInput placeholder="ej. +51 999999999" formControlName="Celular">
-                          </mat-form-field>
-                          <mat-form-field appearance="outline" minlength="1" maxlength="50">
-                            <mat-label>Teléfono</mat-label>
-                            <input matInput placeholder="ej. 9999999" formControlName="Telefono">
-                          </mat-form-field>
+                          <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
+                            <mat-grid-tile  [colspan]="6">
+                              <mat-form-field appearance="outline" minlength="1" maxlength="50">
+                                <mat-label>Celular</mat-label>
+                                <input matInput placeholder="ej. +51 999999999" formControlName="Celular">
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="6">
+                              <mat-form-field appearance="outline" minlength="1" maxlength="50">
+                                <mat-label>Teléfono</mat-label>
+                                <input matInput placeholder="ej. 9999999" formControlName="Telefono">
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
                             <mat-form-field appearance="outline" minlength="1" maxlength="50">
                                 <mat-label>Correo</mat-label>
                                 <input type="email" matInput placeholder="ej. ejemplo@correo.com" formControlName="Correo">
@@ -274,14 +311,27 @@
                             <mat-form-field appearance="outline">
                               <mat-label>Otros</mat-label>
                               <input matInput placeholder="Otros" formControlName="Otros">
-                            </mat-form-field>  
-                            <mat-form-field>
-                              <mat-select #VIAJES placeholder="Viajes" formControlName="ViajeSN">
-                                <mat-option *ngFor="let el of tbViajes" [value]="el">
-                                  {{el}}
-                                </mat-option>              
-                              </mat-select>
                             </mat-form-field>
+                            <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                              <mat-grid-tile  [colspan]="3">
+                                <mat-form-field>
+                                  <mat-select #VIAJES placeholder="Viajes" formControlName="ViajeSN">
+                                    <mat-option *ngFor="let el of tbViajes" [value]="el">
+                                      {{el}}
+                                    </mat-option>              
+                                  </mat-select>
+                                </mat-form-field>
+                              </mat-grid-tile>
+                              <mat-grid-tile *ngIf="VIAJES.value === 'Sí'" [colspan]="9">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Fecha de Viaje</mat-label>
+                                  <input matInput [matDatepicker]="FechaViaje" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="FechaViaje" [required]="VIAJES.value === 'Sí'">
+                                  <mat-datepicker-toggle matSuffix [for]="FechaViaje"></mat-datepicker-toggle>
+                                  <mat-datepicker #FechaViaje></mat-datepicker>
+                                </mat-form-field>
+                              </mat-grid-tile>
+                            </mat-grid-list>
+                            
                             <div *ngIf="VIAJES.value === 'Sí'">
                               <mat-form-field appearance="outline">
                                 <mat-label>Lugar</mat-label>
@@ -291,20 +341,14 @@
                                     <mat-label>Permanencia</mat-label>
                                     <input matInput placeholder="Permanencia" formControlName="Permanencia">
                                 </mat-form-field>
-                              <mat-form-field appearance="outline">
-                                  <mat-label>Fecha de Viaje</mat-label>
-                                  <input matInput [matDatepicker]="FechaViaje" [min]="minDate" [max]="maxDate" placeholder="dd/mm/aaaa" formControlName="FechaViaje" [required]="VIAJES.value === 'Sí'">
-                                  <mat-datepicker-toggle matSuffix [for]="FechaViaje"></mat-datepicker-toggle>
-                                  <mat-datepicker #FechaViaje></mat-datepicker>
-                                </mat-form-field>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div style="padding-top: 10px">
-                    <button style="float: left" mat-button matStepperPrevious type="button">Atrás</button>
-                    <button style="float: right" mat-button matStepperNext type="button">Siguiente</button>
-                  </div>
+                  <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>
+                  <button class="btnnext" mat-button matStepperNext type="button">Siguiente</button>
+                </div>
             </mat-step>
 
             <mat-step>
@@ -499,8 +543,7 @@
                     </div>
                 </div>
                 <div style="padding-top: 10px">
-                    <button style="float: left" mat-button matStepperPrevious type="button">Atrás</button>
-                    <!--button style="float: right" mat-button matStepperNext type="button">Siguiente</button-->
+                  <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>
                 </div>
             </mat-step>
 
