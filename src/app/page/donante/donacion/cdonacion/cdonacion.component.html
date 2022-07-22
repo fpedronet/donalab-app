@@ -51,16 +51,20 @@
                     </mat-form-field>
                   </div> 
   
-                  <mat-form-field appearance="outline">
-                    <mat-label>Pre Donante</mat-label>
-                    <input matInput formControlName="codPostulante" minlength="1" maxlength="15" (keyup.enter)="obtener($event)" required>
-                    <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Limpiar" (click)="limpiar()">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                    <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Buscar" (click)="obtener($event)">
-                      <mat-icon>search</mat-icon>
-                    </button>
-                  </mat-form-field>
+                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                    <mat-grid-tile [colspan]="12">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Pre Donante</mat-label>
+                        <input matInput formControlName="codPostulante" minlength="1" maxlength="15" (keyup.enter)="obtener($event)" required>
+                        <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Limpiar" (click)="limpiar()">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                        <button *ngIf="!btndisable" type="button" matSuffix mat-icon-button aria-label="Buscar" (click)="obtener($event)">
+                          <mat-icon>search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </mat-grid-tile>
+                  </mat-grid-list>
                 </div>
                 
                 <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
@@ -73,7 +77,7 @@
                     </mat-grid-tile>                
                   </mat-grid-list>
   
-                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                  <mat-grid-list *ngIf="existcampania" cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
                         <mat-label>Código Muestra</mat-label>
@@ -88,10 +92,43 @@
                   
                 </div>
   
-                <div fxFlex="35%" fxFlex.xs="100%" fxFlex.sm="50%">
+                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%">
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
                       <mat-form-field appearance="outline">
+                        <mat-label>Fecha</mat-label>                        
+                        <input matInput #dFechaReg [matDatepicker]="fecha" placeholder="dd/mm/yyyy" formControlName="fecha" required>
+                        <mat-datepicker-toggle matSuffix [for]="fecha"></mat-datepicker-toggle>
+                        <mat-datepicker #fecha></mat-datepicker>
+                      </mat-form-field>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+
+                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                    <mat-grid-tile [colspan]="12">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Observaciones</mat-label>
+                        <input matInput #obsedrvaciones minlength="1" maxlength="5000" formControlName="obsedrvaciones">
+                      </mat-form-field>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                </div>
+
+                <div fxFlex="40%" fxFlex.xs="100%" fxFlex.sm="50%">
+                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                    <mat-grid-tile [colspan]="12">                     
+                      <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
+                        <mat-label>Tipo Extracción</mat-label>
+                        <mat-select
+                          [disabled]="true"
+                          formControlName="codTipoExtraccion">
+                          <mat-option *ngFor="let c of listaTipoExtraccion" [value]="c.codigo">
+                            {{c.descripcion}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div style="margin: 0 17px 0 0;"></div>
+                      <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                         <mat-label>Grupo ABO</mat-label>
                         <mat-select
                           [disabled]="!edit"
@@ -106,59 +143,20 @@
                   
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
                     <mat-grid-tile [colspan]="12">
-                      <mat-form-field appearance="outline">
+                      <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
                         <mat-label>Hemoglobina (g/dL)</mat-label>
                         <input matInput type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" onkeypress="return /[0-9|.]/i.test(event.key)" #hemoglobina class="example-right-align" formControlName="hemoglobina" placeholder="0.00">
-                    </mat-form-field>                           
+                    </mat-form-field>  
+                    <div style="margin: 0 17px 0 0;"></div>
+                    <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="45%" fxFlex.sm="45%">
+                      <mat-label>Hematocrito</mat-label>
+                      <input matInput  type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" onkeypress="return /[0-9|.]/i.test(event.key)" #hematocrito class="example-right-align" formControlName="hematocrito" placeholder="0.00">
+                    </mat-form-field>                         
                     </mat-grid-tile>
                   </mat-grid-list>
-  
-                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
-                    <mat-grid-tile [colspan]="12">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Hematocrito</mat-label>
-                        <input matInput  type="number" oninput="if(this.value.length>=5) { this.value = this.value.slice(0,5); }" onkeypress="return /[0-9|.]/i.test(event.key)" #hematocrito class="example-right-align" formControlName="hematocrito" placeholder="0.00">
-                      </mat-form-field>
-                    </mat-grid-tile>
-                  </mat-grid-list>                
+            
                 </div>
   
-                <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%"> 
-                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
-                    <mat-grid-tile [colspan]="12">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Fecha</mat-label>                        
-                        <input matInput #dFechaReg [matDatepicker]="fecha" placeholder="dd/mm/yyyy" formControlName="fecha" required>
-                        <mat-datepicker-toggle matSuffix [for]="fecha"></mat-datepicker-toggle>
-                        <mat-datepicker #fecha></mat-datepicker>
-                      </mat-form-field>
-                    </mat-grid-tile>
-                  </mat-grid-list>
-  
-                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
-                    <mat-grid-tile [colspan]="12">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Tipo Extracción</mat-label>
-                        <mat-select
-                          [disabled]="true"
-                          formControlName="codTipoExtraccion">
-                          <mat-option *ngFor="let c of listaTipoExtraccion" [value]="c.codigo">
-                            {{c.descripcion}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </mat-grid-tile>
-                  </mat-grid-list>
-
-                  <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
-                    <mat-grid-tile [colspan]="12">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Observaciones</mat-label>
-                        <input matInput #obsedrvaciones minlength="1" maxlength="5000" formControlName="obsedrvaciones">
-                      </mat-form-field>
-                    </mat-grid-tile>
-                  </mat-grid-list>
-                </div>
             </div>
           </div>
           <div style="padding-top: 10px" *ngIf="existExtraccion">
