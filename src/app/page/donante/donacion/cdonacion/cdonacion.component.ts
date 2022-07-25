@@ -116,7 +116,7 @@ export class CdonacionComponent implements OnInit {
       'operador': new FormControl({ value: '', disabled: false}),//ok
       'rendimiento': new FormControl({ value: '', disabled: false}),//ok
       'ideMotivoRechazo': new FormControl({ value: '', disabled: false}),//ok
-      'codMuestra': new FormControl({ value: '', disabled: true})//ok
+      'codMuestra': new FormControl({ value: '', disabled: false})//ok
     });
   }
 
@@ -183,7 +183,7 @@ export class CdonacionComponent implements OnInit {
           'operador': new FormControl({ value: data.operador, disabled: !this.edit}),//ok
           'rendimiento': new FormControl({ value: data.rendimiento, disabled: !this.edit}),//ok
           'ideMotivoRechazo': new FormControl({ value: data.ideMotivoRechazo?.toString(), disabled: !this.edit}),//ok   
-          'codMuestra': new FormControl({ value: data.codMuestra, disabled: true})//ok       
+          'codMuestra': new FormControl({ value: data.codMuestra, disabled: false})//ok       
         });
 
         this.existapto = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
@@ -497,6 +497,17 @@ export class CdonacionComponent implements OnInit {
 
   limpiar(){
    this.inicializar();
+  }
+
+  onKeyUp($event: any){
+    // let $result = $event.target.value;
+
+    this.escanear1 = false;
+    this.escanear2 = true;
+    this.codMuestra = "";
+    this.form.patchValue({
+      codMuestra: ""
+    });
   }
 
   abrirescaner(){

@@ -91,6 +91,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-size:17px;
 }
 
+.mat-h2, .mat-title, .mat-typography h2{
+  margin: 0 0 6px;
+}
+
 .title-label{
   text-align: center;
   color: #85153e;

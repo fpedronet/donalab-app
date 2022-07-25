@@ -60,6 +60,9 @@
     .example-right-align {
       text-align: right;
     }
+
+
+
     
     @media (max-width:960px){
       td {
