@@ -92,13 +92,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-h2, .mat-title, .mat-typography h2{
-  margin: 0 0 6px;
+  margin: 0 0 1px;
 }
 
 .title-label{
   text-align: center;
   color: #85153e;
-  padding-top: 4px;  
+  padding-top: 0px;  
 }
 
 .sub-title-label{
@@ -106,6 +106,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding-top: 4px;
   font-weight: 500
 }
+.card-title-label1{
+  text-align: center; 
+  color: #1a0da4; 
+  font-weight: 500;
+  padding-top: 5px; 
+  font-size: 12px;
+}
+.card-title-label2{
+  text-align: center; 
+  color: #1a0da4; 
+  font-weight:600; 
+  font-size: 12px;
+}
+
 /* formulario */
 .container{
   margin-right: 2em;
@@ -200,6 +214,7 @@ form{
 
 .mat-h2, .mat-title, .mat-typography h2{
   font-weight: 700;
+  font-size:17px;
 }
 
 .mat-divider{
