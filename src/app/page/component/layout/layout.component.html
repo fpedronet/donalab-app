@@ -12,7 +12,7 @@
     <a mat-button>      
       <img style="width: 41px;" src="{{logo}}"/>
       <span *ngIf="count" > 
-        <mat-form-field style="padding-left:12px;width:260px;font-weight:500">
+        <mat-form-field style="padding-left:8px;width:224px;font-weight:400">
           <mat-select 
           [(ngModel)]="codigo"
           (selectionChange)="selectbanco($event.value)"
@@ -23,24 +23,24 @@
           </mat-select>
         </mat-form-field>
       </span>
-      <span *ngIf="!count" style="padding-left:12px;font-size:13px;font-weight:500">{{banco}}</span>
+      <span *ngIf="!count" style="padding-left:8px;font-size:15px;font-weight:400">{{banco}}</span>
     </a>
 
     <span class="example-spacer"></span>
 
-    <div fxShow="true" fxHide.lt-md="true" class="menu">
+    <div fxShow="true" fxHide.lt-md="true" class="menu" >      
       <nav class="nav1">
         <ul>
-            <li *ngFor="let m of menus.listaMenu">
-              <a *ngIf="m.url=='/page/home'" (click)="clearLocalStore()" routerLink="{{m.url}}">{{m.modulo}}</a>
-              <a *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'">{{m.modulo}}</a>
-              <ul>
-                <li *ngFor="let s of m.listaSubMenu">
-                  <a (click)="clearLocalStore()" routerLink="{{s.url}}">{{s.pantalla}}</a>
-                </li>
-              </ul>
-            </li>
-        </ul>
+          <li *ngFor="let m of menus.listaMenu">
+            <a *ngIf="m.url=='/page/home'" (click)="clearLocalStore()" routerLink="{{m.url}}" class="opcion">{{m.modulo}}</a>
+            <a *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'" class="opcion">{{m.modulo}}</a>
+            <ul>
+              <li *ngFor="let s of m.listaSubMenu">
+                <a (click)="clearLocalStore()" routerLink="{{s.url}}" class="opcion">{{s.pantalla}}</a>
+              </li>
+            </ul>
+          </li>
+      </ul>
       </nav>
     </div>
 
@@ -53,14 +53,30 @@
 
   <mat-sidenav-container fxFlexFill class="example-container">
     <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="{{isshow}}" fxHide.gt-sm="true">
-      <div class="menu-header-bg">Menu</div>
-      <div class="header-content">
-        <img src="{{user}}" />
-        <label>
-          <h2>{{username}}</h2>
-          <p>{{userdni}}</p>
-        </label>
+
+      <div>
+        <div class="menu-header-bg">Menu</div>
+
+        <div class="header-content flex">
+          <img src="{{user}}" />
+          <label>
+            <h2>{{username}}</h2>
+            <p>{{userdni}}</p>
+          </label>
+        </div>
+
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+          <defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" /></defs>
+          <g class="parallax">
+              <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+              <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+              <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+              <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+          </g>
+        </svg>
+
       </div>
+
       <div fxLayout="column">
         
         <mat-accordion class="example-headers-align">
@@ -69,7 +85,7 @@
             <mat-expansion-panel *ngIf="m.url=='/page/home'" disabled="">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <a style="font-size: 17px;font-weight: 400; color: #464242;" *ngIf="m.url=='/page/home'" routerLink="{{m.url}}" (click)="clearLocalStore()">
+                  <a style="font-size: 15px;font-weight: 400;color: #0f0473;" *ngIf="m.url=='/page/home'" routerLink="{{m.url}}" (click)="clearLocalStore()">
                     <mat-icon>home</mat-icon>
                     {{m.modulo}}
                   </a>
@@ -82,14 +98,14 @@
             <mat-expansion-panel *ngIf="m.url!='/page/home' && m.url!='/page/cerrar'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <a style="font-size: 17px;font-weight: 400;color: #464242;" *ngIf="m.url!='/page/home'">
+                  <a style="font-size: 15px;font-weight: 400;color: #0f0473;" *ngIf="m.url!='/page/home'">
                     <mat-icon>peopleoutline</mat-icon>
                     {{m.modulo}}
                   </a>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <p class="submenu" *ngFor="let s of m.listaSubMenu">
-                <a style="font-size: 17px;font-weight: 400;color: #696868;" routerLink="{{s.url}}" (click)="clearLocalStore()">
+                <a style="font-size: 15px;font-weight: 400;color: #0f0473;" routerLink="{{s.url}}" (click)="clearLocalStore()">
                   <mat-icon>menuopen</mat-icon>
                   {{s.pantalla}}
                 </a>
@@ -101,7 +117,7 @@
             <mat-expansion-panel *ngIf="m.url=='/page/cerrar'" disabled="">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <a style="font-size: 17px;font-weight: 400;color: #464242;" routerLink="" (click)="closeLogin()">
+                  <a style="font-size: 15px;font-weight: 400;color: #0f0473;" routerLink="" (click)="closeLogin()">
                     <mat-icon>logout</mat-icon>
                     {{m.modulo}}
                   </a>
