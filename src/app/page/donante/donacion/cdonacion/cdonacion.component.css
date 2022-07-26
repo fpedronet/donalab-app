@@ -60,10 +60,11 @@
     .example-right-align {
       text-align: right;
     }
-
-
-
     
+    :host ::ng-deep .mat-horizontal-content-container {
+      padding:0 5px 0 5px !important;
+    }
+
     @media (max-width:960px){
       td {
         white-space: initial;

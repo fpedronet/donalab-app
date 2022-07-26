@@ -8,7 +8,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .forms{
   padding-top: 0px;
-  margin:10px;
+  margin:5px;
 }
 
 .btnModal{
@@ -253,6 +253,16 @@ form{
 }
 .mat-table .mat-cell.mobil{
   display: none;
+}
+
+.button{
+  margin: 10px 0 58px 0;
+}
+.br{
+  margin: 0 8px 0 0;;
+}
+.grid{
+  margin: 0 0 -15px 0;
 }
 
 @media (max-width:1200px){

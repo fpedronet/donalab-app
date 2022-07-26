@@ -98,6 +98,7 @@ table {
  
  td:first-of-type, th:first-of-type {
    border-left: none;
+   /* text-align: center; */
  }
  
  td:last-of-type, th:last-of-type {
@@ -124,6 +125,10 @@ table {
   {
   color: #2E3133;
   border-color: #FBFFAD;
+  }
+
+  :host ::ng-deep .mat-horizontal-content-container {
+    padding:0 5px 0 5px !important;
   }
 
   @media (max-width:960px){
