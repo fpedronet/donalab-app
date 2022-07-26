@@ -11,7 +11,7 @@ export class McodigobarraComponent implements OnInit {
 
   scannerEnabled: boolean = false;
   public qrcode:string = '';    
-  public windowsWidth:string = `${window.innerWidth > 500 ? 500 : window.innerWidth}px`;
+  public windowsWidth:string = `${window.innerWidth > 600 ? 600 : window.innerWidth}px`;
 
   html5QrCodes! : any;
   private cameraId! : any;
