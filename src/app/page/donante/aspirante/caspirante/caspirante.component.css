@@ -27,3 +27,7 @@
   align-items: center;
   display: flex;
 }
+
+:host ::ng-deep .mat-horizontal-content-container {
+  padding:0 3px 0 3px !important;
+}

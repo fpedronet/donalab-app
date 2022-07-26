@@ -2,5 +2,5 @@
     text-align: right;
   }
   :host ::ng-deep .mat-horizontal-content-container {
-    padding:0 5px 0 5px !important;
+    padding:0 3px 0 3px !important;
   }
