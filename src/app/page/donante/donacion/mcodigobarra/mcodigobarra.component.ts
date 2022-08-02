@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Html5Qrcode } from 'html5-qrcode';
+import { Html5Qrcode,Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 
 @Component({
   selector: 'app-mcodigobarra',
@@ -9,27 +9,17 @@ import { Html5Qrcode } from 'html5-qrcode';
 })
 export class McodigobarraComponent implements OnInit {
 
-  scannerEnabled: boolean = false;
-  public qrcode:string = '';    
-  public windowsWidth:string = `${window.innerWidth > 600 ? 600 : window.innerWidth}px`;
-
   html5QrCodes! : any;
   private cameraId! : any;
-  public output!: string;
 
   constructor(
     private dialogRef: MatDialogRef<McodigobarraComponent>
   ) { }
 
   ngOnInit(): void {
-    this.getCameras();
-  }
 
-  getCameras() {
-    // alert("paso alert 1");
     Html5Qrcode.getCameras().then((devices:any[]) => {    
       
-      // alert(devices.length);
       if (devices && devices.length) {
        
         if(devices.length>=3){
@@ -41,30 +31,51 @@ export class McodigobarraComponent implements OnInit {
         else if(devices.length==1){
           this.cameraId = devices[0].id;
         }
+
         this.enableScanner();
       }
     })
   }
 
-  enableScanner() {   
-    const html5QrCode = new Html5Qrcode("reader", true);
+  enableScanner() {  
+    let width = 300;
 
+    const html5QrCode = new Html5Qrcode(
+      'reader',
+      {
+        verbose: true,
+        formatsToSupport: [
+          Html5QrcodeSupportedFormats.CODE_128,
+          Html5QrcodeSupportedFormats.CODE_39,
+          Html5QrcodeSupportedFormats.EAN_8,
+          Html5QrcodeSupportedFormats.EAN_13
+        ],
+      }
+    );
+   
     this.html5QrCodes = html5QrCode;
 
     html5QrCode.start(
       this.cameraId, 
       { 
-        fps: 10, 
-        qrbox: { width: 250, height: 250 } 
+        fps: 1, 
+        qrbox: {
+          width: Math.round(width * 0.8),
+          height: Math.round(250 * 0.5),
+          },
       },   
-      (decodedText, decodedResult) => {
-        this.setearValores(decodedText);
+      qrCodeMessage => {
+        this.setearValores(qrCodeMessage);
         this.disableScanner()
       },
-      (errorMessage) => {
+      errorMessage => {
+          // parse error, ideally ignore it. For example:
+          console.log(`QR Code no longer in front of camera.`);
       })
-    .catch((err) => {
-    });
+      .catch(err => {
+          // Start failed, handle it. For example, 
+          console.log(`Unable to start scanning, error: ${err}`);
+      });
   }
 
   setearValores($event : string){

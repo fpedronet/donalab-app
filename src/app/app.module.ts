@@ -1,5 +1,4 @@
 import { InterceptorService } from './_interceptors/interceptor.service';
-import { environment } from 'src/environments/environment';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
@@ -26,11 +25,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { WebcamModule } from 'ngx-webcam';
-// import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-
-export function tokenGetter() {
-  return localStorage.getItem(environment.TOKEN_NAME);
-}
 
 @NgModule({
   declarations: [
@@ -59,9 +53,8 @@ export function tokenGetter() {
     SpinnerModule,
     HttpClientModule,
     MatInputModule,
-    WebcamModule,
-    // NgxExtendedPdfViewerModule
-  ],
+    WebcamModule
+   ],
   providers: [
     {
     provide: HTTP_INTERCEPTORS,

@@ -116,7 +116,7 @@ export class CdonacionComponent implements OnInit {
       'operador': new FormControl({ value: '', disabled: false}),//ok
       'rendimiento': new FormControl({ value: '', disabled: false}),//ok
       'ideMotivoRechazo': new FormControl({ value: '', disabled: false}),//ok
-      'codMuestra': new FormControl({ value: '', disabled: false})//ok
+      'codMuestra': new FormControl({ value: '', disabled: true})//ok
     });
   }
 
@@ -183,7 +183,7 @@ export class CdonacionComponent implements OnInit {
           'operador': new FormControl({ value: data.operador, disabled: !this.edit}),//ok
           'rendimiento': new FormControl({ value: data.rendimiento, disabled: !this.edit}),//ok
           'ideMotivoRechazo': new FormControl({ value: data.ideMotivoRechazo?.toString(), disabled: !this.edit}),//ok   
-          'codMuestra': new FormControl({ value: data.codMuestra, disabled: false})//ok       
+          'codMuestra': new FormControl({ value: data.codMuestra, disabled: true})//ok       
         });
 
         this.existapto = (data.codEstado!=null)? data.codEstado!.toString()! : "0";
