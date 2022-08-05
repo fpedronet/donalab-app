@@ -78,13 +78,16 @@
                 <div fxFlex="100%">
                   <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px" class="grid">
                     <mat-grid-tile [colspan]="12">
-                        <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="40%" fxFlex.sm="47%">
+                        <mat-form-field style="display: none">
+                          <input matInput formControlName="codMuestra">
+                        </mat-form-field>
+                        <mat-form-field *ngIf="existcampania || existExtraccion" appearance="outline" fxFlex="100%" fxFlex.xs="40%" fxFlex.sm="47%">
                           <mat-label>Código Muestra</mat-label>
-                          <input #CODMUESTRA matInput formControlName="codMuestra" placeholder="Use el lector" maxlength="12" (blur)="abrirlector(true, CODMUESTRA)">
+                          <input id="codigoMuestra" matInput formControlName="codMuestra" placeholder="Use el lector" maxlength="12" (blur)="abrirlector(true)">
                         </mat-form-field>
                         <div *ngIf="!existExtraccion && existcampania" style="display: flex">                        
                           <img class="btn-muestra" src="{{logoescanear}}" alt="" (click)="abrirescaner()"/>
-                          <img *ngIf="lector === lectoron" class="btn-muestra" src="{{lector}}" alt="" (click)="abrirlector(false, CODMUESTRA)"/>
+                          <img *ngIf="lector === lectoron" class="btn-muestra" src="{{lector}}" alt="" (click)="abrirlector(false)"/>
                           <img *ngIf="lector === lectoroff" class="btn-muestra" src="{{lector}}" alt=""/>
                         </div>                                    
                           <div class="br"></div>

@@ -1,5 +1,5 @@
 import { Donacion } from 'src/app/_model/donante/donacion';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import forms from 'src/assets/json/formulario.json';
@@ -29,6 +29,8 @@ import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 export class CdonacionComponent implements OnInit {
 
   @ViewChild(RptetiquetaComponent) rptetiqueta!: RptetiquetaComponent;
+
+  @ViewChild('codigoMuestra') campoCodMuestra?: any;
   
   form: FormGroup = new FormGroup({});
   permiso: Permiso = {};
@@ -537,30 +539,35 @@ export class CdonacionComponent implements OnInit {
     });
   }
 
-  abrirlector(setDisable: boolean, obj: any, usaBoton?: boolean){
-    var control = this.form.get('codMuestra');
-    if(control !== null){
+  abrirlector(setDisable: boolean){
+    var obj: any = this.campoCodMuestra;
 
-      if(setDisable && control.enabled && !usaBoton){
-        control.disable();
-        this.lector = this.lectoron;
-        //Vacía si es inválido
-        if(obj.value === '' || obj.value === undefined){
-          this.vaciaCodMuestra();
-          this.notifier.showNotification(0,'Mensaje','El código de campaña está vacío');
+    if(obj !== undefined){
+      var control = this.form.get('codMuestra');
+      if(control !== null){
+  
+        if(setDisable && control.enabled){
+          control.disable();
+          this.lector = this.lectoron;
+          //Vacía si es inválido
+          if(obj.value === '' || obj.value === undefined){
+            this.vaciaCodMuestra();
+            this.notifier.showNotification(0,'Mensaje','El código de campaña está vacío');
+          }
+          else{
+            this.$escanear(obj.value);
+          }        
         }
-        else{
-          this.$escanear(obj.value);
-        }        
+  
+        if(!setDisable && control.disabled){
+          control.enable();
+          this.lector = this.lectoroff;
+          this.vaciaCodMuestra();
+          obj.focus();
+        }   
       }
-
-      if(!setDisable && control.disabled){
-        control.enable();
-        this.lector = this.lectoroff;
-        this.vaciaCodMuestra();
-        obj.focus();
-      }   
     }
+    
   }
 
   vaciaCodMuestra(){
