@@ -57,11 +57,13 @@ export class CdonacionComponent implements OnInit {
   tipoExtraccion?: number;
   currentTab: number = 0;
   existcampania: boolean = true;
-  escanear1: boolean = true;
-  escanear2: boolean = false;
-  logoescanear1?: string =environment.UrlImage + "codigodebarras1.png";
-  logoescanear2?: string =environment.UrlImage + "codigodebarras2.png";
+  logoescanear?: string =environment.UrlImage + "codigodebarras.png";
+  lector?: string = "";
+  lectoron?: string =environment.UrlImage + "lectoron.png";
+  lectoroff?: string =environment.UrlImage + "lectoroff.png";
   codMuestra?: string;
+
+  maxDate: Date = new Date();
 
   constructor(
     private route: ActivatedRoute,
@@ -73,7 +75,8 @@ export class CdonacionComponent implements OnInit {
     private usuarioService: UsuarioService,
     private configPermisoService : ConfigPermisoService,
     private donacionService: DonacionService,
-    private reporteService: ReporteService
+    private reporteService: ReporteService,
+    private notifier: NotifierService,
   ) { 
   }
 
@@ -99,7 +102,7 @@ export class CdonacionComponent implements OnInit {
       'ideDonacion': new FormControl({ value: '', disabled: false}),//ok
       'ideMuestra': new FormControl({ value: '', disabled: false}),//ok
       'ideExtraccion': new FormControl({ value: '', disabled: false}),//ok
-      'fecha': new FormControl({ value: '', disabled: false}),//ok
+      'fecha': new FormControl({ value: this.maxDate, disabled: false}),//ok
       'codTipoExtraccion': new FormControl({ value: '', disabled: false}),//ok
       'ideGrupo': new FormControl({ value: '', disabled: false}),//ok
       'hemoglobina': new FormControl({ value: '', disabled: false}),//ok
@@ -118,6 +121,7 @@ export class CdonacionComponent implements OnInit {
       'ideMotivoRechazo': new FormControl({ value: '', disabled: false}),//ok
       'codMuestra': new FormControl({ value: '', disabled: true})//ok
     });
+    this.lector = this.lectoron;
   }
 
   obtener(codigo: any){
@@ -199,13 +203,9 @@ export class CdonacionComponent implements OnInit {
         if(data.ideDonacion==0 || data.ideDonacion==null){
           this.existExtraccion =false;
           this.currentTab = 0;
-          this.escanear1 = true;
-          this.escanear2 = false;
         }else{
           this.existExtraccion =true;
           this.currentTab = 1;
-          this.escanear1 = false;
-          this.escanear2 = true;
         }
 
         if(data.idePreDonante==0 || data.idePreDonante==null){
@@ -499,17 +499,6 @@ export class CdonacionComponent implements OnInit {
    this.inicializar();
   }
 
-  onKeyUp($event: any){
-    // let $result = $event.target.value;
-
-    this.escanear1 = false;
-    this.escanear2 = true;
-    this.codMuestra = "";
-    this.form.patchValue({
-      codMuestra: ""
-    });
-  }
-
   abrirescaner(){
     const dialogRef = this.dialog.open(McodigobarraComponent, {
       maxWidth: '100vw',
@@ -522,34 +511,64 @@ export class CdonacionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       
       if(res!="" && res!=null && res!=undefined){
-
-        this.spinner.showLoading();
-        this.donacionService.escanear(res.data).subscribe(data=>{
-        
-          this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
-    
-          this.codMuestra = "";
-          this.form.patchValue({
-            codMuestra: ""
-          });
-
-          if(data.typeResponse == environment.EXITO){
-            this.escanear1 = false;
-            this.escanear2 = true;
-            this.codMuestra = res.data;
-            this.form.patchValue({
-              codMuestra: res.data
-            });
-          }
-
-          this.spinner.hideLoading();
-
-        });
+        this.$escanear(res.data);
       }
 
     })
   }
 
+  $escanear(codigo: string){
+    this.spinner.showLoading();
+    this.donacionService.escanear(codigo).subscribe(data=>{
+    
+      this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+
+      this.vaciaCodMuestra();
+
+      if(data.typeResponse == environment.EXITO){
+        this.codMuestra = codigo;
+        this.form.patchValue({
+          codMuestra: codigo
+        });
+      }
+
+      this.spinner.hideLoading();
+
+    });
+  }
+
+  abrirlector(setDisable: boolean, obj: any, usaBoton?: boolean){
+    var control = this.form.get('codMuestra');
+    if(control !== null){
+
+      if(setDisable && control.enabled && !usaBoton){
+        control.disable();
+        this.lector = this.lectoron;
+        //Vacía si es inválido
+        if(obj.value === '' || obj.value === undefined){
+          this.vaciaCodMuestra();
+          this.notifier.showNotification(0,'Mensaje','El código de campaña está vacío');
+        }
+        else{
+          this.$escanear(obj.value);
+        }        
+      }
+
+      if(!setDisable && control.disabled){
+        control.enable();
+        this.lector = this.lectoroff;
+        this.vaciaCodMuestra();
+        obj.focus();
+      }   
+    }
+  }
+
+  vaciaCodMuestra(){
+    this.form.patchValue({
+      codMuestra: ''
+    });
+    this.codMuestra = '';
+  }
 }
   
 

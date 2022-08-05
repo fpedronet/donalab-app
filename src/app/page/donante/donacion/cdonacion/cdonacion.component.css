@@ -88,3 +88,10 @@
         white-space: initial;
       }
     }
+
+    .btn-muestra{
+      width: 30px;
+      margin-top:-19px;
+      cursor: pointer;
+      padding-left: 7px;
+    }
