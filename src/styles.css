@@ -265,6 +265,12 @@ form{
   margin: 0 0 -15px 0;
 }
 
+canvas.drawing, canvas.drawingBuffer {
+  position: absolute;
+  /* background: #0d9aec; */
+}
+
+
 @media (max-width:1200px){
   .example-button{
     display:flex;

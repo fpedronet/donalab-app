@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Html5Qrcode,Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
+import Quagga from 'quagga';
 
 @Component({
   selector: 'app-mcodigobarra',
@@ -9,94 +9,133 @@ import { Html5Qrcode,Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'htm
 })
 export class McodigobarraComponent implements OnInit {
 
-  html5QrCodes! : any;
-  private cameraId! : any;
+  barcode = '';
+  barcodeResult: any;
+
+  configQuagga = {
+    inputStream: {
+      name: 'Live',
+      type: 'LiveStream',
+      target: '#camera',
+      constraints: {
+        width: { min: 450 },
+        height: { min: 320 },
+        aspectRatio: { min: 1, max: 2 }, // sane aspect ratios?
+        facingMode: 'environment', // or user
+      },
+      singleChannel: false // true: only the red color-channel is read
+    },
+    locator: {
+      patchSize: 'medium',
+      halfSample: true
+    },
+    locate: true,
+    numOfWorkers: 4,
+    decoder: {
+      readers: ['code_128_reader']
+    }
+  };
 
   constructor(
     private dialogRef: MatDialogRef<McodigobarraComponent>
   ) { }
 
   ngOnInit(): void {
-
-    Html5Qrcode.getCameras().then((devices:any[]) => {    
-      
-      if (devices && devices.length) {
-       
-        if(devices.length>=3){
-          this.cameraId = devices[2].id;
-        }
-        else if(devices.length==2){
-          this.cameraId = devices[1].id;
-        }
-        else if(devices.length==1){
-          this.cameraId = devices[0].id;
-        }
-
-        this.enableScanner();
-      }
-    })
+    this.startScanner();
   }
 
-  enableScanner() {  
-    let width = 300;
+  startScanner() {
+    this.barcode = '';
 
-    const html5QrCode = new Html5Qrcode(
-      'reader',
-      {
-        verbose: true,
-        formatsToSupport: [
-          Html5QrcodeSupportedFormats.CODE_128,
-          Html5QrcodeSupportedFormats.CODE_39,
-          Html5QrcodeSupportedFormats.EAN_8,
-          Html5QrcodeSupportedFormats.EAN_13
-        ],
+    Quagga.onProcessed((result: any) => this.onProcessed(result));
+
+    Quagga.onDetected((result: any) => this.logCode(result));
+
+    Quagga.init(this.configQuagga, (err: any) => {
+      if (err) {
+        return console.log(err);
       }
-    );
+      Quagga.start();
+      console.log('Barcode: initialization finished. Ready to start');
+    });
+  }
+
+  private onProcessed(result: any) {
+    const drawingCtx = Quagga.canvas.ctx.overlay;
+    const drawingCanvas = Quagga.canvas.dom.overlay;
+
+    if (result) {
+
+      if (result.boxes) {
+        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute('width'), 10), parseInt(drawingCanvas.getAttribute('height'), 10));
+        result.boxes.filter(function (box: any) {
+          return box !== result.box;
+        }).forEach(function (box: any) {
+          Quagga.ImageDebug.drawPath(box,{
+             x: 0, y: 1 
+            },
+            drawingCtx, { 
+              color: 'green', 
+              lineWidth: 2 
+          });
+        });
+      }
+
+      if (result.box) {
+        Quagga.ImageDebug.drawPath(result.box, { 
+          x: 0, 
+          y: 1 
+        }, 
+        drawingCtx, { 
+          color: '#00F', 
+          lineWidth: 2 
+        });
+      }
+
+      if (result.codeResult && result.codeResult.code) {
+        Quagga.ImageDebug.drawPath(result.line, { 
+          x: 'x',
+          y: 'y' 
+        }, 
+        drawingCtx, { 
+          color: 'red', 
+          lineWidth: 3 
+        });
+      }
+    }
+  }
+
+  private logCode(result : any) {
+    const code = result.codeResult.code;
    
-    this.html5QrCodes = html5QrCode;
+    if (this.barcode !== code) {
+      // this.barcode = 'Code-barres EAN : ' + code;
+      // this.barcodeResult=result.codeResult;
+      // this.ref.detectChanges();
+      // console.log(this.barcode);
+      // console.log(this.barcodeResult);
 
-    html5QrCode.start(
-      this.cameraId, 
-      { 
-        fps: 1, 
-        qrbox: {
-          width: Math.round(width * 0.8),
-          height: Math.round(250 * 0.5),
-          },
-      },   
-      qrCodeMessage => {
-        this.setearValores(qrCodeMessage);
-        this.disableScanner()
-      },
-      errorMessage => {
-          // parse error, ideally ignore it. For example:
-          console.log(`QR Code no longer in front of camera.`);
-      })
-      .catch(err => {
-          // Start failed, handle it. For example, 
-          console.log(`Unable to start scanning, error: ${err}`);
-      });
+      // // this.barcodeValue = result.codeResult.code;
+      // // this.barcodeResult=result.codeResult
+      // // console.log("this.barcodeValue",this.barcodeValue)
+
+      // console.log("JSON.stringify(result.codeResult)",JSON.stringify(result.codeResult))
+      // console.log("Result",result)
+      // console.log("JSON.stringify(result)",JSON.stringify(result))
+      // // console.log("this.barcodeResult",this.barcodeResult.json())
+      Quagga.stop();
+
+      this.closeModal(code);
+    }
+
   }
 
-  setearValores($event : string){
-    this.closeModal($event);
-  }
 
-  closeModal($event : string){
+  closeModal($event : any){
     if($event!="" && $event!=null && $event!=undefined){
       this.dialogRef.close({data: $event});
     }else{
       this.dialogRef.close();
-    }
-
-    this.disableScanner();
-  }
-
-  disableScanner() {
-    if(this.html5QrCodes!=undefined){
-      this.html5QrCodes.stop().then(() => {
-      }).catch(() => {
-      });
     }
   }
 
