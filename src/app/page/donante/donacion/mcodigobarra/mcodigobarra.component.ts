@@ -16,7 +16,7 @@ export class McodigobarraComponent implements OnInit {
     inputStream: {
       name: 'Live',
       type: 'LiveStream',
-      target: '#camera',
+      target: '#inputBarcode',
       constraints: {
         width: { min: 450 },
         height: { min: 320 },
@@ -32,7 +32,7 @@ export class McodigobarraComponent implements OnInit {
     locate: true,
     numOfWorkers: 4,
     decoder: {
-      readers: ['code_128_reader']
+      readers: ['code_128_reader', "code_39_reader","ean_reader",]
     }
   };
 
@@ -56,7 +56,6 @@ export class McodigobarraComponent implements OnInit {
         return console.log(err);
       }
       Quagga.start();
-      console.log('Barcode: initialization finished. Ready to start');
     });
   }
 
@@ -67,7 +66,7 @@ export class McodigobarraComponent implements OnInit {
     if (result) {
 
       if (result.boxes) {
-        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute('width'), 10), parseInt(drawingCanvas.getAttribute('height'), 10));
+        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute('width'), 20), parseInt(drawingCanvas.getAttribute('height'), 20));
         result.boxes.filter(function (box: any) {
           return box !== result.box;
         }).forEach(function (box: any) {
@@ -109,29 +108,15 @@ export class McodigobarraComponent implements OnInit {
     const code = result.codeResult.code;
    
     if (this.barcode !== code) {
-      // this.barcode = 'Code-barres EAN : ' + code;
-      // this.barcodeResult=result.codeResult;
-      // this.ref.detectChanges();
-      // console.log(this.barcode);
-      // console.log(this.barcodeResult);
-
-      // // this.barcodeValue = result.codeResult.code;
-      // // this.barcodeResult=result.codeResult
-      // // console.log("this.barcodeValue",this.barcodeValue)
-
-      // console.log("JSON.stringify(result.codeResult)",JSON.stringify(result.codeResult))
-      // console.log("Result",result)
-      // console.log("JSON.stringify(result)",JSON.stringify(result))
-      // // console.log("this.barcodeResult",this.barcodeResult.json())
-      Quagga.stop();
-
-      this.closeModal(code);
+        this.closeModal(code);
     }
 
   }
 
 
   closeModal($event : any){
+    Quagga.stop();
+
     if($event!="" && $event!=null && $event!=undefined){
       this.dialogRef.close({data: $event});
     }else{

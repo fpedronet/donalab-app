@@ -265,10 +265,28 @@ form{
   margin: 0 0 -15px 0;
 }
 
-canvas.drawing, canvas.drawingBuffer {
-  position: absolute;
-  /* background: #0d9aec; */
+
+
+/* #interactive.viewport {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  text-align: center;
+} */
+
+#interactive.viewport>canvas,
+#interactive.viewport>video {
+  max-width: 100%;
+  width: 100%;
 }
+
+canvas.drawing, 
+canvas.drawingBuffer {
+  position: absolute;
+}
+
+
 
 
 @media (max-width:1200px){
