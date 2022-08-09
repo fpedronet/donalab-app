@@ -19,6 +19,7 @@ import { ReporteService } from 'src/app/_service/reporte/reporte.service';
 import { McodigobarraComponent } from '../mcodigobarra/mcodigobarra.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfimService } from 'src/app/page/component/confirm/confim.service';
+import { MatInput } from '@angular/material/input';
 
 
 @Component({
@@ -29,8 +30,6 @@ import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 export class CdonacionComponent implements OnInit {
 
   @ViewChild(RptetiquetaComponent) rptetiqueta!: RptetiquetaComponent;
-
-  @ViewChild('codigoMuestra') campoCodMuestra?: any;
   
   form: FormGroup = new FormGroup({});
   permiso: Permiso = {};
@@ -540,7 +539,7 @@ export class CdonacionComponent implements OnInit {
   }
 
   abrirlector(setDisable: boolean){
-    var obj: any = this.campoCodMuestra;
+    var obj: any = document.getElementById('codigoMuestra');
 
     if(obj !== undefined){
       var control = this.form.get('codMuestra');
