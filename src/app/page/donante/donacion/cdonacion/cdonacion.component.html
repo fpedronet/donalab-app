@@ -81,22 +81,27 @@
                         <mat-form-field style="display: none">
                           <input matInput formControlName="codMuestra">
                         </mat-form-field>
-                        <mat-form-field *ngIf="existcampania || existExtraccion" appearance="outline" fxFlex="100%" fxFlex.xs="40%" fxFlex.sm="47%">
-                          <mat-label>Código Muestra</mat-label>
-                          <input id="codigoMuestra" matInput formControlName="codMuestra" placeholder="Use el lector" maxlength="12" (blur)="abrirlector(true)">
-                        </mat-form-field>
-                        <div *ngIf="!existExtraccion && existcampania" style="display: flex">                        
-                          <img class="btn-muestra" src="{{logoescanear}}" alt="" (click)="abrirescaner()"/>
-                          <img *ngIf="lector === lectoron" class="btn-muestra" src="{{lector}}" alt="" (click)="abrirlector(false)"/>
-                          <img *ngIf="lector === lectoroff" class="btn-muestra" src="{{lector}}" alt=""/>
-                        </div>                                    
-                          <div class="br"></div>
+                        
 
-                      <mat-form-field appearance="outline" fxFlex="100%" fxFlex.xs="35%" fxFlex.sm="41%">
+                      <mat-form-field appearance="outline" fxFlex="50%" fxFlex.xs="48%" fxFlex.sm="48%">
                         <mat-label>Fecha</mat-label>                        
                         <input matInput #dFechaReg [matDatepicker]="fecha" placeholder="dd/mm/yyyy" formControlName="fecha" required [max]="maxDate">
                         <mat-datepicker-toggle matSuffix [for]="fecha"></mat-datepicker-toggle>
                         <mat-datepicker #fecha></mat-datepicker>
+                      </mat-form-field>
+
+                      <div class="br"></div>
+
+                      <mat-form-field *ngIf="existcampania || existExtraccion" appearance="outline" fxFlex="100%" fxFlex.xs="48%" fxFlex.sm="100%">
+                        <mat-label>Código Muestra</mat-label>
+                        <input id="codigoMuestra" matInput formControlName="codMuestra" placeholder="Use el lector" maxlength="12" (blur)="abrirlector(true)">
+                        <button *ngIf="!existExtraccion && existcampania" type="button" matSuffix mat-icon-button aria-label="Escaner" (click)="abrirescaner()">
+                          <img class="btn-muestra" src="{{logoescanear}}" alt="">
+                        </button>
+                        <button *ngIf="!existExtraccion && existcampania" type="button" matSuffix mat-icon-button aria-label="Lector">
+                          <img *ngIf="lector === lectoron" class="btn-muestra" src="{{lector}}" alt="" (click)="abrirlector(false)"/>
+                          <img *ngIf="lector === lectoroff" class="btn-muestra" src="{{lector}}" alt="">
+                        </button>
                       </mat-form-field>
 
                     </mat-grid-tile>
