@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
 
-  //UrlApi:'http://181.176.170.149:8022/api',  
+  UrlApi:'http://181.176.170.149:8022/api',  
   //UrlApi:'https://service.poclab.pe/donalab/api',  
-  UrlApi:'https://sitedev.poclab.pe/donalabdev/api', 
+  //UrlApi:'https://sitedev.poclab.pe/donalabdev/api', 
   //UrlApi:'http://localhost:48394/api',
 
   //*Prod
