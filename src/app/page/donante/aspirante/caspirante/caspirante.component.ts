@@ -240,7 +240,7 @@ export class CaspiranteComponent implements OnInit {
 
   obtenerpermiso(){
     this.spinner.showLoading();
-    this.configPermisoService.obtenerpermiso(forms.aspirantesligth.codigo).subscribe(data=>{
+    this.configPermisoService.obtenerpermiso(forms.aspirante.codigo).subscribe(data=>{
       this.permiso = data;
        this.spinner.hideLoading();
     });   
