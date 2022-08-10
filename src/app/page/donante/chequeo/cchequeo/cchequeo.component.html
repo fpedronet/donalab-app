@@ -224,7 +224,7 @@
                     <mat-select 
                     [disabled]="!edit"
                     formControlName="lesionesVenas">
-                      <mat-option *ngFor="let c of listaLesionesPuncion" [value]="c.codigo">
+                      <mat-option *ngFor="let c of listaLesionesPuncion" [value]="c.codigo?.toUpperCase()">
                        {{c.descripcion}}
                       </mat-option>
                     </mat-select>

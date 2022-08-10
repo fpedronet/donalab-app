@@ -163,7 +163,7 @@ export class CchequeoComponent implements OnInit {
           'frecuenciaCardiaca': new FormControl({ value: data.frecuenciaCardiaca, disabled: !this.edit}),
           'ideGrupo': new FormControl({ value: data.ideGrupo, disabled: !this.edit}),
           'aspectoGeneral': new FormControl({ value: data.aspectoGeneral, disabled: !this.edit}),
-          'lesionesVenas': new FormControl({ value: data.lesionesVenas, disabled: !this.edit}),
+          'lesionesVenas': new FormControl({ value: data.lesionesVenas?.toUpperCase(), disabled: !this.edit}),
           'estadoVenoso': new FormControl({ value: data.estadoVenoso, disabled: !this.edit}),
           'obsedrvaciones': new FormControl({ value: data.obsedrvaciones, disabled: !this.edit}),
           'temperatura': new FormControl({ value: data.temperatura, disabled: !this.edit})

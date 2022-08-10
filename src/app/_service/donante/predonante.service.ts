@@ -21,14 +21,17 @@ export class PredonanteService {
   private url: string = `${environment.UrlApi}/predonante`;
 
   listar(idbanco: number, ideestado: number,idecampania: number, ideorigen : number, nombre: string, fechadesde: Date, fechahasta: Date, page: number,pages: number) {
-    let req = new PredonanteRequest()
+    let req = new PredonanteRequest();
+    
     req.Idebanco = idbanco;
     req.IdeEstado= ideestado;
     req.Idecampania= idecampania;
     req.IdeOrigen= ideorigen;
     req.Nombres= nombre;
-    req.FechaDesde= fechadesde;
-    req.FechaHasta = fechahasta;
+    
+    req.FechaDesde= (fechadesde==undefined)? '' : fechadesde.toISOString().split('T')[0];
+    req.FechaHasta = (fechahasta==undefined)? '' : fechahasta.toISOString().split('T')[0];
+
     req.Page = page+1;
     req.Pages = pages;
    
@@ -43,8 +46,10 @@ export class PredonanteService {
     req.Idecampania= idecampania;
     req.IdeOrigen= ideorigen;
     req.Nombres= nombre;
-    req.FechaDesde= fechadesde;
-    req.FechaHasta = fechahasta;
+    
+    req.FechaDesde= (fechadesde==undefined)? '' : fechadesde.toISOString().split('T')[0];
+    req.FechaHasta = (fechahasta==undefined)? '' : fechahasta.toISOString().split('T')[0];
+
     req.Page = page+1;
     req.Pages = pages;
 

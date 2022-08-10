@@ -313,7 +313,6 @@ export class CentrevistaComponent implements OnInit {
   }
 
   abrirDetalle(){
-
     const dialogRef = this.dialog.open(MchequeoComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',

@@ -87,10 +87,10 @@ export class Predonante {
 
 export class PredonanteRequest {
     Idebanco?: number;
-    //dFechaDesde?: Date;
-    FechaDesde?: Date;
-    //dFechaHasta?: Date;
-    FechaHasta?: Date;
+    dFechaDesde?: Date;
+    FechaDesde?: string;
+    dFechaHasta?: Date;
+    FechaHasta?: string;
     IdeEstado?: number;
     Idecampania?: number;
     IdeOrigen?: number;
