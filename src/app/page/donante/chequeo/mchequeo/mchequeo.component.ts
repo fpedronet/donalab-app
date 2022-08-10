@@ -45,14 +45,14 @@ export class MchequeoComponent implements OnInit {
 
   inicializar(){
     this.form = new FormGroup({
-      'pesoDonacion': new FormControl({ value: 'No definido', disabled: true}),
-      'hemoglobina': new FormControl({ value: 'No definido', disabled: true}),
-      'tallaDonacion': new FormControl({ value: 'No definido', disabled: true}),
-      'hematocrito': new FormControl({ value: 'No definido', disabled: true}),
-      'tipoExtraccion': new FormControl({ value: 'No definido', disabled: true}),
-      'ideGrupo': new FormControl({ value: 'No seleccionado', disabled: true}),
-      'estadoVenoso': new FormControl({ value: 'No seleccionado', disabled: true}),
-      'lesionesVenas': new FormControl({ value: 'No seleccionado', disabled: true})
+      'pesoDonacion': new FormControl({ value: 'No definido', disabled: false}),
+      'hemoglobina': new FormControl({ value: 'No definido', disabled: false}),
+      'tallaDonacion': new FormControl({ value: 'No definido', disabled: false}),
+      'hematocrito': new FormControl({ value: 'No definido', disabled: false}),
+      'tipoExtraccion': new FormControl({ value: 'No definido', disabled: false}),
+      'ideGrupo': new FormControl({ value: 'No seleccionado', disabled: false}),
+      'estadoVenoso': new FormControl({ value: 'No seleccionado', disabled: false}),
+      'lesionesVenas': new FormControl({ value: 'No seleccionado', disabled: false})
     });
 
     var des = new Combobox();
@@ -88,18 +88,24 @@ export class MchequeoComponent implements OnInit {
       this.form.patchValue({
         tipoExtraccion: d.tipoExtraccion
       });
-    if(d.ideGrupo !== null)
+    if(d.ideGrupo !== null){
+      var el = this.listaGrupoSanguineo?.find(e => e.codigo?.toUpperCase() === d.ideGrupo?.toUpperCase());
       this.form.patchValue({
-        ideGrupo: d.ideGrupo
+        ideGrupo: el?.descripcion
       });
-    if(d.estadoVenoso !== null)
+    }      
+    if(d.estadoVenoso !== null){
+      var el = this.listaAspectoVenoso?.find(e => e.codigo?.toUpperCase() === d.estadoVenoso?.toUpperCase());
       this.form.patchValue({
-        estadoVenoso: d.estadoVenoso
+        estadoVenoso: el?.descripcion
       });
-    if(d.lesionesVenas !== null)
+    }      
+    if(d.lesionesVenas !== null){
+      var el = this.listaLesionesPuncion?.find(e => e.codigo?.toUpperCase() === d.lesionesVenas?.toUpperCase());
       this.form.patchValue({
-        lesionesVenas: d.lesionesVenas
+        lesionesVenas: el?.descripcion
       });
+    }      
   }
 
   closeModal(){

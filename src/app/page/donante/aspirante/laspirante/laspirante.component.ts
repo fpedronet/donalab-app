@@ -68,19 +68,19 @@ export class LaspiranteComponent implements OnInit {
       this.predonante.Idecampania! = parseInt(filtro[1]);
       this.predonante.IdeOrigen! = parseInt(filtro[2]);
       this.predonante.IdeEstado! = parseInt(filtro[3]);
-      this.predonante.FechaDesde! = new Date(filtro[4]);
-      this.predonante.FechaHasta! = new Date(filtro[5]);
+      this.predonante.dFechaDesde! = new Date(filtro[4]);
+      this.predonante.dFechaHasta! = new Date(filtro[5]);
     }else{
 
       this.predonante.Nombres! = "";
       this.predonante.Idecampania! = 0;
       this.predonante.IdeOrigen! = 0;
       this.predonante.IdeEstado! = 1;
-      this.predonante.FechaDesde! = new Date();
-      this.predonante.FechaHasta! = new Date();
+      this.predonante.dFechaDesde! = new Date();
+      this.predonante.dFechaHasta! = new Date();
     }    
 
-    localStorage.setItem(environment.CODIGO_FILTRO, this.predonante.Nombres +"|"+ this.predonante.Idecampania+"|"+this.predonante.IdeOrigen+"|"+this.predonante.IdeEstado+"|"+this.predonante.FechaDesde+"|"+this.predonante.FechaHasta);
+    localStorage.setItem(environment.CODIGO_FILTRO, this.predonante.Nombres +"|"+ this.predonante.Idecampania+"|"+this.predonante.IdeOrigen+"|"+this.predonante.IdeEstado+"|"+this.predonante.dFechaDesde+"|"+this.predonante.dFechaHasta);
 
     // this.startTimer();
   }
@@ -132,8 +132,10 @@ export class LaspiranteComponent implements OnInit {
 
   obtenerpermiso(){
     this.spinner.showLoading();
+    console.log(forms.aspirante.codigo);
     this.configPermisoService.obtenerpermiso(forms.aspirante.codigo).subscribe(data=>{
       this.permiso = data;
+      console.log(data);
        this.spinner.hideLoading();
     });   
   }
