@@ -131,6 +131,12 @@ table {
     padding:0 3px 0 3px !important;
   }
 
+  .tdpregunta{
+    font-size: 12px;
+    padding-left: 22px;
+    text-align: initial;
+  }
+
   @media (max-width:960px){
     td {
       white-space: initial;

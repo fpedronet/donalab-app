@@ -60,8 +60,8 @@
                     
                     <div class="br"></div>
 
-                    <button style="height:50px;margin-top:-18px;" type="button" mat-stroked-button color="primary" (click)="abrirDetalle()"> 
-                      <mat-icon>visibility</mat-icon>
+                    <button style="height:50px;margin-top:-18px; width: 138px;" type="button" mat-stroked-button color="primary" (click)="abrirDetalle()"> 
+                      <mat-icon style="margin: 0 0 0 -6px;">visibility</mat-icon>
                       Chequeo
                     </button>
 
@@ -139,7 +139,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let c of listaPregunta">
-                <td>
+                <td class="tdpregunta">
                   {{c.pregunta}}
                 </td>
                 <td *ngIf="c.idePregunta!=15 && c.idePregunta!=18 && c.idePregunta!=19">
