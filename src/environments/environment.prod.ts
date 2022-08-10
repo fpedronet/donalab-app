@@ -1,15 +1,15 @@
 export const environment = {
   production: true,
 
-  //UrlApi:'http://181.176.170.149:8022/api',  
+  UrlApi:'http://181.176.170.149:8022/api',  
   //UrlApi:'https://service.poclab.pe/donalab/api',  
   //UrlApi:'https://sitedev.poclab.pe/donalabdev/api', 
-  UrlApi:'http://localhost:48394/api',
+  //UrlApi:'http://localhost:48394/api',
 
   //*Prod
-  //UrlImage:'assets/',
+  UrlImage:'assets/',
   //*Dev
-  UrlImage:'../../../../assets/',
+  //UrlImage:'../../../../assets/',
 
   TOKEN_AUTH_USERNAME: 'mitomediapp',
   TOKEN_AUTH_PASSWORD: 'mito89codex',
