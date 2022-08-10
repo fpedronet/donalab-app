@@ -284,6 +284,7 @@ form{
 canvas.drawing, 
 canvas.drawingBuffer {
   position: absolute;
+  height:450px;
 }
 
 

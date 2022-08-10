@@ -132,8 +132,10 @@ export class LaspiranteComponent implements OnInit {
 
   obtenerpermiso(){
     this.spinner.showLoading();
-    this.configPermisoService.obtenerpermiso(forms.aspirantesligth.codigo).subscribe(data=>{
+    console.log(forms.aspirante.codigo);
+    this.configPermisoService.obtenerpermiso(forms.aspirante.codigo).subscribe(data=>{
       this.permiso = data;
+      console.log(data);
        this.spinner.hideLoading();
     });   
   }
