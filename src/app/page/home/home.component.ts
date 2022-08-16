@@ -16,9 +16,11 @@ import {
   ApexStroke,
   ApexXAxis,
   ApexFill,
-  ApexTooltip
+  ApexTooltip,
+  ApexGrid
 } from "ng-apexcharts";
 import { SpinnerService } from '../component/spinner/spinner.service';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 export type ChartOptions = {
   series: any;
@@ -33,6 +35,8 @@ export type ChartOptions = {
   tooltip: any;
   stroke: any;
   legend: any;
+  grid: ApexGrid;
+  colors: any;
 };
 
 @Component({
@@ -47,7 +51,8 @@ export class HomeComponent implements OnInit {
   public reportegrafico2!: Partial<ChartOptions>;
   public reportegrafico3!: Partial<ChartOptions>;
   public reportegrafico4!: Partial<ChartOptions>;
-  public reportesgrafico5!: Partial<ChartOptions>[];
+  //public reportesgrafico5!: Partial<ChartOptions>[];
+  public reportegrafico5!: Partial<ChartOptions>;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -98,9 +103,6 @@ export class HomeComponent implements OnInit {
   registro3?: boolean = false;
   registro4?: boolean = false;
   registro5?: boolean = false;
-  registro5_1?: boolean = false;
-  registro5_2?: boolean = false;
-  registro5_3?: boolean = false;
   registro6?: boolean = false;
   usuario?: string;
 
@@ -178,13 +180,9 @@ export class HomeComponent implements OnInit {
           this.arraySeries4 = [];
           break;
         case 5:
-          this.registro5_1 = false;
-          this.registro5_2 = false;
-          this.registro5_3 = false;
           this.arrayLabel5 = [];
           this.arraySeries5 = [];
           this.modelGrafico5 = [];
-          this.reportesgrafico5 = [];
           this.tiposSangre = [];
           break;
         case 6:
@@ -304,8 +302,7 @@ export class HomeComponent implements OnInit {
 
           });
         }
-        //debugger;
-
+        
         /* GRAFICO 5 */
         if($grafico5.length > 0){
           this.title5 = $grafico5.filter(y=>y.titulo)[0].titulo;
@@ -326,8 +323,10 @@ export class HomeComponent implements OnInit {
             let tableRowStr = x.cantidades?.split('|');
             let tableRow: number[] = [];
             tableRowStr?.forEach(el => {
-              tableRow.push(parseInt(el))
+              tableRow.push(el==='' ? 0 : parseInt(el))
             });
+
+            //debugger;
 
             //Limita las cantidades según los tipos de sangre existentes
             tableRow = tableRow.slice(0,this.tiposSangre?.length);
@@ -341,19 +340,6 @@ export class HomeComponent implements OnInit {
           let arraySeries5_x: number[][] = [];
 
           arraySeries5_x = this.arraySeries5!;
-          /*
-          let indexGR = this.arrayLabel5?.indexOf('GR');
-          if(indexGR >= 0){
-            arraySeries5_x.push(this.arraySeries5[indexGR]);
-          }
-          let indexCR = this.arrayLabel5?.indexOf('CR');
-          if(indexCR >= 0){
-            arraySeries5_x.push(this.arraySeries5[indexCR]);
-          }
-          let indexPQ = this.arrayLabel5?.indexOf('PQ');
-          if(indexPQ >= 0){
-            arraySeries5_x.push(this.arraySeries5[indexPQ]);
-          }*/
 
           this.arrayGrafico5_tot = [];
           for (let j = 0; j < this.tiposSangre!.length; j++) {
@@ -363,14 +349,16 @@ export class HomeComponent implements OnInit {
             }
             this.arrayGrafico5_tot.push(totPorSangre);
           }
-          //debugger;
 
+          /*Barras anteriores*/
           //Busca primer mayor
-          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 1);
+          //this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 1);
           //Busca segundo mayor
-          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 2);
+          //this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 2);
           //Busca otros
-          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 3);
+          //this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 3);
+
+          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x);
         }
 
         /* GRAFICO 6 */
@@ -403,6 +391,14 @@ export class HomeComponent implements OnInit {
             this.registro4 = (count4>0)? true: false;
             this.chart4();
             break;
+          case 4:
+            this.registro4 = (count4>0)? true: false;
+            this.chart4();
+            break;
+          case 5:
+            this.registro5 = (count5>0)? true: false;
+            //this.chart5();
+            break;
           case 6:
             this.registro6 = (count6>0)? true: false;
         }
@@ -413,7 +409,8 @@ export class HomeComponent implements OnInit {
     });   
   }
 
-  creaSubgrafico5(tiposSangre: string[], arraySeries5_x: number[][], order: number){
+  //Para gráficos circulares en stock
+  /*$creaSubgrafico5(tiposSangre: string[], arraySeries5_x: number[][], order: number){
     var graf: GraficoStock = new GraficoStock();
     var mayor = Math.max(...this.arrayGrafico5_tot);
     if(this.arrayGrafico5_tot.length > 0 && mayor>0){            
@@ -451,7 +448,35 @@ export class HomeComponent implements OnInit {
           this.registro5_2 = true;
         if(order == 3)
           this.registro5_3 = true;
-      }      
+      }
+    }
+    this.chart5(graf);
+  }*/
+
+  creaSubgrafico5(tiposSangre: string[], arraySeries5_x: number[][]){
+    var graf: GraficoStock = new GraficoStock();
+    var mayor = Math.max(...this.arrayGrafico5_tot);
+    if(this.arrayGrafico5_tot.length > 0 && mayor>0){            
+      graf.arrayLabel = tiposSangre;
+      
+      //graf.subTitle = tiposSangre[j];
+
+      var arrayAux: any[] = [];
+      let j = 0;
+      arraySeries5_x!.forEach(val => {
+        let obj = {
+          name: this.arrayLabel5[j],
+          data: val
+        }
+        arrayAux.push(obj)
+        j++;
+      });
+      graf.arraySeries! = arrayAux;
+
+      graf.total = this.arrayGrafico5_tot!.reduce((a, b) => a + (b || 0), 0);
+      graf.visible = graf.total > 0;
+
+      this.modelGrafico5.push(graf); 
     }
     this.chart5(graf);
   }
@@ -586,7 +611,7 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  chart5(graf: GraficoStock){
+  /*$chart5(graf: GraficoStock){
     //debugger;    
 
     var reportegrafico5!: Partial<ChartOptions>;
@@ -673,6 +698,232 @@ export class HomeComponent implements OnInit {
       };
     }    
     this.reportesgrafico5!.push(reportegrafico5);
+  }*/
+
+  chart5(graf: GraficoStock){
+    //debugger;    
+
+    if(graf.visible){
+      //Ajustes iniciales
+    
+    this.reportegrafico5 = {
+      series: graf.arraySeries,
+      chart: {
+        type: 'heatmap',
+      },
+      //colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
+      xaxis: {
+        type: 'category',
+        categories: graf.arrayLabel
+      },
+      stroke: {
+        width: 0
+      },
+      plotOptions: {
+        heatmap: {
+          radius: 30,
+          enableShades: false/*,
+          colorScale: {
+            ranges: [
+              {
+                from: 0,
+                to: 50,
+                color: "#008FFB"
+              },
+              {
+                from: 51,
+                to: 100,
+                color: "#00E396"
+              }
+            ]
+          }*/
+        }
+      },
+      responsive: [{
+        breakpoint: 450,
+        options: {
+          // chart: {
+          //   width: 270
+          // },
+          legend: {
+            position: 'bottom',
+            offsetX: 0,
+            offsetY: 0
+          }
+        }
+      }]
+      };
+    }
+  }
+
+  optionsChart(){
+    return {
+      series: [
+        {
+          name: "W1",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W2",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W3",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W4",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W5",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W6",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W7",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W8",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W9",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W10",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W11",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W12",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W13",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W14",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        },
+        {
+          name: "W15",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90
+          })
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "heatmap"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors: [
+        "#F3B415",
+        "#F27036",
+        "#663F59",
+        "#6A6E94",
+        "#4E88B4",
+        "#00A7C6",
+        "#18D8D8",
+        "#A9D794",
+        "#46AF78",
+        "#A93F55",
+        "#8C5E58",
+        "#2176FF",
+        "#33A1FD",
+        "#7A918D",
+        "#BAFF29"
+      ],
+      xaxis: {
+        type: "category",
+        categories: [
+          "10:00",
+          "10:30",
+          "11:00",
+          "11:30",
+          "12:00",
+          "12:30",
+          "01:00",
+          "01:30"
+        ]
+      },
+      title: {
+        text: "HeatMap Chart (Different color shades for each series)"
+      },
+      grid: {
+        padding: {
+          right: 20
+        }
+      }
+    };
+  }
+
+  generateData(count: number, yrange: any) {
+    var i = 0;
+    var series = [];
+    while (i < count) {
+      var y =
+        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+      series.push(y);
+      i++;
+    }
+    return series;
   }
 
   valorMaximo(num1: number, num2: number){

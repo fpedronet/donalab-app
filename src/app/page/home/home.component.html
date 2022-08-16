@@ -43,13 +43,13 @@
             </button>
         </div>
 
-        <div *ngIf="registro5_1 || registro5_2 || registro5_3" fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+        <div *ngIf="registro5" fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" class="p-2" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
             <mat-card class="mat-card mat-focus-indicator">
                 <mat-card-content>
                     <div>
                         <mat-card-title class="cardtitles">{{title5}}</mat-card-title>
                     </div>
-                    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                    <!--div fxLayout="row wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
                             <mat-grid-list cols="12" rowHeight="350px" gutterSize="15px" *ngIf="registro5_1">
                                 <apx-chart
@@ -84,7 +84,17 @@
                                 ></apx-chart>
                             </mat-grid-list>
                         </div>
-                    </div>
+                    </div-->
+                    <div id="chart5">
+                        <apx-chart
+                          [series]="reportegrafico5.series"
+                          [chart]="reportegrafico5.chart"
+                          [dataLabels]="reportegrafico5.dataLabels"
+                          [colors]="reportegrafico5.colors"
+                          [grid]="reportegrafico5.grid!"
+                          [xaxis]="reportegrafico5.xaxis"
+                        ></apx-chart>
+                      </div>
                 </mat-card-content>
             </mat-card>
         </div>
