@@ -16,9 +16,11 @@ import {
   ApexStroke,
   ApexXAxis,
   ApexFill,
-  ApexTooltip
+  ApexTooltip,
+  ApexGrid
 } from "ng-apexcharts";
 import { SpinnerService } from '../component/spinner/spinner.service';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 export type ChartOptions = {
   series: any;
@@ -33,6 +35,8 @@ export type ChartOptions = {
   tooltip: any;
   stroke: any;
   legend: any;
+  grid: ApexGrid;
+  colors: any;
 };
 
 @Component({
@@ -47,7 +51,8 @@ export class HomeComponent implements OnInit {
   public reportegrafico2!: Partial<ChartOptions>;
   public reportegrafico3!: Partial<ChartOptions>;
   public reportegrafico4!: Partial<ChartOptions>;
-  public reportesgrafico5!: Partial<ChartOptions>[];
+  //public reportesgrafico5!: Partial<ChartOptions>[];
+  public reportegrafico5!: Partial<ChartOptions>;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -98,9 +103,6 @@ export class HomeComponent implements OnInit {
   registro3?: boolean = false;
   registro4?: boolean = false;
   registro5?: boolean = false;
-  registro5_1?: boolean = false;
-  registro5_2?: boolean = false;
-  registro5_3?: boolean = false;
   registro6?: boolean = false;
   usuario?: string;
 
@@ -178,13 +180,9 @@ export class HomeComponent implements OnInit {
           this.arraySeries4 = [];
           break;
         case 5:
-          this.registro5_1 = false;
-          this.registro5_2 = false;
-          this.registro5_3 = false;
           this.arrayLabel5 = [];
           this.arraySeries5 = [];
           this.modelGrafico5 = [];
-          this.reportesgrafico5 = [];
           this.tiposSangre = [];
           break;
         case 6:
@@ -304,8 +302,7 @@ export class HomeComponent implements OnInit {
 
           });
         }
-        //debugger;
-
+        
         /* GRAFICO 5 */
         if($grafico5.length > 0){
           this.title5 = $grafico5.filter(y=>y.titulo)[0].titulo;
@@ -326,8 +323,10 @@ export class HomeComponent implements OnInit {
             let tableRowStr = x.cantidades?.split('|');
             let tableRow: number[] = [];
             tableRowStr?.forEach(el => {
-              tableRow.push(parseInt(el))
+              tableRow.push(el==='' ? 0 : parseInt(el))
             });
+
+            //debugger;
 
             //Limita las cantidades según los tipos de sangre existentes
             tableRow = tableRow.slice(0,this.tiposSangre?.length);
@@ -341,19 +340,6 @@ export class HomeComponent implements OnInit {
           let arraySeries5_x: number[][] = [];
 
           arraySeries5_x = this.arraySeries5!;
-          /*
-          let indexGR = this.arrayLabel5?.indexOf('GR');
-          if(indexGR >= 0){
-            arraySeries5_x.push(this.arraySeries5[indexGR]);
-          }
-          let indexCR = this.arrayLabel5?.indexOf('CR');
-          if(indexCR >= 0){
-            arraySeries5_x.push(this.arraySeries5[indexCR]);
-          }
-          let indexPQ = this.arrayLabel5?.indexOf('PQ');
-          if(indexPQ >= 0){
-            arraySeries5_x.push(this.arraySeries5[indexPQ]);
-          }*/
 
           this.arrayGrafico5_tot = [];
           for (let j = 0; j < this.tiposSangre!.length; j++) {
@@ -363,14 +349,16 @@ export class HomeComponent implements OnInit {
             }
             this.arrayGrafico5_tot.push(totPorSangre);
           }
-          //debugger;
 
+          /*Barras anteriores*/
           //Busca primer mayor
-          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 1);
+          //this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 1);
           //Busca segundo mayor
-          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 2);
+          //this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 2);
           //Busca otros
-          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 3);
+          //this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x, 3);
+
+          this.creaSubgrafico5(this.tiposSangre!, arraySeries5_x);
         }
 
         /* GRAFICO 6 */
@@ -403,6 +391,14 @@ export class HomeComponent implements OnInit {
             this.registro4 = (count4>0)? true: false;
             this.chart4();
             break;
+          case 4:
+            this.registro4 = (count4>0)? true: false;
+            this.chart4();
+            break;
+          case 5:
+            this.registro5 = (count5>0)? true: false;
+            //this.chart5();
+            break;
           case 6:
             this.registro6 = (count6>0)? true: false;
         }
@@ -413,7 +409,8 @@ export class HomeComponent implements OnInit {
     });   
   }
 
-  creaSubgrafico5(tiposSangre: string[], arraySeries5_x: number[][], order: number){
+  //Para gráficos circulares en stock
+  /*$creaSubgrafico5(tiposSangre: string[], arraySeries5_x: number[][], order: number){
     var graf: GraficoStock = new GraficoStock();
     var mayor = Math.max(...this.arrayGrafico5_tot);
     if(this.arrayGrafico5_tot.length > 0 && mayor>0){            
@@ -451,7 +448,45 @@ export class HomeComponent implements OnInit {
           this.registro5_2 = true;
         if(order == 3)
           this.registro5_3 = true;
-      }      
+      }
+    }
+    this.chart5(graf);
+  }*/
+
+  creaSubgrafico5(tiposSangre: string[], arraySeries5_x: number[][]){
+    var graf: GraficoStock = new GraficoStock();
+    var mayor = Math.max(...this.arrayGrafico5_tot);
+    if(this.arrayGrafico5_tot.length > 0 && mayor>0){            
+      graf.arrayLabel = tiposSangre;
+      
+      //graf.subTitle = tiposSangre[j];
+
+      var arrayAux: any[] = [];
+      let j = 0;
+      arraySeries5_x!.forEach(val => {
+        let obj = {
+          name: this.arrayLabel5[j],
+          data: val
+        }
+        arrayAux.push(obj)
+        j++;
+      });
+
+      
+      //Prueba
+      /*for(let i = 0; i<1; i++){
+        arrayAux.push({
+          name: 'A',
+          data: [23, 34, 23, 23, 12, 34, 12, 12, 34, 9]
+        })
+      }*/
+
+      graf.arraySeries! = arrayAux;
+
+      graf.total = this.arrayGrafico5_tot!.reduce((a, b) => a + (b || 0), 0);
+      graf.visible = graf.total > 0;
+
+      this.modelGrafico5.push(graf); 
     }
     this.chart5(graf);
   }
@@ -586,7 +621,7 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  chart5(graf: GraficoStock){
+  /*$chart5(graf: GraficoStock){
     //debugger;    
 
     var reportegrafico5!: Partial<ChartOptions>;
@@ -673,6 +708,79 @@ export class HomeComponent implements OnInit {
       };
     }    
     this.reportesgrafico5!.push(reportegrafico5);
+  }*/
+
+  chart5(graf: GraficoStock){
+    //debugger;
+
+    //Corrije para excepcion en 1
+    var fil = graf.arraySeries?.length!;
+    fil = fil===1 ? 1.2 : fil;
+    //Factor en vista resposnive
+    var facRes = fil>=3 && fil<5 ? 0.9 : 1
+
+    if(graf.visible){
+      //Ajustes iniciales
+    
+    this.reportegrafico5 = {
+      series: graf.arraySeries,
+      chart: {
+        width: 670,
+        height: 44*fil + 40,
+        type: 'heatmap',
+      },
+      colors: ["#008FFB"],
+      //colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
+      xaxis: {
+        type: 'category',
+        categories: graf.arrayLabel
+      },
+      stroke: {
+        width: 0
+      },
+      plotOptions: {
+        heatmap: {
+          radius: 30,
+          enableShades: false
+          /*,
+          colorScale: {
+            ranges: [
+              {
+                from: 0,
+                to: 50,
+                color: "#008FFB"
+              },
+              {
+                from: 51,
+                to: 100,
+                color: "#00E396"
+              }
+            ]
+          }*/
+        }
+      },
+      dataLabels:{
+        enabled: true,
+        style: {
+          colors: ["#fff"]
+        }
+      },
+      /*grid: {
+        padding: {
+          right: 20
+        }
+      },*/
+      responsive: [{
+        breakpoint: 750,
+        options: {
+          chart: {
+            width: '100%',
+            height: facRes * (window.innerWidth-80)/15 * (fil+1) + (window.innerWidth-80)/15
+          }
+        }
+      }]
+      };
+    }
   }
 
   valorMaximo(num1: number, num2: number){
