@@ -715,9 +715,6 @@ export class HomeComponent implements OnInit {
 
     //Corrije para excepcion en 1
     var fil = graf.arraySeries?.length!;
-    fil = fil===1 ? 1.2 : fil;
-    //Factor en vista resposnive
-    var facRes = fil>=3 && fil<5 ? 0.9 : 1
 
     if(graf.visible){
       //Ajustes iniciales
@@ -725,15 +722,25 @@ export class HomeComponent implements OnInit {
     this.reportegrafico5 = {
       series: graf.arraySeries,
       chart: {
-        width: 670,
-        height: 44*fil + 40,
+        width: 720,
+        height: 30 * fil + 68,
         type: 'heatmap',
       },
       colors: ["#008FFB"],
       //colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
       xaxis: {
         type: 'category',
-        categories: graf.arrayLabel
+        categories: graf.arrayLabel,
+        position: 'top'
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: [],
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif'
+          }
+        }        
       },
       stroke: {
         width: 0
@@ -762,8 +769,11 @@ export class HomeComponent implements OnInit {
       dataLabels:{
         enabled: true,
         style: {
-          colors: ["#fff"]
-        }
+          colors: ["#000"]
+        },
+        formatter: function (val: any) {
+          return val > 0 ? val : ''
+        },
       },
       /*grid: {
         padding: {
@@ -771,11 +781,11 @@ export class HomeComponent implements OnInit {
         }
       },*/
       responsive: [{
-        breakpoint: 750,
+        breakpoint: 800,
         options: {
           chart: {
             width: '100%',
-            height: facRes * (window.innerWidth-80)/15 * (fil+1) + (window.innerWidth-80)/15
+            height: 25 * fil + 68,
           }
         }
       }]
