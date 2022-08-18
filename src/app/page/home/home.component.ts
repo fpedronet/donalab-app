@@ -471,6 +471,16 @@ export class HomeComponent implements OnInit {
         arrayAux.push(obj)
         j++;
       });
+
+      
+      //Prueba
+      /*for(let i = 0; i<1; i++){
+        arrayAux.push({
+          name: 'A',
+          data: [23, 34, 23, 23, 12, 34, 12, 12, 34, 9]
+        })
+      }*/
+
       graf.arraySeries! = arrayAux;
 
       graf.total = this.arrayGrafico5_tot!.reduce((a, b) => a + (b || 0), 0);
@@ -701,7 +711,13 @@ export class HomeComponent implements OnInit {
   }*/
 
   chart5(graf: GraficoStock){
-    //debugger;    
+    //debugger;
+
+    //Corrije para excepcion en 1
+    var fil = graf.arraySeries?.length!;
+    fil = fil===1 ? 1.2 : fil;
+    //Factor en vista resposnive
+    var facRes = fil>=3 && fil<5 ? 0.9 : 1
 
     if(graf.visible){
       //Ajustes iniciales
@@ -709,8 +725,11 @@ export class HomeComponent implements OnInit {
     this.reportegrafico5 = {
       series: graf.arraySeries,
       chart: {
+        width: 670,
+        height: 44*fil + 40,
         type: 'heatmap',
       },
+      colors: ["#008FFB"],
       //colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
       xaxis: {
         type: 'category',
@@ -722,7 +741,8 @@ export class HomeComponent implements OnInit {
       plotOptions: {
         heatmap: {
           radius: 30,
-          enableShades: false/*,
+          enableShades: false
+          /*,
           colorScale: {
             ranges: [
               {
@@ -739,191 +759,28 @@ export class HomeComponent implements OnInit {
           }*/
         }
       },
+      dataLabels:{
+        enabled: true,
+        style: {
+          colors: ["#fff"]
+        }
+      },
+      /*grid: {
+        padding: {
+          right: 20
+        }
+      },*/
       responsive: [{
-        breakpoint: 450,
+        breakpoint: 750,
         options: {
-          // chart: {
-          //   width: 270
-          // },
-          legend: {
-            position: 'bottom',
-            offsetX: 0,
-            offsetY: 0
+          chart: {
+            width: '100%',
+            height: facRes * (window.innerWidth-80)/15 * (fil+1) + (window.innerWidth-80)/15
           }
         }
       }]
       };
     }
-  }
-
-  optionsChart(){
-    return {
-      series: [
-        {
-          name: "W1",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W2",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W3",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W4",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W5",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W6",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W7",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W8",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W9",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W10",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W11",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W12",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W13",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W14",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        },
-        {
-          name: "W15",
-          data: this.generateData(8, {
-            min: 0,
-            max: 90
-          })
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "heatmap"
-      },
-      dataLabels: {
-        enabled: false
-      },
-      colors: [
-        "#F3B415",
-        "#F27036",
-        "#663F59",
-        "#6A6E94",
-        "#4E88B4",
-        "#00A7C6",
-        "#18D8D8",
-        "#A9D794",
-        "#46AF78",
-        "#A93F55",
-        "#8C5E58",
-        "#2176FF",
-        "#33A1FD",
-        "#7A918D",
-        "#BAFF29"
-      ],
-      xaxis: {
-        type: "category",
-        categories: [
-          "10:00",
-          "10:30",
-          "11:00",
-          "11:30",
-          "12:00",
-          "12:30",
-          "01:00",
-          "01:30"
-        ]
-      },
-      title: {
-        text: "HeatMap Chart (Different color shades for each series)"
-      },
-      grid: {
-        padding: {
-          right: 20
-        }
-      }
-    };
-  }
-
-  generateData(count: number, yrange: any) {
-    var i = 0;
-    var series = [];
-    while (i < count) {
-      var y =
-        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-      series.push(y);
-      i++;
-    }
-    return series;
   }
 
   valorMaximo(num1: number, num2: number){
