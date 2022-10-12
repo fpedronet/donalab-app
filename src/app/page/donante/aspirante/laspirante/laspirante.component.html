@@ -43,7 +43,7 @@
 
           <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef [ngClass]="'web'"> Estado </mat-header-cell>
-            <mat-cell *matCellDef="let element" [ngClass]="'web'" data-label="Estado"> {{element.estado}} </mat-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'web'" data-label="Estado"> <span style="font-weight: 500">{{element.estado}} </span></mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="pd">
@@ -104,7 +104,7 @@
           [length]="countRegistro" 
           [pageSizeOptions]="[5, 10, 20]" 
           showFirstLastButtons 
-          aria-label="Select page of users">
+          aria-label="Seleccione página de postulantes">
         </mat-paginator>
       </div>
 

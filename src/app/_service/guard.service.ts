@@ -45,7 +45,7 @@ export class GuardService implements CanActivate {
          return false;
       }
 
-      //3) OBTENIENDO EL ID DEL USUARIO PARA TRAER LAS OPCIONES DE MENU Y LOS PERMISO
+      //4) OBTENIENDO EL ID DEL USUARIO PARA TRAER LAS OPCIONES DE MENU Y LOS PERMISO
       return this.configPermisoService.listar().pipe(map(x => {
         let cont = 0;
         for (let m of x.listaOpcionesMenu!) {

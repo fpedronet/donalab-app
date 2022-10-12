@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
 import {merge, of as observableOf} from 'rxjs';
@@ -54,11 +54,13 @@ export class LaspiranteComponent implements OnInit {
     private notifierService : NotifierService,
     private usuarioService: UsuarioService,
     private predonanteService: PredonanteService,
+    public customPaginator: MatPaginatorIntl,
     private configPermisoService : ConfigPermisoService,
     private reporteService: ReporteService
   ) { }
 
   ngOnInit(): void {
+    this.configurarPaginador();
     this.obtenerpermiso();
 
     let filtro = this.usuarioService.sessionFiltro();
@@ -83,6 +85,24 @@ export class LaspiranteComponent implements OnInit {
     localStorage.setItem(environment.CODIGO_FILTRO, this.predonante.Nombres +"|"+ this.predonante.Idecampania+"|"+this.predonante.IdeOrigen+"|"+this.predonante.IdeEstado+"|"+this.predonante.dFechaDesde+"|"+this.predonante.dFechaHasta);
 
     // this.startTimer();
+  }
+
+  configurarPaginador(){
+    this.customPaginator.itemsPerPageLabel = 'Ítems por página';
+    this.customPaginator.firstPageLabel = 'Primera página';    
+    this.customPaginator.previousPageLabel = 'Página anterior'; 
+    this.customPaginator.nextPageLabel  = 'Página siguiente';
+    this.customPaginator.lastPageLabel = 'Última página';
+    this.customPaginator.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      if (length === 0 || pageSize === 0) {
+        return `0 a ${length }`;
+      }
+      length = Math.max(length, 0);
+      const startIndex = page * pageSize;
+      // If the start index exceeds the list length, do not try and fix the end index to the end.
+      const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+      return `${startIndex + 1} - ${endIndex} de ${length}`;
+    };
   }
 
   actualizar(){

@@ -23,5 +23,15 @@
         "codigo":"0104",
         "nombre":"donantes",
         "modulo":"donante"
+    },
+    "pacientes":{
+        "codigo":"0201",
+        "nombre":"paciente",
+        "modulo":"paciente"
+    },
+    "solicitud":{
+        "codigo":"0202",
+        "nombre":"solicitud",
+        "modulo":"paciente"
     }
 }

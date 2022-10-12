@@ -12,7 +12,9 @@ import { CdonacionComponent } from './donante/donacion/cdonacion/cdonacion.compo
 import { LdonacionComponent } from './donante/donacion/ldonacion/ldonacion.component';
 import { CentrevistaComponent } from './donante/entrevista/centrevista/centrevista.component';
 import { LentrevistaComponent } from './donante/entrevista/lentrevista/lentrevista.component';
-
+import { CconfirmacionComponent } from './paciente/confirmacion/cconfirmacion/cconfirmacion.component';
+import { LsolicitudComponent } from './paciente/solicitud/lsolicitud/lsolicitud.component';
+import { CsolicitudComponent } from './paciente/solicitud/csolicitud/csolicitud.component';
 
 import { HomeComponent } from './home/home.component';
 
@@ -43,6 +45,12 @@ const routes: Routes = [
   {path:'donante/donacion', component: LdonacionComponent, canActivate: [GuardService]},
   {path:'donante/donacion/create', component: CdonacionComponent, canActivate: [GuardService]},
   {path:'donante/donacion/edit/:id/:edit', component: CdonacionComponent, canActivate: [GuardService]},
+
+  {path:'paciente/solicitud', component: LsolicitudComponent, canActivate: [GuardService]},
+  {path:'paciente/solicitud/create', component: CsolicitudComponent, canActivate: [GuardService]},
+  {path:'paciente/solicitud/edit/:id/:edit', component: CsolicitudComponent, canActivate: [GuardService]},
+
+  {path:'paciente/confirmacion/create', component: CconfirmacionComponent, canActivate: [GuardService]},
 
   {path:'ficha', component: RptfichaComponent},
 

@@ -29,6 +29,10 @@ import { RptfichaComponent } from './reporte/rptficha/rptficha.component';
 import { MdiferidoComponent } from './donante/entrevista/mdiferido/mdiferido.component';
 import { McodigobarraComponent } from './donante/donacion/mcodigobarra/mcodigobarra.component';
 import { MchequeoComponent } from './donante/chequeo/mchequeo/mchequeo.component';
+import { LsolicitudComponent } from './paciente/solicitud/lsolicitud/lsolicitud.component';
+import { CsolicitudComponent } from './paciente/solicitud/csolicitud/csolicitud.component';
+import { CconfirmacionComponent } from './paciente/confirmacion/cconfirmacion/cconfirmacion.component';
+import { FsolicitudComponent } from './paciente/solicitud/fsolicitud/fsolicitud.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +58,11 @@ import { MchequeoComponent } from './donante/chequeo/mchequeo/mchequeo.component
     RptfichaComponent,
     MdiferidoComponent,
     McodigobarraComponent,
-    MchequeoComponent
+    MchequeoComponent,
+    LsolicitudComponent,
+    CsolicitudComponent,
+    CconfirmacionComponent,
+    FsolicitudComponent
   ],
   imports: [
     MaterialModule,
