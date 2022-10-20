@@ -1,0 +1,17 @@
+[
+    {
+        "valor": "SÍ",
+        "descripcion": "SÍ",
+        "visible": true
+    },
+    {
+        "valor": "NO",
+        "descripcion": "NO",
+        "visible": true
+    },
+    {
+        "valor": "DESCONOZCO",
+        "descripcion": "DESCONOZCO",
+        "visible": true
+    }
+]

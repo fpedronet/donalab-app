@@ -7,4 +7,6 @@ export class Permiso {
     enviar?:boolean;
     registrarInclusoRechazado?:boolean;
     registrarInclusoCalificado?:boolean;
+    actualizarInclusoEnviada?:boolean;
+    actualizarInclusoFinalizada?:boolean;
 }

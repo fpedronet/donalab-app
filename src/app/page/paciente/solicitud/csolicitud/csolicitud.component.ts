@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ConfimService } from 'src/app/page/component/confirm/confim.service';
 import { NotifierService } from 'src/app/page/component/notifier/notifier.service';
 import { SpinnerService } from 'src/app/page/component/spinner/spinner.service';
@@ -16,7 +15,12 @@ import { environment } from 'src/environments/environment';
 import forms from 'src/assets/json/formulario.json';
 import { SolicitudService } from 'src/app/_service/paciente/solicitud.service';
 import { Persona } from 'src/app/_model/donante/persona';
-import { Solicitud } from 'src/app/_model/paciente/solicitud';
+import { Solicitud, SolicitudPedido, SolicitudPrueba } from 'src/app/_model/paciente/solicitud';
+import { PredonanteService } from 'src/app/_service/donante/predonante.service';
+import { PersonaHistorial } from 'src/app/_model/donante/personahistorial';
+import jsonTranPrev from 'src/assets/json/solicitud/tranprev.json';
+import { Unidade } from 'src/app/_model/donante/unidade';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-csolicitud',
@@ -30,11 +34,12 @@ export class CsolicitudComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: SpinnerService,
-    private notifier: NotifierService,
+    private notifierService: NotifierService,
     private confirm : ConfimService,
     private comboboxService: ComboboxService,
     private usuarioService: UsuarioService,
     private solicitudService: SolicitudService,
+    private predonanteService: PredonanteService,
     private configPermisoService : ConfigPermisoService,
     private poclabService: PoclabService,
   ) { }
@@ -49,13 +54,12 @@ export class CsolicitudComponent implements OnInit {
 
   id: number = 0;
   edit: boolean = true;
-  codigo: string = ''
   loading = true;
 
   curUser: number = 0;
   curBanco: number = 0;
 
-  tablasMaestras = ['TDoc', 'GENE', 'PRDO'];
+  tablasMaestras = ['TDoc', 'GENE', 'PROC', 'SERV', 'DIAG', 'MEDI', 'PRIO', 'ADCN', 'RADP', 'HEMO', 'PRUE', 'COBLI'];
   tbTipoDocu: Combobox[] = [];
   tbGenero: Combobox[] = [];
   tbProced: Combobox[] = [];
@@ -66,6 +70,9 @@ export class CsolicitudComponent implements OnInit {
   tbPriori: Combobox[] = [];
   tbAdicional: Combobox[] = [];
   tbReacAdver: Combobox[] = [];
+  tbHemocom: Combobox[] = [];
+  tbPrueba: Combobox[] = [];
+  tbObligatorio: Combobox[] = [];
 
   muestraPaciente: boolean = false;
   selectedTipoDonacion: string = '';
@@ -82,6 +89,11 @@ export class CsolicitudComponent implements OnInit {
   btnEstadoSel: boolean[] = [false, false];
   estadoIni: number = 0;
 
+  listaUnidade: Unidade[] = [];
+
+  listaHemocom: SolicitudPedido[] = [];
+  listaPruebas: SolicitudPrueba[] = [];
+
   //Tipo Sangre
   muestraSangre: boolean = false;
   abo: string = '';
@@ -91,6 +103,14 @@ export class CsolicitudComponent implements OnInit {
 
   fotoUrl: string = '';
   fotoError: string = '';
+
+  perOblig: boolean[] = [
+    false, false, false, false, false, false, false, false, false, false, false
+  ]
+  offsetOblig = 21;
+
+  @ViewChild(MatStepper)
+  stepper!: MatStepper;
 
   ngOnInit(): void {
     
@@ -110,12 +130,14 @@ export class CsolicitudComponent implements OnInit {
       this.curBanco = user.codigobanco;
     }
 
-    //Inicializa componentes del form
-    this.listarCombo();
+    //Inicializa componentes del form    
     this.minDate.setMonth(this.maxDate.getMonth() - 12*120);  
 
     this.form = new FormGroup({
       'FechaSol': new FormControl({ value: new Date(), disabled: !this.edit}),
+      'CodSolicitud': new FormControl({ value: '', disabled: !this.edit}),
+      'IdeEstado': new FormControl({ value: '', disabled: !this.edit}),
+      'Estado': new FormControl({ value: '', disabled: !this.edit}),
       //Persona
       'IdePersona': new FormControl({ value: 0, disabled: !this.edit}),
       'TipDocu': new FormControl({ value: '1', disabled: !this.edit}),
@@ -140,6 +162,15 @@ export class CsolicitudComponent implements OnInit {
       'CodReaccAdv': new FormControl({ value: null, disabled: !this.edit}),
       'Observaciones': new FormControl({ value: '', disabled: !this.edit})
     });
+
+    this.listarCombo().then(res => {
+        this.obtener();
+      }
+    );
+  }
+
+  ngAfterViewInit() {
+    this.stepper._getIndicatorType = () => 'number';
   }
 
   obtenerpermiso(){
@@ -150,40 +181,85 @@ export class CsolicitudComponent implements OnInit {
     });   
   }
 
-  listarCombo(){
-    this.comboboxService.cargarDatos(this.tablasMaestras,this.curUser,this.curBanco).subscribe(data=>{
-      if(data === undefined){
-        this.notifier.showNotification(0,'Mensaje','Error en el servidor');
-      }
-      else{
-        var tbCombobox: Combobox[] = data.items;
+  async listarCombo(){
+    return new Promise(async (resolve) => {
 
-        this.tbTipoDocu = this.obtenerSubtabla(tbCombobox,'TDoc');
-        this.tbGenero = this.obtenerSubtabla(tbCombobox,'GENE');
-        this.tbProced = this.obtenerSubtabla(tbCombobox,'PRDO');
-        this.tbServi = this.obtenerSubtabla(tbCombobox,'');
-        this.tbDiagno = this.obtenerSubtabla(tbCombobox,'');
-        this.tbMedico = this.obtenerSubtabla(tbCombobox,'');
-        this.tbTransPrev = this.obtenerSubtabla(tbCombobox,'');
-        this.tbPriori = this.obtenerSubtabla(tbCombobox,'');
-        this.tbAdicional = this.obtenerSubtabla(tbCombobox,'');
-        this.tbReacAdver = this.obtenerSubtabla(tbCombobox,'');
+      this.spinner.showLoading();
+      this.comboboxService.cargarDatos(this.tablasMaestras,this.curUser,this.curBanco).subscribe(data=>{
+        if(data === undefined){
+          this.notifierService.showNotification(0,'Mensaje','Error en el servidor');
+        }
+        else{
+          var tbCombobox: Combobox[] = data.items;
 
-        //Valores por defecto de tipo proc. y extracción
-        /*this.form.patchValue({
-          CodTipoProcedimiento: this.tbTipoProced[0].codigo
-        });
-        this.changeTipoProced(this.tbTipoProced[0].codigo)*/
+          this.tbTipoDocu = this.obtenerSubtabla(tbCombobox,'TDoc');
+          this.tbGenero = this.obtenerSubtabla(tbCombobox,'GENE');
+          this.tbProced = this.obtenerSubtabla(tbCombobox,'PROC');
+          this.tbServi = this.obtenerSubtabla(tbCombobox,'SERV');
+          this.tbDiagno = this.obtenerSubtabla(tbCombobox,'DIAG');
+          this.tbMedico = this.obtenerSubtabla(tbCombobox,'MEDI');
+          this.tbTransPrev = this.completarCombo(jsonTranPrev);
+          this.tbPriori = this.obtenerSubtabla(tbCombobox,'PRIO');
+          this.tbAdicional = this.obtenerSubtabla(tbCombobox,'ADCN');
+          this.tbReacAdver = this.obtenerSubtabla(tbCombobox,'RADP');
+          this.tbHemocom = this.obtenerSubtabla(tbCombobox,'HEMO');
+          this.tbPrueba = this.obtenerSubtabla(tbCombobox,'PRUE');
+          this.tablaHemocom(this.tbHemocom);
 
-        //this.listarDistritos(tbDpto, tbProv, tbDist).then(res => {
-          this.obtener();
-        //});
+          this.tbObligatorio = this.obtenerSubtabla(tbCombobox,'COBLI');          
+          this.camposObligatorios(this.tbObligatorio);
+
+          this.tbPrueba = this.tbPrueba.sort((a, b) => a.descripcion!.localeCompare(b.descripcion!));
+
+          //Valores por defecto de tipo proc. y extracción
+          /*this.form.patchValue({
+            CodTipoProcedimiento: this.tbTipoProced[0].codigo
+          });
+          this.changeTipoProced(this.tbTipoProced[0].codigo)*/
+
+          this.spinner.hideLoading();
+          
+          resolve('ok')
+        }
+      });
+    });
+  }
+
+  tablaHemocom(tb: Combobox[]){
+    this.listaHemocom = [];
+    tb.forEach(he => {
+      this.listaHemocom.push(new SolicitudPedido(parseInt(he.codigo!), he.descripcion));
+    });
+  }
+
+  camposObligatorios(tb: Combobox[]){
+    tb.forEach(e => {
+      let cod = e.codigo === undefined ? 0 : parseInt(e.codigo);
+      let oblig = e.detalles1 === undefined ? false : e.detalles1 === 'SI';
+      if(oblig && cod >= this.offsetOblig){
+        this.perOblig[cod - this.offsetOblig]
       }
     });
   }
 
   obtenerSubtabla(tb: Combobox[], cod: string){
     return tb.filter(e => e.codTabla?.trim() === cod);
+  }
+
+  completarCombo(json: any){
+    var tbCombo = [];
+
+    for(var i in json) {
+      let el: Combobox = {};
+
+      el.codigo = json[i].valor;
+      el.descripcion = json[i].descripcion;
+      el.visible = json[i].visible;
+      
+      tbCombo.push(el);
+    }
+
+    return tbCombo;
   }
 
   obtenerPersonaEnter(key: number, esPaciente: boolean = false){
@@ -201,7 +277,7 @@ export class CsolicitudComponent implements OnInit {
 
     var validacion = this.validaDocumento(tipoDocu, numDocu);
     if(validacion === ''){
-      this.solicitudService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
+      this.predonanteService.obtenerPersona(0, tipoDocu, numDocu).subscribe(data=>{
         //Verifica si existe en BD
         var formPersona = this.form.value['IdePersona'];
 
@@ -259,7 +335,7 @@ export class CsolicitudComponent implements OnInit {
     }
     else{
       if(validacion !== 'El tipo de documento y el documento no pueden estar vacíos')
-        this.notifier.showNotification(2,'Mensaje',validacion);
+        this.notifierService.showNotification(2,'Mensaje',validacion);
       this.reiniciaPersona();
     }
   }
@@ -269,12 +345,39 @@ export class CsolicitudComponent implements OnInit {
       IdePersona: data.idePersona,
       TipDocu: data.tipDocu,
       NumDocu: data.numDocu,
+      DocAdic: data.docAdic1,
       ApPaterno: data.apPaterno,
       ApMaterno: data.apMaterno,
       Nombres: data.primerNombre + ' ' + data.segundoNombre,
       Sexo: data.sexo,
       FecNacimiento: data.fecNacimiento
     });
+
+    this.obtieneSangre(data.idePersona);
+  }
+
+  obtieneSangre(idPersona: number = 0){
+    if(idPersona !== 0){
+      this.predonanteService.obtenerHistorial(idPersona).subscribe(dataH=>{
+        //debugger;
+        if(dataH!==undefined){
+          var historial: PersonaHistorial[] = dataH.items;
+
+          //Tipo de sangre
+          var hist1 = historial.find(e => e.tipo === 1);
+          this.muestraSangre = false;
+          if(hist1 !== undefined){
+            var tipoSangre: PersonaHistorial = hist1;
+            
+            this.abo = tipoSangre.dato1!==undefined?tipoSangre.dato1:'';
+            this.rh = tipoSangre.dato2!==undefined?tipoSangre.dato2:'';
+            this.colFondo = tipoSangre.colorFondo!==undefined?tipoSangre.colorFondo:'';
+            this.colLetra = tipoSangre.colorLetra!==undefined?tipoSangre.colorLetra:'';
+            this.muestraSangre = true;
+          }    
+        }
+      });
+    }
   }
 
   validaDocumento(tipoDocu: string, numDocu: string){
@@ -358,7 +461,8 @@ export class CsolicitudComponent implements OnInit {
         ApMaterno: '',
         Nombres: '',
         Sexo: '',
-        FecNacimiento: null
+        FecNacimiento: null,
+        DocAdic: ''
       });
       this.fechaNac = null;
   }
@@ -371,14 +475,17 @@ export class CsolicitudComponent implements OnInit {
         
         if(p !== undefined){
 
-          this.idPersona = p.idePersona!==undefined?0:p.idePersona!;
+          this.idPersona = p.idePersona===undefined?0:p.idePersona!;
           if(this.idPersona === 0)
             this.reiniciaPersona();
           else
             this.muestraDatosPersona(data.persona!);
 
-          this.codigo = data.codSolicitud===undefined?'':data.codSolicitud.toString();
+          //this.codigo = data.codSolicitud===undefined?'':data.codSolicitud.toString();
           this.form.patchValue({
+            CodSolicitud: data.codSolicitud,
+            IdeEstado: data.ideEstado,
+            Estado: data.estado,
             CodProcedencia: data.codProcedencia,
             CodServicio: data.codServicio,
             CodDiagnostico: data.codDiagnostico,
@@ -397,22 +504,82 @@ export class CsolicitudComponent implements OnInit {
             this.fechaNac = p.fecNacimiento;
           else
             this.fechaNac = null;
+
+          this.rellenaHemocom(data.listaPedidos);
+          this.listaPruebas = data.listaPruebas!
         }
         this.spinner.hideLoading();
       });
     }
   }
 
-  guardar(aceptaAlarma: boolean = false){
+  rellenaHemocom(pedidos?: SolicitudPedido[]){
+    if(pedidos !== undefined){
+      pedidos.forEach(p => {
+        var hemo = this.listaHemocom.find(e => e.ideHemocomponente === p.ideHemocomponente);
+        if(hemo !== undefined){
+          hemo.traspasarCampos(p);
+        }
+      });      
+    }    
+  }
+
+  guardar(){
+    if(this.listaHemocom.find(e => e.cant! > 0) === undefined){
+      this.notifierService.showNotification(environment.ALERT,'Mensaje','Ingrese las unidades a solicitar.');
+    }
+    else{
+      if(this.id !== 0){
+        let estado = parseInt(this.form.value['IdeEstado']);
+        if(estado > 1){ //Unidades reservadas o enviadas
+          if(estado <= 3){
+            if(!this.permiso.actualizarInclusoEnviada && !this.permiso.actualizarInclusoFinalizada)
+              this.notifierService.showNotification(environment.ALERT,'Mensaje','La solicitud ya tiene unidades Reservadas o Enviadas, no se puede modificar.');
+          }
+          else if(estado <= 5){
+            if(!this.permiso.actualizarInclusoFinalizada){
+              this.notifierService.showNotification(environment.ALERT,'Mensaje','La solicitud se encuentra ' + this.form.value['Estado'] + ', no se puede modificar.');
+            }
+          }
+        }
+        else{
+          this.confirm.openConfirmDialog(false, 'Confirma actualizar los datos de la solicitud.').afterClosed().subscribe(res =>{
+            //Ok
+            if(res){
+              //console.log('Sí');
+              this.$guardar();
+            }
+            else{
+              //console.log('No');
+            }
+          });
+        }
+      }
+      else{
+        this.confirm.openConfirmDialog(false, 'Confirma crear la Solicitud de Transfusión.').afterClosed().subscribe(res =>{
+          //Ok
+          if(res){
+            //console.log('Sí');
+            this.$guardar();
+          }
+          else{
+            //console.log('No');
+          }
+        });
+      }
+    }    
+  }
+
+  $guardar(){
     let model = new Solicitud();
 
     //debugger;
     model.ideSolicitud = this.id
-    model.codSolicitud = this.form.value['Codigo'];
     let p = new Persona();
     p.idePersona = this.form.value['IdePersona'];;
     p.tipDocu = this.form.value['TipDocu'];
     p.numDocu = this.form.value['NumDocu'];
+    p.docAdic1 = this.form.value['DocAdic']
     p.apPaterno = this.form.value['ApPaterno'];
     p.apPaterno = p.apPaterno?.toUpperCase();
     p.apMaterno = this.form.value['ApMaterno']; 
@@ -438,15 +605,8 @@ export class CsolicitudComponent implements OnInit {
     model.codReaccAdv = this.form.value['CodReaccAdv'],
     model.observaciones = this.form.value['Observaciones']
 
-    let a = new Persona();
-    a.idePersona = this.form.value['IdePaciente'];
-    a.tipDocu = this.form.value['PacTipDocu'];
-    a.numDocu = this.form.value['PacNumDocu'];
-    a.apPaterno = this.form.value['PacApPaterno'];
-    a.apMaterno = this.form.value['PacApMaterno'];
-    this.asignarNombres(a, this.form.value['PacNombres']);
-    a.fecNacimiento = this.form.value['PacFecNacimiento'];
-    a.sexo = this.form.value['PacSexo'];
+    model.listaPedidos = this.listaHemocom.filter(e => e.cant! > 0);
+    model.listaPruebas = this.listaPruebas;
 
     this.guardaSolicitud(model);
   }
@@ -456,32 +616,15 @@ export class CsolicitudComponent implements OnInit {
     this.solicitudService.guardar(model).subscribe(data=>{
       //debugger;
       if(data.typeResponse==environment.EXITO){
-        this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
         this.form.patchValue({
           CodigoSol: data.codigo
         })
-        if(data.codigo !== undefined && data.codigo !== null)
-          this.codigo = data.codigo;
+        //if(data.codigo !== undefined && data.codigo !== null)
+        //  this.codigo = data.codigo;
         this.router.navigate(['/page/paciente/solicitud']);
         this.spinner.hideLoading();
-      }else{
-        if(data.typeResponse==environment.ALERT){
-          this.confirm.openConfirmDialog(false, data.message!).afterClosed().subscribe(res =>{
-            //Ok
-            if(res){
-              //console.log('Sí');
-              this.guardar(true)
-            }
-            else{
-              //console.log('No');
-            }
-          });
-        }
-        else{
-          this.notifier.showNotification(data.typeResponse!,'Mensaje',data.message!);
-        }          
-        this.spinner.hideLoading();
-      }      
+      }
     });
   }
 
@@ -498,15 +641,12 @@ export class CsolicitudComponent implements OnInit {
     }
   }
 
-  getCodigo(){
-    var codigo = this.form.value['Codigo'];
-    codigo = codigo===undefined?'#######':codigo;
-    return codigo.toString();
+  getControlLabel(type: string){
+    return this.form.controls[type].value;
   }
 
   limpiar(){
     this.id = 0;
-    this.codigo = '';
 
     this.reiniciaPersona();
 
@@ -536,5 +676,69 @@ export class CsolicitudComponent implements OnInit {
       CodReaccAdv: '',
       Observaciones: ''
     })
+  }
+
+  cancelar(){
+    if(this.id !== 0){
+      let estado = parseInt(this.form.value['IdeEstado']);
+      if(estado > 1){ //Unidades reservadas o enviadas
+        this.notifierService.showNotification(environment.ALERT,'Mensaje','La solicitud ya tiene unidades Reservadas o Enviadas, no se puede modificar.');
+      }
+      else{
+        this.confirm.openConfirmDialog(false, 'Confirma actualizar los datos de la solicitud.').afterClosed().subscribe(res =>{
+          //Ok
+          if(res){
+            //console.log('Sí');
+            this.$cancelar();
+          }
+          else{
+            //console.log('No');
+          }
+        });
+      }
+    }
+  }
+
+  $cancelar(){
+    this.spinner.showLoading();
+    this.solicitudService.cancelar(this.id).subscribe(data=>{
+      //debugger;
+      if(data.typeResponse==environment.EXITO){
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+        this.form.patchValue({
+          CodigoSol: data.codigo
+        })
+        //if(data.codigo !== undefined && data.codigo !== null)
+        //  this.codigo = data.codigo;
+        this.router.navigate(['/page/paciente/solicitud']);
+        this.spinner.hideLoading();
+      }
+      else{
+        this.notifierService.showNotification(data.typeResponse!,'Mensaje',data.message!);
+        this.spinner.hideLoading();
+      }
+    });
+  }
+
+  reiniciaUnidad(c: SolicitudPedido){
+    if(this.edit){
+      c.cant = 0;
+      c.alicuota = 0;
+      c.observaciones = '';
+    }
+  }
+
+  reiniciaPrueba(p: SolicitudPrueba){
+    if(this.edit){
+      this.listaPruebas = this.listaPruebas.filter(e => e.idePrueba !== p.idePrueba)
+    }
+  }
+
+  selectPrueba(id: string){
+    if(this.listaPruebas.find(e => e.idePrueba === parseInt(id)) === undefined){
+      var nombre = this.tbPrueba.find(e => e.codigo === id)?.descripcion;
+      var prueba = new SolicitudPrueba(parseInt(id), nombre);
+      this.listaPruebas.push(prueba)
+    }    
   }
 }

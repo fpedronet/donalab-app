@@ -825,7 +825,7 @@ export class CaspiranteComponent implements OnInit {
           var edadStr: string = p.edad?.toString()!;
           if(edadStr === undefined || edadStr === '0') edadStr = '';
 
-          this.idPersona = p.idePersona!==undefined?0:p.idePersona!;
+          this.idPersona = p.idePersona===undefined?0:p.idePersona!;
 
           this.codigo = data.codigo===undefined?'':data.codigo.toString();
           this.form.patchValue({

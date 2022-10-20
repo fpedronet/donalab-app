@@ -1,15 +1,18 @@
 <mat-toolbar color="primary" class="example-toolbar submenu example-button">
     <div class="example-button-rowR">
-      <button mat-stroked-button class="btnHeader" routerLink="/page/donante/aspirante">
+      <button mat-stroked-button class="btnHeader" routerLink="/page/paciente/solicitud">
         <mat-icon class="maticon">subdirectory_arrow_left</mat-icon>
       </button>
     </div>
     <div class="example-button-row">
+      <button *ngIf="edit && permiso.guardar && id===0" mat-stroked-button class="btnHeader" type="button" (click)="limpiar()">
+        <mat-icon class="maticon">cleaning_services</mat-icon>
+      </button>
       <button *ngIf="edit && permiso.guardar" mat-stroked-button class="btnHeader" type="submit" [disabled]="frmGrupo.invalid" form="ngForm">
         <mat-icon class="maticon">save</mat-icon>
       </button>
-      <button *ngIf="edit && permiso.guardar && id===0" mat-stroked-button class="btnHeader" type="button" (click)="limpiar()">
-        <mat-icon class="maticon">cleaning_services</mat-icon>
+      <button *ngIf="edit && permiso.guardar && id!==0" mat-stroked-button class="btnHeader" type="button" (click)="cancelar()">
+        <mat-icon class="maticon">delete</mat-icon>
       </button>
     </div>
   </mat-toolbar>
@@ -21,20 +24,42 @@
     <h2 *ngIf="id===0" class="title-label">CREAR SOLICITUD</h2>
     <h2 *ngIf="id!==0 && !edit" class="title-label">VER SOLICITUD</h2>
     <h2 *ngIf="id!==0 && edit" class="title-label">EDITAR SOLICITUD</h2>
-    <mat-divider></mat-divider>
 
-    <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()" onKeyPress="if(event.keyCode == 13) event.returnValue = false;">
+    <mat-divider></mat-divider>
+    <div *ngIf="id !== 0"> 
+      <div style="width: 100%; float:left;margin-bottom: -17px;">
+        <div class="card-title-label1">
+          <span style="text-transform: uppercase;">{{getControlLabel('Estado')}}</span>
+        </div> 
+        <div class="card-title-label2">
+          <span>CODIGO: {{getControlLabel('CodSolicitud')}}</span>
+        </div> 
+      </div> 
+    </div>
+    
+    <br style="clear:both;"/>
+    <form id="ngForm" [formGroup]="form" #frmGrupo="ngForm" (ngSubmit)="guardar()" onKeyPress="if(event.keyCode == 13) event.returnValue = false;" style="padding: 0">
         <mat-stepper labelPosition="bottom" #stepper>
+          <div id="content" *ngIf="id !== 0"> 
+            <div style="width: 100%; float:left;margin-bottom: -17px;">
+              <div class="card-title-label1">
+                <span style="text-transform: uppercase;">{{getControlLabel('Estado')}}</span>
+              </div> 
+              <div class="card-title-label2">
+                <span>CODIGO: {{getControlLabel('CodSolicitud')}}</span>
+              </div> 
+            </div> 
+          </div>
             <mat-step>
                 <ng-template matStepLabel style="white-space: break-spaces;">Datos principales</ng-template>
 
                 <div class="content">
-                    <div fxLayout="row-reverse wrap" fxLayoutGap="16px grid">
+                    <div fxLayout="row wrap" fxLayoutGap="16px grid">
                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
                             <mat-form-field *vIf="false" appearance="outline">
                                 <mat-label>Código</mat-label>
                                 <input matInput placeholder="Código" formControlName="Codigo">
-                              </mat-form-field>
+                            </mat-form-field>                                                      
                             <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
                               <mat-grid-tile  [colspan]="4">
                                 <mat-form-field appearance="outline">
@@ -55,9 +80,6 @@
                                   <button *ngIf="DOCUMENTO.value && id===0" type="button" matSuffix mat-icon-button aria-label="Buscar" (mouseup)="obtenerPersona($event)">
                                     <mat-icon>search</mat-icon>
                                   </button>
-                                  <!--button type="button" matSuffix mat-icon-button aria-label="Buscar">
-                                      <img style="width: 70px; margin-top: -16px;" src="{{lector}}" />
-                                  </button-->
                                 </mat-form-field>
                               </mat-grid-tile>
                             </mat-grid-list>
@@ -98,8 +120,127 @@
                                     </mat-form-field>
                                 </mat-grid-tile>
                               </mat-grid-list>
+                              <mat-grid-list cols="12" rowHeight="90px" gutterSize="15px">
+                                <mat-grid-tile  [colspan]="6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Doc. Paciente</mat-label>
+                                    <input matInput placeholder="Doc. Paciente" formControlName="DocAdic" minlength="1" maxlength="20">
+                                  </mat-form-field>
+                                </mat-grid-tile>
+                                <mat-grid-tile *ngIf="muestraSangre && form.value['IdePersona']!==0" [colspan]="6">
+                                  <mat-card style="margin-bottom: 1.34375em; text-align: center; width: 100%; background-color: {{colFondo}};">
+                                      <mat-card-title style="color: {{colLetra}}!important;">
+                                        {{abo}}
+                                      </mat-card-title>
+                                      <mat-card-subtitle style="color: {{colLetra}}!important;">
+                                        {{rh}}
+                                      </mat-card-subtitle>
+                                    </mat-card>
+                                </mat-grid-tile>
+                              </mat-grid-list> 
                         </div>
-                        
+                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%">
+                          <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                            <mat-grid-tile  [colspan]="6">
+                              <mat-form-field>
+                                <mat-select placeholder="Procedencia" formControlName="CodProcedencia" [required]="perOblig[0]">
+                                  <mat-option *ngFor="let el of tbProced" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="6">
+                              <mat-form-field>
+                                <mat-select placeholder="Servicio" formControlName="CodServicio" [required]="perOblig[1]">
+                                  <mat-option *ngFor="let el of tbServi" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
+                          <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">                            
+                            <mat-grid-tile  [colspan]="6">
+                              <mat-form-field>
+                                <mat-select placeholder="Diagnóstico" formControlName="CodDiagnostico" [required]="perOblig[2]">
+                                  <mat-option *ngFor="let el of tbDiagno" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="6">
+                              <mat-form-field>
+                                <mat-select placeholder="Médico" formControlName="CodMedico" [required]="perOblig[3]">
+                                  <mat-option *ngFor="let el of tbMedico" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
+                          <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                            <mat-grid-tile [colspan]="4">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Cama</mat-label>
+                                <input matInput placeholder="Cama" formControlName="Cama" minlength="1" maxlength="50" [required]="perOblig[4]">
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="4">
+                              <mat-form-field>
+                                <mat-select placeholder="Transf previas" formControlName="CodTransPrev" [required]="perOblig[5]">
+                                  <mat-option *ngFor="let el of tbTransPrev" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile [colspan]="4">
+                              <mat-form-field>
+                                <mat-select placeholder="Prioridad" formControlName="CodPrioridad" [required]="perOblig[6]">
+                                  <mat-option *ngFor="let el of tbPriori" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
+                          <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                            <mat-grid-tile [colspan]="4">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Cuenta</mat-label>
+                                <input matInput placeholder="Cuenta" formControlName="Cuenta" minlength="1" maxlength="50" [required]="perOblig[7]">
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="4">
+                              <mat-form-field>
+                                <mat-select placeholder="Adicional" formControlName="CodAdicional" [required]="perOblig[8]">
+                                  <mat-option *ngFor="let el of tbAdicional" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile  [colspan]="4">
+                              <mat-form-field>
+                                <mat-select placeholder="Reacc Adversas" formControlName="CodReaccAdv" [required]="perOblig[9]">
+                                  <mat-option *ngFor="let el of tbReacAdver" [value]="el.codigo">
+                                    {{el.descripcion}}
+                                  </mat-option>              
+                                </mat-select>
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
+                          <mat-grid-list cols="12" rowHeight="75px" gutterSize="15px">
+                            <mat-grid-tile [colspan]="12">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Observaciones</mat-label>
+                                <input matInput placeholder="Observaciones" formControlName="Observaciones" minlength="1" maxlength="50" [required]="perOblig[10]">
+                              </mat-form-field>
+                            </mat-grid-tile>
+                          </mat-grid-list>
+                        </div>
                     </div>
                 </div>
                 <div style="padding-top: 10px">
@@ -111,7 +252,55 @@
                 <ng-template matStepLabel style="white-space: break-spaces;">Unidades solicitadas</ng-template>
 
                 <div class="content">
-                    
+                  <div fxLayout="row wrap" fxLayoutGap="16px grid">             
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style="width: 239px;">HEMOCOMPONENTE</th>
+                          <th>CANTIDAD</th>
+                          <th>ALIC.</th>
+                          <th style="width: 250px;">OBS.</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let c of listaHemocom">
+                          <td style="font-size: 11px;">
+                            {{c.hemocomponente}}
+                          </td>
+                          <td>
+                            <input *ngIf="c.cant! > 0" [disabled]="!edit" type="number"
+                            oninput="if(this.value.length>=3) { this.value = this.value.slice(0,3); }" onkeypress="return /[0-9|.]/i.test(event.key)"
+                            class="example-right-align txt-cant existe-muestra"
+                            [value]="c.cant"
+                            (input)="c.cant = $any($event.target).value">
+
+                            <input *ngIf="c.cant! <= 0" [disabled]="!edit" type="number"
+                            oninput="if(this.value.length>=3) { this.value = this.value.slice(0,3); }" onkeypress="return /[0-9|.]/i.test(event.key)"
+                            class="example-right-align txt-cant"
+                            [value]="c.cant"
+                            (input)="c.cant = $any($event.target).value">
+                          </td>
+                          <td style="font-size: 11px;">
+                            <mat-checkbox color="primary" [disabled]="!edit"
+                            [checked]="c.alicuota === 1"
+                            (input)="c.alicuota = $any($event.target).checked === true ? 1 : 0"></mat-checkbox>
+                          </td>
+                          <td>
+                            <input [disabled]="!edit" type="text"
+                            class="example-right-align txt-obs"
+                            [value]="c.observaciones"
+                            (input)="c.observaciones = $any($event.target).value">
+                          </td>
+                          <td>
+                            <a class="pointer edit" matTooltip="Eliminar" type="button" (click)="reiniciaUnidad(c)">
+                              <mat-icon>cleaning_services</mat-icon>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>             
+                 </div>
                 </div>
                 <div style="padding-top: 10px">
                   <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>
@@ -120,9 +309,48 @@
             </mat-step>
 
             <mat-step>
-                <ng-template matStepLabel style="white-space: break-spaces;">Datos de la Donación</ng-template>
+                <ng-template matStepLabel style="white-space: break-spaces;">Exámenes del paciente</ng-template>
 
                 <div class="content">
+                  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                    
+                        <mat-form-field>
+                          <mat-select placeholder="Examen" (selectionChange)="selectPrueba($event.value)">
+                            <mat-option *ngFor="let el of tbPrueba" [value]="el.codigo">
+                              {{el.descripcion}}
+                            </mat-option>              
+                          </mat-select>
+                        </mat-form-field>
+                      
+                        <table>
+                          <thead>
+                            <tr>
+                              <th style="width: 239px;">EXAMEN</th>
+                              <th>RESULTADO</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let e of listaPruebas">
+                              <td style="font-size: 11px;">
+                                {{e.prueba}}
+                              </td>
+                              <td>
+                                <input [disabled]="!edit" type="text"
+                                class="example-right-align txt-obs"
+                                [value]="e.resultado"
+                                (input)="e.resultado = $any($event.target).value">
+                              </td>
+                              <td>
+                                <a class="pointer edit" matTooltip="Eliminar" type="button" (click)="reiniciaPrueba(e)">
+                                  <mat-icon>cleaning_services</mat-icon>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>      
+                           
+                 </div>
                 </div>
                 <div style="padding-top: 10px">
                   <button class="btnprevio" mat-button matStepperPrevious type="button">Atrás</button>

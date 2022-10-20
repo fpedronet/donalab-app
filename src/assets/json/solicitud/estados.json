@@ -1,0 +1,32 @@
+[
+    {
+        "valor": "0",
+        "descripcion": "Todas",
+        "visible": true
+    },
+    {
+        "valor": "1",
+        "descripcion": "Ingresadas",
+        "visible": true
+    },
+    {
+        "valor": "2",
+        "descripcion": "Unidades Reservadas",
+        "visible": true
+    },
+    {
+        "valor": "3",
+        "descripcion": "Unidades Enviadas",
+        "visible": true
+    },
+    {
+        "valor": "4",
+        "descripcion": "Finalizadas",
+        "visible": true
+    },
+    {
+        "valor": "5",
+        "descripcion": "Canceladas",
+        "visible": true
+    }
+]

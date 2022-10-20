@@ -12,5 +12,7 @@ export class Combobox {
     codigo?: string;
     descripcion?: string;
     codAsocia?: string;
+    detalles1?: string;
     dias?: string;
+    visible?: boolean;
 }

@@ -16,9 +16,9 @@ export class SolicitudService {
     private http: HttpClient
   ) { }
 
-  private url: string = `${environment.UrlApi}/predonante`;
+  private url: string = `${environment.UrlApi}/solicitud`;
 
-  listar(idbanco: number, ideestado: number, codigo: string, paciente : string, codunidad: string, fechadesde: Date, fechahasta: Date, page: number,pages: number) {
+  listar(idbanco: number, ideestado: number, codigo: string, paciente : string, codunidad: string, fechadesde: Date, fechahasta: Date, codPrioridad: string, page: number,pages: number) {
     let req = new SolicitudRequest();
     
     req.Idebanco = idbanco;
@@ -26,6 +26,7 @@ export class SolicitudService {
     req.Codigo= codigo;
     req.Paciente = paciente;
     req.CodUnidad= codunidad;
+    req.CodPrioridad= codPrioridad;
     
     req.FechaDesde= (fechadesde==undefined)? '' : fechadesde.toISOString().split('T')[0];
     req.FechaHasta = (fechahasta==undefined)? '' : fechahasta.toISOString().split('T')[0];
@@ -53,5 +54,11 @@ export class SolicitudService {
     //debugger;
     let urls = `${this.url}/PostSaveSolicitud`;
     return this.http.post<Response>(urls, model);
+  }
+
+  cancelar(id: number){
+    let urls = `${this.url}/PostDeleteSolicitud?id=${id}`;
+
+    return this.http.get<Response>(urls);
   }
 }

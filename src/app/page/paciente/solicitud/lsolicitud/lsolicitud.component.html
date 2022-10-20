@@ -27,43 +27,59 @@
         </div>
   
         <div class="example-container mat-elevation-z0">
-          <mat-table [dataSource]="dataSource" matSort>
-           
-            <ng-container matColumnDef="fecha">
-                <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
-                <mat-cell *matCellDef="let element" data-label="Código">{{element.fecha}}</mat-cell>
-            </ng-container>
+          <mat-table [dataSource]="dataSource" matSort>           
               
-            <ng-container matColumnDef="codigo">
-              <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
-              <mat-cell *matCellDef="let element" data-label="Código"> 
-                <div style="font-weight:600;color: #7f388a;">{{element.codSolicitud}}</div>     
-              </mat-cell>
+            <ng-container matColumnDef="codigoW">
+                <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable web'">Código</mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngClass]="'widthTable web'" data-label="Código"> 
+                  <div class="tbcodigo">{{element.codSolicitud}}</div>     
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="codigoM">
+                <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable mobil'">Mobil</mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngClass]="'widthTable mobil'">
+                  <div class="tbcodigo" style="font-weight: bold;">{{element.codSolicitud}}</div>
+                  <div style="margin-left:auto;" class="responsive-fecha">
+                    {{element.vFecha}}
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+            <ng-container matColumnDef="fecha">
+                <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable web'">Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngClass]="'widthTable web'" data-label="Código">{{element.vFecha}}</mat-cell>
             </ng-container>
           
             <ng-container matColumnDef="paciente">
-              <mat-header-cell *matHeaderCellDef> Paciente </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef [ngClass]="'web'"> Paciente </mat-header-cell>
               <mat-cell *matCellDef="let element" data-label="Paciente"> {{element.paciente}} </mat-cell>
             </ng-container>
   
             <ng-container matColumnDef="estado">
               <mat-header-cell *matHeaderCellDef [ngClass]="'web'"> Estado </mat-header-cell>
-              <mat-cell *matCellDef="let element" [ngClass]="'web'" data-label="Estado"> <span style="font-weight: 500">{{element.codEstado}} </span></mat-cell>
+              <mat-cell *matCellDef="let element" [ngClass]="'web'" data-label="Estado"> <span style="font-weight: 500">{{element.estado}} </span></mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="requisito">
-                <mat-header-cell *matHeaderCellDef [ngClass]="'web'"> Requisito </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="'web'" data-label="Requisito">{{element.codPrioridad}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef [ngClass]="'web'"> Prioridad </mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngClass]="'web'" data-label="Requisito">{{getDescripcion(element.codPrioridad,tbPriori)}}</mat-cell>
               </ng-container>
   
-            <ng-container matColumnDef="mo">
-              <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable mobil'">Mobil</mat-header-cell>
-              <mat-cell *matCellDef="let element" [ngClass]="'widthTable mobil'">
-                <div class="responsive-estado">{{element.estado}}</div>
-                
-                <div (click)="routeUrl(element.idePreDonante)" class="circulo" style="font-size:12px; line-height: 27px; margin-left:100px; background: {{element.cama}}">PD</div>
-              </mat-cell>
-            </ng-container>            
+            <ng-container matColumnDef="accion">
+                <mat-header-cell *matHeaderCellDef [ngClass]="'widthTable web'"> </mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngClass]="'widthTable web'" data-label="Accion">            
+                  <a *ngIf="permiso.guardar && permiso.ver" class="pointer edit" matTooltip="Editar" [routerLink]="['edit', element.ideSolicitud, permiso.guardar]">
+                    <mat-icon>edit</mat-icon>
+                  </a>
+                  <a *ngIf="!permiso.guardar && permiso.ver" class="pointer edit" matTooltip="Ver" [routerLink]="['edit', element.ideSolicitud, permiso.guardar]">
+                    <mat-icon>visibility</mat-icon>
+                  </a>
+                  <a *ngIf="permiso.guardar && permiso.ver && element.ideEstado === 1" class="pointer edit" matTooltip="Eliminar" type="button" (click)="cancelar(element.ideSolicitud, element.ideEstado)">
+                    <mat-icon>delete</mat-icon>
+                  </a>
+                </mat-cell>
+            </ng-container>   
                         
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

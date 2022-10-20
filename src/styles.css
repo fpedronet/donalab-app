@@ -196,6 +196,16 @@ form{
   padding-right:2px;
 }
 
+/*.mat-horizontal-stepper-header-container {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.mat-step-header {
+  height: 80% !important;
+}*/
+
 
 .container2 {
   background-image: url("../src/assets/login.jpg");
