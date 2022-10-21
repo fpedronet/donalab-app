@@ -1,0 +1,18 @@
+{
+  "name": "donalab app",
+  "short_name": "donalab app",
+  "theme_color": "#000077",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "id": "/donalab/?utm_source=homescreen",
+  "start_url": "/donalab/?utm_source=homescreen",
+  "scope": "/donalab/?utm_source=homescreen",
+  "icons": [
+    {
+      "src": "assets/icons/icon-216x216.png",
+      "sizes": "216x216",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
