@@ -241,7 +241,19 @@
                             </mat-grid-tile>
                           </mat-grid-list>
                         </div>
-                    </div>
+                        <div div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%">
+                          <mat-grid-list cols="12" rowHeight="40px" gutterSize="10px">
+                            <mat-grid-tile [colspan]="12" *ngIf="id !== 0">
+                              <mat-label>
+                                <a style="font-weight: 500; color: #1a0da4">
+                                  Fecha Solicitud: 
+                                </a>
+                                {{fechaMostrar}}
+                              </mat-label>
+                            </mat-grid-tile>
+                          </mat-grid-list>
+                        </div>
+                    </div>                    
                 </div>
                 <div style="padding-top: 10px">
                   <button class="btnnext" mat-button matStepperNext type="button">Siguiente</button>

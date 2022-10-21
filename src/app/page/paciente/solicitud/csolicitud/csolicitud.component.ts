@@ -86,6 +86,8 @@ export class CsolicitudComponent implements OnInit {
   maxDate: Date = new Date();
   minDate: Date = new Date();
 
+  fechaMostrar?: string = '';
+
   btnEstadoSel: boolean[] = [false, false];
   estadoIni: number = 0;
 
@@ -153,7 +155,7 @@ export class CsolicitudComponent implements OnInit {
       'CodServicio': new FormControl({ value: '', disabled: !this.edit}),
       'CodDiagnostico': new FormControl({ value: '', disabled: !this.edit}),
       'CodMedico': new FormControl({ value: '', disabled: !this.edit}),
-      'Medico': new FormControl({ value: 0, disabled: !this.edit}),
+      'Medico': new FormControl({ value: '', disabled: !this.edit}),
       'Cama': new FormControl({ value: '', disabled: !this.edit}),
       'CodTransPrev': new FormControl({ value: '', disabled: !this.edit}),
       'CodPrioridad': new FormControl({ value: '', disabled: !this.edit}),
@@ -483,6 +485,7 @@ export class CsolicitudComponent implements OnInit {
 
           //this.codigo = data.codSolicitud===undefined?'':data.codSolicitud.toString();
           this.form.patchValue({
+            FechaSol: data.fecha,
             CodSolicitud: data.codSolicitud,
             IdeEstado: data.ideEstado,
             Estado: data.estado,
@@ -499,6 +502,8 @@ export class CsolicitudComponent implements OnInit {
             CodReaccAdv: data.codReaccAdv,
             Observaciones: data.observaciones            
           });
+
+          this.fechaMostrar = data.vFecha;
 
           if(p.fecNacimiento !== undefined && p.fecNacimiento !== null)
             this.fechaNac = p.fecNacimiento;
@@ -576,7 +581,7 @@ export class CsolicitudComponent implements OnInit {
     //debugger;
     model.ideSolicitud = this.id
     let p = new Persona();
-    p.idePersona = this.form.value['IdePersona'];;
+    p.idePersona = this.form.value['IdePersona'];
     p.tipDocu = this.form.value['TipDocu'];
     p.numDocu = this.form.value['NumDocu'];
     p.docAdic1 = this.form.value['DocAdic']
@@ -591,19 +596,27 @@ export class CsolicitudComponent implements OnInit {
     model.idePersona = p.idePersona;
     model.persona = p;
 
-    model.fecha = this.form.value['FechaSol'],
-    model.codProcedencia = this.form.value['CodProcedencia'],
-    model.codServicio = this.form.value['CodServicio'],
-    model.codDiagnostico = this.form.value['CodDiagnostico'],
-    model.codMedico = this.form.value['CodMedico'],
-    model.medico = this.form.value['Medico'],
-    model.cama = this.form.value['Cama'],
-    model.codTransPrev = this.form.value['CodTransPrev'],
-    model.codPrioridad = this.form.value['CodPrioridad'],
-    model.cuenta = this.form.value['Cuenta'],
-    model.codAdicional = this.form.value['CodAdicional'],
-    model.codReaccAdv = this.form.value['CodReaccAdv'],
-    model.observaciones = this.form.value['Observaciones']
+    model.fecha = this.form.value['FechaSol'];
+    model.codProcedencia = this.form.value['CodProcedencia'];
+    model.codServicio = this.form.value['CodServicio'];
+    model.codDiagnostico = this.form.value['CodDiagnostico'];
+    model.codMedico = this.form.value['CodMedico'];
+    
+    if(model.codMedico === ''){
+      model.medico = ''
+    }
+    else{
+      model.medico = this.tbMedico.find(e => e.codigo === model.codMedico)?.descripcion;
+    }
+
+    model.medico = this.form.value['Medico'];
+    model.cama = this.form.value['Cama'];
+    model.codTransPrev = this.form.value['CodTransPrev'];
+    model.codPrioridad = this.form.value['CodPrioridad'];
+    model.cuenta = this.form.value['Cuenta'];
+    model.codAdicional = this.form.value['CodAdicional'];
+    model.codReaccAdv = this.form.value['CodReaccAdv'];
+    model.observaciones = this.form.value['Observaciones'];
 
     model.listaPedidos = this.listaHemocom.filter(e => e.cant! > 0);
     model.listaPruebas = this.listaPruebas;

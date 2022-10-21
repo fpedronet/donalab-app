@@ -4,6 +4,7 @@ export class Solicitud {
     ideSolicitud?: number;
     codSolicitud?: string;
     fecha?: Date;
+    vFecha?: string;
     idePersona?: number;
     persona?: Persona;
     codProcedencia?: string;
